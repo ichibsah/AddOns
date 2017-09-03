@@ -1,0 +1,8 @@
+## Title: MaxDps_Priest
+## Version: 7.2.5
+## Author: Kaminaris
+## Interface: 70200
+## Dependencies: MaxDps
+## LoadOnDemand: 1
+
+main.lua

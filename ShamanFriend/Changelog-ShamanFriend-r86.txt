@@ -1,0 +1,39 @@
+------------------------------------------------------------------------
+r86 | stassart | 2016-07-30 21:59:34 +0000 (Sat, 30 Jul 2016) | 4 lines
+Changed paths:
+   M /trunk/ShamanFriend.lua
+
+Fix LUA error with Interrupts (GetSpellLink weird behavior).
+Fix LUA error with Chain Lightning Overload (spell Id changed).
+
+
+------------------------------------------------------------------------
+r85 | stassart | 2016-07-20 03:14:20 +0000 (Wed, 20 Jul 2016) | 1 line
+Changed paths:
+   M /trunk/ShamanFriend.lua
+   M /trunk/ShamanFriend.toc
+
+Replace spellstring's with GetSpellLink.  Spellstrings changed in Legion.
+------------------------------------------------------------------------
+r84 | stassart | 2016-07-20 02:05:50 +0000 (Wed, 20 Jul 2016) | 1 line
+Changed paths:
+   M /trunk/Options.lua
+   M /trunk/ShamanFriend.lua
+   M /trunk/ShamanFriend.toc
+
+Add Lava Surge back, it is resto shaman only in Legion now?
+------------------------------------------------------------------------
+r83 | stassart | 2016-07-19 06:21:15 +0000 (Tue, 19 Jul 2016) | 1 line
+Changed paths:
+   M /trunk/Options.lua
+   M /trunk/ShamanFriend.lua
+   M /trunk/ShamanFriend.toc
+
+Initial version working with Legion beta. Still need to do a lot of work to add support for the new stuff.
+------------------------------------------------------------------------
+r82 | stassart | 2015-06-28 23:53:20 +0000 (Sun, 28 Jun 2015) | 1 line
+Changed paths:
+   M /trunk/ShamanFriend.lua
+
+Updated comment with new dungeon difficulties for 6.2. Should not require any active code changes.
+------------------------------------------------------------------------

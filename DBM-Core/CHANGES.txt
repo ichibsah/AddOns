@@ -1,0 +1,32 @@
+Changes since tag 7.3.1
+
+commit cf6ddd6f00c456f3bbdd10df80d9c29ac9ae5923
+Author: subversion <svn@deadlybossmods.com>
+Date:   Fri Sep 1 06:29:46 2017 +0200
+
+    Omega via svn r16688:
+    TOC tweaks for defaultSkin
+
+commit 003f18eba076f7e96fc8166055b1ca49250d1dd6
+Author: subversion <svn@deadlybossmods.com>
+Date:   Fri Sep 1 06:16:53 2017 +0200
+
+    Omega via svn r16687:
+    Devouring maw now shows count in timer and cast
+    Devouring maw and crashing wave will no longer spam warnings if boss continues to recast i (usually during a wipe)
+    Reverted a change to tank taunt warning during cast that cause warning to sometimes not show AT ALL if boss was looking at a non tank target during the cast.
+
+commit dc0b5b7ef098288c6fea918b225047e520eede8d
+Author: subversion <svn@deadlybossmods.com>
+Date:   Fri Sep 1 02:03:23 2017 +0200
+
+    Omega via svn r16686:
+    fix two more soundkit IDs
+
+commit 9b5e249f53bf8fa28088faf58aaf6390091eed5e
+Author: subversion <svn@deadlybossmods.com>
+Date:   Thu Aug 31 20:44:54 2017 +0200
+
+    tandanu via svn r16685:
+    increment alpha version
+

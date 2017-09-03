@@ -1,0 +1,12 @@
+tag e3c94e690c4bfb32255901f601685a0e359e0cae v7.1.5
+Author:	Pawel <zacdbg@gmail.com>
+Date:	Sun Feb 19 11:51:36 2017 +0100
+
+New patch Ele and Enh rotation changes
+
+commit ac960032c054e07891af0054965943b1ed16c4b4
+Author: Pawel <zacdbg@gmail.com>
+Date:   Sun Feb 19 11:51:25 2017 +0100
+
+    v7.1.5 - New patch Ele and Enh rotation changes
+

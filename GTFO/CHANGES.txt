@@ -1,0 +1,13 @@
+------------------------------------------------------------------------
+r345 | Zensunim | 2017-09-02 23:31:22 -0500 (Sat, 02 Sep 2017) | 2 lines
+Changed paths:
+   M /trunk/GTFO.lua
+   M /trunk/GTFO.toc
+   M /trunk/GTFO_Fail_LGN.lua
+   M /trunk/GTFO_Spells_LGN.lua
+   M /trunk/ReadMe.txt
+
+4.43.1
+* Added Legion spells for Argus
+------------------------------------------------------------------------
+

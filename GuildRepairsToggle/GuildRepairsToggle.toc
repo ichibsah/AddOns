@@ -1,0 +1,9 @@
+## Interface: 70300
+## Title: Guild Repairs Toggle
+## Notes: Allows Guild Masters to toggle guild repairs on or off with a simple command.
+## Author: Cairath @ Illidan-US
+## Version: v2.0.4
+## SavedVariablesPerCharacter: GRT_SavedVars
+
+GuildRepairsToggle.lua
+GuildRepairsToggle_Config.lua

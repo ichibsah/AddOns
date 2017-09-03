@@ -1,0 +1,8 @@
+## Interface: 70100
+## Title: Mythic Tracker
+## Notes: Shows which mythics remain for the current week.
+## Author: Dagarian
+## Version: 0.1
+## Dependencies: Ace3
+
+core.lua

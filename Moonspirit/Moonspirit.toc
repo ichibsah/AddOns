@@ -1,0 +1,6 @@
+## Interface: 70100
+## Title: Moonspirit
+## Author: Aust (US-Durotan)
+## Notes: Tracks the status of your hidden artifact appearance, Moonspirit!
+## Version: 1.0
+Moonspirit.lua

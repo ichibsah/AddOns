@@ -1,0 +1,12 @@
+tag 2bff16fcf256584e32a82cce1462439d654642d4 v7.1.5
+Author:	Pawel <zacdbg@gmail.com>
+Date:	Sat Feb 4 09:08:57 2017 +0100
+
+Rotation update
+
+commit 917e3157746ac6a4848c49c276f20ee4a4cac82b
+Author: Pawel <zacdbg@gmail.com>
+Date:   Sat Feb 4 09:08:20 2017 +0100
+
+    v7.1.5 - Rotation update
+

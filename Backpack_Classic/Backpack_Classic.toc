@@ -1,0 +1,10 @@
+## Interface: 70000
+## Author: p3lim
+## Version: 70300.15-Beta
+## Title: Backpack: Classic
+## Notes: Basic layout for the Backpack addon
+## RequiredDeps: Backpack
+
+Fonts.xml
+
+Backpack_Classic.lua

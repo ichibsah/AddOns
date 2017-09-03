@@ -1,0 +1,22 @@
+------------------------------------------------------------------------
+r60 | stassart | 2016-07-20 09:40:21 +0000 (Wed, 20 Jul 2016) | 8 lines
+Changed paths:
+   M /trunk/DruidFriend.lua
+   M /trunk/DruidFriend.toc
+   M /trunk/Options.lua
+
+Initial Legion version.  Lots of changes.
+  Mark of the Wild is gone so no buff tracking.
+  The spec based options now have to ask for each spec instead of
+    for primary or secondary spec.
+  A lot of changed spell IDs.
+  Changed the handling of spell strings because of Legion API change.
+
+
+------------------------------------------------------------------------
+r59 | stassart | 2015-06-28 23:52:47 +0000 (Sun, 28 Jun 2015) | 1 line
+Changed paths:
+   M /trunk/DruidFriend.lua
+
+Fixed comment.
+------------------------------------------------------------------------

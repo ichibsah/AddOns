@@ -1,0 +1,39 @@
+------------------------------------------------------------------------
+r192 | Tuhljin | 2017-06-16 23:27:44 -0500 (Fri, 16 Jun 2017) | 1 line
+Changed paths:
+   M /trunk/Overachiever_Tabs/localization.lua
+   M /trunk/Overachiever_Trade/localization.lua
+   M /trunk/localization.lua
+
+More blunt attempt to work around the CurseForge localization substitution problem: Use completed localization files, based on results from previous commit but tweaked to remove errors.
+------------------------------------------------------------------------
+r191 | Tuhljin | 2017-06-16 15:37:46 -0500 (Fri, 16 Jun 2017) | 1 line
+Changed paths:
+   M /trunk/Overachiever_Tabs/localization.lua
+
+Change subnamespace handling (temporarily?) to work around CurseForge localization substitution problem.
+------------------------------------------------------------------------
+r190 | Tuhljin | 2017-06-15 19:54:36 -0500 (Thu, 15 Jun 2017) | 7 lines
+Changed paths:
+   M /trunk/AchieveID.lua
+   M /trunk/Calendar.lua
+   M /trunk/GameTip.lua
+   M /trunk/Options.lua
+   M /trunk/Overachiever.lua
+   M /trunk/Overachiever.toc
+   M /trunk/Overachiever_Tabs/Overachiever_Tabs.toc
+   M /trunk/Overachiever_Tabs/Suggestions.lua
+   M /trunk/Overachiever_Trade/Overachiever_Trade.toc
+   A /trunk/libs/TjAchieve.lua
+   A /trunk/libs/TjThreads.lua
+   M /trunk/readme.txt
+
+- Correct a problem with holiday/event toasts that was introduced with WoW patch 7.2.5.
+- To reduce loading times, the process that examines achievement criteria has been removed from startup. It now does its work incrementally, in the background, until its task is complete.
+- The Holiday/Event Toasts options "Do not automatically hide" and "Require click to hide" now default to disabled. (This only affects new installations of the addon. Current users' options are preserved.)
+- The exploration achievement associated with Thunder Totem is now that of its parent zone, Highmountain.
+- Suggestions Tab:
+-- Added suggestions for the Blight Boar concert at the Darkmoon Faire, Black Temple timewalking, and The Deaths of Chromie scenario.
+-- The zone Thunder Totem now shows suggestions from its parent zone, Highmountain.
+------------------------------------------------------------------------
+

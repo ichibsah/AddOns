@@ -1,0 +1,12 @@
+tag 1f6b6097dff9c043af395930a1a913db60e70f41 v7.1.0.1
+Author:	Pawel <zacdbg@gmail.com>
+Date:	Sat Dec 31 17:37:02 2016 +0100
+
+Feral and guardian rotation
+
+commit eefa36c86c36efa39d497da8d70488c8ca7ab984
+Author: Pawel <zacdbg@gmail.com>
+Date:   Sat Dec 31 17:33:27 2016 +0100
+
+    v7.1.0.1 - Feral and guardian rotation
+

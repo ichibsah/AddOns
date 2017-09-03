@@ -1,0 +1,21 @@
+## Interface: 70200
+## Title: ArtifactPathFinder
+## Notes: Show optimal path for artifact leveling
+## Author: yossa
+## Version: 1.6.0
+## SavedVariablesPerCharacter: ArtifactPathFinderCDB
+## X-Category: Artifact
+## X-eMail: yossa.addons@googlemail.com
+## OptionalDeps: Ace3
+## X-Embeds: Ace3, LibStub
+
+#### List of embedded libraries
+#@no-lib-strip@
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+#@end-no-lib-strip@
+
+ArtifactPathFinder.lua
+PathData.lua

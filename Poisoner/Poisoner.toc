@@ -1,0 +1,18 @@
+## Interface: 70100
+## Title: Poisoner
+## Notes: Poison application helper for rogues
+## Author: humfras
+## eMail: N/A
+## URL: N/A
+## Version: 7.1
+## Dependencies:
+## SavedVariables: PoisonerDB
+## SavedVariablesPerCharacter: POISONER_CONFIG
+## X-Curse-Packaged-Version: 7.1
+## X-Curse-Project-Name: Poisoner
+## X-Curse-Project-ID: poisoner
+## X-Curse-Repository-ID: wow/poisoner/mainline
+
+embeds.xml
+
+Poisoner.lua

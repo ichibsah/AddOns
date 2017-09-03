@@ -1,0 +1,12 @@
+## Interface: 70300
+## Author: p3lim
+## Version: 70300.15-Beta
+## Title: Backpack
+## Notes: WIP
+## SavedVariables: BackpackDB, BackpackCategoriesDB, BackpackContainerOrderDB, BackpackKnownItems
+## SavedVariablesPerCharacter: BackpackBankDB, BackpackPosition
+## OptionalDeps: Wasabi, LibDropDown
+
+
+embed.xml
+

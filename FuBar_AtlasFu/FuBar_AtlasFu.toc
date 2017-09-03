@@ -1,0 +1,31 @@
+﻿## Interface: 70000
+## Title: FuBar - |cffffffffAtlas|r|cff00ff00Fu|r
+## Notes: Adds an Atlas button to FuBar.
+## Version 1.1.7
+## Dependencies: Atlas, FuBar
+## Author: Steve Dodds
+## X-Category: Map
+## X-License: CC Attribution Noncommercial Share Alike 3.0 License
+## X-Curse-Packaged-Version: v1.1.7
+## X-Curse-Project-Name: FuBar_AtlasFu
+## X-Curse-Project-ID: fu-bar_atlas-fu
+## X-Curse-Repository-ID: wow/fu-bar_atlas-fu/mainline
+
+## SavedVariables: FuBar_AtlasFuDB
+
+#@no-lib-strip@
+Libs\AceLibrary\AceLibrary.lua
+Libs\AceOO-2.0\AceOO-2.0.lua
+Libs\AceEvent-2.0\AceEvent-2.0.lua
+Libs\AceAddon-2.0\AceAddon-2.0.lua
+Libs\AceDB-2.0\AceDB-2.0.lua
+Libs\AceLocale-2.2\AceLocale-2.2.lua
+Libs\Dewdrop-2.0\Dewdrop-2.0.lua
+Libs\Tablet-2.0\Tablet-2.0.lua
+Libs\FuBarPlugin-2.0\FuBarPlugin-2.0.lua
+#@end-no-lib-strip@
+
+AtlasFuLocale-enUS.lua
+AtlasFuLocale-zhTW.lua
+AtlasFuLocale-zhCN.lua
+AtlasFu.lua

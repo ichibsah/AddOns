@@ -1,0 +1,7 @@
+changeset:   212:257dc4713e92
+tag:         a7.3.0.212-RC1
+user:        Tercio
+date:        Sat Sep 02 18:07:02 2017 -0300
+summary:     - added rare locations, won't be using the player location when it was spotted.
+
+

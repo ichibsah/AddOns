@@ -1,0 +1,16 @@
+## Interface: 70200
+## Title: Lib: GuildBankComm-1.0
+## Notes: Saves contents of your guild bank and sends/receives updates over the addon channel
+## Version: 7.2-release1
+## Author: Myrroddin of Llane US (Alliance, Knights of the Storm)
+## X-Category: Library
+## LoadOnDemand: 1
+
+LibStub\LibStub.lua
+CallbackHandler-1.0\CallbackHandler-1.0.lua
+AceComm-3.0\ChatThrottleLib.lua
+AceComm-3.0\AceComm-3.0.lua
+AceSerializer-3.0\AceSerializer-3.0.lua
+LibCompress\LibCompress.lua
+
+lib.xml

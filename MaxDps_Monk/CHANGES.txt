@@ -1,0 +1,12 @@
+tag 2f8bcdf1508d7660291727bbcfa2b67dacc10025 v7.2.5
+Author:	Pawel <zacdbg@gmail.com>
+Date:	Tue Jun 27 22:20:06 2017 +0200
+
+v7.2.5 - Partial Serenity Support, Compatibility with MaxDps 7.2.5
+
+commit 389a940c5c45569122c76b33eb44b276de8e9a0e
+Author: Pawel <zacdbg@gmail.com>
+Date:   Tue Jun 27 22:19:51 2017 +0200
+
+    v7.2.5 - Partial Serenity Support, Compatibility with MaxDps 7.2.5
+

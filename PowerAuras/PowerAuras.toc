@@ -1,0 +1,19 @@
+﻿## Interface: 70200
+## Title: Power Auras Classic
+## Version: 4.29.8
+## Author: Smacker 'lolcat', Dridzt 'classic', Garstiger 'continued', Sinsthar 'base', Meorawr, modified by Zensunim and Resike
+## Notes: Cool Effects around the player for ingame events.
+## Notes-frFR: Affiche des effets visuels autour du personnage.
+## DefaultState: Enabled
+## SavedVariables: PowaGlobalSet, PowaGlobalListe, PowaGlobalMisc
+## SavedVariablesPerCharacter: PowaSet, PowaMisc, PowaTimer, PowaPlayerListe, PowaState
+
+PowerAurasBase.lua
+PowerAurasLocalizations.lua
+PowerAurasRole.lua
+PowerAurasAuraClasses.lua
+PowerAurasDecoratorClasses.lua
+PowerAurasAnimations.lua
+PowerAurasAnimationsOld.lua
+PowerAuras.lua
+PowerAurasEvents.lua

@@ -1,0 +1,24 @@
+==== 6.2.3-1
+ * Rewritten from scratch to use standard Looking for guild frame instead of creating own one.
+ * Removed search by guild level.
+ * Updated for 6.2.3 client.
+
+==== 5.4.0-2
+ * Implemented search by achievement points.
+ * Fixed errors at the addon loading.
+ * Fixed Blizzard's Slider:SetValueStep() bug.
+
+==== 5.4.0-1
+ * Updated for 5.4.0 client.
+
+==== 5.3.0-1
+ * Updated for 5.3.0 client.
+
+==== 5.2.0-1
+ * Updated for 5.2.0 client.
+
+==== 5.1.0-1
+ * Updated for 5.1.0 client.
+
+==== 5.0.5-1
+ * Initial release.

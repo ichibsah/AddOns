@@ -1,0 +1,19 @@
+## Interface: 70100
+## Title: MeetNGreet
+## Author: angel100780 (originally by: Marco "Bodo" Ilgner; 
+				       email = "info@marco-ilgner.de",
+				       website = "http://www.marco-ilgner.de/")
+## Version: 0.6
+## Notes: An addon for greetings and farewells."
+## OptionalDeps: Ace3
+## SavedVariables: MeetNGreetDB
+
+Libs\LibStub.lua
+Libs\CallbackHandler-1.0.lua
+Libs\AceDB-3.0.lua
+Libs\AceLocale-3.0.lua
+
+Locales\enUS.lua
+Locales\deDE.lua
+
+Core.lua
