@@ -1,8 +1,15 @@
+local MAJOR, MINOR = 'LibDropDown', 1
+assert(LibStub, MAJOR .. ' requires LibStub')
+
+local lib, oldMinor = LibStub:NewLibrary(MAJOR, MINOR)
+if(not lib) then
+	return
+end
+
 local styles = {}
 local dropdowns = {}
 
-LibDropDown = {}
---[[### LibDropDown:CreateMenu(_parent_, _name_)
+--[[### LDD:NewMenu(_parent_, _name_)
 
 Creates a new, empty dropdown.
 
@@ -12,7 +19,7 @@ Creates a new, empty dropdown.
 #### Returns
 - `Menu`: Menu object
 --]]
-function LibDropDown:CreateMenu(parent, name)
+function lib:NewMenu(parent, name)
 	assert(parent, 'A menu requires a given parent')
 
 	if(type(parent) == 'string') then
@@ -26,13 +33,13 @@ function LibDropDown:CreateMenu(parent, name)
 	return Menu
 end
 
---[[### LibDropDown:CloseAll(_ignore_)
+--[[### LDD:CloseAll(_ignore_)
 
 Closes all open dropdowns, even ones made with [Blizzard voodoo](https://www.townlong-yak.com/framexml/live/UIDropDownMenu.lua).
 
 - `ignore`: Menu to ignore when hiding _(frame/string)_
 --]]
-function LibDropDown:CloseAll(ignore)
+function lib:CloseAll(ignore)
 	if(type(ignore) == 'string') then
 		ignore = _G[ignore]
 	end
@@ -48,7 +55,7 @@ function LibDropDown:CloseAll(ignore)
 	end
 end
 
---[[### LibDropDown:RegisterStyle(_name, data_)
+--[[### LDD:RegisterStyle(_name, data_)
 
 Register a style for use with `Button:SetStyle(name)` and `Menu:SetStyle(name)`.
 
@@ -74,15 +81,15 @@ Register a style for use with `Button:SetStyle(name)` and `Menu:SetStyle(name)`.
   See [CreateColor](https://www.townlong-yak.com/framexml/live/go/CreateColor).
 - `radioTexture` is dependant on texture coordinates, see [Interface/Common/UI-DropDownRadioChecks](https://github.com/Gethe/wow-ui-textures/blob/live/COMMON/UI-DropDownRadioChecks.PNG).
 --]]
-function LibDropDown:RegisterStyle(name, data)
+function lib:RegisterStyle(name, data)
 	styles[name] = data
 end
 
---[[### LibDropDown:IsStyleRegistered(name)
+--[[### LDD:IsStyleRegistered(name)
 
 Returns whether a style with the given name is already registered or not _(boolean)_
 --]]
-function LibDropDown:IsStyleRegistered(name)
+function lib:IsStyleRegistered(name)
 	return not not styles[name]
 end
 
@@ -91,20 +98,36 @@ end
 LibDropDownButtonMixin = {}
 function LibDropDownButtonMixin:OnShow()
 	if(not self.Menu) then
-		self.Menu = LibDropDown:CreateMenu(self)
+		self.Menu = lib:NewMenu(self)
 	end
 end
 
 function LibDropDownButtonMixin:OnHide()
-	LibDropDown:CloseAll()
+	lib:CloseAll()
 end
 
 --[[### LibDropDownButtonTemplate:Add(...)
 
-See [LibDropDownMenuTemplate:AddLine()]().
+See [LibDropDownMenuTemplate:AddLines()]().
 --]]
 function LibDropDownButtonMixin:Add(...)
 	self.Menu:AddLines(...)
+end
+
+--[[### LibDropDownButtonTemplate:Remove(...)
+
+See [LibDropDownMenuTemplate:RemoveLine()]().
+--]]
+function LibDropDownButtonMixin:Remove(...)
+	self.Menu:RemoveLine(...)
+end
+
+--[[### LibDropDownButtonTemplate:Clear(...)
+
+See [LibDropDownMenuTemplate:ClearLines()]().
+--]]
+function LibDropDownButtonMixin:Clear()
+	self.Menu:ClearLines()
 end
 
 --[[### LibDropDownButtonTemplate:Toggle()
@@ -229,7 +252,7 @@ function LibDropDownMenuMixin:OnLoad()
 
 	self:SetStyle()
 
-	table.insert(UISpecialFrames, self:GetDebugName())
+	table.insert(UIMenus, self:GetDebugName())
 
 	self.anchor = {'TOP', self:GetParent(), 'BOTTOM', 0, -12} -- 8, 22
 	self.anchorCursor = false
@@ -240,7 +263,7 @@ function LibDropDownMenuMixin:OnLoad()
 		local animations = self:CreateAnimationGroup()
 		animations:CreateAnimation():SetDuration(self.timeout or 5)
 		animations:SetScript('OnFinished', function()
-			LibDropDown:CloseAll()
+			lib:CloseAll()
 		end)
 		self.timer = animations
 	end
@@ -251,13 +274,17 @@ function LibDropDownMenuMixin:OnShow()
 	local padding = self.parent.padding
 	local spacing = self.parent.spacing
 	local width = 0
-	local height = ((16 + spacing) * #self.lines) - spacing
+	local height = -spacing
 
 	for _, Line in next, self.lines do
-		local lineWidth = Line.Text:GetWidth() + 50
-		lineWidth = math.max(lineWidth, 100)
-		if(lineWidth > width) then
-			width = lineWidth
+		if(Line:IsShown()) then
+			local lineWidth = Line.Text:GetWidth() + 50
+			lineWidth = math.max(lineWidth, 100)
+			if(lineWidth > width) then
+				width = lineWidth
+			end
+
+			height = height + (16 + spacing)
 		end
 	end
 
@@ -311,7 +338,7 @@ Toggles the dropdown menu, closing all others.
 --]]
 function LibDropDownMenuMixin:Toggle()
 	-- hide everything first
-	LibDropDown:CloseAll(self)
+	lib:CloseAll(self)
 
 	-- toggle this
 	self:SetShown(not self:IsShown())
@@ -340,6 +367,9 @@ function LibDropDownMenuMixin:UpdateLine(index, data)
 	Line.args = data.args
 	Line.tooltip = data.tooltip
 	Line.tooltipTitle = data.tooltipTitle
+	Line.checked = nil
+	Line.isRadio = nil
+	Line.keepShown = data.keepShown
 
 	Line.Radio:Hide()
 	Line.Expand:Hide()
@@ -446,10 +476,15 @@ function LibDropDownMenuMixin:UpdateLine(index, data)
 				if(data.checked ~= nil) then
 					Line.Radio:Show()
 
-					if(data.isRadio) then
-						Line:SetRadioState(data.checked)
+					if(type(data.checked) == 'function') then
+						Line.checked = data.checked
+						Line.isRadio = data.isRadio
 					else
-						Line:SetCheckedState(data.checked)
+						if(data.isRadio) then
+							Line:SetRadioState(data.checked)
+						else
+							Line:SetCheckedState(data.checked)
+						end
 					end
 				end
 			end
@@ -460,6 +495,7 @@ function LibDropDownMenuMixin:UpdateLine(index, data)
 		-- TODO: scrolling
 	end
 
+	Line:Show()
 	return Line
 end
 
@@ -487,11 +523,12 @@ Everything™ is optional, some are exclusive with others.
 	- `isSpacer`: Turns the line into a spacer _(boolean)_
 	- `func`: Function to execute when clicking the line _(function)_  
 	  Arguments passed: `button`, `args` (unpacked).
+	- `keepShown`: Keeps the dropdown shown after clicking the line _(boolean)_
 	- `args`: Table of arguments to pass through to the click function _(table)_
 	- `tooltip`: Tooltip contents _(string)_
 	- `tooltipTitle`: Tooltip title _(string)_
 	- `tooltipWhileDisabled`: Enable tooltips while disabled _(boolean)_
-	- `checked`: Show or hide a checkbox _(boolean)_
+	- `checked`: Show or hide a checkbox _(boolean/function)_
 	- `isRadio`: Turns the checkbox into a radio button _(boolean)_
 	- `isColorPicker`: Adds a color picker to the line _(boolean)_
 	- `colorR`: Red color channel, 0-1 _(number)_
@@ -541,7 +578,7 @@ function LibDropDownMenuMixin:AddLine(data)
 	local Line = self:UpdateLine(#self.data, data)
 
 	if(data.menu) then
-		local Menu = LibDropDown:CreateMenu(Line)
+		local Menu = lib:NewMenu(Line)
 		Menu:AddLines(unpack(data.menu))
 
 		if(#data.menu == 0) then
@@ -555,11 +592,46 @@ function LibDropDownMenuMixin:AddLine(data)
 	end
 end
 
+--[[### LibDropDownMenuTemplate:RemoveLine(_index_)
+
+Removes a specific line by index.
+
+- `index`: Number between 1 and [LibDropDownMenuTemplate:NumLines()]()
+--]]
+function LibDropDownMenuMixin:RemoveLine(index)
+	assert(index >= 1 and index <= self:NumLines(), 'index out of scope')
+	table.remove(self.data, index)
+	self.lines[index]:Hide()
+end
+
+--[[### LibDropDownMenuTemplate:ClearLines()
+
+Removes all lines in the menu.
+--]]
+function LibDropDownMenuMixin:ClearLines()
+	if(self.data) then
+		table.wipe(self.data)
+
+		for index, Line in next, self.lines do
+			Line:Hide()
+		end
+	end
+end
+
+--[[### LibDropDownMenuTemplate:NumLines()
+
+#### Returns
+- `numLines`: Number of lines in the menu
+--]]
+function LibDropDownMenuMixin:NumLines()
+	return #self.lines
+end
+
 --[[### LibDropDownMenuTemplate:SetStyle(_name_)
 
 Sets the active style for all menus related to this one.
 
-- `name`: Name of registered style (see [LibDropDown:RegisterStyle]())
+- `name`: Name of registered style (see [LDD:RegisterStyle]())
 --]]
 function LibDropDownMenuMixin:SetStyle(name)
 	if(not name) then
@@ -592,7 +664,7 @@ end
 Gets the active style for this menu, and all menus related to this one.
 
 #### Returns
-- `name`: Name of registered style (see [LibDropDown:RegisterStyle]())
+- `name`: Name of registered style (see [LDD:RegisterStyle]())
 --]]
 function LibDropDownMenuMixin:GetStyle()
 	return self.parent.style
@@ -685,6 +757,16 @@ function LibDropDownLineMixin:OnLoad()
 	self.parent = self:GetParent().parent
 end
 
+function LibDropDownLineMixin:OnShow()
+	if(self.checked) then
+		if(self.isRadio) then
+			self:SetRadioState(self:checked())
+		else
+			self:SetCheckedState(self:checked())
+		end
+	end
+end
+
 function LibDropDownLineMixin:OnEnter()
 	-- hide all submenues for the current menu
 	for _, Menu in next, self:GetParent().menus do
@@ -746,11 +828,11 @@ function LibDropDownLineMixin:OnClick(button)
 		ShowUIPanel(ColorPickerFrame)
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	else
-		pcall(self.func, button, unpack(self.args or {}))
+		pcall(self.func, self, button, unpack(self.args or {}))
 	end
 
 	if(not self.keepShown) then
-		LibDropDown:CloseAll()
+		lib:CloseAll()
 	end
 end
 

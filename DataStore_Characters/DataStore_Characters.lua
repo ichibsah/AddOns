@@ -34,6 +34,7 @@ local AddonDB_Defaults = {
 				lastLogoutTimestamp = nil,
 				money = nil,
 				played = 0,				-- /played, in seconds
+				playedThisLevel = 0,	-- /played at this level, in seconds
 				zone = nil,				-- character location
 				subZone = nil,
 				
@@ -129,8 +130,9 @@ local function OnPlayerLevelUp(event, newLevel)
 	addon.ThisCharacter.level = newLevel
 end
 
-local function OnTimePlayedMsg(event, TotalTime, CurrentLevelTime)
-	addon.ThisCharacter.played = TotalTime
+local function OnTimePlayedMsg(event, totalTime, currentLevelTime)
+	addon.ThisCharacter.played = totalTime
+	addon.ThisCharacter.playedThisLevel = currentLevelTime
 end
 
 -- ** Mixins **
@@ -261,7 +263,7 @@ local function _GetGuildInfo(character)
 end
 
 local function _GetPlayTime(character)
-	return (GetOption("HideRealPlayTime")) and 0 or character.played
+	return (GetOption("HideRealPlayTime")) and 0 or character.played, character.playedThisLevel
 end
 
 local function _GetLocation(character)

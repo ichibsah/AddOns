@@ -5,15 +5,21 @@ local categoryIndex = 1e3
 
 local categoryFilter = function(bagID, slotID, itemID)
 	local custom = BackpackKnownItems[itemID]
-	if(custom and custom == categoryIndex) then
-		return true
+	if(custom and type(custom) == 'number') then
+		return custom == categoryIndex
 	else
 		local _, _, _, quality = Backpack:GetContainerItemInfo(bagID, slotID)
 		return quality == LE_ITEM_QUALITY_POOR
 	end
 end
 
-P.AddCategory(categoryIndex, categoryName, 'Junk', categoryFilter)
+local sortFunc = function(slotA, slotB)
+	local _, _, _, _, _, _, _, _, _, _, worthA = GetItemInfo(slotA.itemID)
+	local _, _, _, _, _, _, _, _, _, _, worthB = GetItemInfo(slotB.itemID)
+	return ((worthA or 0) * slotA.itemCount) > ((worthB or 0) * slotB.itemCount)
+end
+
+P.AddCategory(categoryIndex, categoryName, 'Junk', categoryFilter, sortFunc)
 
 local lastNumItems = 0
 local function Update(event)

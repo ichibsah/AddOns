@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
     
-    Decursive (v 2.7.5.3) add-on for World of Warcraft UI
+    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
     Copyright (C) 2006-2014 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
@@ -18,7 +18,7 @@
     but WITHOUT ANY WARRANTY.
 
     
-    This file was last updated on 2017-06-25T21:34:32Z
+    This file was last updated on 2017-06-30T1:45:54Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -847,12 +847,14 @@ do
             end
 
             -- Display the tooltip
-            MUFtoolTip:SetPoint(self:GetHelperAnchor());
+            MUFtoolTip:ClearAllPoints();
             MUFtoolTip:SetClampedToScreen(true)
+            MUFtoolTip:SetPoint(self:GetHelperAnchor());
             MUFtoolTip:Show();
 
             -- if the tooltip is at the top of the screen it means it's overlaping the MUF, let's move the tooltip beneath the first MUF.
             if floor(MUFtoolTip:GetTop() + 0.5) >= floor(UIParent:GetTop() + 0.5) then -- if at top
+                MUFtoolTip:ClearAllPoints();
                 MUFtoolTip:SetPoint(self:GetHelperAnchor(true));
             end
         end
@@ -1858,6 +1860,6 @@ local MF_Textures = { -- unused
 
 -- }}}
 
-T._LoadedFiles["Dcr_DebuffsFrame.lua"] = "2.7.5.3";
+T._LoadedFiles["Dcr_DebuffsFrame.lua"] = "2.7.5.6";
 
 -- Heresy

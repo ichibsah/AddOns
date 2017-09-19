@@ -14,16 +14,16 @@
 				"TOP",
 				Elephant.defaultConf.position.x,
 				Elephant.defaultConf.position.y)
-			getglobal(self:GetName().."TitleFontString"):SetText("Elephant 3.7.3")
+			getglobal(self:GetName().."TitleFontString"):SetText("Elephant 3.7.5")
 		</OnLoad>
 		<OnShow>
 			if ElephantCopyFrame then
 				ElephantCopyFrame:Hide()
 			end
-			PlaySound("SPELLBOOKOPEN")
+			PlaySound(SOUNDKIT.IG_SPELLBOOK_OPEN, "Master")
 		</OnShow>
 		<OnHide>
-			PlaySound("SPELLBOOKCLOSE")
+			PlaySound(SOUNDKIT.IG_SPELLBOOK_CLOSE, "Master")
 			CloseDropDownMenus()
 		</OnHide>
 		<OnMouseDown>
@@ -184,7 +184,7 @@
 					Elephant:UnsetTooltip()
 				</OnLeave>
 				<OnClick>
-					PlaySound("igChatBottom")
+					PlaySound(SOUNDKIT.IG_CHAT_BOTTOM, "Master")
 					Elephant:ScrollBottom()
 				</OnClick>
 			</Scripts>
@@ -207,7 +207,7 @@
 					Elephant:UnsetTooltip()
 				</OnLeave>
 				<OnClick>
-					PlaySound("igChatScrollDown")
+					PlaySound(SOUNDKIT.IG_CHAT_SCROLL_DOWN, "Master")
 					Elephant:Scroll(Elephant.defaultConf.scrollpage)
 				</OnClick>
 			</Scripts>
@@ -230,7 +230,7 @@
 					Elephant:UnsetTooltip()
 				</OnLeave>
 				<OnClick>
-					PlaySound("igChatScrollDown")
+					PlaySound(SOUNDKIT.IG_CHAT_SCROLL_DOWN, "Master")
 					Elephant:Scroll(1)
 				</OnClick>
 				<OnUpdate>
@@ -258,7 +258,7 @@
 					Elephant:UnsetTooltip()
 				</OnLeave>
 				<OnClick>
-					PlaySound("igChatScrollUp")
+					PlaySound(SOUNDKIT.IG_CHAT_SCROLL_UP, "Master")
 					Elephant:Scroll(-1)
 				</OnClick>
 				<OnUpdate>
@@ -286,7 +286,7 @@
 					Elephant:UnsetTooltip()
 				</OnLeave>
 				<OnClick>
-					PlaySound("igChatScrollUp")
+					PlaySound(SOUNDKIT.IG_CHAT_SCROLL_UP, "Master")
 					Elephant:Scroll(-Elephant.defaultConf.scrollpage)
 				</OnClick>
 			</Scripts>
@@ -309,7 +309,7 @@
 					Elephant:UnsetTooltip()
 				</OnLeave>
 				<OnClick>
-					PlaySound("igChatBottom")
+					PlaySound(SOUNDKIT.IG_CHAT_BOTTOM, "Master")
 					Elephant:ScrollTop()
 				</OnClick>
 			</Scripts>

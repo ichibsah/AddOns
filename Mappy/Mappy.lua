@@ -346,9 +346,11 @@ function Mappy:InitializeMinimap()
 	self:RegenEnabled()
 	
 	-- Schedule the configuration
+	
 	self.SchedulerLib:ScheduleUniqueTask(0.5, self.ConfigureMinimap, self)
 	
 	-- Monitor the mounted state so we can determine which opacity setting to use
+	
 	self.SchedulerLib:ScheduleUniqueRepeatingTask(0.5, self.UpdateMountedState, self)
 end
 
@@ -1379,57 +1381,33 @@ function Mappy:IsDruidTravelForm()
 	end
 end
 
-function Mappy:ShouldForceMapToOpaque()
-	return IsIndoors()
-end
-
-function Mappy:GetInstanceType()
-	local _, instanceType, _, _, _, _, _, instanceMapID = GetInstanceInfo()
-	
-	-- Remap the Garrison instance to an outdoor type
-	if instanceMapID == 1159 then
-		instanceType = nil
-	end
-
-	-- Done
-	return instanceType
-end
-
 function Mappy:SelectAutoProfile()
-	-- Leave if in combat lockdown
-	if InCombatLockdown() then
-		return
-	end
-
-	-- Use the instance type to figure out which profile to select
-	local profileName
-
-	local instanceType = self:GetInstanceType()
-	if instanceType == "party"
-	or instanceType == "raid" then
-		profileName = gMappy_Settings.DungeonProfile
-	elseif instanceType == "pvp" then
-		profileName = gMappy_Settings.BattlegroundProfile
-	elseif IsMounted() or IsFlying() or self:IsDruidTravelForm() or UnitInVehicle("player") then
-		profileName = gMappy_Settings.MountedProfile
+	local vInstanceName, vInstanceType = GetInstanceInfo()
+	local vProfileName
+	
+	if vInstanceType == "party"
+	or vInstanceType == "raid" then
+		vProfileName = gMappy_Settings.DungeonProfile
+	elseif vInstanceType == "pvp" then
+		vProfileName = gMappy_Settings.BattlegroundProfile
+	elseif IsMounted() or IsFlying() or self:IsDruidTravelForm() then
+		vProfileName = gMappy_Settings.MountedProfile
 	else
-		profileName = gMappy_Settings.DefaultProfile
+		vProfileName = gMappy_Settings.DefaultProfile
 	end
 	
-	-- Do nothing if no profile was selected
-	if not profileName then
+	if not vProfileName then
 		return
 	end
 	
-	-- Fetch the profile
-	local profile = gMappy_Settings.Profiles[profileName]
-	if not profile then
+	local vProfile = gMappy_Settings.Profiles[vProfileName]
+	
+	if not vProfile then
 		return
 	end
 	
-	-- Load the profile if it's changing
-	if profile ~= self.CurrentProfile then
-		self:LoadProfile(profile)
+	if not InCombatLockdown() and vProfile ~= self.CurrentProfile then
+		self:LoadProfile(vProfile)
 	end
 end
 
@@ -1475,7 +1453,7 @@ function Mappy:AdjustAlpha(pForceAlpha)
 			self.MappyPlayerArrow:SetAlpha(1 - pForceAlpha)
 		end
 	else
-		local vAlpha
+		local	vAlpha
 		
 		if self.InCombat and not self.IsMounted then
 			vAlpha = self.CurrentProfile.MinimapCombatAlpha or 0.2
@@ -1491,26 +1469,15 @@ function Mappy:AdjustAlpha(pForceAlpha)
 		-- Detection of 'indoors' is imperfect however, so there are still times that the minimap
 		-- will go black when you don't want it to
 		
-		local forceToOpaque = self:ShouldForceMapToOpaque()
-		if vAlpha > 0 and forceToOpaque then
+		local	vMinimapIsInteriorMode = IsInInstance() or IsIndoors() or IsResting()
+		
+		if vAlpha > 0 and vMinimapIsInteriorMode then
 			vAlpha = 1
 		end
 
-		if Minimap:GetAlpha() ~= vAlpha then
-			Minimap:SetAlpha(vAlpha)
-
-			if self.MappyPlayerArrow then
-				self.MappyPlayerArrow:SetAlpha(1 - vAlpha)
-			end
-
-			-- Fudge the zoom to force the minimap to re-paint
-			local minimapZoom = Minimap:GetZoom()
-			if minimapZoom > 0 then
-				Minimap:SetZoom(minimapZoom - 1)
-			else
-				Minimap:SetZoom(minimapZoom + 1)
-			end
-			Minimap:SetZoom(minimapZoom)
+		Minimap:SetAlpha(vAlpha)
+		if self.MappyPlayerArrow then
+			self.MappyPlayerArrow:SetAlpha(1 - vAlpha)
 		end
 	end
 end
@@ -1550,13 +1517,13 @@ function Mappy:StoppedMoving()
 end
 
 function Mappy:UpdateMountedState()
-	local	isMounted = IsMounted()
+	local	vIsMounted = IsMounted()
 	
-	if self.IsMounted == isMounted then
+	if (self.IsMounted == vIsMounted) then
 		return
 	end
 	
-	self.IsMounted = isMounted
+	self.IsMounted = vIsMounted
 	self:AdjustAlpha()
 end
 

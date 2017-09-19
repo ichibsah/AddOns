@@ -659,10 +659,10 @@
       </OnLoad>
       <OnShow>
 		qcQuestCompletistUI_OnShow(self)
-        PlaySound("igCharacterInfoOpen")
+        PlaySound("839")
       </OnShow>
       <OnHide>
-        PlaySound("igCharacterInfoClose")
+        PlaySound("840")
       </OnHide>
       <OnDragStart>self:StartMoving()</OnDragStart>
       <OnDragStop>self:StopMovingOrSizing()</OnDragStop>

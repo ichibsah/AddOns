@@ -1,32 +1,139 @@
-Changes since tag 7.3.1
+Changes since tag 7.3.2
 
-commit cf6ddd6f00c456f3bbdd10df80d9c29ac9ae5923
+commit 5eb11472dee9fb2844b0af12ffda491eef0756c5
 Author: subversion <svn@deadlybossmods.com>
-Date:   Fri Sep 1 06:29:46 2017 +0200
+Date:   Thu Sep 14 09:08:08 2017 +0200
 
-    Omega via svn r16688:
-    TOC tweaks for defaultSkin
+    Omega via svn r16714:
+    First pass on Seat to fix warnings, errors, timers, etc for all encounters
 
-commit 003f18eba076f7e96fc8166055b1ca49250d1dd6
+commit 360ec12ff20476d6cc2791228c8ef430647ad2ff
 Author: subversion <svn@deadlybossmods.com>
-Date:   Fri Sep 1 06:16:53 2017 +0200
+Date:   Thu Sep 14 03:21:27 2017 +0200
 
-    Omega via svn r16687:
-    Devouring maw now shows count in timer and cast
-    Devouring maw and crashing wave will no longer spam warnings if boss continues to recast i (usually during a wipe)
-    Reverted a change to tank taunt warning during cast that cause warning to sometimes not show AT ALL if boss was looking at a non tank target during the cast.
+    Omega via svn r16713:
+    Fix bug
 
-commit dc0b5b7ef098288c6fea918b225047e520eede8d
+commit 94a9ee16f3e5f6fe0044f4bc310f2e8e1d482368
 Author: subversion <svn@deadlybossmods.com>
-Date:   Fri Sep 1 02:03:23 2017 +0200
+Date:   Wed Sep 13 22:32:59 2017 +0200
 
-    Omega via svn r16686:
-    fix two more soundkit IDs
+    Omega via svn r16712:
+    Invasion quest IDs for readycheck option
+    timer/warning updates for Folnuna and enable Folnuna?\226?\128?\153s ready option with yell pull
 
-commit 9b5e249f53bf8fa28088faf58aaf6390091eed5e
+commit deb3d0476a6f3c80e5b3a43fa8d46dd6a77448ec
 Author: subversion <svn@deadlybossmods.com>
-Date:   Thu Aug 31 20:44:54 2017 +0200
+Date:   Wed Sep 13 21:30:57 2017 +0200
 
-    tandanu via svn r16685:
+    Omega via svn r16711:
+    Someone claims addon sounds don?\226?\128?\153t duck anymore, even at 16 channels, so disable this for now
+
+commit 9701c0c6c9c58db1196589c7eebd81f0de415831
+Author: subversion <svn@deadlybossmods.com>
+Date:   Wed Sep 13 02:30:00 2017 +0200
+
+    Omega via svn r16710:
+    Fix more soundkit ids
+
+commit a38f23d4d8ca797485d489ea548d66cb1a599d39
+Author: subversion <svn@deadlybossmods.com>
+Date:   Fri Sep 8 06:23:01 2017 +0200
+
+    Omega via svn r16709:
+    Tweak filter on sasszine some
+    Add optional spawn warning for orbs on maiden that?\226?\128?\153s OFF by default.
+    Removed experimental stuff, it wasn?\226?\128?\153t relevant target info
+
+commit b1182d7d00f78d497741208aa4c3a73d9789b254
+Author: subversion <svn@deadlybossmods.com>
+Date:   Fri Sep 8 05:42:11 2017 +0200
+
+    Omega via svn r16708:
+    Voice and short yell
+
+commit 7933a3d438fb6eff52f2311a6e4677a47def64b8
+Author: subversion <svn@deadlybossmods.com>
+Date:   Fri Sep 8 05:39:30 2017 +0200
+
+    Omega via svn r16707:
+    Test something
+
+commit 94fc18555ec4b036caddb0309955404b6ef5680c
+Author: subversion <svn@deadlybossmods.com>
+Date:   Thu Sep 7 23:23:17 2017 +0200
+
+    Omega via svn r16706:
+    Kr Update
+
+commit 634b43c48193265d7e268218ff4c0902246cbf24
+Author: subversion <svn@deadlybossmods.com>
+Date:   Thu Sep 7 23:21:10 2017 +0200
+
+    Omega via svn r16705:
+    Add countdown
+
+commit a6a3526969dc460e2f9cac11d9c1baf7bf5f25e8
+Author: subversion <svn@deadlybossmods.com>
+Date:   Thu Sep 7 06:22:02 2017 +0200
+
+    Omega via svn r16704:
+    fix typo
+
+commit 3ff8e141b223535583f50fc8d48b99104b7514e4
+Author: subversion <svn@deadlybossmods.com>
+Date:   Thu Sep 7 06:13:15 2017 +0200
+
+    Omega via svn r16703:
+    Fix last, missed one by accident, and didn?\226?\128?\153t account for -2 either
+
+commit ea61bbb0a08a213ec4cd92707601acf223d97298
+Author: subversion <svn@deadlybossmods.com>
+Date:   Thu Sep 7 05:02:47 2017 +0200
+
+    Omega via svn r16702:
+    crashing tweaks
+
+commit 12fbc794a25c90a15ea99755e99d241c39b1391d
+Author: subversion <svn@deadlybossmods.com>
+Date:   Wed Sep 6 23:43:08 2017 +0200
+
+    Omega via svn r16701:
+    actually do it this way
+
+commit be977aeabac4f0266c94a988d51f3acfb882b4ab
+Author: subversion <svn@deadlybossmods.com>
+Date:   Wed Sep 6 23:36:37 2017 +0200
+
+    Omega via svn r16700:
+    Fix bug where first timer was missing for erupting reflections on stage 2 mythic
+    also fix bug where second timer was started for erupting that shouldn?\226?\128?\153t have been on mythic stage 2
+
+commit 80bdf96d27e65a647b4963a87f83ce9c1b20ab11
+Author: subversion <svn@deadlybossmods.com>
+Date:   Wed Sep 6 22:45:52 2017 +0200
+
+    Omega via svn r16699:
+    lets make this clearer
+
+commit b0076d89d0254f83cc360a222f4b397d9c13344f
+Author: subversion <svn@deadlybossmods.com>
+Date:   Wed Sep 6 20:32:20 2017 +0200
+
+    Omega via svn r16698:
+    tweak last
+
+commit decbe55d9f18a26f1d4f9cc975464b63f4f580ba
+Author: subversion <svn@deadlybossmods.com>
+Date:   Wed Sep 6 20:11:28 2017 +0200
+
+    Omega via svn r16697:
+    RU update
+
+commit f97011f33cb540e2665c8fe4b40781ab883ad0af
+Author: subversion <svn@deadlybossmods.com>
+Date:   Wed Sep 6 00:14:11 2017 +0200
+
+    tandanu via svn r16696:
     increment alpha version
 

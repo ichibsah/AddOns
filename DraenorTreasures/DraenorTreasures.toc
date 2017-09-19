@@ -1,6 +1,6 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: DraenorTreasures
-## Version: 7.2.5.24742
+## Version: 7.3.0.24974
 ## Author: TOM_RUS
 ## Notes: DraenorTreasures
 ## SavedVariables: DRTSOptions

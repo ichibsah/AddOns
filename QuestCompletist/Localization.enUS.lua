@@ -394,4 +394,8 @@ qcLocalize = {
 	CATHEDRALOFETERNALNIGHT = "Cathedral of Eternal Night", 
 	RETURNTOKARAZHAN = "Return to Karazhan",
  	TOMBOFSARGERAS = "Tomb of Sargeras",
+	KROKUUN = "Krokuun",
+	ANTORANWASTES = "Antoran Wastes",
+	ARGUS = "Argus",
+	MACAREE = "Mac'Aree",
 }

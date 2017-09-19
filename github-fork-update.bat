@@ -1,12 +1,12 @@
-REM cd D:\Blizzard\World of Warcraft\Interface
+cd E:\Sandbox\linux_scripts
 git add .
 git commit -m "%date% %time%"
-git remote add origin https://github.com/ichibsah/AddOns.git
+git remote add origin https://github.com/ichibsah/linux_scripts.git
 git push -u origin master
 
 
-REM git remote add upstream https://github.com/
-REM git fetch upstream
-REM git pull upstream master
+git remote add upstream https://github.com/tiiiecherle/linux_scripts.git
+git fetch upstream
+git pull upstream master
 
 pause

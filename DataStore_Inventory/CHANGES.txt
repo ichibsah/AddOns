@@ -1,4 +1,10 @@
 ------------------------------------------------------------------------
+r51 | thaoky.altoholic@yahoo.com | 2017-09-04 12:29:29 -0500 (Mon, 04 Sep 2017) | 1 line
+Changed paths:
+   M /trunk/DataStore_Inventory.toc
+
+TOC Update
+------------------------------------------------------------------------
 r50 | thaoky.altoholic@yahoo.com | 2017-06-01 05:58:56 -0500 (Thu, 01 Jun 2017) | 1 line
 Changed paths:
    M /trunk/DataStore_Inventory.lua

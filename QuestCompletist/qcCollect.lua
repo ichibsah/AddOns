@@ -40,7 +40,7 @@ function qcVerifyMapDataExists()
 	local qcMapName = GetMapNameByID(qcMapID)
 
 	if not (qcPinDB[qcMapID]) then
-		PlaySound("RaidWarning", "Master")
+		PlaySound("8959", "1115")
 		if (qcMapName == nil) then
 			print(string.format("|cFF9482C9Quest Completist DEBUG:|r [%d] |cffabd473Map ID %d [CANNOT DETECT MAP NAME] does not yet exist.|r",qcQuestID,qcMapID,GetMapNameByID(qcMapID)))
 		else
@@ -72,10 +72,10 @@ function qcVerifyMapDataExists()
 
 	if not (qcQuestFound == true) then
 		if (qcInitiatorFound == true) then
-			PlaySoundFile("Interface\\AddOns\\QuestCompletist\\debug.mp3","Master")
+			PlaySoundFile("Interface\\AddOns\\QuestCompletist\\debug.mp3","8959")
 			print(string.format("|cFF9482C9Quest Completist DEBUG:|r [%d:%d] |cffabd473Initiator exists in map data, but quest needs added.|r [Initiator Index: %d]",qcMapID,qcQuestID,qcInitiatorIndex))
 		else
-			PlaySound("RaidWarning","Master")
+			PlaySound("8959","1115")
 			print(string.format("|cFF9482C9Quest Completist DEBUG:|r [%d:%d] |cffabd473Neither initiator or quest found in map data. If initiator is stationary new map entry is likely needed.|r",qcMapID,qcQuestID))
 		end
 	end
