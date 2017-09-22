@@ -1905,6 +1905,9 @@ local NPCData = {
 		questID = 38037, -- Cache of Infernals
 		vignetteName = "Cache of Infernals",
 	},
+	[90816] = { -- Skystormer
+		isTameable = true,
+	},
 	[90884] = { -- Bilkor the Thrower
 		questID = 38262, -- Bilkor the Thrower
 	},
@@ -2714,6 +2717,9 @@ local NPCData = {
 		isTameable = true,
 		questID = 42437, -- Starbuck
 		vignetteName = "Starbuck",
+	},
+	[107544] = { -- Nithogg
+		questID = 44508, -- Unknown
 	},
 	[107595] = { -- Grimrot
 		isTameable = true,

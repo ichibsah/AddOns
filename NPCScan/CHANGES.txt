@@ -1,40 +1,58 @@
-tag 31840e25e2748a378d3c304550431c51202e030f 7.3.0.3
+tag 7a07ad8b5c35ef5de168a1f9b424cce627fc8af0 7.3.0.4
 Author:	James D. Callahan III <jcallahan@curse.com>
-Date:	Wed Sep 20 22:39:02 2017 -0500
+Date:	Fri Sep 22 06:38:45 2017 -0500
 
-commit 118fc1c33d076e1750e94fe68b09dfc2669b4b35
+commit 4a5209757a7e6bef8c2ff0539c366549f33f707a
 Author: James D. Callahan III <jcallahan@curse.com>
-Date:   Wed Sep 20 22:36:56 2017 -0500
+Date:   Fri Sep 22 06:18:22 2017 -0500
 
-    Add support for commandline search: /npcscan search - multi-word terms require enclosing quotes.
+    Add data for Death Metal Knight.
 
-commit 6a1cb7029fc0874d9673bc9c551e857d7bc291a3
+commit 73b5c43edca975d12dc79bec40c305c7bc0b5df0
 Author: James D. Callahan III <jcallahan@curse.com>
-Date:   Wed Sep 20 22:35:20 2017 -0500
+Date:   Fri Sep 22 06:07:20 2017 -0500
 
-    Simplify/clean up NPC search code.
+    Make sure continentID isn't set to nil.
 
-commit 42fb72de87c82be51f97db6badf521904739144f
+commit 3c9cbf196a0d20c80d923e6a4a89efb3f5c1c24c
 Author: James D. Callahan III <jcallahan@curse.com>
-Date:   Wed Sep 20 22:34:19 2017 -0500
+Date:   Fri Sep 22 05:47:54 2017 -0500
 
-    Dead code removal.
+    Properly define Argus so its zones show up as they're supposed to.
 
-commit f3444bd277826744676ec7edf5fc2cf4e2b9c5eb
+commit d79f1153cc17e833f002c7a5940d21afb8d135f3
 Author: James D. Callahan III <jcallahan@curse.com>
-Date:   Wed Sep 20 22:34:03 2017 -0500
+Date:   Fri Sep 22 05:05:01 2017 -0500
 
-    When typing /npcscan open a standalone NPCScan interface panel, instead of the default panel.
+    Add questID for Nithogg.
 
-commit 79b35c049aa05590674b0591a98bfabda7a248e6
+commit 5c165d2d8b25ac1a785caf1272b724ad6143bd92
 Author: James D. Callahan III <jcallahan@curse.com>
-Date:   Wed Sep 20 19:42:56 2017 -0500
+Date:   Fri Sep 22 04:57:23 2017 -0500
 
-    Update quest name for Kathaw the Savage.
+    Add data for Earlnoc the Beastbreaker, Shellmaw, and all of the NPCs which are criteria for the Commander of Argus achievement.
 
-commit 1e044f5daf42e6757706acd26437e7d5a528472a
+commit 4b7a890bacd2d734ce8ff197627cdcfc71853134
 Author: James D. Callahan III <jcallahan@curse.com>
-Date:   Wed Sep 20 19:40:54 2017 -0500
+Date:   Fri Sep 22 04:25:42 2017 -0500
 
-    Minor cleanup of debug code.
+    Add data for The Behemoth, Pridewing Patriarch, and Skystormer.
+
+commit 35c39ed131f2d7de0efb7d2ad27503b30200d0d1
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Fri Sep 22 03:51:37 2017 -0500
+
+    Add tracking for the Commander of Argus achievement - not tracking Adventurer of Argus because it contains most of the same NPCs and only requires 25 of them before they're all un-tracked.
+
+commit 679bb6c22b8ff6a726a4c51213af0e73ed2e82e2
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Fri Sep 22 03:49:56 2017 -0500
+
+    Add debug log for missing continent names, rather than erroring.
+
+commit 1365a9a5eb9113b9e3c219573711bc0d0adeec45
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Fri Sep 22 03:48:55 2017 -0500
+
+    Improve output for achievement NPC data mining.
 

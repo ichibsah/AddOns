@@ -135,6 +135,7 @@ local ContinentID = {
 	Pandaria = 6,
 	Draenor = 7,
 	BrokenIsles = 8,
+	Argus = 9,
 }
 
 private.ContinentID = ContinentID
@@ -148,6 +149,7 @@ local ContinentMapID = {
 	[ContinentID.Pandaria] = 862,
 	[ContinentID.Draenor] = 962,
 	[ContinentID.BrokenIsles] = 1007,
+	[ContinentID.Argus] = 1184,
 }
 
 private.ContinentMapID = ContinentMapID
@@ -172,6 +174,7 @@ local AchievementID = {
 	AncientNoMore = 9678,
 	BloodyRare = 1312,
 	ChampionsOfLeiShen = 8103,
+	CommanderOfArgus = 12078,
 	CutOffTheHead = 9633,
 	FightThePower = 9655,
 	Frostbitten = 2257,
@@ -208,6 +211,7 @@ local AchievementData = {
 	[AchievementID.AncientNoMore] = { continentID = ContinentID.Draenor },
 	[AchievementID.BloodyRare] = { continentID = ContinentID.Outland },
 	[AchievementID.ChampionsOfLeiShen] = { continentID = ContinentID.Pandaria },
+	[AchievementID.CommanderOfArgus] = { continentID = ContinentID.BrokenIsles },
 	[AchievementID.CutOffTheHead] = { continentID = ContinentID.Draenor },
 	[AchievementID.FightThePower] = { continentID = ContinentID.Draenor },
 	[AchievementID.Frostbitten] = { continentID = ContinentID.Northrend },
