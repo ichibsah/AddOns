@@ -1,8 +1,8 @@
 ﻿--[[
 	Icon set definitions
 	Gatherer Addon for World of Warcraft(tm).
-	Version: 7.0.5 (<%codename%>)
-	Revision: $Id: GatherIcons.lua 1154 2016-09-09 00:14:54Z ccox $
+	Version: 7.3.1 (<%codename%>)
+	Revision: $Id: GatherIcons.lua 1182 2017-09-19 15:59:33Z dinesh $
 
 	License:
 		This program is free software; you can redistribute it and/or
@@ -85,6 +85,9 @@ Gatherer.Icons = {
 	[241743] = "Mine\\Felslate", -- Felslate Deposit
 	[245325] = "Mine\\Felslate", -- Rich Felslate Deposit
 	[255344] = "Mine\\Felslate", -- Felslate Seam
+	[272768] = "Mine\\EmpyriumDeposit", -- Empyrium Deposit
+	[272778] = "Mine\\EmpyriumDeposit", -- Rich Empyrium Deposit
+	[272780] = "Mine\\EmpyriumSeam", -- Empyrium Seam
 
 
 	[1617] = "Herb\\Silverleaf", -- Silverleaf
@@ -159,7 +162,10 @@ Gatherer.Icons = {
 	[241641] = "Herb\\Foxflower", -- Foxflower
 	[244777] = "Herb\\Fjarnskaggl", -- Fjarnskaggl
 	[244778] = "Herb\\StarlightRose", -- Starlight Rose
-
+	[269278] = "Herb\\FelEncrustedHerb", -- Fel Encrusted
+	[269887] = "Herb\\FelEncrustedHerbCluster", -- Fel Encrusted Cluster
+	[272782] = "Herb\\AstralGlory", -- Astral Glory
+	
 	[2039] = "Open\\Chest", -- Hidden Strongbox
 	[2744] = "Open\\Clam", -- Giant Clam
 	[2843] = "Open\\Chest", -- Battered Chest

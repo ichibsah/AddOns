@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## 
 ## Title: Gatherer
 ## 
@@ -14,7 +14,7 @@
 ## Notes-trTR: Gatherer, sizin toplama bölgelerinizi hatırlayan ve bunları oyun içinde, haritanızda ve küçük haritanızda göstermeyi sağlayan bir eklentidir. Ayrıca bu bilgileri arkadaşlarınız, guild veya raid'de ki kişilerle paylaşır.
 ## Notes-esMX: Este es un accesorio que te permite rastrear los nodos de las profesiones de herboristeria y mineria.  'Lordnica'
 ## 
-## Version: 7.0.5
+## Version: 7.3.1
 ## Author: Esamynn
 ## 
 # myAddOns Support Metadata
@@ -26,7 +26,7 @@
 ## 
 ## SavedVariables: GatherItems, Gatherer_DropRates, Gatherer_SavedSettings_AccountWide, LibSwagData, Gatherer_SharingBlacklist
 ## SavedVariablesPerCharacter: Gatherer_SavedSettings_PerCharacter
-## Revision: $Id: Gatherer.toc 1178 2017-04-09 16:12:52Z dinesh $
+## Revision: $Id: Gatherer.toc 1183 2017-09-19 16:02:36Z dinesh $
 ## OptionalDeps: myAddOns, Configator, SlideBar, Babylonian, LibDataBroker
 
 # Manifest list

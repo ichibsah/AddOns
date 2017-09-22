@@ -1,7 +1,7 @@
 --[[
 	Gatherer Addon for World of Warcraft(tm).
 	Version: 7.0.1 (<%codename%>)
-	Revision: $Id: GatherZoneTokens.lua 1159 2016-09-15 00:03:44Z ccox $
+	Revision: $Id: GatherZoneTokens.lua 1182 2017-09-19 15:59:33Z dinesh $
 
 	License:
 		This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 
 	Functions for converting to and from the locale independent zone tokens
 --]]
-Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.0.5/Gatherer/GatherZoneTokens.lua $", "$Rev: 1159 $")
+Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.3.1/Gatherer/GatherZoneTokens.lua $", "$Rev: 1182 $")
 
 -- reference to the Astrolabe mapping library
 local Astrolabe = DongleStub(Gatherer.AstrolabeVersion)
@@ -204,6 +204,12 @@ local MapIdToTokenMap = {
 		[1072] = "LEGION_TRUESHOTLODGE",
 		[1077] = "LEGION_DREAMGROVE",
 		[1080] = "LEGION_THUNDERTOTEM",
+
+  -- Argus
+		[1184] = "LEGION_ARGUS",
+		[1135] = "LEGION_KROKUUN",
+		[1171] = "LEGION_ANTORAN_WASTES",
+		[1170] = "LEGION_MACAREE",
 
 }
 

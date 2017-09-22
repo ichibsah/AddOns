@@ -1,6 +1,6 @@
 --[[
 	Gatherer Addon for World of Warcraft(tm).
-	Version: 7.0.5 (<%codename%>)
+	Version: 7.3.1 (<%codename%>)
 	Revision: $Id: GatherDropRates.lua 1129 2014-11-13 21:02:28Z esamynn $
 
 	License:
@@ -25,7 +25,7 @@
 		since that is it's designated purpose as per:
 		http://www.fsf.org/licensing/licenses/gpl-faq.html#InterpreterIncompat
 ]]
-Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.0.5/Gatherer/GatherDropRates.lua $", "$Rev: 1129 $")
+Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.3.1/Gatherer/GatherDropRates.lua $", "$Rev: 1129 $")
 
 local dbVersion = 5
 

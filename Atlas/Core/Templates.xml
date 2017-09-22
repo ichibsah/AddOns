@@ -1,4 +1,4 @@
-<!-- $Id: Templates.xml 272 2017-06-30 08:21:04Z arith $ -->
+<!-- $Id: Templates.xml 295 2017-09-19 13:11:08Z arith $ -->
 <!--
 
 	Atlas, a World of Warcraft instance map browser
@@ -164,7 +164,7 @@
 		<Size x="32" y="32"/>
 		<Scripts>
 			<OnClick>
-				PlaySound(PlaySoundKitID and "igMainMenuOptionCheckBoxOn" or 856);
+				PlaySound(856);
 				Atlas:PrevNextMap_OnClick(self);
 			</OnClick>
 		</Scripts>

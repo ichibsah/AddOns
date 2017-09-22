@@ -1,6 +1,6 @@
 --[[
 	Gatherer Addon for World of Warcraft(tm).
-	Version: 7.0.5 (<%codename%>)
+	Version: 7.3.1 (<%codename%>)
 	Revision: $Id: GatherMain.lua 967 2012-09-02 21:37:21Z Esamynn $
 
 	License:
@@ -25,10 +25,10 @@
 		since that is it's designated purpose as per:
 		http://www.fsf.org/licensing/licenses/gpl-faq.html#InterpreterIncompat
 ]]
-Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.0.5/Gatherer/GatherMain.lua $", "$Rev: 967 $")
+Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.3.1/Gatherer/GatherMain.lua $", "$Rev: 967 $")
 
 
-Gatherer.Var.Version="7.0.5"
+Gatherer.Var.Version="7.3.1"
 if (Gatherer.Var.Version == "<%".."version%>") then
 	Gatherer.Var.Version = "4.0-DEV"
 end

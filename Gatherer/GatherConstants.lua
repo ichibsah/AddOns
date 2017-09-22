@@ -1,6 +1,6 @@
 --[[
 	Various Constant Information definitions
-	Revision: $Id: GatherConstants.lua 1177 2017-04-05 13:24:06Z brykrys $
+	Revision: $Id: GatherConstants.lua 1182 2017-09-19 15:59:33Z dinesh $
 
 	License:
 		This program is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@
 		http://www.fsf.org/licensing/licenses/gpl-faq.html#InterpreterIncompat
 
 ]]
-Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.0.5/Gatherer/GatherConstants.lua $", "$Rev: 1177 $")
+Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.3.1/Gatherer/GatherConstants.lua $", "$Rev: 1182 $")
 
 local metatable = { __index = getfenv(0) }
 setmetatable( Gatherer.Constants, metatable )
@@ -89,6 +89,9 @@ SkillLevel = {
 ["ORE_FELSLATE"] = 710,
 ["ORE_RFELSLATE"] = 710,
 ["ORE_SEAMFELSLATE"] = 710,
+["ORE_EMPYRIUM"] = 710,
+["ORE_REMPYRIUM"] = 710,
+["ORE_SEAMEMPYRIUM"] = 710,
 
 -- Herbs
 ["HERB_PEACEBLOOM"] = 1,
@@ -173,6 +176,9 @@ SkillLevel = {
 ["HERB_FOXFLOWER"] = 710,
 ["HERB_FJARNSKAGGL"] = 710,
 ["HERB_STARLIGHTROSE"] = 710,
+["HERB_FELENCRUSTEDHERB"] = 710,
+["HERB_FELENCRUSTEDCLUSTER"] = 710,
+["HERB_ASTRALGLORY"] = 710,
 
 	-- Archaeology
 	["ARCH_DRAENEI"] = 300,		-- Draenei Archaeology Find

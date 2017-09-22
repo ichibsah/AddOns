@@ -1,6 +1,6 @@
 --[[
 	Gatherer Addon for World of Warcraft(tm).
-	Version: 7.0.5 (<%codename%>)
+	Version: 7.3.1 (<%codename%>)
 	Revision: $Id: GatherTooltip.lua 1129 2014-11-13 21:02:28Z esamynn $
 
 	License:
@@ -27,7 +27,7 @@
 
 	Tooltip functions
 ]]
-Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.0.5/Gatherer/GatherTooltip.lua $", "$Rev: 1129 $")
+Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.3.1/Gatherer/GatherTooltip.lua $", "$Rev: 1129 $")
 
 local _tr = Gatherer.Locale.Tr
 local _trC = Gatherer.Locale.TrClient

@@ -1,6 +1,6 @@
 --[[
 	ScrollSheet
-	Version: 7.0.5 (<%codename%>)
+	Version: 7.3.1 (<%codename%>)
 	Revision: $Id: ScrollSheet.lua 406 2016-07-31 13:26:09Z brykrys $
 	URL: http://auctioneeraddon.com/dl/
 

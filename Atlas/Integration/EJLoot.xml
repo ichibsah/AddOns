@@ -1,4 +1,4 @@
-<!-- $Id: EJLoot.xml 272 2017-06-30 08:21:04Z arith $ -->
+<!-- $Id: EJLoot.xml 295 2017-09-19 13:11:08Z arith $ -->
 <!--
 
 	Atlas, a World of Warcraft instance map browser
@@ -334,7 +334,7 @@
 										self.texture:SetPoint("TOPLEFT", 0, 0);
 									</OnMouseUp>
 									<OnClick>
-										PlaySound(PlaySoundKitID and "igMainMenuOptionCheckBoxOn" or 856);
+										PlaySound(856);
 										EJ_ResetLootFilter();
 										Atlas_EncounterJournal_LootUpdate();
 										self:GetParent():Hide();
@@ -347,7 +347,7 @@
 						<Scripts>
 							<OnClick>
 								L_ToggleDropDownMenu(1, nil, self:GetParent().lootFilter, self, 5, 0);
-								PlaySound(PlaySoundKitID and "igMainMenuOption" or 852);
+								PlaySound(852);
 							</OnClick>
 							<OnLoad inherit="prepend">
 								self:SetPoint("TOPLEFT", self:GetParent():GetParent(), "TOPRIGHT", -380, -0);
@@ -361,7 +361,7 @@
 						<Scripts>
 							<OnClick>
 								L_ToggleDropDownMenu(1, nil, self:GetParent().lootSlotFilter, self, 5, 0);
-								PlaySound(PlaySoundKitID and "igMainMenuOption" or 852);
+								PlaySound(852);
 							</OnClick>
 							<OnLoad inherit="prepend">
 								self:SetPoint("TOPLEFT", self:GetParent():GetParent(), "TOPRIGHT", -270, -0);
@@ -376,7 +376,7 @@
 						<Scripts>
 							<OnClick>
 								L_ToggleDropDownMenu(1, nil, self:GetParent().difficultyDD, self, 5, 0);
-								PlaySound(PlaySoundKitID and "igMainMenuOptionCheckBoxOn" or 856);
+								PlaySound(856);
 							</OnClick>
 							<OnLoad inherit="prepend">
 								self:SetPoint("TOPLEFT", self:GetParent():GetParent(), "TOPRIGHT", -160, -0);

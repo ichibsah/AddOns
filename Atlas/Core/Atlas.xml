@@ -1,4 +1,4 @@
-<!-- $Id: Atlas.xml 272 2017-06-30 08:21:04Z arith $ -->
+<!-- $Id: Atlas.xml 297 2017-09-19 15:10:04Z arith $ -->
 <!--
 
 	Atlas, a World of Warcraft instance map browser
@@ -63,7 +63,7 @@
 						self:SetTextInsets(0, 8, 0, 0);
 					</OnLoad>
 					<OnEnterPressed>
-						addon:SearchAndRefresh(self:GetText());
+						Atlas:SearchAndRefresh(self:GetText());
 						self:ClearFocus();
 					</OnEnterPressed>
 				</Scripts>
@@ -99,7 +99,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						addon:SearchAndRefresh(AtlasSearchEditBox:GetText());
+						Atlas:SearchAndRefresh(AtlasSearchEditBox:GetText());
 						AtlasSearchEditBox:ClearFocus();
 					</OnClick>
 				</Scripts>
@@ -118,7 +118,7 @@
 				<Scripts>
 					<OnClick>
 						AtlasSearchEditBox:SetText("");
-						addon:SearchAndRefresh(AtlasSearchEditBox:GetText());
+						Atlas:SearchAndRefresh(AtlasSearchEditBox:GetText());
 						AtlasSearchEditBox:ClearFocus();
 					</OnClick>
 				</Scripts>
@@ -346,12 +346,12 @@
 			</OnEvent>
 			<OnShow>
 				Atlas_OnShow();
-				PlaySound(PlaySoundKitID and "igQuestLogOpen" or 844);
+				PlaySound(844);
 				ATLAS_SMALLFRAME_SELECTED = false;
 			</OnShow>
 			<OnHide>
 				AtlasFrame:StopMovingOrSizing();
-				PlaySound(PlaySoundKitID and "igQuestLogClose" or 845);
+				PlaySound(845);
 			</OnHide>
 			<OnDragStart>
 				if(button == "LeftButton") then
@@ -764,11 +764,11 @@
 		<Scripts>
 			<OnShow>
 				AtlasFrameLarge_OnShow(self)
-				PlaySound(PlaySoundKitID and "igQuestLogOpen" or 844);
+				PlaySound(844);
 			</OnShow>
 			<OnHide>
 				AtlasFrameLarge:StopMovingOrSizing();
-				PlaySound(PlaySoundKitID and "igQuestLogClose" or 845);
+				PlaySound(845);
 			</OnHide>
 			<OnMouseDown>
 				if(button == "LeftButton") then
@@ -921,11 +921,11 @@
 		<Scripts>
 			<OnShow>
 				ATLAS_SMALLFRAME_SELECTED = true;
-				PlaySound(PlaySoundKitID and "igQuestLogOpen" or 844);
+				PlaySound(844);
 			</OnShow>
 			<OnHide>
 				AtlasFrameSmall:StopMovingOrSizing();
-				PlaySound(PlaySoundKitID and "igQuestLogClose" or 845);
+				PlaySound(845);
 			</OnHide>
 			<OnMouseDown>
 				if(button == "LeftButton") then

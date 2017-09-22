@@ -1,7 +1,7 @@
 ﻿--[[
 	Gatherer Addon for World of Warcraft(tm).
-	Version: 7.0.5 (<%codename%>)
-	Revision: $Id: GatherNodes.lua 1175 2017-01-20 02:59:05Z dinesh $
+	Version: 7.3.1 (<%codename%>)
+	Revision: $Id: GatherNodes.lua 1185 2017-09-20 12:49:48Z dinesh $
 
 	License:
 		This program is free software; you can redistribute it and/or
@@ -229,23 +229,31 @@ if (region == "deDE") then -- German
 		["Verwelktes Kraut"] = 243334, -- Withered Herb
 
 		-- Legion, incomplete
-		["Aethril"] = 244774, -- Aethril
-		["Traumlaub"] = 244776, -- Withered Herb
-		["Fuchsblume"] = 241641, -- Foxflower
-		["Fjarnskaggl"] = 244777, -- Fjarnskaggl
-		["Sternlichtrose"] = 244778, -- Starlight Rose
+		["Aethril"] = 244774, 							-- Aethril
+		["Traumlaub"] = 244776, 						-- Withered Herb
+		["Fuchsblume"] = 241641, 						-- Foxflower
+		["Fjarnskaggl"] = 244777, 						-- Fjarnskaggl
+		["Sternlichtrose"] = 244778, 					-- Starlight Rose
+		["Teufelsverkrustetes Kraut"] = 269278, 		-- Fel-encrusted Herb (Broken Shores)
+		["Teufelsverkrustetes Kräuterbündel"] = 269887, -- Fel-encrusted Herb Cluster (Broken Shores)
+		["Astralwinde"] = 272782, 						-- 
 
-		["Leysteinvorkommen"] = 241726, -- Leystone Deposit
-		["Reiches Leysteinvorkommen"] = 245324, -- Rich Leystone Deposit
-		["Leysteinflöz"] = 253280, -- Leystone Seam
+		["Leysteinvorkommen"] = 241726, 				-- Leystone Deposit
+		["Reiches Leysteinvorkommen"] = 245324, 		-- Rich Leystone Deposit
+		["Leysteinflöz"] = 253280, 						-- Leystone Seam
 
-		["Teufelsschiefervorkommen"] = 241743, -- Felslate Deposit
-		["Reiches Teufelsschiefervorkommen"] = 245325, -- Rich Felslate Deposit
-		["Teufelsschieferflöz"] = 255344, -- Felslate Seam
+		["Teufelsschiefervorkommen"] = 241743, 			-- Felslate Deposit
+		["Reiches Teufelsschiefervorkommen"] = 245325, 	-- Rich Felslate Deposit
+		["Teufelsschieferflöz"] = 255344, 				-- Felslate Seam
 
-		["Highmountain Tauren Archaeology Find"] = 246804, -- Highmountain Tauren Archaeology Find
-		["Demonic Archaeology Find"] = 246812, -- Demonic Archaeology Find
-		["Highborne Archaeology Find"] = 256811, -- Highborne Archaeology Find
+		["Empyriumvorkommen"] = 272768, 				-- Empyrium Deposit
+		["Reiches Empyriumvorkommen"] = 272778, 		-- Rich Empyrium Deposit
+		["Empyriumflöz"] = 272780, 						-- Empyrium Seam
+
+		
+		["Archäologischer Fund der Hochbergtauren"] = 246804, -- Highmountain Tauren Archaeology Find
+		["Archäologisches Fundstück der Dämonen"] = 246812, -- Demonic Archaeology Find
+		["Archäologisches Fundstück der Hochgeborenen"] = 256811, -- Highborne Archaeology Find
 	}
 elseif (region == "enUS") then -- English
 	Gatherer.Nodes.Names = {
@@ -436,20 +444,28 @@ elseif (region == "enUS") then -- English
 		["Withered Herb"] = 243334,
 
 -- Legion, incomplete
-		["Aethril"] = 244774, 				-- 124101
-		["Dreamleaf"] = 244776, 			-- 124102
-		["Foxflower"] = 241641,				-- 124103
-		["Fjarnskaggl"] = 244777, 			-- 124104
-		["Starlight Rose"] = 244778, 		-- 124105
-		
-		["Leystone Deposit"] = 241726,		-- 123918
+		["Aethril"] = 244774, 						-- 124101
+		["Dreamleaf"] = 244776, 					-- 124102
+		["Foxflower"] = 241641,						-- 124103
+		["Fjarnskaggl"] = 244777, 					-- 124104
+		["Starlight Rose"] = 244778, 				-- 124105
+		["Fel-Encrusted Herb"] = 269278, 			-- 
+		["Fel-Encrusted Herb Cluster"] = 269887,	-- 
+		["Astral Glory"] = 272782, 					-- 
+
+		["Leystone Deposit"] = 241726,				-- 123918
 		["Rich Leystone Deposit"] = 245324,
 		["Leystone Seam"] = 253280,
 		
-		["Felslate Deposit"] = 241743,		-- 123919
+		["Felslate Deposit"] = 241743,				-- 123919
 		["Rich Felslate Deposit"] = 245325,
 		["Felslate Seam"] = 255344,
-		
+	
+		["Empyrium Deposit"] = 272768, 				-- Empyrium Deposit
+		["Rich Empyrium Deposit"] = 272778, 		-- Rich Empyrium Deposit
+		["Empyrium Seam"] = 272780, 				-- Empyrium Seam
+	
+	
 		["Highmountain Tauren Archaeology Find"] = 246804,
 		["Demonic Archaeology Find"] = 246812,
 		["Highborne Archaeology Find"] = 256811,
@@ -658,6 +674,9 @@ elseif (region == "esES") then -- Spanish
 		["Flor de raposa"] = 241641, -- 124103
 		["Fjarnskaggl"] = 244777, -- 124104
 		["Rosa luz estelar"] = 244778, -- 124105
+		["Hierba con costra vil"] = 269278, -- 
+		["Manojo de hierba con costra vil"] = 269887, -- 
+		["Gloria astral"] = 272782, -- 
 
 		["Depósito de piedra Ley"] = 241726, -- 123918
 		["Depósito rico en piedra Ley"] = 245324,
@@ -667,6 +686,11 @@ elseif (region == "esES") then -- Spanish
 		["Depósito rico en pizarra vil"] = 245325,
 		["Veta de pizarra vil"] = 255344,
 
+		["Depósito de empirium"] = 272768, -- Empyrium Deposit
+		["Depósito rico en empirium"] = 272778, -- Rich Empyrium Deposit
+		["Veta de empirium"] = 272780, -- Empyrium Seam
+
+		
 		["Hallazgo arqueológico de los tauren Monte Alto"] = 246804,
 		["Hallazgo arqueológico demoníaco"] = 246812,
 		["Hallazgo arqueológico de los Altonato"] = 256811, -- Cannot confirm this one 
@@ -874,6 +898,9 @@ elseif (region == "esMX") then -- Latin American Spanish (Mapped from esES)
 		["Vulpinia"] = 241641, -- 124103
 		["Fjarnskaggl"] = 244777, -- 124104
 		["Rosa luz estelar"] = 244778, -- 124105
+		["Hierba con costra vil"] = 269278, -- 
+		["Manojo de hierba con costra vil"] = 269887, -- 
+		["Gloria astral"] = 272782, -- 
 
 		["Depósito de piedra Ley"] = 241726, -- 123918
 		["Depósito rico en piedra Ley"] = 245324,
@@ -882,6 +909,11 @@ elseif (region == "esMX") then -- Latin American Spanish (Mapped from esES)
 		["Depósito de Pizarra vil"] = 241743, -- 123919
 		["Depósito rico en pizarra vil"] = 245325,
 		["Veta de pizarra vil"] = 255344,
+
+		["Depósito de empirium"] = 272768, -- Empyrium Deposit
+		["Depósito rico en empirium"] = 272778, -- Rich Empyrium Deposit
+		["Veta de empirium"] = 272780, -- Empyrium Seam
+
 
 		["Hallazgo arqueológico de los tauren Monte Alto"] = 246804,
 		["Hallazgo arqueológico demoníaco"] = 246812,
@@ -1097,6 +1129,9 @@ elseif (region == "frFR") then -- French
 		["Vulpille"] = 241641, -- 124103
 		["Fjarnskaggl"] = 244777, -- 124104
 		["Rose lumétoile"] = 244778, -- 124105
+		["Herbe incrustée de corruption"] = 269278, -- 
+		["Touffe d’herbe incrustée de corruption"] = 269887, -- 
+		["Astralée"] = 272782, -- 
 
 		["Gisement de tellurium"] = 241726, -- 123918
 		["Riche gisement de tellurium"] = 245324,
@@ -1105,6 +1140,11 @@ elseif (region == "frFR") then -- French
 		["Gisement de gangreschiste"] = 241743, -- 123919
 		["Riche gisement de gangreschiste"] = 245325,
 		["Veine de gangreschiste"] = 255344,
+
+		["Gisement d'empyrium"] = 272768, -- Empyrium Deposit
+		["Riche gisement d'empyrium"] = 272778, -- Rich Empyrium Deposit
+		["Veine d'empyrium"] = 272780, -- Empyrium Seam
+
 
 		["Trouvaille archéologique taurène de Haut-Roc"] = 246804,
 		["Trouvaille archéologique démoniaque"] = 246812,
@@ -1312,22 +1352,30 @@ elseif (region == "itIT") then -- Italian
 
 -- Legion, incomplete
 		["Aethril"] = 244774, 				-- 124101
-		["Dreamleaf"] = 244776, 			-- 124102
-		["Foxflower"] = 241641,				-- 124103
+		["Erbonirica"] = 244776, 			-- 124102
+		["Fiorvolpe"] = 241641,				-- 124103
 		["Fjarnskaggl"] = 244777, 			-- 124104
-		["Starlight Rose"] = 244778, 		-- 124105
+		["Rosa Lucestellare"] = 244778, 	-- 124105
+		["Erba Vilincrostata"] = 269278, 	-- 
+		["Fascio d'Erba Vilincrostata"] = 269887, -- 
+		["Gloria Astrale"] = 272782, -- 
+
+		["Deposito di Fagliaroccia"] = 241726,		-- 123918
+		["Deposito Ricco di Fagliaroccia"] = 245324,
+		["Vena di Fagliaroccia"] = 253280,
 		
-		["Leystone Deposit"] = 241726,		-- 123918
-		["Rich Leystone Deposit"] = 245324,
-		["Leystone Seam"] = 253280,
+		["Deposito di Vilardesia"] = 241743,		-- 123919
+		["Deposito Ricco di Vilardesia"] = 245325,
+		["Vena di Vilardesia"] = 255344,
+	
+		["Deposito d'Empirio"] = 272768, -- Empyrium Deposit
+		["Deposito Ricco d'Empirio"] = 272778, -- Rich Empyrium Deposit
+		["Vena d'Empirio"] = 272780, -- Empyrium Seam
+
 		
-		["Felslate Deposit"] = 241743,		-- 123919
-		["Rich Felslate Deposit"] = 245325,
-		["Felslate Seam"] = 255344,
-		
-		["Highmountain Tauren Archaeology Find"] = 246804,
-		["Demonic Archaeology Find"] = 246812,
-		["Highborne Archaeology Find"] = 256811,
+		["Ritrovamento Archeologico dei Tauren di Alto Monte"] = 246804,
+		["Ritrovamento Archeologico dei Demoni"] = 246812,
+		["Ritrovamento Archeologico degli Alti Nobili"] = 256811,
 	}
 elseif (region == "koKR") then -- Korean
 	Gatherer.Nodes.Names = {
@@ -1521,20 +1569,28 @@ elseif (region == "koKR") then -- Korean
 		["Withered Herb"] = 243334,
 
 -- Legion, incomplete
-		["Aethril"] = 244774, 				-- 124101
+		["에이트릴"] = 244774, 				-- 124101
 		["Dreamleaf"] = 244776, 			-- 124102
 		["Foxflower"] = 241641,				-- 124103
 		["Fjarnskaggl"] = 244777, 			-- 124104
 		["Starlight Rose"] = 244778, 		-- 124105
+		["Fel-Encrusted Herb"] = 269278, -- 
+		["Fel-Encrusted Herb Cluster"] = 269887, -- 
+		["Astral Glory"] = 272782, -- 
 		
-		["Leystone Deposit"] = 241726,		-- 123918
+		["지맥석 광맥"] = 241726,		-- 123918
 		["Rich Leystone Deposit"] = 245324,
 		["Leystone Seam"] = 253280,
 		
-		["Felslate Deposit"] = 241743,		-- 123919
+		["지옥판암 광맥"] = 241743,		-- 123919
 		["Rich Felslate Deposit"] = 245325,
-		["Felslate Seam"] = 255344,
-		
+		["지옥판암 융기"] = 255344,
+	
+		["Empyrium Deposit"] = 272768, -- Empyrium Deposit
+		["Rich Empyrium Deposit"] = 272778, -- Rich Empyrium Deposit
+		["Empyrium Seam"] = 272780, -- Empyrium Seam
+
+	
 		["Highmountain Tauren Archaeology Find"] = 246804,
 		["Demonic Archaeology Find"] = 246812,
 		["Highborne Archaeology Find"] = 256811,
@@ -1746,18 +1802,26 @@ elseif (region == "ptBR") then -- Portuguese (Brazilian)
 		["Flor-de-raposa"] = 241641,				-- 124103
 		["Fjarnskaggl"] = 244777, 			-- 124104
 		["Rosa-da-luz-estelar"] = 244778, 		-- 124105
+		["Erva Incrustada de Vileza"] = 269278, -- 
+		["Feixe de Ervas Incrustadas de Vileza"] = 269887, -- 
+		["Glória-astral"] = 272782, -- 
 		
-		["Leystone Deposit"] = 241726,		-- 123918
-		["Rich Leystone Deposit"] = 245324,
-		["Leystone Seam"] = 253280,
+		["Depósito de Espinho do Meridiano"] = 241726,		-- 123918
+		["Depósito Rico de Pedra de Meridiano"] = 245324,
+		["Estrato de Pedra de Meridiano"] = 253280,
 		
-		["Felslate Deposit"] = 241743,		-- 123919
-		["Rich Felslate Deposit"] = 245325,
-		["Felslate Seam"] = 255344,
+		["Depósito de Vilardósia"] = 241743,		-- 123919
+		["Depósito Rico de Vilardósia"] = 245325,
+		["Estrato de Vilardósia"] = 255344,
 		
-		["Highmountain Tauren Archaeology Find"] = 246804,
-		["Demonic Archaeology Find"] = 246812,
-		["Highborne Archaeology Find"] = 256811,
+		["Depósito de Empirita"] = 272768, -- Empyrium Deposit
+		["Depósito de Empirita Abundante"] = 272778, -- Rich Empyrium Deposit
+		["Camada de Empirita"] = 272780, -- Empyrium Seam
+
+		
+		["Achado Arqueológico Tauren Altamontês"] = 246804,
+		["Achado Arqueológico Demoníaco"] = 246812,
+		["Achado Arqueológico Altaneiro"] = 256811,
 	}
 elseif (region == "ptPT") then -- Portuguese (Mapped from ptBR)
 	Gatherer.Nodes.Names = {
@@ -1961,23 +2025,31 @@ elseif (region == "ptPT") then -- Portuguese (Mapped from ptBR)
 		["Withered Herb"] = 243334,
 
 -- Legion, incomplete
-		["Aethril"] = 244774, 				-- 124101
-		["Dreamleaf"] = 244776, 			-- 124102
-		["Foxflower"] = 241641,				-- 124103
-		["Fjarnskaggl"] = 244777, 			-- 124104
-		["Starlight Rose"] = 244778, 		-- 124105
+		["Aethril"] = 244774, 								-- 124101
+		["Folha-de-sonho"] = 244776, 						-- 124102
+		["Flor-de-raposa"] = 241641,						-- 124103
+		["Fjarnskaggl"] = 244777, 							-- 124104
+		["Rosa-da-luz-estelar"] = 244778, 					-- 124105
+		["Erva Incrustada de Vileza"] = 269278, 			-- 
+		["Feixe de Ervas Incrustadas de Vileza"] = 269887, 	-- 
+		["Glória-astral"] = 272782, -- 
 		
-		["Leystone Deposit"] = 241726,		-- 123918
-		["Rich Leystone Deposit"] = 245324,
-		["Leystone Seam"] = 253280,
+		["Depósito de Espinho do Meridiano"] = 241726,		-- 123918
+		["Depósito Rico de Pedra de Meridiano"] = 245324,
+		["Estrato de Pedra de Meridiano"] = 253280,
 		
-		["Felslate Deposit"] = 241743,		-- 123919
-		["Rich Felslate Deposit"] = 245325,
-		["Felslate Seam"] = 255344,
+		["Depósito de Vilardósia"] = 241743,				-- 123919
+		["Depósito Rico de Vilardósia"] = 245325,
+		["Estrato de Vilardósia"] = 255344,
 		
-		["Highmountain Tauren Archaeology Find"] = 246804,
-		["Demonic Archaeology Find"] = 246812,
-		["Highborne Archaeology Find"] = 256811,
+		["Depósito de Empirita"] = 272768, 					-- Empyrium Deposit
+		["Depósito de Empirita Abundante"] = 272778, 		-- Rich Empyrium Deposit
+		["Camada de Empirita"] = 272780, 					-- Empyrium Seam
+
+		
+		["Achado Arqueológico Tauren Altamontês"] = 246804,
+		["Achado Arqueológico Demoníaco"] = 246812,
+		["Achado Arqueológico Altaneiro"] = 256811,
 	}
 elseif (region == "ruRU") then -- Russian
 	Gatherer.Nodes.Names = {
@@ -2178,7 +2250,7 @@ elseif (region == "ruRU") then -- Russian
 		["Археологическая находка араккоа"] = 234105,  -- Arakkoa Archaeology Find
 		
 		-- Missing Node Names
-		["Withered Herb"] = 243334,
+		["Высохшая трава"] = 243334,
 
 		-- Legion
 		["Айтрил"] = 244774, -- 124101
@@ -2186,6 +2258,9 @@ elseif (region == "ruRU") then -- Russian
 		["Лисоцвет"] = 241641, -- 124103
 		["Фьярнскаггл"] = 244777, -- 124104
 		["Звездная роза"] = 244778, -- 124105
+		["Покрытая Скверной трава"] = 269278, -- 
+		["Пучок покрытой Скверной травы"] = 269887, -- 
+		["Астральный вьюнок"] = 272782, -- 
 
 		["Залежи силового камня"] = 241726, -- 123918
 		["Богатые залежи силового камня"] = 245324,
@@ -2195,6 +2270,11 @@ elseif (region == "ruRU") then -- Russian
 		["Богатые залежи сланца Скверны"] = 245325,
 		["Пласт сланца Скверны"] = 255344,
 
+		["Залежи эмпиреита"] = 272768, -- Empyrium Deposit
+		["Богатые залежи эмпиреита"] = 272778, -- Rich Empyrium Deposit
+		["Пласт эмпиреита"] = 272780, -- Empyrium Seam
+		
+		
 		["Археологическая находка тауренов Крутогорья"] = 246804,
 		["Археологическая находка демонов"] = 246812,
 		["Археологическая находка высокорожденных"] = 256811,
@@ -2397,6 +2477,9 @@ elseif (region == "zhCN") then -- Chinese
 		["Foxflower"] = 241641,				-- 124103
 		["Fjarnskaggl"] = 244777, 			-- 124104
 		["Starlight Rose"] = 244778, 		-- 124105
+		["Fel-Encrusted Herb"] = 269278, 	-- 
+		["Fel-Encrusted Herb Cluster"] = 269887, -- 
+		["Astral Glory"] = 272782, 			-- 
 		
 		["Leystone Deposit"] = 241726,		-- 123918
 		["Rich Leystone Deposit"] = 245324,
@@ -2405,6 +2488,11 @@ elseif (region == "zhCN") then -- Chinese
 		["Felslate Deposit"] = 241743,		-- 123919
 		["Rich Felslate Deposit"] = 245325,
 		["Felslate Seam"] = 255344,
+		
+		["Empyrium Deposit"] = 272768, -- Empyrium Deposit
+		["Rich Empyrium Deposit"] = 272778, -- Rich Empyrium Deposit
+		["Empyrium Seam"] = 272780, -- Empyrium Seam
+
 		
 		["Highmountain Tauren Archaeology Find"] = 246804,
 		["Demonic Archaeology Find"] = 246812,
@@ -2607,6 +2695,9 @@ elseif (region == "zhTW") then -- Traditional Chinese
 		["狐花"] = 241641, -- 124103
 		["鬼燈果"] = 244777, -- 124104
 		["星輝玫瑰"] = 244778, -- 124105
+		["Fel-Encrusted Herb"] = 269278, 	-- 
+		["Fel-Encrusted Herb Cluster"] = 269887, -- 
+		["Astral Glory"] = 272782, 			-- 
 
 		["脈石礦床"] = 241726, -- 123918
 		["豐沃的脈石礦床"] = 245324,
@@ -2616,9 +2707,13 @@ elseif (region == "zhTW") then -- Traditional Chinese
 		["豐沃的魔岩礦床"] = 245325,
 		["魔岩礦層"] = 255344,
 
-		["高嶺牛頭人考古學發現"] = 246804,
-		["惡魔考古學發現"] = 246812,
-		["精靈貴族考古學發現"] = 256811,
+		["Empyrium Deposit"] = 272768, -- Empyrium Deposit
+		["Rich Empyrium Deposit"] = 272778, -- Rich Empyrium Deposit
+		["Empyrium Seam"] = 272780, -- Empyrium Seam
+
+		["高嶺牛頭人考古學文物"] = 246804,
+		["惡魔考古學文物"] = 246812,
+		["精靈貴族考古學文物"] = 256811,
 	}
 end
 
@@ -2832,11 +2927,18 @@ Gatherer.Nodes.Objects = {
 	[245325] = "MINE", -- Rich Felslate Deposit
 	[255344] = "MINE", -- Felslate Seam
 	
+	[272768] = "MINE", -- Empyrium Deposit
+	[272778] = "MINE", -- Rich Empyrium Deposit
+	[272780] = "MINE", -- Empyrium Seam
+	
 	[244774] = "HERB", -- Aethril node
 	[244776] = "HERB", -- Dreamleaf
 	[241641] = "HERB", -- Foxflower
 	[244777] = "HERB", -- Fjarnskaggl
 	[244778] = "HERB", -- Starlight Rose
+	[269278] = "HERB", -- Fel-encrusted Herb
+	[269887] = "HERB", -- Fel-encrusted Herb Cluster
+	[272782] = "HERB", -- Astral Glory
 	
 	[246804] = "ARCH",	-- Highmountain Archaeology Find
 	[246812] = "ARCH",	-- Demonic Archaeology Find

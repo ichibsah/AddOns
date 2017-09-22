@@ -1,7 +1,7 @@
 --[[
 	Gatherer Addon for World of Warcraft(tm).
-	Version: 7.0.5 (<%codename%>)
-	Revision: $Id: GatherConfig.lua 1147 2016-08-18 00:05:59Z ccox $
+	Version: 7.3.1 (<%codename%>)
+	Revision: $Id: GatherConfig.lua 1180 2017-08-01 18:52:34Z brykrys $
 
 	License:
 	This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 
 	Saved Variables Configuration and management code
 ]]
-Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.0.5/Gatherer/GatherConfig.lua $", "$Rev: 1147 $")
+Gatherer_RegisterRevision("$URL: http://svn.norganna.org/gatherer/tags/REL_7.3.1/Gatherer/GatherConfig.lua $", "$Rev: 1180 $")
 
 local _tr = Gatherer.Locale.Tr
 local _trC = Gatherer.Locale.TrClient
@@ -985,7 +985,7 @@ function SharingBlacklist_RemoveBlacklistedNodes()
 			end
 		end
 		if ( numRemoved > 0 ) then
-			PlaySound("igQuestLogAbandonQuest");
+			PlaySound(PlaySoundKitID and "igQuestLogAbandonQuest" or SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST) -- HYBRID73
 			Gatherer.MiniNotes.ForceUpdate()
 			StaticPopup_Show("GATHERER_REMOVED_NODE_COUNT", numRemoved)
 		end

@@ -1,4 +1,4 @@
--- $Id: Atlas.lua 287 2017-08-16 15:06:51Z arith $
+-- $Id: Atlas.lua 297 2017-09-19 15:10:04Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -1873,6 +1873,7 @@ local function initialization()
 	Atlas_Refresh()
 	addon:UpdateLock()
 	addon:UpdateAlpha()
+	addon:UpdateScale()
 	AtlasFrame:SetClampedToScreen(profile.options.frames.clamp)
 	AtlasFrameLarge:SetClampedToScreen(profile.options.frames.clamp)
 	AtlasFrameSmall:SetClampedToScreen(profile.options.frames.clamp)

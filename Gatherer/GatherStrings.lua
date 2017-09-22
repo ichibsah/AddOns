@@ -5,7 +5,7 @@
 
 	AddOn: Gatherer
 	Revision: $Id: GatherStrings.lua 1166 2016-10-24 04:00:08Z LocalizerAutoCommit $
-	Version: 7.0.5 (<%codename%>)
+	Version: 7.3.1 (<%codename%>)
 
 	License:
 		This program is free software; you can redistribute it and/or

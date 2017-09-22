@@ -1,4 +1,4 @@
--- $Id: EJLoot.lua 272 2017-06-30 08:21:04Z arith $
+-- $Id: EJLoot.lua 295 2017-09-19 13:11:08Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -215,7 +215,7 @@ function Atlas_EncounterJournal_OnShow(self)
 	MicroButtonPulseStop(EJMicroButton);
 
 	UpdateMicroButtons();
-	PlaySound(PlaySoundKitID and "igCharacterInfoOpen" or 839);
+	PlaySound(839);
 	Atlas_EncounterJournal_LootUpdate();
 	Atlas_EncounterJournal_UpdateDifficulty();
 	--L_UIDropDownMenu_Initialize(self.lootScroll.lootFilter, Atlas_EncounterJournal_InitLootFilter, "MENU");

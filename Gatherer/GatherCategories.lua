@@ -1,8 +1,8 @@
 ﻿--[[
 	Gatherable Nodes, type groupings definitions
 	Gatherer Addon for World of Warcraft(tm).
-	Version: 7.0.5 (<%codename%>)
-	Revision: $Id: GatherCategories.lua 1147 2016-08-18 00:05:59Z ccox $
+	Version: 7.3.1 (<%codename%>)
+	Revision: $Id: GatherCategories.lua 1182 2017-09-19 15:59:33Z dinesh $
 
 	License:
 		This program is free software; you can redistribute it and/or
@@ -106,7 +106,10 @@ ObjectCategories = {
 	[241743] = "ORE_FELSLATE", -- Felslate Deposit
 	[245325] = "ORE_RFELSLATE", -- Rich Felslate Deposit
 	[255344] = "ORE_SEAMFELSLATE", -- Felslate Seam
-	
+	[272768] = "ORE_EMPYRIUM",  -- Empyrium Deposit
+	[272778] = "ORE_REMPYRIUM",  -- Rich Empyrium Deposit
+	[272780] = "ORE_SEAMEMPYRIUM",  -- Empyrium Seam
+
 	-- Herbs
 	[1617] = "HERB_SILVERLEAF", -- Silverleaf
 	[1618] = "HERB_PEACEBLOOM", -- Peacebloom
@@ -181,6 +184,9 @@ ObjectCategories = {
 	[241641] = "HERB_FOXFLOWER", -- Foxflower
 	[244777] = "HERB_FJARNSKAGGL", -- Fjarnskaggl
 	[244778] = "HERB_STARLIGHTROSE", -- Starlight Rose
+	[269278] = "HERB_FELENCRUSTEDHERB", -- Fel-encrusted Herb (Broken Shores)
+	[269887] = "HERB_FELENCRUSTEDCLUSTER", -- Fel-encrusted Herb Cluster (Broken Shores)
+	[272782] = "HERB_ASTRALGLORY", -- Astral Glory
 
 	-- Treasure
 	[2039] = "TREASURE_CHEST", -- Hidden Strongbox
@@ -320,6 +326,9 @@ CategoryNames = {
 	["ORE_FELSLATE"] = 241743,  -- Felslate Deposit
 	["ORE_RFELSLATE"] = 245325,  -- Rich Felslate Deposit
 	["ORE_SEAMFELSLATE"] = 255344,  -- Felslate Seam
+	["ORE_EMPYRIUM"] = 272768,  -- Empyrium Deposit
+	["ORE_REMPYRIUM"] = 272778,  -- Rich Empyrium Deposit
+	["ORE_SEAMEMPYRIUM"] = 272780,  -- Empyrium Seam
 
 	-- Herbs
 	["HERB_BRIARTHORN"] = 1621, -- Briarthorn
@@ -395,6 +404,9 @@ CategoryNames = {
 	["HERB_FOXFLOWER"] = 241641,  -- Foxflower
 	["HERB_FJARNSKAGGL"] = 244777,  -- Fjarnskaggl
 	["HERB_STARLIGHTROSE"] = 244778,  -- Starlight Rose
+	["HERB_FELENCRUSTEDHERB"] = 269278,  -- Fel-encrusted Herb (Broken Shores)
+	["HERB_FELENCRUSTEDCLUSTER"] = 269887,  -- Fel-encrusted Herb Cluster (Broken Shores)
+	["HERB_ASTRALGLORY"] = 272782,  -- Astral Glory
 	
 	-- Treasure
 	["TREASURE_CHEST"] = TREASURE_CHEST,

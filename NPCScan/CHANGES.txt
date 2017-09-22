@@ -1,10 +1,40 @@
-tag a0d30a59d5d2f17127a28b93e8a940c11881cfc3 7.2.0.2
+tag 31840e25e2748a378d3c304550431c51202e030f 7.3.0.3
 Author:	James D. Callahan III <jcallahan@curse.com>
-Date:	Mon May 1 10:07:02 2017 -0500
+Date:	Wed Sep 20 22:39:02 2017 -0500
 
-commit c5b15225c85fcaefee6c31a67e2c9a1c2828696c
+commit 118fc1c33d076e1750e94fe68b09dfc2669b4b35
 Author: James D. Callahan III <jcallahan@curse.com>
-Date:   Fri Apr 28 10:19:30 2017 -0500
+Date:   Wed Sep 20 22:36:56 2017 -0500
 
-    Add missing factionGroup for Sergeant Curtis, Heggin Stonewhisker, Malgin Barleybrew, Digger Flameforge, Captain Gerogg Hammertoe, Jalinde Summerdrake, and Tamra Stormpike.
+    Add support for commandline search: /npcscan search - multi-word terms require enclosing quotes.
+
+commit 6a1cb7029fc0874d9673bc9c551e857d7bc291a3
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Wed Sep 20 22:35:20 2017 -0500
+
+    Simplify/clean up NPC search code.
+
+commit 42fb72de87c82be51f97db6badf521904739144f
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Wed Sep 20 22:34:19 2017 -0500
+
+    Dead code removal.
+
+commit f3444bd277826744676ec7edf5fc2cf4e2b9c5eb
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Wed Sep 20 22:34:03 2017 -0500
+
+    When typing /npcscan open a standalone NPCScan interface panel, instead of the default panel.
+
+commit 79b35c049aa05590674b0591a98bfabda7a248e6
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Wed Sep 20 19:42:56 2017 -0500
+
+    Update quest name for Kathaw the Savage.
+
+commit 1e044f5daf42e6757706acd26437e7d5a528472a
+Author: James D. Callahan III <jcallahan@curse.com>
+Date:   Wed Sep 20 19:40:54 2017 -0500
+
+    Minor cleanup of debug code.
 
