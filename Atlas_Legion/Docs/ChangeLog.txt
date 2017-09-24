@@ -1,10 +1,16 @@
-$Id: ChangeLog.txt 136 2017-08-30 14:29:38Z arith $
+$Id: ChangeLog.txt 138 2017-09-23 14:26:40Z arith $
 Atlas, a World of Warcraft instance map browser
 Copyright 2016 ~ 2017 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 ==============
 = Change Log =
 ==============
+
+v1.43.01 (Sep. 23, 2017)
+------------------------
+- Added The Seat of the Triumvirate
+- Localization update:
+  - Korean (netaras)
 
 v1.43.00 (Aug. 30, 2017)
 ------------------------

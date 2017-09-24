@@ -28,32 +28,22 @@ local L = AceLocale:NewLocale("Atlas_Legion", "koKR", false);
 if L then
 --Translation missing 
 -- L["Ancient Widow"] = ""
---Translation missing 
--- L["Arcanist Malrodi"] = ""
---Translation missing 
--- L["Archmage Galeorn"] = ""
---Translation missing 
--- L["Archmage Khadgar"] = ""
---Translation missing 
--- L["Archmage Leryda"] = ""
---Translation missing 
--- L["Arthfael"] = ""
---Translation missing 
--- L["Barnes"] = ""
---Translation missing 
--- L["Braxas the Fleshcarver"] = ""
---Translation missing 
--- L["Charred Bone Fragment"] = ""
+L["Arcanist Malrodi"] = "비전술사 말로디"
+L["Archmage Galeorn"] = "대마법사 갈레오른"
+L["Archmage Khadgar"] = "대마법사 카드가"
+L["Archmage Leryda"] = "대마법사 레리다"
+L["Arthfael"] = "아르스파엘"
+L["Barnes"] = "반즈"
+L["Braxas the Fleshcarver"] = "도륙자 브락사스"
+L["Charred Bone Fragment"] = "그을린 뼈 조각"
 --Translation missing 
 -- L["Crate of Corks"] = ""
 L["Dantalionax"] = "단탈리오낙스"
 --Translation missing 
 -- L["Dog-Eared Page"] = ""
---Translation missing 
--- L["Dread Captain Thedon"] = ""
+L["Dread Captain Thedon"] = "공포의 선장 테돈"
 L["Drelanim Whisperwind"] = "드렐라님 위스퍼윈드"
---Translation missing 
--- L["Earlnoc the Beastbreaker"] = ""
+L["Earlnoc the Beastbreaker"] = "야수살육자 얼노크"
 --Translation missing 
 -- L["Echoing Horn of the Damned"] = ""
 --Translation missing 
@@ -62,87 +52,60 @@ L["Drelanim Whisperwind"] = "드렐라님 위스퍼윈드"
 -- L["Fenryr's eastern spawn point"] = ""
 --Translation missing 
 -- L["Fenryr's western spawn point"] = ""
---Translation missing 
--- L["First Arcanist Thalyssra"] = ""
---Translation missing 
--- L["Flightmaster Volnath"] = ""
---Translation missing 
--- L["Gilded Guardian"] = ""
---Translation missing 
--- L["Gom Crabbar"] = ""
---Translation missing 
--- L["Grimoira"] = ""
+L["First Arcanist Thalyssra"] = "첫 번재 비전술사 탈리스라"
+L["Flightmaster Volnath"] = "비행 조련사 볼나스"
+L["Gilded Guardian"] = "금박 수호자"
+L["Gom Crabbar"] = "대게 고움"
+L["Grimoira"] = "그리모이라"
 --Translation missing 
 -- L["Hastily-Scrawled Page"] = ""
 --Translation missing 
 -- L["Ink-splattered Page"] = ""
---Translation missing 
--- L["Jaggen-Ra"] = ""
---Translation missing 
--- L["Kalyndras <Rook's Quartermaster>"] = ""
+L["Jaggen-Ra"] = "거북신"
+L["Kalyndras <Rook's Quartermaster>"] = "칼린드라스 <떼까마귀의 병참장교>"
 L["King Bjorn"] = "왕 비요른"
 L["King Haldor"] = "왕 할도르"
 L["King Ranulf"] = "왕 라눌프"
 L["King Tor"] = "왕 토르"
---Translation missing 
--- L["Koren"] = ""
---Translation missing 
--- L["Kraxa <Mother of Gnashers>"] = ""
---Translation missing 
--- L["Kudzilla"] = ""
---Translation missing 
--- L["Lady Velandras Ravencrest"] = ""
---Translation missing 
--- L["Lydia Accoste"] = ""
---Translation missing 
--- L["Ly'leth Lunastre"] = ""
---Translation missing 
--- L["Mage Darius"] = ""
+L["Koren"] = "코렌"
+L["Kraxa <Mother of Gnashers>"] = "크락사 <뾰족니악어 어미>"
+L["Kudzilla"] = "칡괴수"
+L["Lady Velandras Ravencrest"] = "여군주 벨란드라스 레이븐크레스트"
+L["Lydia Accoste"] = "리디아 아코스테"
+L["Ly'leth Lunastre"] = "라일레스 루나스트르"
+L["Mage Darius"] = "마법사 다리우스"
 L["Malfurion Stormrage"] = "말퓨리온 스톰레이지"
 --Translation missing 
 -- L["Medivh's Footlocker"] = ""
 L["Mushroom Merchant"] = "버섯 상인"
---Translation missing 
--- L["Mythana"] = ""
---Translation missing 
--- L["Nightmare Watcher"] = ""
+L["Mythana"] = "미타나"
+L["Nightmare Watcher"] = "악몽 감시자"
 L["Portal to Shal'Aran"] = "샬아란행 포탈"
---Translation missing 
--- L["Put a Cork in It"] = ""
---Translation missing 
--- L["Raga'yut"] = ""
---Translation missing 
--- L["Rage Rot"] = ""
---Translation missing 
--- L["Ragoul"] = ""
+L["Put a Cork in It"] = "코르크 마개의 용도"
+L["Raga'yut"] = "라가유트"
+L["Rage Rot"] = "분노의 부패자"
+L["Ragoul"] = "라고울"
 --Translation missing 
 -- L["Requires Skaggldrynk"] = ""
---Translation missing 
--- L["Shellmaw"] = ""
+L["Shellmaw"] = "껍질아귀"
 --Translation missing 
 -- L["Singed Page"] = ""
 --Translation missing 
 -- L["Sludge Face"] = ""
 --Translation missing 
 -- L["Soul Fragment"] = ""
---Translation missing 
--- L["Spiritwalker Ebonhorn"] = ""
---Translation missing 
--- L["Suramar Leyline Map"] = ""
+L["Spiritwalker Ebonhorn"] = "영혼방랑자 엘본혼"
+L["Suramar Leyline Map"] = "수라마르 지맥 지도"
 L["Teleport to Moonglade"] = "달숲으로 순간이동"
 L["Teleport to Tichondrius / Grand Magistrix Elisande"] = "티콘드리우스 / 대마법학자 엘리산드로 순간이동"
 --Translation missing 
 -- L["The Rat King"] = ""
 --Translation missing 
 -- L["Torn Page"] = ""
---Translation missing 
--- L["Ultanok"] = ""
---Translation missing 
--- L["Understone Lasher"] = ""
---Translation missing 
--- L["Velimar"] = ""
---Translation missing 
--- L["Volynd Stormbringer"] = ""
+L["Ultanok"] = "울타녹스"
+L["Understone Lasher"] = "아랫돌 난타자"
+L["Velimar"] = "벨리마르"
+L["Volynd Stormbringer"] = "폭풍인도자 볼린드"
 --Translation missing 
 -- L["Worn-Edged Page"] = ""
 

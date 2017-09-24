@@ -1,4 +1,4 @@
--- $Id: Data.lua 134 2017-07-19 09:56:33Z arith $
+-- $Id: Data.lua 138 2017-09-23 14:26:40Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -1226,6 +1226,21 @@ db.AtlasMaps = {
 		{ "Ahead of the Curve: Gul'dan", "ac=11195" },
 		{ "The Nighthold Guild Run", "ac=10868" },
 	},
+	TheSeatoftheTriumvirate = {
+		ZoneName = { BZ["The Seat of the Triumvirate"] },
+		Location = { BZ["Mac'Aree"] },
+		DungeonHeroicID = "1535",
+		DungeonMythicID = "1535",
+		--Acronym = "",
+		WorldMapID = "1178",
+		JournalInstanceID = "945",
+		Module = "Atlas_Legion",
+		{ BLUE.." A) "..ALC["Entrance"], 10001 },
+		{ WHIT.." 1) "..Atlas:GetBossName("Zuraal the Ascended", 1979), 1979 },
+		{ WHIT.." 1) "..Atlas:GetBossName("Saprish", 1980), 1980 },
+		{ WHIT.." 1) "..Atlas:GetBossName("Viceroy Nezhar", 1981), 1981 },
+		{ WHIT.." 1) "..Atlas:GetBossName("L'ura", 1982), 1982 },
+	},
 	TombofSargerasA = {
 		ZoneName = { BZ["Tomb of Sargeras"]..ALC["MapA"], BZ["Tomb of Sargeras"] },
 		Location = { BZ["Broken Shore"] },
@@ -1935,6 +1950,13 @@ db.AtlasMaps_NPC_DB = {
 	TheNightholdG = {
 		{ 10, 1737, 250, 251, 491, 346 }, -- Gul'dan
 	},
+	TheSeatoftheTriumvirate = {
+		{ "A", 10001,  52, 434 }, -- Entrance
+		{   1, 1979,  67, 368 }, -- Zuraal the Ascended
+		{   2, 1980, 117, 206 }, -- Saprish
+		{   3, 1981, 269, 100 }, -- Viceroy Nezhar
+		{   4, 1982, 338, 162 }, -- L'ura
+	},
 	TrialofValorA = { 
 		{ "A", 10101, 249, 39 }, -- Entrance
 		{   1, 10001, 291, 321 }, -- Hymdall
@@ -1992,7 +2014,7 @@ db.AssocDefaults = {
 	[BZ["Vault of the Wardens"]] = 		"VaultoftheWardensA",
 	[BZ["Trial of Valor"]] = 		"TrialofValorA",
 	[BZ["Karazhan"]] =			"ReturntoKarazhanEnt", -- not sure if we should use "Return to Karazhan"
-	[BZ["Cathedral of Eternal Night"]]	= "CathedralofEternalNightA",
+	[BZ["Cathedral of Eternal Night"]] = 	"CathedralofEternalNightA",
 }
 
 --[[
@@ -2231,6 +2253,7 @@ db.OutdoorZoneToAtlas = {
 	[BZ["Suramar"]] = 			"TheNightholdEnt",
 	[BZ["Deadwind Pass"]] = 		"ReturntoKarazhanEnt",
 	[BZ["Broken Shore"]] = 			"CathedralofEternalNightA",
+	[BZ["Mac'Aree"]] = 			"TheSeatoftheTriumvirate",
 }
 
 db.EntToInstMatches = {
@@ -2427,6 +2450,7 @@ db.DropDownLayouts = {
 			"MawofSoulsA",
 			"MawofSoulsB",
 			"NeltharionsLair",
+			"TheSeatoftheTriumvirate",
 			"VaultoftheWardensA",
 			"VaultoftheWardensB",
 			"VaultoftheWardensC",
@@ -2492,6 +2516,7 @@ db.DropDownLayouts = {
 			"ReturntoKarazhanG", 		-- Legion
 			"ReturntoKarazhanH", 		-- Legion
 			"ReturntoKarazhanI", 		-- Legion
+			"TheSeatoftheTriumvirate",
 			"VaultoftheWardensA",
 			"VaultoftheWardensB",
 			"VaultoftheWardensC",
@@ -2578,6 +2603,7 @@ db.DropDownLayouts = {
 			"ReturntoKarazhanG", 		-- Legion
 			"ReturntoKarazhanH", 		-- Legion
 			"ReturntoKarazhanI", 		-- Legion
+			"TheSeatoftheTriumvirate",
 			"TrialofValorA",
 			"TrialofValorB",
 			"TombofSargerasA",
@@ -2622,6 +2648,7 @@ db.DropDownLayouts = {
 			"ReturntoKarazhanG",		-- Legion
 			"ReturntoKarazhanH",		-- Legion
 			"ReturntoKarazhanI",		-- Legion
+			"TheSeatoftheTriumvirate",
 			"VaultoftheWardensA",		-- Legion
 			"VaultoftheWardensB",		-- Legion
 			"VaultoftheWardensC",		-- Legion
@@ -2729,6 +2756,7 @@ db.DropDownLayouts = {
 			"VaultoftheWardensA",		-- Legion
 			"VaultoftheWardensB",		-- Legion
 			"VaultoftheWardensC",		-- Legion
+			"TheSeatoftheTriumvirate",
 			"TrialofValorA",		-- Legion
 			"TrialofValorB",		-- Legion
 			"TombofSargerasA",		-- Legion

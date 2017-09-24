@@ -1,5 +1,27 @@
 Changes since tag 7.3.3
 
+commit 50df92750060f0a33bb557fc1b201a14d4f37642
+Author: subversion <svn@deadlybossmods.com>
+Date:   Sat Sep 23 08:47:36 2017 +0200
+
+    Omega via svn r16736:
+    Several fixes and updates to hounds encounter.
+    KR Update
+
+commit 50e3ff01c603c51f9b8e848f215773e4da473269
+Author: subversion <svn@deadlybossmods.com>
+Date:   Sat Sep 23 04:11:18 2017 +0200
+
+    Omega via svn r16735:
+    garothi update with a bit of refactoring and fixing
+
+commit 7a756d5fef72265d2d196f1dd25aa6794ad30c7b
+Author: subversion <svn@deadlybossmods.com>
+Date:   Fri Sep 22 22:47:09 2017 +0200
+
+    Omega via svn r16734:
+    Fix double log messages
+
 commit 1c2147c58416c2c586ee49d5f00de46cabd29a4b
 Author: subversion <svn@deadlybossmods.com>
 Date:   Fri Sep 22 04:14:29 2017 +0200

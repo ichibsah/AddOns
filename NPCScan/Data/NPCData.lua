@@ -2674,6 +2674,9 @@ local NPCData = {
 		questID = 42221, -- Chief Bitterbrine
 		vignetteName = "Chief Bitterbrine",
 	},
+	[107023] = { -- Nithogg
+		questID = 44508, -- Unknown
+	},
 	[107105] = { -- Broodmother Lizax
 		questID = 44670, -- Broodmother Lizax
 		vignetteName = "Broodmother Lizax",
@@ -2971,6 +2974,9 @@ local NPCData = {
 		vignetteName = "Llorian",
 	},
 	[113694] = { -- Pashya
+		isTameable = true,
+	},
+	[118244] = { -- Lightning Paw
 		isTameable = true,
 	},
 }
