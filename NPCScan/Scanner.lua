@@ -3,7 +3,6 @@
 -- ----------------------------------------------------------------------------
 -- Functions
 local pairs = _G.pairs
-local tostring = _G.tostring
 local time = _G.time
 
 -- Libraries
@@ -13,73 +12,44 @@ local table = _G.table
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
 local AddOnFolderName, private = ...
+local Data = private.Data
+local Enum = private.Enum
+local EventMessage = private.EventMessage
+
 
 local LibStub = _G.LibStub
-local NPCScan = LibStub("AceAddon-3.0"):GetAddon(AddOnFolderName)
-
-local HereBeDragons = LibStub("HereBeDragons-1.0")
+local HereBeDragons = LibStub("HereBeDragons-2.0")
 local LibSharedMedia = LibStub("LibSharedMedia-3.0")
-
--- ----------------------------------------------------------------------------
--- Constants.
--- ----------------------------------------------------------------------------
-local npcScanList = {}
-
--- ----------------------------------------------------------------------------
--- Variables.
--- ----------------------------------------------------------------------------
-local currentContinentID
-local currentMapID
+local NPCScan = LibStub("AceAddon-3.0"):GetAddon(AddOnFolderName)
 
 -- ----------------------------------------------------------------------------
 -- Helpers.
 -- ----------------------------------------------------------------------------
--- These functions are used for situations where an npcID needs to be removed from the npcScanList while iterating it.
-local QueueNPCForUntracking, UntrackQueuedNPCs
-do
-	local npcRemoveList = {}
-
-	function QueueNPCForUntracking(npcID)
-		npcRemoveList[#npcRemoveList + 1] = npcID
-	end
-
-	function UntrackQueuedNPCs()
-		for index = 1, #npcRemoveList do
-			local npcID = npcRemoveList[index]
-
-			npcScanList[npcID] = nil
-			private.Overlays.Remove(npcID)
-		end
-
-		table.wipe(npcRemoveList)
-	end
-end
-
 local ProcessDetection
 do
 	local throttledNPCs = {}
 
-	function ProcessDetection(data)
-		local npcID = data.npcID
+	function ProcessDetection(detectionData)
+		local npcID = detectionData.npcID
 		local profile = private.db.profile
 		local detection = profile.detection
 		local throttleTime = throttledNPCs[npcID]
 		local now = time()
 
-		if not npcScanList[npcID] or (throttleTime and now < throttleTime + detection.intervalSeconds) or (not detection.whileOnTaxi and _G.UnitOnTaxi("player")) then
+		if not Data.Scanner.NPCs[npcID] or (throttleTime and now < throttleTime + detection.intervalSeconds) or (not detection.whileOnTaxi and _G.UnitOnTaxi("player")) then
 			return
 		end
 
 		throttledNPCs[npcID] = now
 
-		data.npcName = data.npcName or NPCScan:GetNPCNameFromID(npcID)
-		data.unitClassification = data.unitClassification or "rare"
+		detectionData.npcName = detectionData.npcName or NPCScan:GetNPCNameFromID(npcID)
+		detectionData.unitClassification = detectionData.unitClassification or "rare"
 
-		NPCScan:Pour(_G.ERR_ZONE_EXPLORED:format(("%s %s"):format(data.npcName, _G.PARENS_TEMPLATE:format(data.sourceText))), 0, 1, 0)
+		NPCScan:Pour(_G.ERR_ZONE_EXPLORED:format(("%s %s"):format(detectionData.npcName, _G.PARENS_TEMPLATE:format(detectionData.sourceText))), 0, 1, 0)
 		NPCScan:DispatchSensoryCues()
-		NPCScan:SendMessage("NPCScan_DetectedNPC", data)
+		NPCScan:SendMessage(EventMessage.DetectedNPC, detectionData)
 
-		-- TODO: Make the Overlays object listen for the NPCScan_DetectedNPC message and run its own methods
+		-- TODO: Make the Overlays object listen for the DetectedNPC message and run its own methods
 		private.Overlays.Found(npcID)
 		private.Overlays.Remove(npcID)
 	end
@@ -112,7 +82,7 @@ local function ProcessUnit(unitToken, sourceText)
 
 		ProcessDetection(detectionData)
 
-		NPCScan:SendMessage("NPCScan_UnitInformationAvailable", detectionData)
+		NPCScan:SendMessage(EventMessage.UnitInformationAvailable, detectionData)
 	end
 end
 
@@ -124,42 +94,44 @@ local function CanAddToScanList(npcID)
 		return false
 	end
 
-	local npcData = private.NPCData[npcID]
-	if npcData then
-		if npcData.factionGroup == private.PlayerFactionGroup then
-			private.Debug("Skipping %s (%d) - same faction group.", NPCScan:GetNPCNameFromID(npcID), npcID)
+	local npc = Data.NPCs[npcID]
+
+	-- This is a custom NPC addition; no further processing is possible.
+	if not npc then
+		return true
+	end
+
+	if npc.factionGroup == _G.UnitFactionGroup("player") then
+		return false
+	end
+
+	local isTameable = npc.isTameable
+	local detection = profile.detection
+
+	if isTameable and not detection.tameables then
+		return false
+	end
+
+	if not isTameable and not detection.rares then
+		return false
+	end
+
+	if npc:HasQuest() then
+		if not npc:IsQuestComplete() then
+			return true
+		elseif detection.ignoreCompletedQuestObjectives then
+			return false
+		end
+	end
+
+	local achievementID = npc.achievementID
+
+	if achievementID then
+		if detection.achievementIDs[achievementID] == Enum.DetectionGroupStatus.Disabled then
 			return false
 		end
 
-		local isTameable = npcData.isTameable
-		local detection = profile.detection
-
-		if isTameable and not detection.tameables then
-			private.Debug("Skipping %s (%d) - not tracking tameables.", NPCScan:GetNPCNameFromID(npcID), npcID)
-			return false
-		end
-
-		if not isTameable and not detection.rares then
-			private.Debug("Skipping %s (%d) - not tracking rares.", NPCScan:GetNPCNameFromID(npcID), npcID)
-			return false
-		end
-
-
-		local achievementID = npcData.achievementID
-		if achievementID then
-			if detection.achievementIDs[achievementID] == private.DetectionGroupStatus.Disabled then
-				private.Debug("Skipping %s (%d) - not tracking the achievement.", NPCScan:GetNPCNameFromID(npcID), npcID)
-				return false
-			end
-
-			if detection.ignoreCompletedAchievementCriteria and (private.AchievementData[achievementID].isCompleted or npcData.isCriteriaCompleted) then
-				private.Debug("Skipping %s (%d) - criteria already met or achievement completed.", NPCScan:GetNPCNameFromID(npcID), npcID)
-				return false
-			end
-		end
-
-		if detection.ignoreCompletedQuestObjectives and private.IsNPCQuestComplete(npcID) then
-			private.Debug("Skipping %s (%d) - already killed.", NPCScan:GetNPCNameFromID(npcID), npcID)
+		if detection.ignoreCompletedAchievementCriteria and npc:IsAchievementCriteriaComplete() then
 			return false
 		end
 	end
@@ -170,32 +142,28 @@ end
 local function MergeUserDefinedWithScanList(npcList)
 	if npcList and private.db.profile.detection.userDefined then
 		for npcID in pairs(npcList) do
-			npcScanList[npcID] = true
+			Data.Scanner.NPCs[npcID] = _G.setmetatable({}, private.NPCMetatable)
 		end
 	end
 end
 
-function NPCScan:UpdateScanList(eventName, mapID)
-	if mapID then
-		currentMapID = mapID
-		private.currentMapID = currentMapID
+function NPCScan:UpdateScanList(_, mapID)
+	local scannerData = Data.Scanner
+	mapID = mapID or HereBeDragons:GetPlayerZone()
 
-		currentContinentID = HereBeDragons:GetCZFromMapID(mapID)
-		private.currentContinentID = currentContinentID
-	end
-
-	if not currentMapID and currentContinentID then
-		private.Debug("No mapID or no continentID.")
+	if not mapID or mapID < 0 then
 		return
 	end
 
-	private.Debug("currentMapID: %d currentContinentID: %d", currentMapID, currentContinentID)
+	scannerData.mapID = mapID
+	scannerData.continentID = Data.Maps[mapID].continentID
 
-	for npcID in pairs(npcScanList) do
+	for npcID in pairs(scannerData.NPCs) do
 		private.Overlays.Remove(npcID)
 	end
 
-	table.wipe(npcScanList)
+	table.wipe(scannerData.NPCs)
+	scannerData.NPCCount = 0
 
 	local profile = private.db.profile
 	local userDefined = profile.userDefined
@@ -203,76 +171,91 @@ function NPCScan:UpdateScanList(eventName, mapID)
 	-- No zone or continent specified, so always look for these.
 	MergeUserDefinedWithScanList(userDefined.npcIDs)
 
-	if profile.blacklist.mapIDs[currentMapID] or profile.detection.continentIDs[currentContinentID] == private.DetectionGroupStatus.Disabled then
+	if profile.blacklist.mapIDs[scannerData.mapID] or profile.detection.continentIDs[scannerData.continentID] == Enum.DetectionGroupStatus.Disabled then
 		private.Debug("continentID or mapID is blacklisted; terminating update.")
-		_G.NPCScan_SearchMacroButton:ResetMacroText()
+		self:SendMessage(EventMessage.ScannerDataUpdated, scannerData)
+
 		return
 	end
 
-	local npcList = private.MapNPCs[currentMapID]
+	local zoneNPCCount = 0
+	local npcList = Data.Maps[scannerData.mapID].NPCs
+
 	if npcList then
 		for npcID in pairs(npcList) do
 			if CanAddToScanList(npcID) then
-				npcScanList[npcID] = true
+				zoneNPCCount = zoneNPCCount + 1;
+				scannerData.NPCs[npcID] = Data.NPCs[npcID]
+
 				private.Overlays.Add(npcID)
 			end
 		end
+
+		scannerData.NPCCount = zoneNPCCount
 	end
 
-	MergeUserDefinedWithScanList(userDefined.continentNPCs[currentContinentID])
-	MergeUserDefinedWithScanList(userDefined.mapNPCs[currentMapID])
+	MergeUserDefinedWithScanList(userDefined.continentNPCs[scannerData.continentID])
+	MergeUserDefinedWithScanList(userDefined.mapNPCs[scannerData.mapID])
 
-	_G.NPCScan_SearchMacroButton:UpdateMacroText(npcScanList)
+	self:SendMessage(EventMessage.ScannerDataUpdated, scannerData)
 end
 
 -- ----------------------------------------------------------------------------
 -- Events.
 -- ----------------------------------------------------------------------------
 local function UpdateScanListAchievementCriteria()
-	for npcID in pairs(npcScanList) do
-		local npcData = private.NPCData[npcID]
+	local needsUpdate = false
 
-		if npcData and npcData.achievementID and npcData.achievementCriteriaID and not npcData.isCriteriaCompleted then
-			local _, _, isCompleted = _G.GetAchievementCriteriaInfoByID(npcData.achievementID, npcData.achievementCriteriaID)
+	for _, npc in pairs(Data.Scanner.NPCs) do
+		if npc.achievementID and npc.achievementCriteriaID and not npc:IsAchievementCriteriaComplete() then
+			local _, _, isCompleted = _G.GetAchievementCriteriaInfoByID(npc.achievementID, npc.achievementCriteriaID)
 
 			if isCompleted then
-				npcData.isCriteriaCompleted = isCompleted
+				npc.isCriteriaCompleted = isCompleted
 
 				private.GetOrUpdateNPCOptions()
 
 				if private.db.profile.detection.ignoreCompletedAchievementCriteria then
-					QueueNPCForUntracking(npcID)
+					needsUpdate = true
 				end
 			end
 		end
 	end
 
-	UntrackQueuedNPCs()
+	if needsUpdate then
+		NPCScan:UpdateScanList()
+	end
 end
 
 private.UpdateScanListAchievementCriteria = UpdateScanListAchievementCriteria
 
 local function UpdateScanListQuestObjectives()
+	local needsUpdate = false
+
 	if private.db.profile.detection.ignoreCompletedQuestObjectives then
-		for npcID in pairs(npcScanList) do
-			if private.IsNPCQuestComplete(npcID) then
-				QueueNPCForUntracking(npcID)
+		local NPCs = Data.Scanner.NPCs
+
+		for npcID in pairs(NPCs) do
+			if NPCs[npcID]:IsQuestComplete() then
+				needsUpdate = true
 			end
 		end
 
-		UntrackQueuedNPCs()
+		if needsUpdate then
+			NPCScan:UpdateScanList()
+		end
 	end
 end
 
 private.UpdateScanListQuestObjectives = UpdateScanListQuestObjectives
 
 function NPCScan:ACHIEVEMENT_EARNED(_, achievementID)
-	if private.AchievementData[achievementID] then
-		private.AchievementData[achievementID].isCompleted = true
+	if Data.Achievements[achievementID] then
+		Data.Achievements[achievementID].isCompleted = true
 
 		if private.db.profile.detection.ignoreCompletedAchievementCriteria then
 			-- Disable tracking for the achievement, since the above setting implies it.
-			private.db.profile.detection.achievementIDs[achievementID] = private.DetectionGroupStatus.Disabled
+			private.db.profile.detection.achievementIDs[achievementID] = Enum.DetectionGroupStatus.Disabled
 		end
 
 		UpdateScanListAchievementCriteria()
@@ -288,11 +271,15 @@ function NPCScan:LOOT_CLOSED()
 	UpdateScanListQuestObjectives()
 end
 
-function NPCScan:NAME_PLATE_UNIT_ADDED(eventName, unitToken)
+function NPCScan:NAME_PLATE_UNIT_ADDED(_, unitToken)
 	ProcessUnit(unitToken, _G.UNIT_NAMEPLATES)
 end
 
-function NPCScan:PLAYER_TARGET_CHANGED(eventName)
+function NPCScan:PLAYER_ENTERING_WORLD()
+	self:UpdateScanList("PLAYER_ENTERING_WORLD", _G.C_Map.GetBestMapForUnit("player"))
+end
+
+function NPCScan:PLAYER_TARGET_CHANGED()
 	ProcessUnit("target", _G.TARGET)
 end
 
@@ -305,64 +292,117 @@ function NPCScan:UPDATE_MOUSEOVER_UNIT()
 end
 
 do
-	local function ProcessQuestDetection(questID, sourceText)
-		for npcID in pairs(private.QuestNPCs[questID]) do
+	local VignetteSourceToPreference = {
+		[_G.MINIMAP_LABEL] = "ignoreMiniMap",
+		[_G.WORLD_MAP] = "ignoreWorldMap",
+	}
+
+	local IgnoredVignetteAtlasName = {
+		VignetteLoot = true,
+		VignetteLootElite = true,
+	}
+
+	local function IsIgnoringSource(sourceText)
+		return private.db.profile.detection[VignetteSourceToPreference[sourceText]]
+	end
+
+	local function ProcessVignetteGUID(vignetteGUID)
+		if not vignetteGUID then
+			return
+		end
+
+		local vignetteInfo = _G.C_VignetteInfo.GetVignetteInfo(vignetteGUID);
+
+		if not vignetteInfo or IgnoredVignetteAtlasName[vignetteInfo.atlasName] then
+			return
+		end
+
+		local sourceText = vignetteInfo.onWorldMap and _G.WORLD_MAP or _G.MINIMAP_LABEL
+
+		if IsIgnoringSource(sourceText) then
+			return
+		end
+
+		local vignetteName = vignetteInfo.name
+		local vignetteNPCs = private.VignetteIDToNPCMapping[vignetteInfo.vignetteID]
+
+		local npcID = private.GUIDToCreatureID(vignetteInfo.objectGUID)
+
+		if vignetteNPCs then
+			for index = 1, #vignetteNPCs do
+				local vignetteNPC = vignetteNPCs[index]
+				local npc = Data.Scanner.NPCs[vignetteNPC.npcID]
+
+				if npc then
+					ProcessDetection({
+						npcID = vignetteNPC.npcID,
+						sourceText = sourceText,
+						unitClassification = npc.classification,
+						vignetteName = vignetteName,
+					})
+				end
+			end
+
+			return
+		else
+			private.Debug("Unknown vignette: %s - vignetteID %d (NPC ID %d) in mapID %d", vignetteInfo.name, vignetteInfo.vignetteID, npcID or -1, _G.C_Map.GetBestMapForUnit("player"))
+		end
+
+		local npc = npcID and Data.Scanner.NPCs[npcID] or nil
+
+		-- The objectGUID can be but isn't always an NPC ID, since some NPCs must be summoned from the vignette object.
+		if npc then
 			ProcessDetection({
 				npcID = npcID,
-				sourceText = sourceText
+				sourceText = sourceText,
+				unitClassification = npc.classification,
+				vignetteName = vignetteName,
 			})
-		end
-	end
 
-	local function ProcessVignetteNameDetection(vignetteName, sourceText)
-		for npcID in pairs(private.VignetteNPCs[vignetteName]) do
-			if npcScanList[npcID] then
-				ProcessDetection({
-					npcID = npcID,
-					sourceText = sourceText
-				})
-			end
-		end
-	end
-
-	local function ProcessVignette(vignetteName, sourceText)
-		if private.VignetteNPCs[vignetteName] then
-			ProcessVignetteNameDetection(vignetteName, sourceText)
-			return true
+			return
 		end
 
 		local questID = private.QuestIDFromName[vignetteName]
+
 		if questID then
-			ProcessQuestDetection(questID, sourceText)
-			return true
+			for questNPCID, questNPC in pairs(private.QuestNPCs[questID]) do
+				ProcessDetection({
+					npcID = questNPCID,
+					sourceText = sourceText,
+					unitClassification = questNPC.classification,
+					vignetteName = vignetteName,
+				})
+			end
+
+			return
+		elseif sourceText == _G.WORLD_MAP then
+			return
 		end
 
-		local npcID = private.NPCIDFromName[vignetteName]
-		if npcID then
+		npcID = private.NPCIDFromName[vignetteName]
+		npc = npcID and Data.Scanner.NPCs[npcID] or nil
+
+		if npc then
 			ProcessDetection({
 				npcID = npcID,
-				sourceText = sourceText
+				sourceText = sourceText,
+				unitClassification = npc.classification,
+				vignetteName = vignetteName,
 			})
 
-			return true
-		end
-
-		return false
-	end
-
-	function NPCScan:VIGNETTE_ADDED(eventName, instanceID)
-		local x, y, vignetteName, iconID = _G.C_Vignettes.GetVignetteInfoFromInstanceID(instanceID)
-
-		if not ProcessVignette(vignetteName, _G.MINIMAP_LABEL) then
-			private.Debug("Unknown vignette: %s with iconID %s", vignetteName or _G.UNKNOWN, tostring(iconID))
+			return
 		end
 	end
 
-	function NPCScan:WORLD_MAP_UPDATE()
-		for landmarkIndex = 1, _G.GetNumMapLandmarks() do
-			local landmarkType, landmarkName = C_WorldMap.GetMapLandmarkInfo(landmarkIndex)
+	function NPCScan:VIGNETTE_MINIMAP_UPDATED(_, vignetteGUID)
+		ProcessVignetteGUID(vignetteGUID)
+	end
 
-			ProcessVignette(landmarkName, _G.WORLD_MAP)
+	function NPCScan:VIGNETTES_UPDATED()
+		local vignetteGUIDs = _G.C_VignetteInfo.GetVignettes()
+
+		for index = 1, #vignetteGUIDs do
+			ProcessVignetteGUID(vignetteGUIDs[index])
 		end
 	end
 end -- do-block
@@ -463,7 +503,7 @@ do
 		private.PlayAlertSounds = PlayAlertSounds
 	end
 
-	function NPCScan:DispatchSensoryCues(eventName)
+	function NPCScan:DispatchSensoryCues()
 		local alert = private.db.profile.alert
 		local now = time()
 

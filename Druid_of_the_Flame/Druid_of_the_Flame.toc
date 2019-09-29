@@ -1,8 +1,0 @@
-## Interface: 60000
-## Title: Druid of the Flame
-## Notes: makes you all flamey!
-## Author: Wildfire
-## Version: 6.0.0.1
-
-
-Druid_of_the_Flame.lua

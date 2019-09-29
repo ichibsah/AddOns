@@ -1,8 +1,0 @@
-## Interface: 70000
-## Title: GuildRosterButtons
-## Notes: Changes the Guild Roster drop down menu into buttons.
-## Author: Suicidal Katt
-## Version: 5.0
-## SavedVariablesPerChar: GRB_DB
-
-GuildRosterButtons.lua

@@ -3,6 +3,29 @@ local PlayerMana = IceCore_CreateClass(IceUnitBar)
 
 local IceHUD = _G.IceHUD
 
+local SPELL_POWER_MANA = SPELL_POWER_MANA
+local SPELL_POWER_RAGE = SPELL_POWER_RAGE
+local SPELL_POWER_FOCUS = SPELL_POWER_FOCUS
+local SPELL_POWER_ENERGY = SPELL_POWER_ENERGY
+local SPELL_POWER_RUNIC_POWER = SPELL_POWER_RUNIC_POWER
+local SPELL_POWER_INSANITY = SPELL_POWER_INSANITY
+local SPELL_POWER_FURY = SPELL_POWER_FURY
+local SPELL_POWER_MAELSTROM = SPELL_POWER_MAELSTROM
+local SPELL_POWER_PAIN = SPELL_POWER_PAIN
+local SPELL_POWER_LUNAR_POWER = SPELL_POWER_LUNAR_POWER
+if IceHUD.WowVer >= 80000 or IceHUD.WowClassic then
+	SPELL_POWER_MANA = Enum.PowerType.Mana
+	SPELL_POWER_RAGE = Enum.PowerType.Rage
+	SPELL_POWER_FOCUS = Enum.PowerType.Focus
+	SPELL_POWER_ENERGY = Enum.PowerType.Energy
+	SPELL_POWER_RUNIC_POWER = Enum.PowerType.RunicPower
+	SPELL_POWER_INSANITY = Enum.PowerType.Insanity
+	SPELL_POWER_FURY = Enum.PowerType.Fury
+	SPELL_POWER_MAELSTROM = Enum.PowerType.Maelstrom
+	SPELL_POWER_PAIN = Enum.PowerType.Pain
+	SPELL_POWER_LUNAR_POWER = Enum.PowerType.LunarPower
+end
+
 PlayerMana.prototype.manaType = nil
 PlayerMana.prototype.tickStart = nil
 PlayerMana.prototype.previousEnergy = nil
@@ -18,9 +41,9 @@ function PlayerMana.prototype:init()
 	self:SetDefaultColor("PlayerRunicPower", 62, 54, 152)
 	if IceHUD.WowVer >= 70000 then
 		self:SetDefaultColor("PlayerInsanity", 150, 50, 255)
-		self:SetDefaultColor("PlayerFury", 255, 50, 255)
+		self:SetDefaultColor("PlayerFury", 201, 66, 253)
 		self:SetDefaultColor("PlayerMaelstrom", 62, 54, 152)
-		self:SetDefaultColor("PlayerPain", 255, 50, 255)
+		self:SetDefaultColor("PlayerPain", 255, 156, 0)
 	end
 end
 
@@ -130,9 +153,11 @@ function PlayerMana.prototype:Enable(core)
 
 	self:CreateTickerFrame()
 
-	if IceHUD.WowVer >= 40000 then
-		self:RegisterEvent("UNIT_POWER", "UpdateEvent")
-		self:RegisterEvent("UNIT_MAXPOWER", "UpdateEvent")
+	if IceHUD.WowVer >= 40000 or IceHUD.WowClassic then
+		self:RegisterEvent(IceHUD.UnitPowerEvent, "UpdateEvent")
+		if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+			self:RegisterEvent("UNIT_MAXPOWER", "UpdateEvent")
+		end
 	else
 		self:RegisterEvent("UNIT_MAXMANA", "UpdateEvent")
 		self:RegisterEvent("UNIT_MAXRAGE", "UpdateEvent")
@@ -145,8 +170,10 @@ function PlayerMana.prototype:Enable(core)
 		self:RegisterEvent("UNIT_RUNIC_POWER", "UpdateEvent")
 	end
 
-	self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
-	self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
+	if UnitHasVehicleUI then
+		self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
+		self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
+	end
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringWorld")
 
 	if not self.CustomOnUpdate then
@@ -166,10 +193,12 @@ function PlayerMana.prototype:EnteringWorld()
 end
 
 function PlayerMana.prototype:CheckVehicle()
-	if UnitHasVehicleUI("player") then
-		self:EnteringVehicle(nil, "player", true)
-	else
-		self:ExitingVehicle(nil, "player")
+	if UnitHasVehicleUI then
+		if UnitHasVehicleUI("player") then
+			self:EnteringVehicle(nil, "player", true)
+		else
+			self:ExitingVehicle(nil, "player")
+		end
 	end
 end
 
@@ -269,6 +298,14 @@ function PlayerMana.prototype:TreatEmptyAsFull()
 	return self.manaType == SPELL_POWER_RAGE or self.manaType == SPELL_POWER_RUNIC_POWER
 		or (IceHUD.WowVer >= 70000 and (self.manaType == SPELL_POWER_LUNAR_POWER or self.manaType == SPELL_POWER_INSANITY
 		or self.manaType == SPELL_POWER_FURY or self.manaType == SPELL_POWER_PAIN or self.manaType == SPELL_POWER_MAELSTROM))
+end
+
+function PlayerMana.prototype:IsFull(scale)
+	if IceHUD.WowVer >= 80000 and self.manaType == SPELL_POWER_LUNAR_POWER and IsPlayerSpell(202430) then
+		return scale - 0.5 >= 0
+	end
+
+	return PlayerMana.super.prototype.IsFull(self, scale)
 end
 
 function PlayerMana.prototype:UpdateEvent(event, unit, powertype)
@@ -382,16 +419,16 @@ function PlayerMana.prototype:UpdateEnergy(event, unit)
 		return
 	end
 
-	self.previousEnergy = UnitPower(self.unit, UnitPowerType(self.unit))
-	if IceHUD.WowVer < 40000 then
-		self:Update(unit)
-	end
-
 	if self:ShouldUseTicker() and
-		((not (self.previousEnergy) or (self.previousEnergy <= UnitPower(self.unit, UnitPowerType(self.unit)))) and
+		((not (self.previousEnergy) or (self.previousEnergy < UnitPower(self.unit, UnitPowerType(self.unit)))) and
 		(self.moduleSettings.tickerEnabled) and self.manaType == SPELL_POWER_ENERGY) then
 			self.tickStart = GetTime()
 			self.tickerFrame:Show()
+	end
+
+	self.previousEnergy = UnitPower(self.unit, UnitPowerType(self.unit))
+	if IceHUD.WowVer < 40000 then
+		self:Update(unit)
 	end
 end
 

@@ -2,7 +2,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("IceHUD", false)
 IceTargetInfo = IceCore_CreateClass(IceElement)
 
 local CooldownFrame_SetTimer = CooldownFrame_SetTimer
-if IceHUD.WowVer >= 70000 then
+if CooldownFrame_Set then
 	CooldownFrame_SetTimer = CooldownFrame_Set
 end
 
@@ -11,6 +11,10 @@ local DogTag = nil
 local internal = "internal"
 
 local ValidAnchors = { "TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "CENTER" }
+
+---- Fulzamoth - 2019-09-04 : support for cooldowns on target buffs/debuffs (classic)
+local LibClassicDurations = LibStub("LibClassicDurations", 1)
+---- end change by Fulzamoth
 
 IceTargetInfo.prototype.unit = "target"
 
@@ -129,7 +133,9 @@ function IceTargetInfo.prototype:Enable(core)
 	self:RegisterEvent("UNIT_LEVEL", "TargetLevel")
 
 	self:RegisterEvent("UNIT_FLAGS", "TargetFlags")
-	self:RegisterEvent("UNIT_DYNAMIC_FLAGS", "TargetFlags")
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		self:RegisterEvent("UNIT_DYNAMIC_FLAGS", "TargetFlags")
+	end
 
 	self:RegisterEvent("RAID_TARGET_UPDATE", "UpdateRaidTargetIcon")
 
@@ -1407,7 +1413,29 @@ function IceTargetInfo.prototype:UpdateBuffType(aura)
 
 	if self.moduleSettings.auras[aura].show then
 		for i = 1, IceCore.BuffLimit do
-			local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(self.unit, i, reaction .. (filter and "|PLAYER" or ""))
+			local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable
+
+			---- Fulzamoth - 2019-09-04 : support for cooldowns on target buffs/debuffs (classic)
+			local spellID
+			---- end change by Fulzamoth
+
+			if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+				name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(self.unit, i, reaction .. (filter and "|PLAYER" or ""))
+			else
+				---- Fulzamoth - 2019-09-04 : support for cooldowns on target buffs/debuffs (classic)
+				-- 1. in addition to other info, get the spellID for for the (de)buff
+				name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, _, spellID = UnitAura(self.unit, i, reaction .. (filter and "|PLAYER" or ""))
+				if duration == 0 and LibClassicDurations then
+					-- 2. if no duration defined for the (de)buff, look up the spell in LibClassicDurations
+					local classicDuration, classicExpirationTime = LibClassicDurations:GetAuraDurationByUnit(self.unit, spellID, caster)
+					-- 3. set the duration if we found one.
+					if classicDuration then
+						duration = classicDuration
+						expirationTime = classicExpirationTime
+					end
+				end
+				---- end change by Fulzamoth
+			end
 			local isFromMe = (unitCaster == "player")
 
 			if not icon and IceHUD.IceCore:IsInConfigMode() and UnitExists(self.unit) then
@@ -1577,7 +1605,7 @@ function IceTargetInfo.prototype:TargetName(event, unit)
 		end
 
 
-		if IceHUD.WowVer < 50000 then
+		if UnitIsPartyLeader then
 			self.leader = UnitIsPartyLeader(self.unit) and " |cffcccc11Leader|r" or ""
 		else
 			self.leader = UnitIsGroupLeader(self.unit) and " |cffcccc11Leader|r" or ""
@@ -1648,7 +1676,7 @@ end
 
 function IceTargetInfo.prototype:TargetFlags(event, unit)
 	if (unit == self.unit or unit == internal) then
-		if IceHUD.WowVer < 70000 then
+		if UnitIsTapped then
 			self.tapped = UnitIsTapped(self.unit) and (not UnitIsTappedByPlayer(self.unit))
 		else
 			self.tapped = UnitIsTapDenied(self.unit)

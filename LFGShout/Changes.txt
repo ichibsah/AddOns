@@ -1,0 +1,103 @@
+== LFG Shout ==
+== Add-on Change Log ==
+===Version 2.04===
+# Updated TOC - Legion
+=== Version 2.00 ===
+
+# Updated TOC (Draenor)
+# Added Draenor Instances
+# Fixed  Null Bug
+# Fixed matching but in Draenor
+
+=== Version 1.91 ===
+
+# Updated TOC
+
+=== Version 1.9 ===
+
+# Updated TOC
+# Added missing scenarios
+# Added 5.2 raids.
+# Added pandaria world bosses
+
+=== Version 1.8 ===
+
+# Added missing Dragon Soul detection.
+# Added detection for all new Pandaria instances and raids.
+
+=== Version 1.7 ===
+
+# Updated TOC
+=== Version 1.6 ===
+
+# Updated TOC
+# Corrected US Eng Lang error
+# Added RDPS and MDPS to Eng Lang
+
+=== Version 1.52 ===
+
+# Updated TOC
+# Added Heroic ZA and ZG to standard instance list
+
+=== Version 1.5 ===
+
+# Added Class and iLvl macro text for adverts.
+# Fixed: Only generates trade link (and therefore uses trade window) when required.
+# fixed : Wisper windows not shows instead of error :)
+
+=== Version 1.5 ===
+
+# Added Cataclysm dungeons/raids to filters.
+# Added ability to create and post adverts (only allowed once every 1 minutes).
+
+=== Version 1.4 ===
+
+# Cataclysm ready, fixed event management bugs.
+
+=== Version 1.3 ===
+
+# Added message broacasting to other server players (configurable).
+# Added lags controls (i.e. messages are not broadcast or processed during combat)
+# Added Statistics function in options to display messages processed, etc
+
+=== Version 1.2 ===
+
+# Option to filter out LFG (instance and quest)
+# Added option to enable/disable announcement text to error/alert frame
+# added clear list (Options)
+# added custom white list and black list filters
+
+
+
+=== Version 1.1 ===
+
+# Added guild advert detection and optional filtering
+# added black-list words to filter out gold vendor spam.
+# added new message functionality
+** Displays count of new/changed messages
+** New messages are highlighted in the menu.
+
+=== Version 1.0 ===
+
+# Fixed achievement display bug in list.
+# Added trade monitoring.
+# Added standard wow config screen.
+# Added Have We Met? integration (requires version 0.51+).
+# Rewrote detection engine to detect keywords (e.g. LFG, ICC).  each keyword has a score based on how certain it is to be a valid advert.
+# Introduced level based filtering to allow player to limit the adverts selected and filter out noise.
+# Keyword are associated with advert types (not known, buying, selling, raid/dungeon, quest.
+# Added config option to filter out trade adverts.
+# Added config option to disable announce to chat window.
+# Advert list not indicates the type of chat (color and icon) and if the player is a guildie or is know through have we me, the name change to indicate.
+# The whisper (or reply) dialog has been re-written to includes:-
+** Displays full advert, along with the ability to send the message to the chat window to access the links.
+** For Dungeon, Raid and quest type adverts, any player known to you through HWM shows your rating, comments, when last grouped and the last 5 instances grouped in.
+** For Dungeon, Raid and quest type adverts, allow you select an achievements from a commonly used list to attach to your reply. also allows you to add achievements that are missing fro lists.
+** Auto detects achievement in advert and if  For Dungeon, Raid or quest automatically selects it for your reply.
+** Various other small changes.
+
+
+=== Version 0.1 ===
+
+* Add-on created.
+

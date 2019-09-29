@@ -112,4 +112,6 @@ end
 
 
 -- Load us up
-IceHUD.FocusCast = FocusCast:new()
+if FocusUnit then
+	IceHUD.FocusCast = FocusCast:new()
+end

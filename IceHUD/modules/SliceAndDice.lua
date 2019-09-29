@@ -28,6 +28,16 @@ if IceHUD.WowVer >= 50000 then
 	baseTime = 12
 	gapPerComboPoint = 6
 end
+if IceHUD.WowClassic then
+	impSndBonusPerRank = 0.15
+	impSndTalentPage = 1
+	impSndTalentIdx = 6
+end
+
+local SPELL_POWER_COMBO_POINTS = SPELL_POWER_COMBO_POINTS
+if IceHUD.WowVer >= 80000 then
+	SPELL_POWER_COMBO_POINTS = Enum.PowerType.ComboPoints
+end
 
 -- Constructor --
 function SliceAndDice.prototype:init()
@@ -50,10 +60,10 @@ function SliceAndDice.prototype:Enable(core)
 	SliceAndDice.super.prototype.Enable(self, core)
 
 	self:RegisterEvent("UNIT_AURA", "UpdateSliceAndDice")
-	if IceHUD.WowVer < 70000 then
+	if IceHUD.WowVer < 70000 and not IceHUD.WowClassic then
 		self:RegisterEvent("UNIT_COMBO_POINTS", "ComboPointsChanged")
 	else
-		self:RegisterEvent("UNIT_POWER", "ComboPointsChanged")
+		self:RegisterEvent(IceHUD.UnitPowerEvent, "ComboPointsChanged")
 	end
 
 	if not self.moduleSettings.alwaysFullAlpha then
@@ -70,7 +80,7 @@ function SliceAndDice.prototype:Disable(core)
 end
 
 function SliceAndDice.prototype:ComboPointsChanged(...)
-	if select('#', ...) >= 3 and select(1, ...) == "UNIT_POWER" and select(3, ...) ~= "COMBO_POINTS" then
+	if select('#', ...) >= 3 and select(1, ...) == IceHUD.UnitPowerEvent and select(3, ...) ~= "COMBO_POINTS" then
 		return
 	end
 
@@ -205,15 +215,15 @@ end
 
 function SliceAndDice.prototype:GetBuffDuration(unitName, buffName)
 	local i = 1
-	local buff, rank, texture, count, type, duration, endTime, remaining
-	if IceHUD.WowVer >= 30000 then
-		buff, rank, texture, count, type, duration, endTime = UnitBuff(unitName, i)
+	local buff, _, texture, duration, endTime, remaining
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		buff, _, texture, _, _, duration, endTime = UnitBuff(unitName, i)
 	else
-		buff, rank, texture, count, duration, remaining = UnitBuff(unitName, i)
+		buff, texture, _, _, duration, endTime = UnitBuff(unitName, i)
 	end
 
 	while buff do
-		if (texture and string.match(texture, buffName)) then
+		if (texture and (type(buffName) == 'string' and string.match(texture, buffName) or texture == buffName)) then
 			if endTime and not remaining then
 				remaining = endTime - GetTime()
 			end
@@ -222,10 +232,10 @@ function SliceAndDice.prototype:GetBuffDuration(unitName, buffName)
 
 		i = i + 1;
 
-		if IceHUD.WowVer >= 30000 then
-			buff, rank, texture, count, type, duration, endTime = UnitBuff(unitName, i)
+		if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+			buff, _, texture, _, _, duration, endTime = UnitBuff(unitName, i)
 		else
-			buff, rank, texture, count, duration, remaining = UnitBuff(unitName, i)
+			buff, texture, _, _, duration, endTime = UnitBuff(unitName, i)
 		end
 	end
 
@@ -243,7 +253,7 @@ function SliceAndDice.prototype:MyOnUpdate()
 end
 
 local function SNDGetComboPoints(unit)
-	if IceHUD.WowVer >= 60000 then
+	if IceHUD.WowVer >= 60000 or IceHUD.WowClassic then
 		return UnitPower(unit, SPELL_POWER_COMBO_POINTS)
 	elseif IceHUD.WowVer >= 30000 then
 		return GetComboPoints(unit, "target")
@@ -275,7 +285,7 @@ function SliceAndDice.prototype:UpdateSliceAndDice(event, unit, fromUpdate)
 	local remaining = nil
 
 	if not fromUpdate or IceHUD.WowVer < 30000 then
-		sndDuration, remaining = self:GetBuffDuration(self.unit, "Ability_Rogue_SliceDice")
+		sndDuration, remaining = self:GetBuffDuration(self.unit, (IceHUD.WowVer < 80000 and not IceHUD.WowClassic) and "Ability_Rogue_SliceDice" or 132306)
 
 		if not remaining then
 			sndEndTime = 0
@@ -399,8 +409,10 @@ function SliceAndDice.prototype:GetMaxBuffTime(numComboPoints)
 		end
 
 		local rank = 0
-		local _
-		_, _, _, _, rank = GetTalentInfo(impSndTalentPage, impSndTalentIdx)
+		if GetTalentInfo then
+			local _
+			_, _, _, _, rank = GetTalentInfo(impSndTalentPage, impSndTalentIdx)
+		end
 
 		maxduration = maxduration * (1 + (rank * impSndBonusPerRank))
 	end
@@ -461,6 +473,9 @@ function SliceAndDice.prototype:HasNineTailedBonus()
 end
 
 function SliceAndDice.prototype:HasGlyphBonus()
+	if not GetNumGlyphSockets then
+		return false
+	end
 	for i=1,GetNumGlyphSockets() do
 		local enabled, _, _, spell = GetGlyphSocketInfo(i)
 

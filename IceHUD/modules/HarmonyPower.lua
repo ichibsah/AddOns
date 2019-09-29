@@ -1,10 +1,15 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("IceHUD", false)
 local HarmonyPower = IceCore_CreateClass(IceClassPowerCounter)
 
-function HarmonyPower.prototype:init()
-	HarmonyPower.super.prototype.init(self, "HarmonyPower")
+local SPELL_POWER_CHI = SPELL_POWER_CHI
+if IceHUD.WowVer >= 80000 or IceHUD.WowClassic then
+	SPELL_POWER_CHI = Enum.PowerType.Chi
+end
 
-	self:SetDefaultColor("HarmonyPowerNumeric", 218, 231, 31)
+function HarmonyPower.prototype:init()
+	HarmonyPower.super.prototype.init(self, "Chi")
+
+	self:SetDefaultColor("ChiNumeric", 218, 231, 31)
 
 	-- pulled from MonkHarmonyBar.xml in Blizzard's UI source
 	self.runeCoords =
@@ -17,7 +22,7 @@ function HarmonyPower.prototype:init()
 		{0.00390625, 0.08593750, 0.71093750, 0.87500000},
 	}
 	self.numRunes = 4
-	self.numericColor = "HarmonyPowerNumeric"
+	self.numericColor = "ChiNumeric"
 	if IceHUD.WowVer >= 50100 then
 		self.unitPower = SPELL_POWER_CHI
 	else

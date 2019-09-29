@@ -1,0 +1,18 @@
+tag 9c41abe4e5dc81aae0059a00613b7c200711b724 3.8.5b1
+Author:	John Stephen <john@wobbleworks.com>
+Date:	Mon Jan 7 17:40:36 2019 -0800
+
+3.8.5b1
+
+commit 8a19b866b51a498858f0b3c0049fc48b164c0682
+Author: John Stephen <john@wobbleworks.com>
+Date:   Mon Jan 7 17:27:06 2019 -0800
+
+    Updated library pointers
+
+commit 8a19b866b51a498858f0b3c0049fc48b164c0682
+Author: John Stephen <john@wobbleworks.com>
+Date:   Mon Jan 7 17:27:06 2019 -0800
+
+    Updated library pointers
+

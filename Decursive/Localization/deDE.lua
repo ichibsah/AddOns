@@ -1,9 +1,8 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT
-    teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John
@@ -13,7 +12,7 @@
     www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is
     required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
@@ -21,7 +20,7 @@
     Decursive is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY.
 
-    This file was last updated on 2014-10-13T14:20:46Z
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -74,7 +73,7 @@ T._LoadedFiles["deDE.lua"] = false;
 local L = LibStub("AceLocale-3.0"):NewLocale("Decursive", "deDE");
 
 if not L then
-    T._LoadedFiles["deDE.lua"] = "2.7.5.6";
+    T._LoadedFiles["deDE.lua"] = "2.7.6.4";
     return;
 end;
 
@@ -116,9 +115,9 @@ L["COLORSTATUS"] = "Farbe für '%s' MUF-Status einstellen."
 L["CTRL"] = "Strg"
 L["CURE_PETS"] = "Begleiter scannen und reinigen"
 L["CURSE"] = "Fluch"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Bitte sende den Inhalt dieses Fensters an <Archarodim+DcrReport@teaser.fr>|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Bitte sende den Inhalt dieses Fensters an <%s>|r
 |cFF009999(Benutze Strg+A, um alles zu markieren, und dann Strg+C, um den Text in deine Zwischenablage zu kopieren)|r
-Bitte berichte ebenfalls, ob du merkwürdiges Verhalten von Decursive bemerkt hast.
+Bitte berichte ebenfalls, ob du merkwürdiges Verhalten von %s bemerkt hast.
 ]=]
 L["DECURSIVE_DEBUG_REPORT"] = " **** |cFFFF0000Decursive-Debug-Bericht|r ****"
 L["DECURSIVE_DEBUG_REPORT_NOTIFY"] = [=[Ein Debug-Bericht ist vorhanden!
@@ -424,4 +423,4 @@ L["UNSTABLERELEASE"] = "Instabile Veröffentlichung"
 
 
 
-T._LoadedFiles["deDE.lua"] = "2.7.5.6";
+T._LoadedFiles["deDE.lua"] = "2.7.6.4";

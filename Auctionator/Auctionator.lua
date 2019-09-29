@@ -348,7 +348,7 @@ function Atr_SendAddon_VREQ (type, target)
     zz ("sending vreq to", type)
   end
 
-  SendAddonMessage( "ATR", "VREQ_"..AuctionatorVersion, type, target )
+  C_ChatInfo.SendAddonMessage( "ATR", "VREQ_"..AuctionatorVersion, type, target )
 end
 
 -----------------------------------------
@@ -364,14 +364,14 @@ function Atr_OnChatMsgAddon (...)
     )
 
     if zc.StringStartsWith( msg, "VREQ_" ) then
-      SendAddonMessage( "ATR", "V_"..AuctionatorVersion, "WHISPER", sender )
+      C_ChatInfo.SendAddonMessage( "ATR", "V_"..AuctionatorVersion, "WHISPER", sender )
     end
 
     if zc.StringStartsWith (msg, "IREQ_") then
       collectgarbage( "collect" )
       UpdateAddOnMemoryUsage()
       local mem  = math.floor( GetAddOnMemoryUsage("Auctionator") )
-      SendAddonMessage( "ATR", "I_" .. Atr_GetDBsize() .. "_" .. mem .. "_" .. #AUCTIONATOR_SHOPPING_LISTS.."_"..GetRealmFacInfoString(), "WHISPER", sender)
+      C_ChatInfo.SendAddonMessage( "ATR", "I_" .. Atr_GetDBsize() .. "_" .. mem .. "_" .. #AUCTIONATOR_SHOPPING_LISTS.."_"..GetRealmFacInfoString(), "WHISPER", sender)
     end
 
     if zc.StringStartsWith( msg, "V_" ) and time() - VREQ_sent < 5 then
@@ -412,9 +412,9 @@ local function Atr_RestoreDElog()
     AUCTIONATOR_DE_DATA = {}
 
     zc.CopyDeep (AUCTIONATOR_DE_DATA, AUCTIONATOR_DE_DATA_BAK)
-    zc.msg_anm ("Disenchant data restored.  Number of entries:", #AUCTIONATOR_DE_DATA_BAK);
+    zc.msg_anm (ZT("Disenchant data restored. Number of entries:"), #AUCTIONATOR_DE_DATA_BAK);
   else
-    zc.msg_anm ("No data available to be restored");
+    zc.msg_anm (ZT("No data available to be restored."));
   end
 
 end
@@ -682,7 +682,7 @@ local function Atr_ModTradeSkillFrame()
     button:SetPoint("RIGHT", "TradeSkillFrame", "RIGHT", -35, 100);
 
     button:SetHeight (20)
-    button:SetText("AH")
+    button:SetText(ZT("AH"))
     button:SetNormalFontObject(_G["GameFontNormalSmall"])
     button:SetHighlightFontObject(_G["GameFontNormalSmall"])
     button:SetDisabledFontObject(_G["GameFontNormalSmall"])
@@ -1580,7 +1580,7 @@ function Atr_CreateAuction_OnClick ()
 
   Atr_Memorize_Stacking_If();
 
-  StartAuction (stackStartingPrice, stackBuyoutPrice, duration, gJustPosted.StackSize, gJustPosted.NumStacks);
+  PostAuction (stackStartingPrice, stackBuyoutPrice, duration, gJustPosted.StackSize, gJustPosted.NumStacks);
 
   Atr_SetToShowCurrent();
 end
@@ -1683,7 +1683,7 @@ function Atr_LogMsg (itemlink, itemcount, price, numstacks)
   logmsg = logmsg.."   "..zc.priceToString(price);
 
   if (numstacks > 1 and itemcount > 1) then
-    logmsg = logmsg.."  per stack";
+    logmsg = logmsg.."  "..ZT("per stack")..".";
   end
 
 
@@ -2106,7 +2106,7 @@ function Atr_ShowItemNameAndTexture(itemName)
     itemName = scn.itemName;
 
     if (zc.IsBattlePetLink(scn.itemLink)) then
-      level = " (Level "..scn.itemLevel..")"
+      level = " ("..ZT("Level").." "..scn.itemLevel..")"
     end
   end
 
@@ -2511,6 +2511,7 @@ function Atr_StackPriceChangedFunc ()
     MoneyInputFrame_SetCopper (Atr_StartingPrice, new_Item_StartPrice * Atr_StackSize());
   end
 
+  gSellPane.UINeedsUpdate = true;
 end
 
 -----------------------------------------
@@ -2530,6 +2531,7 @@ function Atr_ItemPriceChangedFunc ()
     MoneyInputFrame_SetCopper (Atr_StartingPrice, new_Item_StartPrice  * Atr_StackSize());
   end
 
+  gSellPane.UINeedsUpdate = true;
 end
 
 -----------------------------------------
@@ -3109,18 +3111,13 @@ end
 function Atr_SetDepositText()
   Auctionator.Debug.Message( 'Atr_SetDepositText' )
 
-  _, auctionCount = Atr_GetSellItemInfo();
+  local _, auctionCount = Atr_GetSellItemInfo();
 
   if (auctionCount > 0) then
     local duration = UIDropDownMenu_GetSelectedValue(Atr_Duration);
+    local deposit1 = GetAuctionDeposit (duration, MoneyInputFrame_GetCopper(Atr_StartingPrice), MoneyInputFrame_GetCopper(Atr_StackPrice), Atr_StackSize(), Atr_Batch_NumAuctions:GetNumber());
 
-    local deposit1 = CalculateAuctionDeposit (duration) / auctionCount;
-    local numAuctionString = "";
-    if (Atr_Batch_NumAuctions:GetNumber() > 1) then
-      numAuctionString = "  |cffff55ff x"..Atr_Batch_NumAuctions:GetNumber();
-    end
-
-    Atr_Deposit_Text:SetText (ZT("Deposit")..":    "..zc.priceToMoneyString(deposit1 * Atr_StackSize(), true)..numAuctionString);
+    Atr_Deposit_Text:SetText (ZT("Deposit")..":    "..zc.priceToMoneyString(deposit1, true));
   else
     Atr_Deposit_Text:SetText ("");
   end
@@ -3162,7 +3159,7 @@ end
 function Atr_GetUCIcon (itemLink)
   Auctionator.Debug.Message( 'Atr_GetUCIcon', itemLink )
 
-  local icon = "|TInterface\\BUTTONS\\\UI-PassiveHighlight:18:18:0:0|t "
+  local icon = "|TInterface\\BUTTONS\\UI-PassiveHighlight:18:18:0:0|t "
 
   local undercutFound = false
 
@@ -3177,9 +3174,9 @@ function Atr_GetUCIcon (itemLink)
       icon = "|TInterface\\AddOns\\Auctionator\\Images\\CrossAndCheck:18:18:0:0|t "
       undercutFound = true;
     elseif (scan.yourBestPrice <= absBestPrice) then
-      icon = "|TInterface\\RAIDFRAME\\\ReadyCheck-Ready:18:18:0:0|t "
+      icon = "|TInterface\\RAIDFRAME\\ReadyCheck-Ready:18:18:0:0|t "
     else
-      icon = "|TInterface\\RAIDFRAME\\\ReadyCheck-NotReady:18:18:0:0|t "
+      icon = "|TInterface\\RAIDFRAME\\ReadyCheck-NotReady:18:18:0:0|t "
       undercutFound = true;
     end
   end
@@ -3290,12 +3287,9 @@ function Atr_HEntryOnClick(self)
     gHentryTryAgain = nil;
   end
 
-  local _, itemLink;
-  local IDstring;
   local entryIndex = line:GetID();
-
-  itemName = gHistoryItemList[entryIndex].name;
-  itemLink = gHistoryItemList[entryIndex].link;
+  local itemName = gHistoryItemList[entryIndex].name;
+  local itemLink = gHistoryItemList[entryIndex].link;
 
   if (IsAltKeyDown() and Atr_IsModeActiveAuctions()) then
     Atr_Cancel_Undercuts_OnClick (itemName)
@@ -3644,7 +3638,7 @@ function Atr_ShowSearchSummary()
         end
 
         if (zc.IsBattlePetLink (scn.itemLink)) then
-          iLevelStr = " (Level "..scn.itemLevel..")"
+          iLevelStr = " ("..ZT("Level").." "..scn.itemLevel..")"
         end
 
         lineEntry_text:SetText (icon.."  "..scn.itemName..iLevelStr)
@@ -3693,7 +3687,7 @@ function Atr_ShowCurrentAuctions()
     scn = Atr_FindScan(nil)
   end
 
-  numrows = #scn.sortedData
+  local numrows = #scn.sortedData
 
   if (numrows > 0) then
     Atr_Col1_Heading:Show();
@@ -4161,7 +4155,6 @@ function Atr_CancelAuction_ByIndex(index)
   if (#gAtr_Owner_Item_Indices == 0) then
 
     local numInList = Atr_GetNumAuctionItems ("owner");
-    local i;
     local x = 1;
 
     for i = 1,numInList do
@@ -4177,7 +4170,7 @@ function Atr_CancelAuction_ByIndex(index)
 
   -- cancel the last item in the list and remove it
 
-  local numInMatchList = #gAtr_Owner_Item_Indices;
+  local numInMatchList, i = #gAtr_Owner_Item_Indices;
 
   for x = numInMatchList,1,-1 do
 
@@ -4662,7 +4655,6 @@ function Atr_BuildGlobalHistoryList()
     Atr_BuildActiveAuctions()
   end
 
-  local info, IDstring
   for IDstring, info in pairs (gActiveAuctions) do
     if (info.link and info.count ~= 0) then
       table.insert (gHistoryItemList, info)

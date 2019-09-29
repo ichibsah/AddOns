@@ -1,3 +1,5 @@
+if not WeakAuras.IsCorrectVersion() then return end
+
 -- Lua APIs
 local pairs, type = pairs, type
 local loadstring = loadstring
@@ -131,11 +133,8 @@ local function ConstructTextEditor(frame)
   editor.button:Hide();
   local fontPath = SharedMedia:Fetch("font", "Fira Mono Medium");
   if(fontPath) then
-    -- Manually scale our font size
-    editor.editBox:SetFont(fontPath, 12 * editor.editBox:GetEffectiveScale());
+    editor.editBox:SetFont(fontPath, 12);
   end
-  -- And ignore our parent scale, to work around a bug in 7.3
-  editor.editBox:SetIgnoreParentScale(true);
   group:AddChild(editor);
   editor.frame:SetClipsChildren(true);
 
@@ -202,7 +201,7 @@ local function ConstructTextEditor(frame)
   end)
 
   local editorError = group.frame:CreateFontString(nil, "OVERLAY");
-  editorError:SetFont("Fonts\\FRIZQT__.TTF", 10)
+  editorError:SetFont(STANDARD_TEXT_FONT, 10)
   editorError:SetJustifyH("LEFT");
   editorError:SetJustifyV("TOP");
   editorError:SetTextColor(1, 0, 0);
@@ -212,7 +211,7 @@ local function ConstructTextEditor(frame)
   local editorLine = CreateFrame("Editbox", nil, group.frame);
   -- Set script on enter pressed..
   editorLine:SetPoint("BOTTOMRIGHT", editor.frame, "TOPRIGHT", -10, -15);
-  editorLine:SetFont("Fonts\\FRIZQT__.TTF", 10)
+  editorLine:SetFont(STANDARD_TEXT_FONT, 10)
   editorLine:SetJustifyH("RIGHT");
   editorLine:SetWidth(80);
   editorLine:SetHeight(20);
@@ -246,10 +245,12 @@ local function ConstructTextEditor(frame)
     end
   end);
 
-  function group.Open(self, data, path, enclose, multipath)
+  function group.Open(self, data, path, enclose, multipath, reloadOptions, setOnParent)
     self.data = data;
     self.path = path;
     self.multipath = multipath;
+    self.reloadOptions = reloadOptions;
+    self.setOnParent = setOnParent;
     if(frame.window == "texture") then
       frame.texturePicker:CancelClose();
     elseif(frame.window == "icon") then
@@ -286,26 +287,28 @@ local function ConstructTextEditor(frame)
       end
       self.oldOnTextChanged(...);
     end);
-    if(data.controlledChildren) then
+    if(data.controlledChildren and not setOnParent) then
       local singleText;
       local sameTexts = true;
       local combinedText = "";
       for index, childId in pairs(data.controlledChildren) do
         local childData = WeakAuras.GetData(childId);
         local text = valueFromPath(childData, multipath and path[childId] or path);
-        if not(singleText) then
-          singleText = text;
-        else
-          if not(singleText == text) then
-            sameTexts = false;
+        if text then
+          if not(singleText) then
+            singleText = text;
+          else
+            if not(singleText == text) then
+              sameTexts = false;
+            end
           end
-        end
-        if not(combinedText == "") then
-          combinedText = combinedText.."\n\n";
-        end
+          if not(combinedText == "") then
+            combinedText = combinedText.."\n\n";
+          end
 
-        combinedText = combinedText.. L["-- Do not remove this comment, it is part of this trigger: "] .. childId .. "\n";
-        combinedText = combinedText..(text or "");
+          combinedText = combinedText.. L["-- Do not remove this comment, it is part of this trigger: "] .. childId .. "\n";
+          combinedText = combinedText..(text or "");
+        end
       end
       if(sameTexts) then
         editor:SetText(singleText or "");
@@ -362,7 +365,7 @@ local function ConstructTextEditor(frame)
   end
 
   function group.Close(self)
-    if(self.data.controlledChildren) then
+    if(self.data.controlledChildren and not self.setOnParent) then
       local textById = editor.combinedText and extractTexts(editor:GetText(), self.data.controlledChildren);
       for index, childId in pairs(self.data.controlledChildren) do
         local text = editor.combinedText and (textById[childId] or "") or editor:GetText();
@@ -374,7 +377,18 @@ local function ConstructTextEditor(frame)
       valueToPath(self.data, self.path, editor:GetText());
       WeakAuras.Add(self.data);
     end
-    WeakAuras.ReloadTriggerOptions(self.data);
+    if (self.reloadOptions) then
+      if(self.data.controlledChildren) then
+        for index, childId in pairs(self.data.controlledChildren) do
+          WeakAuras.ScheduleReloadOptions(WeakAuras.GetData(childId));
+        end
+        WeakAuras.ScheduleReloadOptions(self.data);
+      else
+        WeakAuras.ScheduleReloadOptions(self.data);
+      end
+    else
+      WeakAuras.ScheduleReloadOptions(self.data);
+    end
 
     editor.editBox:SetScript("OnTextChanged", self.oldOnTextChanged);
     editor:ClearFocus();

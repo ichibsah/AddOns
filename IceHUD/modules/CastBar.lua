@@ -4,7 +4,6 @@ local CastBar = IceCore_CreateClass(IceCastBar)
 local IceHUD = _G.IceHUD
 
 CastBar.prototype.spellCastSent = nil
-CastBar.prototype.sentSpell = nil
 
 -- Constructor --
 function CastBar.prototype:init()
@@ -314,8 +313,10 @@ end
 function CastBar.prototype:Enable(core)
 	CastBar.super.prototype.Enable(self, core)
 
-	self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
-	self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
+	if UnitHasVehicleUI then
+		self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
+		self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
+	end
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckVehicle")
 
 	self:RegisterEvent("CVAR_UPDATE", "CVarUpdate")
@@ -349,10 +350,12 @@ end
 
 
 function CastBar.prototype:CheckVehicle()
-	if UnitHasVehicleUI("player") then
-		self:EnteringVehicle(nil, "player", true)
-	else
-		self:ExitingVehicle(nil, "player")
+	if UnitHasVehicleUI then
+		if UnitHasVehicleUI("player") then
+			self:EnteringVehicle(nil, "player", true)
+		else
+			self:ExitingVehicle(nil, "player")
+		end
 	end
 end
 
@@ -394,7 +397,9 @@ end
 
 
 function CastBar.prototype:CreateLagBar()
-	self.lagBar = self:BarFactory(self.lagBar, "LOW", "OVERLAY")
+	if self.lagBar == nil then
+		self.lagBar = self:BarFactory(self.lagBar, "LOW", "OVERLAY")
+	end
 
 	local r, g, b = self:GetColor("CastLag")
 	if (self.settings.backgroundToggle) then
@@ -407,14 +412,13 @@ end
 
 
 -- OVERRIDE
-function CastBar.prototype:SpellCastSent(event, unit, spell, rank, target, lineId)
-	CastBar.super.prototype.SpellCastSent(self, event, unit, spell, rank, target, lineId)
+function CastBar.prototype:SpellCastSent(event, unit, target, castGuid, spellId)
+	CastBar.super.prototype.SpellCastSent(self, event, unit, target, castGuid, spellId)
 	if (unit ~= self.unit) then return end
 
 	if IceHUD.WowVer < 70000 then
 		self.spellCastSent = GetTime()
 	end
-	self.sentSpell = lineId
 end
 
 -- OVERRIDE
@@ -426,32 +430,16 @@ function CastBar.prototype:SpellCastChanged(event, arg1)
 end
 
 -- OVERRIDE
-function CastBar.prototype:SpellCastStart(event, unit, spell, rank, lineId, spellId)
-	CastBar.super.prototype.SpellCastStart(self, event, unit, spell, rank, lineId, spellId)
-	if (unit ~= self.unit) then return end
+function CastBar.prototype:SpellCastStart(event, unit, castGuid, spellId)
+	CastBar.super.prototype.SpellCastStart(self, event, unit, castGuid, spellId)
+	if (unit ~= self.unit or not spellId) then return end
 
 	if not self:IsVisible() or not self.actionDuration then
 		return
 	end
 
-	if self.sentSpell ~= lineId then
-		self.spellCastSent = nil
-	end
-
-	local scale
-	if self.unit == "vehicle" then
-		scale = 0
-	elseif self.useFixedLatency then
-		scale = IceHUD:Clamp(self.fixedLatency / self.actionDuration, 0, 1)
-	else
-		local now = GetTime()
-		local lag = now - (self.spellCastSent or now)
-		scale = IceHUD:Clamp(lag / self.actionDuration, 0, 1)
-	end
-
-	self:SetBarCoord(self.lagBar, scale, true, true)
-
-	self.spellCastSent = nil
+	self:UpdateLagBar()
+	self.nextLagUpdate = GetTime() + (select(2, GetSpellCooldown(IceHUD.GlobalCoolDown:GetSpellId())) / 2)
 end
 
 
@@ -464,20 +452,43 @@ function CastBar.prototype:SpellCastChannelStart(event, unit)
 		return
 	end
 
+	self:UpdateLagBar(self.moduleSettings.reverseChannel)
+end
+
+-- OVERRIDE
+function CastBar.prototype:SpellCastSucceeded(event, unit, castGuid, spellId)
+	CastBar.super.prototype.SpellCastSucceeded(self, event, unit, castGuid, spellId)
+
+	if not self.actionDuration or unit ~= self.unit then
+		return
+	end
+
+	self:UpdateLagBar()
+	self.nextLagUpdate = GetTime() + (select(2, GetSpellCooldown(IceHUD.GlobalCoolDown:GetSpellId())) / 2)
+end
+
+
+function CastBar.prototype:UpdateLagBar(isChannel)
+	local now = GetTime()
+	if self.nextLagUpdate and now <= self.nextLagUpdate then
+		return
+	end
+
 	local scale
 	if self.unit == "vehicle" then
 		scale = 0
 	elseif self.useFixedLatency then
 		scale = IceHUD:Clamp(self.fixedLatency / self.actionDuration, 0, 1)
 	else
-		local now = GetTime()
 		local lag = now - (self.spellCastSent or now)
-		scale = IceHUD:Clamp(lag / self.actionDuration, 0, 1)
+		if lag >= (self.actionDuration / 2) then
+			scale = 0
+		else
+			scale = IceHUD:Clamp(lag / self.actionDuration, 0, 1)
+		end
 	end
 
-	local top = not self.moduleSettings.reverseChannel
-
-	self:SetBarCoord(self.lagBar, scale, top, true)
+	self:SetBarCoord(self.lagBar, scale, not isChannel, true)
 
 	self.spellCastSent = nil
 end

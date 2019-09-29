@@ -1,0 +1,12 @@
+tag 62ba28a38e7f2a38275accf99386253524483e92 v8.2.0.190810
+Author:	Vlad <vladix@gmail.com>
+Date:	Sat Aug 10 11:07:55 2019 +0200
+
+v8.2.0.190810
+
+commit b92015f6bae2a63493809d2673367788ce3380df
+Author: Vlad <vladix@gmail.com>
+Date:   Sat Aug 10 11:07:11 2019 +0200
+
+    Removed obsolete code that did more harm than good.
+

@@ -17,7 +17,7 @@ Special thanks:
 		Andyca, and BNSSNB (Traditional Chinese Translations)
 		Phalk and Omukeka (Brazilian Portuguese Translations)
 		Asixandur (Italian Translations)
-
+		Arith (LibUIDropDownMenu)
 
 Change Log:
 
@@ -1265,3 +1265,200 @@ Change Log:
 4.43.4
 * Added Legion spells for Argus
 * Added Legion spells for Tomb of Sargeras
+
+4.43.5
+* Added Legion spells for Argus
+* Added Legion spells for Tomb of Sargeras
+
+4.43.6
+* Added Legion spells for Argus
+* Added Legion spells for Tomb of Sargeras
+
+4.43.7
+* Added Classic spells for Azeroth (world)
+
+4.43.8
+* Added Legion spells for Argus
+* Added Legion spells for Antorus, The Burning Throne
+
+4.43.9
+* Added Legion spells for Antorus, The Burning Throne
+
+4.44
+* Added Legion spells for Antorus, The Burning Throne
+
+4.44.1
+* Added Legion spells for The Broken Isles (world)
+* Added Legion spells for Antorus, The Burning Throne
+
+4.44.2
+* Added Legion spells for Antorus, The Burning Throne
+
+4.44.3
+* Added Legion spells for Antorus, The Burning Throne
+
+4.44.4
+* Added Legion spells for Antorus, The Burning Throne
+
+4.45
+* Added support for Battle for Azeroth
+* Added BFA spells for Shrine of the Storm
+* Added BFA spells for Waycrest Manor
+* Added BFA spells for Freehold
+
+4.45.1
+* Fixed BFA crash with UnitBuff/UnitDebuff
+
+4.45.2
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Tol Dagor
+* Added BFA spells for The Underrot
+* Added BFA spells for Temple of Sethraliss
+* Added BFA spells for The MOTHERLODE!!
+* Added BFA spells for Atal'Dazar
+
+4.45.3
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Shrine of the Storm
+
+4.45.4
+* Added Battle for Azeroth spells (world)
+
+4.46
+* Added Legion spells for Brawler's Guild (a little late...)
+* Added Battle for Azeroth spells (world)
+* Updated for patch 8.0
+
+4.46.1
+* Added Battle for Azeroth launch event spells (special)
+
+4.46.2
+* Added Battle for Azeroth launch event spells (special)
+
+4.46.3
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Uldir
+* Added BFA spells for King's Rest
+* Added BFA spells for Siege of Boralus
+* Added BFA spells for Freehold
+* Added BFA spells for The Underrot
+
+4.46.4
+* Fixed BFA spells for Siege of Boralus
+* Added BFA spells for Siege of Boralus
+
+4.46.5
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Uldir
+* Added BFA spells for Tol Dagor
+* Added BFA spells for Atal'Dazar
+
+4.46.6
+* Added BFA spells for Uldir
+
+4.46.7
+* Added BFA spells for Uldir
+
+4.46.8
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Uldir
+* Added BFA spells for King's Rest
+
+4.46.9
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Uldir
+
+4.46.10
+* Added Battle for Azeroth spells (world)
+
+4.46.11
+* Updated for patch 8.1
+* Added Battle for Azeroth spells (world)
+
+4.46.12
+* Added Battle for Azeroth spells (world)
+
+4.46.13
+* Added BFA spells for Freehold
+* Added BFA spells for Atal'Dazar
+* Added BFA spells for Battle of Dazar'alor
+
+4.46.14
+* Added BFA spells for Battle of Dazar'alor
+
+4.46.15
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Battle of Dazar'alor
+
+4.46.16
+* Added BFA spells for Battle of Dazar'alor
+
+4.46.17
+* Added BFA spells for Battle of Dazar'alor
+
+4.47
+* Re-enabled sound channel support UI dropdown (hopefully Blizzard finally fixed their taint issues)
+* Added BFA spells for Crucible of Storms
+
+4.47.1
+* Added BFA spells for Battle of Dazar'alor
+
+4.48
+* WoW Classic support
+* Implemented LibStub and LibUIDropDownMenu instead of Blizzard's UI dropdown
+* Added BFA spells for Battle of Dazar'alor
+
+4.48.1
+* Added BFA spells for Battle of Dazar'alor
+
+4.48.2
+* Added Battle for Azeroth spells (world)
+
+4.48.3
+* Updated for patch 8.2
+* Added Battle for Azeroth spells (world)
+
+4.48.4
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Operation: Mechagon
+* Added BFA spells for The Eternal Palace
+
+4.48.5
+* Added BFA spells for Operation: Mechagon
+
+4.48.6
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Operation: Mechagon
+
+4.48.7
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for The Eternal Palace
+
+4.48.8
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for The Eternal Palace
+
+4.48.9
+* Added BFA spells for The Eternal Palace
+
+4.48.10
+* Added Battle for Azeroth spells (world)
+
+4.49
+* Updated for WoW Classic 1.13.2
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for The Eternal Palace
+
+4.49.1
+* Updated ToC for WoW Classic 1.13.2
+
+4.49.2
+* Fixed LUA issues with WoW Classic
+
+4.49.3
+* Added BFA spells for The Eternal Palace
+
+4.49.4
+* Updated for patch 8.2.5
+* Added Battle for Azeroth spells (world)
+

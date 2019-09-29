@@ -1,0 +1,8 @@
+## Interface: 80200
+## Title: Currency Sorter
+## Version: 8.2.0
+## Notes: Move around the currency categories
+## Author: Andols
+## SavedVariablesPerCharacter: Cs_order
+Cs.xml
+Cs.lua

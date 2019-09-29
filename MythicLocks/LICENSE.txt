@@ -1,4 +1,0 @@
-
-
-MythicLocks is distributed in the hope that it will be useful,
-but WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.

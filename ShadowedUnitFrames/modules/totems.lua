@@ -6,19 +6,19 @@ local MAX_TOTEMS = MAX_TOTEMS
 local playerClass = select(2, UnitClass("player"))
 if( playerClass == "PALADIN" ) then
 	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Ancient Kings bar"], true, "PALADIN", 75)
+	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Ancient Kings bar"], true, "PALADIN", nil, 70)
 elseif( playerClass == "DRUID" ) then
 	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Mushroom bar"], true, "DRUID", 4, 88)
+	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Mushroom bar"], true, "DRUID", 4, 70)
 elseif( playerClass == "MONK" ) then
 	MAX_TOTEMS = 1
 	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Statue bar"], true, "MONK", {1, 2}, 70)
 elseif( playerClass == "MAGE" ) then
 	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Rune of Power bar"], true, "MAGE", {1, 2, 3}, 90)
+	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Rune of Power bar"], true, "MAGE", {1, 2, 3}, 45)
 elseif( playerClass == "WARLOCK" ) then
-	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Soul Effigy bar"], true, "WARLOCK", 1, 100)
+	MAX_TOTEMS = 2
+	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Imp & Dreadstalker bar"], true, "WARLOCK", 2)
 else
 	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Totem bar"], true, "SHAMAN")
 end
@@ -37,20 +37,20 @@ function Totems:OnEnable(frame)
 		frame.totemBar.blocks = frame.totemBar.totems
 
 		local priorities = (playerClass == "SHAMAN") and SHAMAN_TOTEM_PRIORITIES or STANDARD_TOTEM_PRIORITIES
-		
+
 		for id=1, MAX_TOTEMS do
 			local totem = ShadowUF.Units:CreateBar(frame.totemBar)
 			totem:SetMinMaxValues(0, 1)
 			totem:SetValue(0)
 			totem.id = MAX_TOTEMS == 1 and 1 or priorities[id]
 			totem.parent = frame
-			
+
 			if( id > 1 ) then
 				totem:SetPoint("TOPLEFT", frame.totemBar.totems[id - 1], "TOPRIGHT", 1, 0)
 			else
 				totem:SetPoint("TOPLEFT", frame.totemBar, "TOPLEFT", 0, 0)
 			end
-			
+
 			table.insert(frame.totemBar.totems, totem)
 		end
 
@@ -58,6 +58,7 @@ function Totems:OnEnable(frame)
 			totemColors[1] = ShadowUF.db.profile.powerColors.MUSHROOMS
 		elseif( playerClass == "WARLOCK" ) then
 			totemColors[1] = ShadowUF.db.profile.classColors.PET
+			totemColors[2] = ShadowUF.db.profile.classColors.PET
 		elseif( playerClass == "MONK" ) then
 			totemColors[1] = ShadowUF.db.profile.powerColors.STATUE
 		elseif( playerClass == "MAGE" ) then
@@ -69,7 +70,7 @@ function Totems:OnEnable(frame)
 			totemColors[4] = {r = 0.90, g = 0.90, b = 0.90}
 		end
 	end
-	
+
 	frame:RegisterNormalEvent("PLAYER_TOTEM_UPDATE", self, "Update")
 	frame:RegisterUpdateFunc(self, "UpdateVisibility")
 	frame:RegisterUpdateFunc(self, "Update")
@@ -78,7 +79,7 @@ end
 function Totems:OnDisable(frame)
 	frame:UnregisterAll(self)
 	frame:UnregisterUpdateFunc(self, "Update")
-	
+
 	for _, totem in pairs(frame.totemBar.totems) do
 	    totem:Hide()
     end
@@ -129,7 +130,7 @@ end
 local function totemMonitor(self, elapsed)
 	local time = GetTime()
 	self:SetValue(self.endTime - time)
-	
+
 	if( time >= self.endTime ) then
 		self:SetValue(0)
 		self:SetScript("OnUpdate", nil)
@@ -160,15 +161,15 @@ end
 function Totems:Update(frame)
 	local totalActive = 0
 	for _, indicator in pairs(frame.totemBar.totems) do
-		local have, name, start, duration, icon
+		local have, _name, start, duration, icon
 		if MAX_TOTEMS == 1 and indicator.id == 1 then
 			local id = 1
 			while not have and id <= 4 do
-				have, name, start, duration, icon = GetTotemInfo(id)
+				have, _name, start, duration, icon = GetTotemInfo(id)
 				id = id + 1
 			end
 		else
-			have, name, start, duration, icon = GetTotemInfo(indicator.id)
+			have, _name, start, duration, icon = GetTotemInfo(indicator.id)
 		end
 		if( have and start > 0 ) then
 			if( ShadowUF.db.profile.units[frame.unitType].totemBar.icon ) then
@@ -181,9 +182,9 @@ function Totems:Update(frame)
 			indicator:SetValue(indicator.endTime - GetTime())
 			indicator:SetScript("OnUpdate", totemMonitor)
 			indicator:SetAlpha(1.0)
-			
+
 			totalActive = totalActive + 1
-			
+
 		elseif( indicator.have ) then
 			indicator.have = nil
 			indicator:SetScript("OnUpdate", nil)
@@ -196,7 +197,7 @@ function Totems:Update(frame)
 			indicator.fontString:UpdateTags()
 		end
 	end
-	
+
 	if( not frame.inVehicle ) then
 		-- Guardian timers always auto hide or if it's flagged to not always be shown
 		if( MAX_TOTEMS == 1 or not ShadowUF.db.profile.units[frame.unitType].totemBar.showAlways ) then

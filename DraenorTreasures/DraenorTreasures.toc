@@ -1,9 +1,0 @@
-## Interface: 70300
-## Title: DraenorTreasures
-## Version: 7.3.0.24974
-## Author: TOM_RUS
-## Notes: DraenorTreasures
-## SavedVariables: DRTSOptions
-DraenorTreasuresData.lua
-MinimapIcons.lua
-DraenorTreasures.lua

@@ -58,16 +58,20 @@ function TargetTargetCast.prototype:UpdateTargetTarget()
 		return
 	end
 
-	local spell = UnitCastingInfo(self.unit)
-	if (spell) then
-		self:StartBar(IceCastBar.Actions.Cast)
-		return
+	if UnitCastingInfo then
+		local spell = UnitCastingInfo(self.unit)
+		if spell then
+			self:StartBar(IceCastBar.Actions.Cast)
+			return
+		end
 	end
 
-	local channel = UnitChannelInfo(self.unit)
-	if (channel) then
-		self:StartBar(IceCastBar.Actions.Channel)
-		return
+	if UnitChannelInfo then
+		local channel = UnitChannelInfo(self.unit)
+		if channel then
+			self:StartBar(IceCastBar.Actions.Channel)
+			return
+		end
 	end
 
 	self:StopBar()
@@ -144,4 +148,6 @@ end
 
 
 -- Load us up
-IceHUD.TargetTargetCast = TargetTargetCast:new()
+if not IceHUD.WowClassic then
+	IceHUD.TargetTargetCast = TargetTargetCast:new()
+end

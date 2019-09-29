@@ -14,6 +14,8 @@ local table = _G.table
 -- AddOn namespace.
 -----------------------------------------------------------------------
 local AddOnFolderName, private = ...
+local Data = private.Data
+local Enum = private.Enum
 
 -----------------------------------------------------------------------
 -- Helpers
@@ -56,11 +58,30 @@ end
 
 private.CreateScaleAnimation = CreateScaleAnimation
 
+local function FormatAtlasTexture(atlasName)
+    local filename, width, height, txLeft, txRight, txTop, txBottom = _G.GetAtlasInfo(atlasName)
+
+    if not filename then
+        return
+    end
+
+    local atlasWidth = width / (txRight - txLeft)
+    local atlasHeight = height / (txBottom - txTop)
+    local pxLeft = atlasWidth * txLeft
+    local pxRight = atlasWidth * txRight
+    local pxTop = atlasHeight * txTop
+    local pxBottom = atlasHeight * txBottom
+
+    return ("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t"):format(filename, 0, 0, atlasWidth, atlasHeight, pxLeft, pxRight, pxTop, pxBottom)
+end
+
+private.FormatAtlasTexture = FormatAtlasTexture
+
 local function GetMapOptionDescription(mapID)
-	local continentID = private.ContinentIDByDungeonMapID[mapID] or private.ContinentIDByMapID[mapID]
+	local continentID = Data.Maps[mapID].continentID
 
 	if continentID then
-		local continentName = private.ContinentNameByID[continentID]
+		local continentName = Data.Continents[continentID].name
 
 		if continentName then
 			return ("%s %s %s"):format(_G.ID, mapID, _G.PARENS_TEMPLATE:format(continentName))
@@ -75,10 +96,11 @@ end
 private.GetMapOptionDescription = GetMapOptionDescription
 
 local function GetMapOptionName(mapID)
+	local continentID = Data.Maps[mapID].continentID
 	local profile = private.db.profile
-	local isBlacklisted = profile.blacklist.mapIDs[mapID] or profile.detection.continentIDs[private.ContinentIDByMapID[mapID]] == private.DetectionGroupStatus.Disabled
+	local isBlacklisted = profile.blacklist.mapIDs[mapID] or profile.detection.continentIDs[continentID] == Enum.DetectionGroupStatus.Disabled
 	local colorCode = isBlacklisted and _G.RED_FONT_COLOR_CODE or _G.GREEN_FONT_COLOR_CODE
-	return ("%s%s|r"):format(colorCode, private.MapNameByID[mapID])
+	return ("%s%s|r"):format(colorCode, Data.Maps[mapID].name)
 end
 
 private.GetMapOptionName = GetMapOptionName
@@ -112,18 +134,6 @@ do
 	private.UnitTokenToCreatureID = UnitTokenToCreatureID
 end -- do-block
 
-local function IsNPCQuestComplete(npcID)
-	local npcData = private.NPCData[npcID]
-	if npcData then
-		local questID = npcData.questID
-		return questID and _G.IsQuestFlaggedCompleted(questID) or false
-	end
-
-	return false
-end
-
-private.IsNPCQuestComplete = IsNPCQuestComplete
-
 local function NumericSortString(a, b)
 	local x, y = tonumber(a), tonumber(b)
 
@@ -146,66 +156,90 @@ do
 		"vignetteName",
 	}
 
-	local SortedNPCIDs
+	local sectionDelimiter = "-- ----------------------------------------------------------------------------"
 
-	function private.DumpNPCData()
+	function private.DumpNPCData(continentID)
 		local NPCScan = _G.LibStub("AceAddon-3.0"):GetAddon(AddOnFolderName)
+		local continent = Data.Continents[continentID]
 
-		if not SortedNPCIDs then
-			SortedNPCIDs = {}
+		local sortedMapIDs = {}
+		local sortedNPCIDs = {}
 
-			for npcID, data in pairs(private.NPCData) do
-				SortedNPCIDs[#SortedNPCIDs + 1] = npcID
+		for mapID, map in pairs(continent.Maps) do
+			local npcIDs = {}
+			sortedNPCIDs[mapID] = npcIDs
+			sortedMapIDs[#sortedMapIDs + 1] = mapID
+
+			for npcID in pairs(map.NPCs) do
+				npcIDs[#npcIDs + 1] = npcID
 			end
 
-			table.sort(SortedNPCIDs)
+			table.sort(sortedNPCIDs[mapID])
 		end
 
-		local npcData = private.NPCData
+		table.sort(sortedMapIDs)
+
 		local output = private.TextDump
+		output:Clear()
 
-		output:AddLine("local NPCData = {")
+		output:AddLine(sectionDelimiter)
+		output:AddLine("-- AddOn namespace")
+		output:AddLine(sectionDelimiter)
+		output:AddLine("local AddOnFolderName, private = ...")
+		output:AddLine("local NPCs = private.Data.NPCs\n")
 
-		for index = 1, #SortedNPCIDs do
-			local npcID = SortedNPCIDs[index]
-			local data = private.NPCData[npcID]
+		for mapIndex = 1, #sortedMapIDs do
+			local map = Data.Maps[sortedMapIDs[mapIndex]]
+			local addedZoneHeader = false
 
-			local startedEntry = false
+			for npcIndex = 1, #sortedNPCIDs[map.ID] do
+				local npcID = sortedNPCIDs[map.ID][npcIndex]
+				local npc = Data.NPCs[npcID]
 
-			for index = 1, #OrderedDataFields do
-				local field = OrderedDataFields[index]
-				local fieldInfo = data[field]
+				local startedEntry = false
 
-				if fieldInfo then
-					if not startedEntry then
-						startedEntry = true
-						output:AddLine(("    [%d] = { -- %s"):format(npcID, NPCScan:GetNPCNameFromID(npcID)))
+				for index = 1, #OrderedDataFields do
+					local field = OrderedDataFields[index]
+					local fieldInfo = npc[field]
+
+					if fieldInfo then
+						if not addedZoneHeader then
+							addedZoneHeader = true
+
+							output:AddLine(sectionDelimiter)
+							output:AddLine(("-- %s (%d)"):format(map.name, map.ID))
+							output:AddLine(sectionDelimiter)
+						end
+
+						if not startedEntry then
+							startedEntry = true
+							output:AddLine(("NPCs[%d] = { -- %s"):format(npcID, NPCScan:GetNPCNameFromID(npcID)))
+						end
+
+						local fieldInfoOutput
+						if type(fieldInfo) == "string" then
+							fieldInfoOutput = ("\"%s\""):format(fieldInfo:gsub("\"", "\\\""))
+						else
+							fieldInfoOutput = tostring(fieldInfo)
+						end
+
+						local fieldInfoComment = field == "questID" and (" -- %s"):format(NPCScan:GetQuestNameFromID(fieldInfo)) or ""
+						output:AddLine(("    %s = %s,%s"):format(field, fieldInfoOutput, fieldInfoComment))
 					end
+				end
 
-					local fieldInfoOutput
-					if type(fieldInfo) == "string" then
-						fieldInfoOutput = ("\"%s\""):format(fieldInfo:gsub("\"", "\\\""))
-					else
-						fieldInfoOutput = tostring(fieldInfo)
-					end
-
-					local fieldInfoComment = field == "questID" and (" -- %s"):format(NPCScan:GetQuestNameFromID(fieldInfo)) or ""
-					output:AddLine(("        %s = %s,%s"):format(field, fieldInfoOutput, fieldInfoComment))
+				if startedEntry then
+					output:AddLine("}\n")
 				end
 			end
-
-			if startedEntry then
-				output:AddLine("    },")
-			end
 		end
 
-		output:AddLine("}")
 		output:Display()
 	end
 
 	private.DUMP_COMMANDS = {
-		npcdata = function()
-			private.DumpNPCData()
+		npcdata = function(parameters)
+			private.DumpNPCData(tonumber(parameters))
 		end
 	}
 end -- do-block

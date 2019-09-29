@@ -1,7 +1,76 @@
 # Changelog
 
-## Changed in v4.0.2
+## Changed in v4.0.17
+* Added questids for most Mechagon and Nazjatar rares
+* Added some missing Nazjatar rares
+* If we don't know questids, treat a vignette as the source as equivalent to an incomplete quest. This should help with future no-quest-known-yet situations over-alerting
+* Properly suppress mobs that were flagged as hidden from mouseover and targeting alerts
 
+## Changed in v4.0.16
+* Updated for 8.2
+* Added Mechagon and Nazjatar rares (questids to come)
+* Added I Thought You Said They'd Be Rare and Rest In Pistons achievements
+* Rearrange some mobs that were added in later expansions (Cataclysm and Mists) into the categories for the expansion whose zone they're in, because that makes more sense
+* Ignored mobs are no longer shown in the broker plugin
+* Other missing questids added
+
+## Changed in v4.0.15
+* Config wasn't opening because localization for some zone names was broken
+
+## Changed in v4.0.14
+* HandyNotes integration properly ignores rares you can't interact with because of your faction
+* Range-extended vignettes: shrink the clickable size a bit so you can click through them more easily
+* 8.1.5 compatibility fixes
+* Various mob fixups from NLZ
+* Other missing questids
+
+## Changed in v4.0.13
+* Extend the range of vignettes on your minimap, so we don't keep on alerting for things without giving you any clue as to where they are.
+* Questids added for (almost) all the BfA Adventurer mobs
+
+## Changed in v4.0.12
+* Adventurer achievements for BfA, to track whether you've killed those mobs already
+* Bad mapids: Isle of Thunder, Deepholm
+
+## Changed in v4.0.11
+* Bug in a few areas where vignettes exist but don't provide information
+* More Timeless Isle questids
+* Bad map ids in Frostfire Ridge
+* Update embedded version of LibStub-2.0 to fix an error with chat channels
+
+## Changed in v4.0.10
+* Broker tooltip sorts mobs alphabetically
+* Add questid tracking to (most) Timeless Isle mobs
+* Various bad map ids: Vale of Eternal Blossoms, Krasarang Wilds, Ghostlands, Underbelly, Westlands, Blackrock Mountain
+* TomTom integration via HandyNotes was broken
+
+## Changed in v4.0.9
+* Vignettes with different names from their associated mob should now be detected on non-English locales.
+* Elwynn Forest rares were in the wrong zone
+
+## Changed in v4.0.8
+* You Won't Believe This One Simple Trick To Increase Vignette Detection Range!
+* Also, fix for lua error in combat related to vignette positions
+
+## Changed in v4.0.7
+* ...stupid typo in the TOC broke everything.
+
+## Changed in v4.0.6
+* Some map function related issues in BfA.
+
+## Changed in v4.0.5
+* Updated for Battle for Azeroth
+* New option: ignore all mobs in a given module. (E.g. "please shut up about every single Legion rare".)
+* Filled in lots of completion data for the Legion Adventurer achievements
+* Added the Commander of Argus achievement
+* Adjust colors in the dropdown and handynotes: red for not-complete, yellow for partially-complete (quest / achievement), green for fully complete
+
+## Changed in v4.0.3
+* Updated for 7.3
+* Argus mobs
+* Some new backend support for hiding junk rares (i.e. the Treasure Goblins, and some class-specific ones)
+
+## Changed in v4.0.2
 * TOC for 7.2
 * Questids for various world bosses
 

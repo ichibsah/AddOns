@@ -1,10 +1,10 @@
-## Interface: 70300
+## Interface: 80100
 ## Title: Wholly
 ## Author: Scott M Harrison
 ## Notes: Shows quest database and map pins
-## Version: 064
+## Version: 070
 ## Dependencies: Grail
-## OptionalDeps: LibStub, LibDataBroker, TomTom, Gatherer, OmegaMap, Carbonite
+## OptionalDeps: LibStub, LibDataBroker, TomTom, Gatherer
 ## SavedVariablesPerCharacter: WhollyDatabase
 
 Wholly.lua

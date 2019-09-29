@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2017 João Cardoso
+Copyright 2008-2019 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -17,10 +17,12 @@ This file is part of Scrap.
 
 local NoVisuals = not Scrap.HasSpotlight
 local HasPawn = IsAddOnLoaded('Pawn_Scrap')
-local Options = SushiMagicGroup(ScrapOptions)
+local Patrons = {{title='Jenkins',people={'Sembiance ','Gnare ','Eitrigg A. Runefire','Lars Romeijn'}},{},{title='Ambassador',people={'Fernando Bandeira','Michael Irving','Julia Frizzell','Peggy Webb','Lolari ','Craig Falb','Mary Barrentine','Grey Sample'}}} -- generated patron list
 
+local Options = SushiMagicGroup(ScrapOptions)
 Options:SetAddon('Scrap')
-Options:SetFooter('Copyright 2008-2017 João Cardoso')
+Options:SetFooter('Copyright 2008-2019 João Cardoso')
+Options:SetTitle(ScrapOptions.name)
 Options:SetChildren(function(self)
 	self:CreateHeader('Behaviour', 'GameFontHighlight', true)
 	self:Create('CheckButton', 'AutoSell')
@@ -28,17 +30,17 @@ Options:SetChildren(function(self)
 	self:Create('CheckButton', 'GuildRepair', nil, not Scrap_AutoRepair, true)
 	self:Create('CheckButton', 'SafeMode', 'Safe')
 	self:Create('CheckButton', 'Learn')
-	
+
 	self:CreateHeader('Filters', 'GameFontHighlight', true)
 	self:Create('CheckButton', 'Unusable')
 	self:Create('CheckButton', 'LowEquip', nil, HasPawn)
 	self:Create('CheckButton', 'LowConsume')
-	
+
 	self:CreateHeader('Visuals', NoVisuals and 'GameFontNormalLeftGrey' or 'GameFontHighlight', true)
 	self:Create('CheckButton', 'Glow', nil, NoVisuals)
 	self:Create('CheckButton', 'Icons', nil, NoVisuals)
-	
-	Scrap:SettingsUpdated()
+
+	Scrap:VARIABLES_LOADED()
 end)
 
 local Share = SushiCheckButton(Options)
@@ -48,5 +50,20 @@ Share:SetChecked(not Scrap_ShareList)
 Share:SetScale(.9)
 Share:SetCall('OnInput', function(self, v)
 	Scrap_ShareList = not v
-	Scrap:SettingsUpdated()
+	Scrap:VARIABLES_LOADED()
 end)
+
+local Credits = SushiCreditsGroup:CreateOptionsCategory(Options:GetTitle())
+Credits:SetFooter('Copyright 2008-2019 João Cardoso')
+Credits:SetWebsite('http://www.patreon.com/jaliborc')
+Credits:SetPeople(Patrons)
+Credits:SetAddon('Scrap')
+
+function ScrapOptions.default()
+	Scrap_Version = nil
+	Scrap:ResetTutorials()
+	Scrap:VARIABLES_LOADED()
+
+	Share:SetChecked(true)
+	Options:Update()
+end

@@ -28,8 +28,10 @@ end
 function IceHUDPlayerAlternatePower.prototype:Enable(core)
 	IceHUDPlayerAlternatePower.super.prototype.Enable(self, core)
 
-	self:RegisterEvent("UNIT_POWER", "UpdateEvent")
-	self:RegisterEvent("UNIT_MAXPOWER", "UpdateEvent")
+	self:RegisterEvent(IceHUD.UnitPowerEvent, "UpdateEvent")
+	if IceHUD.WowVer < 80000 then
+		self:RegisterEvent("UNIT_MAXPOWER", "UpdateEvent")
+	end
 	self:RegisterEvent("UNIT_POWER_BAR_SHOW", "PowerBarShow")
 	self:RegisterEvent("UNIT_POWER_BAR_HIDE", "PowerBarHide")
 
@@ -130,4 +132,6 @@ function IceHUDPlayerAlternatePower.prototype:HideBlizz()
 end
 
 -- Load us up
-IceHUD.PlayerAlternatePower = IceHUDPlayerAlternatePower:new()
+if ALTERNATE_POWER_INDEX then
+	IceHUD.PlayerAlternatePower = IceHUDPlayerAlternatePower:new()
+end

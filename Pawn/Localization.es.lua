@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2017 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -447,6 +447,8 @@ Todo objeto en World of Warcraft tiene un número de ID asociado.  Normalmente �
 		["OptionsOtherHeader"] = "Otras opciones",
 		["OptionsQuestUpgradeAdvisor"] = "Mostrar asistente de mejora en misión",
 		["OptionsQuestUpgradeAdvisorTooltip"] = "En tu registro de misiones y en las conversaciones con PNJs, si una de las opciones de recompensa de la misión es una mejora para tu equipamiento actual, Pawn mostrará un icono de flecha verde en ese objeto.  SI ninguno de los objetos son una mejora, Pawn mostrará un montón de monedas en el objeto que valga más al venderlo a un comerciante.",
+		["OptionsShowItemLevelUpgrades"] = "Show item level upgrades",
+		["OptionsShowItemLevelUpgradesTooltip"] = "Pawn will show you items that are of a higher item level than what you've previously equipped in that slot in addition to normal upgrades.",
 		--Translation missing 
 		["OptionsShowRelicUpgrades"] = "Show relic upgrades",
 		--Translation missing 
@@ -561,23 +563,13 @@ end
 
 if GetLocale() == "esES" then
 	PawnUseThisLocalization()
-	PawnLocal.ThousandsSeparator = "\194\160"
+	PawnLocal.ThousandsSeparator = "."
 	PawnLocal.DecimalSeparator = ","
 elseif GetLocale() == "esMX" then 
 	PawnUseThisLocalization() 
 	PawnLocal.ThousandsSeparator = ","
 	PawnLocal.DecimalSeparator = "."
 end 
-
-if GetLocale() == "esES" or GetLocale() == "esMX" then
-	-- Convert "NBSP" to an actual non-breaking space (ASCII 160).  CurseForge isn't good about exporting actual NSBPs.
-	-- This is only supported for ThousandsSeparator and the items in the TooltipParsing table, and only for these languages.
-	local Key, Value
-	local T = PawnLocal.TooltipParsing
-	for Key, Value in pairs(T) do
-		T[Key] = gsub(Value, "NBSP", "\194\160")
-	end
-end
 
 -- After using this localization or deciding that we don't need it, remove it from memory.
 PawnUseThisLocalization = nil

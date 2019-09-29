@@ -1,9 +1,0 @@
-## Interface: 70000
-## Title: GuildieNote |cFFFFA0A0by kathmann|r
-## Notes: "A simple addon that shows a guild member's officers' note and public note when he/she logs in. This AddOn is licensed under the GNU GPL, see GPL.txt for details."
-## Version: 7.0.3
-## Author: kathmann
-## X-Date: 2016-08-17
-## X-Category: Guild
-
-GuildieNote.lua

@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2017 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 --
 -- User interface code
@@ -61,7 +61,12 @@ local PawnUIFrameNeedsScaleSelector = { true, true, true, true, false, false, fa
 function PawnUI_InventoryPawnButton_Move()
 	if PawnCommon.ButtonPosition == PawnButtonPositionRight then
 		PawnUI_InventoryPawnButton:ClearAllPoints()
-		PawnUI_InventoryPawnButton:SetPoint("TOPRIGHT", "CharacterTrinket1Slot", "BOTTOMRIGHT", -1, -8)
+		if PaperDollFrame.ExpandButton then
+			-- DejaCharacterStats compatibility
+			PawnUI_InventoryPawnButton:SetPoint("TOPRIGHT", "CharacterTrinket1Slot", "BOTTOMRIGHT", -31, -8)
+		else
+			PawnUI_InventoryPawnButton:SetPoint("TOPRIGHT", "CharacterTrinket1Slot", "BOTTOMRIGHT", -1, -8)
+		end
 		PawnUI_InventoryPawnButton:Show()
 		if PawnUI_InspectPawnButton then
 			PawnUI_InspectPawnButton:ClearAllPoints()
@@ -85,7 +90,6 @@ function PawnUI_InventoryPawnButton_Move()
 		if PawnUI_SocketingPawnButton then
 			PawnUI_SocketingPawnButton:ClearAllPoints()
 			PawnUI_SocketingPawnButton:SetPoint("TOPRIGHT", "ItemSocketingFrame", "TOPRIGHT", -14, -32)
-			--PawnUI_SocketingPawnButton:SetPoint("TOPLEFT", "ItemSocketingFrame", "TOPLEFT", 64, -32)
 			PawnUI_SocketingPawnButton:Show()
 		end
 	else
@@ -1024,7 +1028,7 @@ function PawnUI_SetCompareItem(Index, ItemLink)
 	
 	-- Now, update the item name and icon.
 	local Label = getglobal("PawnUICompareItemName" .. Index)
-	local Texture = getglobal("PawnUICompareItemIconTexture" .. Index)
+	local Texture = getglobal("PawnUICompareItemIcon" .. Index .. "NormalTexture")
 	Label:SetText(ItemName)
 	local Color = ITEM_QUALITY_COLORS[ItemRarity]
 	if Color then Label:SetVertexColor(Color.r, Color.g, Color.b) end
@@ -1091,7 +1095,7 @@ function PawnUI_AutoCompare()
 		-- First, pick an appropriate scale.
 		local UpgradeInfo = PawnIsItemAnUpgrade(PawnUIComparisonItems[2])
 		local ShortcutToUse
-		if UpgradeInfo and #UpgradeInfo == 1 then
+		if UpgradeInfo and #UpgradeInfo == 1 and UpgradeInfo[1].PercentUpgrade then
 			-- This item upgrades exactly one scale, so switch to that scale and the current best-in-slot.
 			PawnUI_SelectScale(UpgradeInfo[1].ScaleName)
 			if PawnUIShortcutItems[3] then
@@ -1162,7 +1166,7 @@ function PawnUI_SetShortcutButtonItem(ShortcutIndex)
 	-- Update this button.
 	local Item = PawnUIShortcutItems[ShortcutIndex]
 	if Item then
-		local Texture = getglobal(ButtonName .. "Texture")
+		local Texture = getglobal(ButtonName .. "NormalTexture")
 		local _, _, _, _, _, _, _, _, _, ItemTexture = GetItemInfo(Item.Link)
 		Texture:SetTexture(ItemTexture)
 		ShortcutButton:Show()
@@ -1760,7 +1764,7 @@ function PawnUIOptionsTabPage_OnShow()
 	PawnUIFrame_ShowLootUpgradeAdvisorCheck:SetChecked(PawnCommon.ShowLootUpgradeAdvisor)
 	PawnUIFrame_ShowQuestUpgradeAdvisorCheck:SetChecked(PawnCommon.ShowQuestUpgradeAdvisor)
 	PawnUIFrame_ShowSocketingAdvisorCheck:SetChecked(PawnCommon.ShowSocketingAdvisor)
-	PawnUIFrame_ShowRelicUpgradesCheck:SetChecked(PawnCommon.ShowRelicUpgrades)
+	PawnUIFrame_ShowItemLevelUpgradesCheck:SetChecked(PawnCommon.ShowItemLevelUpgrades)
 
 	-- Other options
 	PawnUIFrame_DebugCheck:SetChecked(PawnCommon.Debug)
@@ -1850,8 +1854,8 @@ function PawnUIFrame_ShowSocketingAdvisorCheck_OnClick()
 	PawnCommon.ShowSocketingAdvisor = PawnUIFrame_ShowSocketingAdvisorCheck:GetChecked()
 end
 
-function PawnUIFrame_ShowRelicUpgradesCheck_OnClick()
-	PawnCommon.ShowRelicUpgrades = PawnUIFrame_ShowRelicUpgradesCheck:GetChecked()
+function PawnUIFrame_ShowItemLevelUpgradesCheck_OnClick()
+	PawnCommon.ShowItemLevelUpgrades = PawnUIFrame_ShowItemLevelUpgradesCheck:GetChecked()
 end
 
 function PawnUIFrame_IgnoreGemsWhileLevelingCheck_OnClick()
@@ -1865,6 +1869,7 @@ function PawnUIFrame_ResetUpgradesButton_OnClick()
 	PawnClearCache()
 	PawnInvalidateBestItems()
 	PawnResetTooltips()
+	PawnClearBestItemLevelData()
 end
 
 function PawnUIFrame_DebugCheck_OnClick()
@@ -1904,6 +1909,10 @@ function PawnUI_OnSocketUpdate()
 
 	-- Find out what item it is.
 	local _, ItemLink = ItemSocketingDescription:GetItem()
+	if strfind(ItemLink, "item:167555") then
+		-- Don't show an error message on Pocket-Sized Computation Device, which has three punch card sockets and no stats.
+		return
+	end
 	local Item = PawnGetItemData(ItemLink)
 	if not Item or not Item.Values then
 		VgerCore.Fail("Failed to update the socketing UI because we didn't know what item was in it.")
@@ -1990,38 +1999,47 @@ function PawnUI_GroupLootFrame_OnShow(self)
 				local NumUpgrades = #UpgradeInfo
 				local ShowOldItems = (NumUpgrades == 1) -- If the item upgrades exactly one scale, show a detailed tooltip showing the item being replaced.
 				local ShowScaleNames = (NumUpgrades <= 3) -- If the item upgrades two or three scales, show a less detailed tooltip showing the upgrade percentages.
+				local UpgradeText
 				if ShowScaleNames then
-					local UpgradeText = PawnLocal.LootUpgradeAdvisorHeader
+					UpgradeText = PawnLocal.LootUpgradeAdvisorHeader
 					local ThisUpgradeData, _
 					for _, ThisUpgradeData in pairs(UpgradeInfo) do
 						local ScaleName = ThisUpgradeData.ScaleName
-						local SetAnnotation = ""
-						if InvType == "INVTYPE_2HWEAPON" then
-							SetAnnotation = PawnLocal.TooltipUpgradeFor2H
-						elseif InvType == "INVTYPE_WEAPONMAINHAND" or InvType == "INVTYPE_WEAPON" or InvType == "INVTYPE_WEAPONOFFHAND" then
-							SetAnnotation = PawnLocal.TooltipUpgradeFor1H
-						end
-						local ThisText
-						if ThisUpgradeData.PercentUpgrade >= 100 then
-							ThisText = format(PawnLocal.TooltipBigUpgradeAnnotation, format("|n%s%s:", PawnGetScaleColor(ScaleName), ThisUpgradeData.LocalizedScaleName), SetAnnotation)
-						else
-							ThisText = format(PawnLocal.TooltipUpgradeAnnotation, format("|n%s%s:", PawnGetScaleColor(ScaleName), ThisUpgradeData.LocalizedScaleName), ThisUpgradeData.PercentUpgrade * 100, SetAnnotation)
-						end
-						if ShowOldItems and ThisUpgradeData.ExistingItemLink then
-							local ExistingItemName, _, Quality = GetItemInfo(ThisUpgradeData.ExistingItemLink)
-							if ExistingItemName then
-								-- It's possible (though rare) that the existing item isn't in the user's cache, so we can't get its quality color.  In that case, don't display it in the tooltip.
-								local _, _, _, QualityColor =  GetItemQualityColor(Quality)
-								ThisText = format(PawnLocal.TooltipVersusLine, ThisText, QualityColor, ExistingItemName)
+						if ScaleName then
+							local SetAnnotation = ""
+							if InvType == "INVTYPE_2HWEAPON" then
+								SetAnnotation = PawnLocal.TooltipUpgradeFor2H
+							elseif InvType == "INVTYPE_WEAPONMAINHAND" or InvType == "INVTYPE_WEAPON" or InvType == "INVTYPE_WEAPONOFFHAND" then
+								SetAnnotation = PawnLocal.TooltipUpgradeFor1H
 							end
+							local ThisText
+							if ThisUpgradeData.PercentUpgrade >= 100 then
+								ThisText = format(PawnLocal.TooltipBigUpgradeAnnotation, format("|n%s%s:", PawnGetScaleColor(ScaleName), ThisUpgradeData.LocalizedScaleName), SetAnnotation)
+							else
+								ThisText = format(PawnLocal.TooltipUpgradeAnnotation, format("|n%s%s:", PawnGetScaleColor(ScaleName), ThisUpgradeData.LocalizedScaleName), ThisUpgradeData.PercentUpgrade * 100, SetAnnotation)
+							end
+							if ShowOldItems and ThisUpgradeData.ExistingItemLink then
+								local ExistingItemName, _, Quality = GetItemInfo(ThisUpgradeData.ExistingItemLink)
+								if ExistingItemName then
+									-- It's possible (though rare) that the existing item isn't in the user's cache, so we can't get its quality color.  In that case, don't display it in the tooltip.
+									local _, _, _, QualityColor =  GetItemQualityColor(Quality)
+									ThisText = format(PawnLocal.TooltipVersusLine, ThisText, QualityColor, ExistingItemName)
+								end
+							end
+							UpgradeText = UpgradeText .. ThisText
 						end
-						UpgradeText = UpgradeText .. ThisText
 					end
-					LootAdvisor.text:SetText(UpgradeText)
 				else
 					-- If the item upgrades more than three scales, show a generic tooltip.
-					LootAdvisor.text:SetText(format(PawnLocal.LootUpgradeAdvisorHeaderMany, NumUpgrades))
+					UpgradeText = format(PawnLocal.LootUpgradeAdvisorHeaderMany, NumUpgrades)
 				end
+
+				local ItemLevelIncrease = PawnIsItemAnItemLevelUpgrade(Item)
+				if ItemLevelIncrease then
+					UpgradeText = UpgradeText .. "|n" .. format(PawnLocal.TooltipRelicUpgradeAnnotation, PawnLocal.ItemLevelTooltipLine .. ":", ItemLevelIncrease, "")
+				end
+
+				LootAdvisor.text:SetText(UpgradeText)
 				IsUpgrade = true
 			end
 		end

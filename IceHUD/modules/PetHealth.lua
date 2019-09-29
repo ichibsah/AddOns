@@ -42,16 +42,21 @@ function PetHealth.prototype:Enable(core)
 	PetHealth.super.prototype.Enable(self, core)
 
 	self:RegisterEvent("PET_UI_UPDATE",	 "CheckPet");
-	self:RegisterEvent("PLAYER_PET_CHANGED", "CheckPet");
-	self:RegisterEvent("PET_BAR_CHANGED", "CheckPet");
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		self:RegisterEvent("PLAYER_PET_CHANGED", "CheckPet");
+	end
+	self:RegisterEvent("PET_BAR_UPDATE_USABLE", "CheckPet");
 	self:RegisterEvent("UNIT_PET", "CheckPet");
 
 	self:RegisterEvent("UNIT_HEALTH", "UpdateEvent")
+	self:RegisterEvent("UNIT_HEALTH_FREQUENT", "UpdateEvent")
 	self:RegisterEvent("UNIT_MAXHEALTH", "UpdateEvent")
 
-	self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
-	self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckVehicle")
+	if UnitHasVehicleUI then
+		self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
+		self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
+	end
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringWorld")
 
 	self.frame:SetAttribute("unit", self.unit)
 	RegisterUnitWatch(self.frame)
@@ -217,11 +222,15 @@ function PetHealth.prototype:ExitingVehicle(event, unit)
 	end
 end
 
-function PetHealth.prototype:CheckVehicle()
-	if UnitHasVehicleUI("player") then
-		self:EnteringVehicle(nil, "player", true)
-	else
-		self:ExitingVehicle(nil, "player")
+function PetHealth.prototype:EnteringWorld()
+	self:Update(self.unit)
+
+	if UnitHasVehicleUI then
+		if UnitHasVehicleUI("player") then
+			self:EnteringVehicle(nil, "player", true)
+		else
+			self:ExitingVehicle(nil, "player")
+		end
 	end
 end
 

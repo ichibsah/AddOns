@@ -36,8 +36,12 @@ function IceCustomBar.prototype:Enable(core)
 
 	self:RegisterEvent("UNIT_AURA", "UpdateCustomBarEvent")
 	self:RegisterEvent("UNIT_PET", "UpdateCustomBarEvent")
-	self:RegisterEvent("PLAYER_PET_CHANGED", "UpdateCustomBarEvent")
-	self:RegisterEvent("PLAYER_FOCUS_CHANGED", "UpdateCustomBarEvent")
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		self:RegisterEvent("PLAYER_PET_CHANGED", "UpdateCustomBarEvent")
+	end
+	if FocusUnit then
+		self:RegisterEvent("PLAYER_FOCUS_CHANGED", "UpdateCustomBarEvent")
+	end
 	if self.unitClass == "SHAMAN" then
 		self:RegisterEvent("PLAYER_TOTEM_UPDATE", "UpdateTotems")
 	end
@@ -77,6 +81,10 @@ function IceCustomBar.prototype:Disable(core)
 end
 
 function IceCustomBar.prototype:GetUnitToTrack()
+	if IceHUD.WowClassic then
+		return "player"
+	end
+
 	if self.moduleSettings.myUnit == "other" then
 		if self.moduleSettings.customUnit ~= nil and self.moduleSettings.customUnit ~= "" then
 			return self.moduleSettings.customUnit
@@ -167,8 +175,6 @@ function IceCustomBar.prototype:CreateBar()
 
 	if not self.barFrame.icon then
 		self.barFrame.icon = self.masterFrame:CreateTexture(nil, "LOW")
-		-- default texture so that 'config mode' can work without activating the bar first
-		self.barFrame.icon:SetTexture("Interface\\Icons\\Spell_Frost_Frost")
 		-- this cuts off the border around the buff icon
 		self.barFrame.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		self.barFrame.icon:SetDrawLayer("OVERLAY")
@@ -256,51 +262,53 @@ function IceCustomBar.prototype:GetOptions()
 		order = 30.3,
 	}
 
-	opts["unitToTrack"] = {
-		type = 'select',
-		values = validUnits,
-		name = L["Unit to track"],
-		desc = L["Select which unit that this bar should be looking for buffs/debuffs on"],
-		get = function(info)
-			return IceHUD:GetSelectValue(info, self.moduleSettings.myUnit)
-		end,
-		set = function(info, v)
-			self.moduleSettings.myUnit = info.option.values[v]
-			self.unit = self:GetUnitToTrack()
-			self:RegisterFontStrings()
-			self:ConditionalSubscribe()
-			self:Redraw()
-			self:UpdateCustomBar(self.unit)
-			IceHUD:NotifyOptionsChange()
-		end,
-		disabled = function()
-			return not self.moduleSettings.enabled
-		end,
-		order = 30.4,
-	}
+	if not IceHUD.WowClassic then
+		opts["unitToTrack"] = {
+			type = 'select',
+			values = validUnits,
+			name = L["Unit to track"],
+			desc = L["Select which unit that this bar should be looking for buffs/debuffs on"],
+			get = function(info)
+				return IceHUD:GetSelectValue(info, self.moduleSettings.myUnit)
+			end,
+			set = function(info, v)
+				self.moduleSettings.myUnit = info.option.values[v]
+				self.unit = self:GetUnitToTrack()
+				self:RegisterFontStrings()
+				self:ConditionalSubscribe()
+				self:Redraw()
+				self:UpdateCustomBar(self.unit)
+				IceHUD:NotifyOptionsChange()
+			end,
+			disabled = function()
+				return not self.moduleSettings.enabled
+			end,
+			order = 30.4,
+		}
 
-	opts["customUnitToTrack"] = {
-		type = 'input',
-		name = L["Custom unit"],
-		desc = L["Any valid unit id such as: party1, raid14, targettarget, etc. Not guaranteed to work with all unit ids.\n\nRemember to press ENTER after filling out this box with the name you want or it will not save."],
-		get = function()
-			return self.moduleSettings.customUnit
-		end,
-		set = function(info, v)
-			self.moduleSettings.customUnit = v
-			self.unit = self:GetUnitToTrack()
-			self:RegisterFontStrings()
-			self:ConditionalSubscribe()
-			self:Redraw()
-			self:UpdateCustomBar(self.unit)
-			IceHUD:NotifyOptionsChange()
-		end,
-		hidden = function()
-			return self.moduleSettings.myUnit ~= "other"
-		end,
-		usage = "<what custom unit to track when unitToTrack is set to 'other'>",
-		order = 30.45,
-	}
+		opts["customUnitToTrack"] = {
+			type = 'input',
+			name = L["Custom unit"],
+			desc = L["Any valid unit id such as: party1, raid14, targettarget, etc. Not guaranteed to work with all unit ids.\n\nRemember to press ENTER after filling out this box with the name you want or it will not save."],
+			get = function()
+				return self.moduleSettings.customUnit
+			end,
+			set = function(info, v)
+				self.moduleSettings.customUnit = v
+				self.unit = self:GetUnitToTrack()
+				self:RegisterFontStrings()
+				self:ConditionalSubscribe()
+				self:Redraw()
+				self:UpdateCustomBar(self.unit)
+				IceHUD:NotifyOptionsChange()
+			end,
+			hidden = function()
+				return self.moduleSettings.myUnit ~= "other"
+			end,
+			usage = "<what custom unit to track when unitToTrack is set to 'other'>",
+			order = 30.45,
+		}
+	end
 
 	opts["buffOrDebuff"] = {
 		type = 'select',
@@ -633,7 +641,7 @@ end
 -- 'Protected' methods --------------------------------------------------------
 
 function IceCustomBar.prototype:GetAuraDuration(unitName, buffName)
-	if not unitName or not buffName then
+	if not unitName or not buffName or buffName == "" then
 		return nil
 	end
 
@@ -664,7 +672,12 @@ function IceCustomBar.prototype:GetAuraDuration(unitName, buffName)
 	local remaining
 	local isBuff = self.moduleSettings.buffOrDebuff == "buff" and true or false
 	local buffFilter = (isBuff and "HELPFUL" or "HARMFUL") .. (self.moduleSettings.trackOnlyMine and "|PLAYER" or "")
-	local buff, rank, texture, count, type, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, buffFilter)
+	local buff, rank, texture, count, type, duration, endTime, unitCaster, _, _, spellId
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		buff, rank, texture, count, type, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, buffFilter)
+	else
+		buff, texture, count, type, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, buffFilter)
+	end
 	local isMine = unitCaster == "player"
 	local mySpellId = tonumber(self.moduleSettings.buffToTrack)
 	local checkId = mySpellId ~= nil
@@ -690,7 +703,11 @@ function IceCustomBar.prototype:GetAuraDuration(unitName, buffName)
 
 		i = i + 1;
 
-		buff, rank, texture, count, type, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, buffFilter)
+		if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+			buff, rank, texture, count, type, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, buffFilter)
+		else
+			buff, texture, count, type, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, buffFilter)
+		end
 		isMine = unitCaster == "player"
 	end
 
@@ -765,6 +782,10 @@ function IceCustomBar.prototype:UpdateCustomBar(unit, fromUpdate)
 		end
 
 		if IceHUD.IceCore:IsInConfigMode() or self.moduleSettings.displayAuraIcon then
+			if IceHUD.IceCore:IsInConfigMode() and not self.barFrame.icon:GetTexture() then
+				self.barFrame.icon:SetTexture("Interface\\Icons\\Spell_Frost_Frost")
+			end
+
 			self.barFrame.icon:Show()
 		else
 			self.barFrame.icon:Hide()

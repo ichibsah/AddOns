@@ -1,23 +1,23 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John Wellesz).
 
     The only official and allowed distribution means are www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
 
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
-    
-    This file was last updated on 2016-09-25T0:53:38Z
+
+    This file was last updated on 2019-09-09T00:15:26Z
 
 --]]
 -------------------------------------------------------------------------------
@@ -161,13 +161,13 @@ function LiveList:DisplayItem (ID, UnitID, Debuff) -- {{{
     --D:Debug("XXXX => Updating ll item %d for %s", ID, UnitID);
 
     if not LVItem.IsShown then
-        --[===[@debug@--[===[
+        --[===[@debug@--
         D:Debug("(LiveList) Showing LVItem %d", ID);
         --@end-debug@]===]
 
         LVItem.Frame:Show();
 
-        --[===[@debug@--[===[
+        --[===[@debug@--
         D:Debug("(LiveList) done", ID);
         --@end-debug@]===]
 
@@ -198,7 +198,7 @@ function LiveList.prototype:GiveAnchor() -- {{{
         if D.profile.ReverseLiveDisplay then
             return "BOTTOMLEFT", LiveList.ExistingPerID[self.ID - 1].Frame, "TOPLEFT", 0, 1;
         else
-            return "TOPLEFT", LiveList.ExistingPerID[self.ID - 1].Frame, "BOTTOMLEFT", 0, -1; -- TODO index is nil error received in a report by mail on 2012-11-02
+            return "TOPLEFT", LiveList.ExistingPerID[self.ID - 1].Frame, "BOTTOMLEFT", 0, -1;
         end
     end
 
@@ -206,7 +206,7 @@ end -- }}}
 
 
 function LiveList.prototype:init(Container,ID) -- {{{
-    
+
     --LiveList.super.prototype.init(self); -- needed
     D:Debug("(LiveList) Initializing LiveList object '%s'", ID);
 
@@ -223,7 +223,7 @@ function LiveList.prototype:init(Container,ID) -- {{{
     self.PrevUnitID         = false;
     self.PrevRaidTargetIndex= false;
     self.UnitClass          = false;
-    
+
     self.Debuff             = {};
 
     self.PrevDebuffIndex    = false;
@@ -258,14 +258,14 @@ function LiveList.prototype:init(Container,ID) -- {{{
 
     -- Create the character name Fontstring
     self.UnitNameFontString = self.Frame:CreateFontString("DcrLiveListItem"..ID.."UnitName", "OVERLAY", "DcrLLUnitNameFont");
-    
+
     -- Create the unitID Fontstring
     self.UnitIDFontString = self.Frame:CreateFontString("DcrLiveListItem"..ID.."UnitID", "OVERLAY", "DcrLLUnitIDFont");
     --self.UnitIDFontString:SetHeight(3);
 
     -- Create the debuff type fontstring
     self.DebuffTypeFontString = self.Frame:CreateFontString("DcrLiveListItem"..ID.."Type", "OVERLAY", "DcrLLDebuffTypeFont");
-    
+
     -- Create the Raid Target Icon Texture
     self.RaidIconTexture = self.Frame:CreateTexture("DcrLiveListItem"..ID.."RaidIcon", "ARTWORK", "DcrLVRaidIconTemplate");
 
@@ -398,7 +398,7 @@ function LiveList:Update_Display() -- {{{
         return;
     end
 
-    -- 
+    --
     self:PreCreate();
 
     Index = 0;
@@ -586,4 +586,4 @@ function LiveList:Onclick() -- {{{
     D:Println(L["HLP_LL_ONCLICK_TEXT"]);
 end -- }}}
 
-T._LoadedFiles["Dcr_LiveList.lua"] = "2.7.5.6";
+T._LoadedFiles["Dcr_LiveList.lua"] = "2.7.6.4";

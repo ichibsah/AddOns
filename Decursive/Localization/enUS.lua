@@ -1,9 +1,8 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT
-    teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John
@@ -13,7 +12,7 @@
     www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is
     required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
@@ -21,7 +20,7 @@
     Decursive is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY.
 
-    This file was last updated on 2016-09-12T5:18:29Z
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -114,9 +113,9 @@ L["COLORSTATUS"] = "Set the color for the '%s' MUF status."
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "Scan and cure pets"
 L["CURSE"] = "Curse"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Please email the content of this window to <Archarodim+DcrReport@teaser.fr>|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Please email the content of this window to <%s>|r
 |cFF009999(Use CTRL+A to select all and then CTRL+C to put the text in your clip-board)|r
-Also tell in your report if you noticed any strange behavior of Decursive.
+Also tell in your report if you noticed any strange behavior of %s.
 ]=]
 L["DECURSIVE_DEBUG_REPORT"] = "**** |cFFFF0000Decursive Debug Report|r ****"
 L["DECURSIVE_DEBUG_REPORT_BUT_NEW_VERSION"] = [=[|cFF11FF33Decursive crashed but fear not! A NEW version of Decursive has been detected (%s). You simply need to update. Go to curse.com and search for 'Decursive' or use Curse's client, it'll update automatically all your beloved add-ons.|r
@@ -493,4 +492,5 @@ L["UNSTABLERELEASE"] = "Unstable release"
 
 
 
-T._LoadedFiles["enUS.lua"] = "2.7.5.6";
+
+T._LoadedFiles["enUS.lua"] = "2.7.6.4";

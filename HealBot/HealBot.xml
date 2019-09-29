@@ -4,7 +4,6 @@
 
   <Script file="HealBot_Data.lua" />
   <Script file="HealBot_Init.lua" />
-  <Script file="HealBot_IncHeals.lua" />
   <Script file="HealBot.lua" />
   
   <!-- Comment Syntax -->
@@ -15,11 +14,11 @@
 	  <AbsDimension y="18"/>
 	</Size>
     <Layers>
-    <Layer level="OVERLAY">
+    <Layer level="ARTWORK">
       <FontString name="$parent_text" inherits="GameFontNormalSmall">
         <Anchors>
         <Anchor point="CENTER">
-          <Offset> <AbsDimension y="1"/>  </Offset>
+          <Offset> <AbsDimension y="1"/> </Offset>
         </Anchor>
         </Anchors>
       </FontString>

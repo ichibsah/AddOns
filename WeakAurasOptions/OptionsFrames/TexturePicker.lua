@@ -1,3 +1,5 @@
+if not WeakAuras.IsCorrectVersion() then return end
+
 -- Lua APIs
 local wipe = wipe
 local pairs, next, type = pairs, next, type
@@ -159,7 +161,7 @@ local function ConstructTexturePicker(frame)
     frame.window = "texture";
     local picked = false;
     local _, givenPath
-    if(type(self.givenPath) == "string") then
+    if type(self.givenPath) == "string" then
       givenPath = self.givenPath;
     else
       _, givenPath = next(self.givenPath);

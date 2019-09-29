@@ -441,6 +441,7 @@ L["If the unit has heals incoming, it will show the absolute incoming heal value
 L["If the unit is a player then class is returned, if it's a NPC then the creature type."] = "If the unit is a player then class is returned, if it's a NPC then the creature type."
 L["If the unit is a player then race is returned, if it's a NPC then the creature type."] = "If the unit is a player then race is returned, if it's a NPC then the creature type."
 L["If you don't, you will be unable to use any combo point features (Chi, Holy Power, Combo Points, Aura Points, etc) until you do so."] = "If you don't, you will be unable to use any combo point features (Chi, Holy Power, Combo Points, Aura Points, etc) until you do so."
+L["Imp & Dreadstalker bar"] = "Imp & Dreadstalker bar"
 L["Import"] = "Import"
 L["Import unit frame positions"] = "Import unit frame positions"
 L["Import visibility settings"] = "Import visibility settings"
@@ -456,6 +457,7 @@ L["Incoming heal/Name"] = "Incoming heal/Name"
 L["Incoming heals"] = "Incoming heals"
 L["Index"] = "Index"
 L["Indicator color"] = "Indicator color"
+L["Indicator for the current pet happiness."] = "Indicator for the current pet happiness."
 L["Indicator name"] = "Indicator name"
 L["Indicator this aura should be displayed in."] = "Indicator this aura should be displayed in."
 L["Indicators"] = "Indicators"
@@ -588,6 +590,7 @@ L["Percentage value of how far outside the unit frame the incoming absorb bar ca
 L["Percentage value of how far outside the unit frame the incoming heal bar can go. 130% means it will go 30% outside the frame, 100% means it will not go outside."] = "Percentage value of how far outside the unit frame the incoming heal bar can go. 130% means it will go 30% outside the frame, 100% means it will not go outside."
 L["Pet"] = "Pet"
 L["Pet Battle"] = "Pet Battle"
+L["Pet Happiness"] = "Pet Happiness"
 L["Pet Target"] = "Pet Target"
 L["Player"] = "Player"
 L["player alt. power"] = "player alt. power"
@@ -634,7 +637,6 @@ L["Raid target indicator."] = "Raid target indicator."
 L["Raid targeting unit"] = "Raid targeting unit"
 L["Range Checker"] = "Range Checker"
 L["Range indicator"] = "Range indicator"
-L["Rank 1"] = "Rank 1"
 L["Rare"] = "Rare"
 L["Rare Elite"] = "Rare Elite"
 L["Rare indicator"] = "Rare indicator"
@@ -711,7 +713,6 @@ L["Show background"] = "Show background"
 L["Show boss debuffs"] = "Show boss debuffs"
 L["Show buffs before debuffs when sharing the same anchor point."] = "Show buffs before debuffs when sharing the same anchor point."
 L["Show cast name"] = "Show cast name"
-L["Show cast rank"] = "Show cast rank"
 L["Show cast time"] = "Show cast time"
 L["Show castable on other auras"] = "Show castable on other auras"
 L["Show casted by boss"] = "Show casted by boss"
@@ -760,7 +761,6 @@ L["Solid color to use in the indicator, only used if you do not have use aura ic
 L["Sort method"] = "Sort method"
 L["Sort order"] = "Sort order"
 L["Sorting"] = "Sorting"
-L["Soul Effigy bar"] = "Soul Effigy bar"
 L["Soul Shards"] = "Soul Shards"
 L["Soul shards"] = "Soul shards"
 L["Spacing"] = "Spacing"
@@ -814,6 +814,9 @@ L["This bar will automatically hide when you are at the level cap, or you do not
 L[ [=[This color will be used if the indicator shown is your own, only applies if icons are not used.
 Handy if you want to know if a target has a Rejuvenation on them, but you also want to know if you were the one who casted the Rejuvenation.]=] ] = [=[This color will be used if the indicator shown is your own, only applies if icons are not used.
 Handy if you want to know if a target has a Rejuvenation on them, but you also want to know if you were the one who casted the Rejuvenation.]=]
+--[[Translation missing --]]
+L[ [=[This color will be used if the indicator shown is your own, only applies if icons are not used.
+Handy if you want to know if a target has a Rejuvenation on them, but you also want to know if you were the one who casted the Rejuvenation.]=] ] = ""
 L["This filter has no aura types set to filter out."] = "This filter has no aura types set to filter out."
 L["This filter has no auras in it, you will have to add some using the dialog above."] = "This filter has no auras in it, you will have to add some using the dialog above."
 L["This is a good guide on how to get started with programming in Lua, while you do not need to read the entire thing it is a helpful for understanding the basics of Lua syntax and API's."] = "This is a good guide on how to get started with programming in Lua, while you do not need to read the entire thing it is a helpful for understanding the basics of Lua syntax and API's."
@@ -822,6 +825,9 @@ L["This unit has child units that depend on it, you need to enable this unit bef
 L[ [=[This will be set for your current class only.
 If no custom spells are set, defaults appropriate for your class will be used.]=] ] = [=[This will be set for your current class only.
 If no custom spells are set, defaults appropriate for your class will be used.]=]
+--[[Translation missing --]]
+L[ [=[This will be set for your current class only.
+If no custom spells are set, defaults appropriate for your class will be used.]=] ] = ""
 L["This will disable the automatic detection of what events this tag will need, you should leave this unchecked unless you know what you are doing."] = "This will disable the automatic detection of what events this tag will need, you should leave this unchecked unless you know what you are doing."
 L["This will override all background colorings for bars including custom set ones."] = "This will override all background colorings for bars including custom set ones."
 L["Threat"] = "Threat"

@@ -1,58 +1,38 @@
+if not WeakAuras.IsCorrectVersion() then return end
+
 local Masque = LibStub("Masque", true)
 local L = WeakAuras.L
 
 local function createOptions(id, data)
+  local hiddenIconExtra = function()
+    return WeakAuras.IsCollapsed("icon", "icon", "iconextra", true);
+  end
+  local indentWidth = 0.15
+
   local options = {
-    cooldown = {
-      type = "toggle",
-      name = L["Cooldown"],
-      order = 4,
-      disabled = function() return not WeakAuras.CanHaveDuration(data); end,
-      get = function() return WeakAuras.CanHaveDuration(data) and data.cooldown; end
-    },
-    inverse = {
-      type = "toggle",
-      name = L["Inverse"],
-      order = 6,
-      disabled = function() return not (WeakAuras.CanHaveDuration(data) and data.cooldown); end,
-      get = function() return data.inverse and WeakAuras.CanHaveDuration(data) and data.cooldown; end,
-      hidden = function() return not data.cooldown end
-    },
-    cooldownTextEnabled = {
-      type = "toggle",
-      name = L["Show Cooldown Text"],
-      order = 6.5,
-      disabled = function() return not WeakAuras.CanHaveDuration(data); end,
-      hidden = function() return not (data.cooldown and not IsAddOnLoaded("OmniCC") and GetCVar("countdownForCooldowns") == "1") end,
-      width = "double"
-    },
-    cooldownSpace = {
-      type = "description",
-      name = "",
-      order = 6.6,
-      width = "normal",
-      hidden = function()
-        return data.cooldown and (IsAddOnLoaded("OmniCC") or GetCVar("countdownForCooldowns") ~= "1");
-      end
-    },
+    __title = L["Icon Settings"],
+    __order = 1,
     color = {
       type = "color",
+      width = WeakAuras.normalWidth,
       name = L["Color"],
       hasAlpha = true,
-      order = 7
+      order = 1
     },
     auto = {
       type = "toggle",
+      width = WeakAuras.normalWidth,
       name = L["Automatic Icon"],
-      order = 8,
+      order = 2,
       disabled = function() return not WeakAuras.CanHaveAuto(data); end,
       get = function() return WeakAuras.CanHaveAuto(data) and data.auto; end
     },
     displayIcon = {
       type = "input",
+      width = WeakAuras.normalWidth,
       name = L["Display Icon"],
       hidden = function() return WeakAuras.CanHaveAuto(data) and data.auto; end,
-      order = 12,
+      order = 3,
       get = function()
         return data.displayIcon and tostring(data.displayIcon) or "";
       end,
@@ -65,274 +45,192 @@ local function createOptions(id, data)
     },
     chooseIcon = {
       type = "execute",
+      width = WeakAuras.normalWidth,
       name = L["Choose"],
       hidden = function() return WeakAuras.CanHaveAuto(data) and data.auto; end,
-      order = 18,
+      order = 4,
       func = function() WeakAuras.OpenIconPicker(data, "displayIcon"); end
     },
     desaturate = {
       type = "toggle",
+      width = WeakAuras.normalWidth,
       name = L["Desaturate"],
-      order = 18.5,
+      order = 5,
     },
-    glow = {
+    useTooltip = {
       type = "toggle",
-      name = L["Glow"],
-      order = 19,
+      width = WeakAuras.normalWidth,
+      name = L["Tooltip on Mouseover"],
+      hidden = function() return not WeakAuras.CanHaveTooltip(data) end,
+      order = 6
     },
-    textHeader1 = {
-      type = "header",
-      order = 39,
-      name = L["1. Text Settings"]
-    },
-    text1Enabled = {
-      type = "toggle",
-      order = 39.1,
-      name = L["1. Text"],
-    },
-    text1 = {
-      type = "input",
-      name = L["Text"],
-      desc = function()
-        local ret = L["Dynamic text tooltip"];
-        ret = ret .. WeakAuras.GetAdditionalProperties(data);
-        return ret
+    iconExtraDescription = {
+      type = "description",
+      name = function()
+        local line = L["|cFFffcc00Extra Options:|r"]
+        local changed = false
+        if data.alpha ~= 1 then
+          line = L["%s Alpha: %d%%"]:format(line, data.alpha*100)
+          changed = true
+        end
+        if data.zoom ~= 0 then
+          line = L["%s Zoom: %d%%"]:format(line, data.zoom*100)
+          changed = true
+        end
+        if data.iconInset and data.iconInset ~= 0 then
+          line = L["%s Inset: %d%%"]:format(line, data.iconInset*100)
+          changed = true
+        end
+        if data.keepAspectRatio then
+          line = L["%s Keep Aspect Ratio"]:format(line)
+          changed = true
+        end
+        if not changed then
+          line = L["%s Default Alpha, Zoom, Icon Inset, Aspect Ratio"]:format(line)
+        end
+        return line
       end,
-      order = 39.2,
-      hidden = function() return not data.text1Enabled end,
+      width = WeakAuras.doubleWidth - 0.15,
+      order = 7,
+      fontSize = "medium"
     },
-    text1Color = {
-      type = "color",
-      name = L["Color"],
-      hasAlpha = true,
-      order = 39.3,
-      hidden = function() return not data.text1Enabled end,
-    },
-    text1Point = {
-      type = "select",
-      name = L["Text Position"],
-      order = 39.4,
-      values = WeakAuras.point_types,
-      hidden = function() return not data.text1Enabled end,
-    },
-    text1Containment = {
-      type = "select",
-      name = " ",
-      order = 39.5,
-      values = WeakAuras.containment_types,
-      hidden = function() return not data.text1Enabled end,
-    },
-    text1Font = {
-      type = "select",
-      dialogControl = "LSM30_Font",
-      name = L["Font"],
-      order = 39.6,
-      values = AceGUIWidgetLSMlists.font,
-      hidden = function() return not data.text1Enabled end,
-    },
-    text1FontSize = {
-      type = "range",
-      name = L["Size"],
-      order = 39.7,
-      min = 6,
-      softMax = 72,
-      step = 1,
-      hidden = function() return not data.text1Enabled end,
-    },
-    text1FontFlags = {
-      type = "select",
-      name = L["Outline"],
-      order = 39.8,
-      values = WeakAuras.font_flags,
-      hidden = function() return not data.text1Enabled end,
-    },
-
-    textHeader2 = {
-      type = "header",
-      order = 40,
-      name = L["2. Text Settings"]
-    },
-    text2Enabled = {
-      type = "toggle",
-      order = 40.1,
-      name = L["2. Text"],
-    },
-    text2 = {
-      type = "input",
-      name = L["Text"],
-      desc = function()
-        local ret = L["Dynamic text tooltip"];
-        ret = ret .. WeakAuras.GetAdditionalProperties(data);
-        return ret
-      end,
-      order = 40.2,
-      hidden = function() return not data.text2Enabled end,
-    },
-    text2Color = {
-      type = "color",
-      name = L["Color"],
-      hasAlpha = true,
-      order = 40.3,
-      hidden = function() return not data.text2Enabled end,
-    },
-    text2Point = {
-      type = "select",
-      name = L["Text Position"],
-      order = 40.4,
-      values = WeakAuras.point_types,
-      hidden = function() return not data.text2Enabled end,
-    },
-    text2Containment = {
-      type = "select",
-      name = " ",
-      order = 40.5,
-      values = WeakAuras.containment_types,
-      hidden = function() return not data.text2Enabled end,
-    },
-    text2Font = {
-      type = "select",
-      dialogControl = "LSM30_Font",
-      name = L["Font"],
-      order = 40.6,
-      values = AceGUIWidgetLSMlists.font,
-      hidden = function() return not data.text2Enabled end,
-    },
-    text2FontSize = {
-      type = "range",
-      name = L["Size"],
-      order = 40.7,
-      min = 6,
-      softMax = 72,
-      step = 1,
-      hidden = function() return not data.text2Enabled end,
-    },
-    text2FontFlags = {
-      type = "select",
-      name = L["Outline"],
-      order = 40.8,
-      values = WeakAuras.font_flags,
-      hidden = function() return not data.text2Enabled end,
-    },
-
-    generalHeader = {
-      type = "header",
-      order = 43,
-      name = L["General Text Settings"],
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "cpt"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "cpt")))
-      end,
-    },
-    customTextUpdate = {
-      type = "select",
-      width = "double",
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "c"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "c")))
-      end,
-      name = L["Update Custom Text On..."],
-      values = WeakAuras.text_check_types,
-      order = 43.1
-    },
-    customText = {
-      type = "input",
-      width = "normal",
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "c"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "c")))
-      end,
-      multiline = true,
-      name = L["Custom Function"],
-      order = 43.2,
-      control = "WeakAurasMultiLineEditBox"
-    },
-    customText_expand = {
+    iconExtraExpand = {
       type = "execute",
-      order = 43.3,
-      name = L["Expand Text Editor"],
+      name = function()
+        local collapsed = WeakAuras.IsCollapsed("icon", "icon", "iconextra", true)
+        return collapsed and L["Show Extra Options"] or L["Hide Extra Options"]
+      end,
+      order = 7.01,
+      width = 0.15,
+      image = function()
+        local collapsed = WeakAuras.IsCollapsed("icon", "icon", "iconextra", true);
+        return collapsed and "Interface\\AddOns\\WeakAuras\\Media\\Textures\\edit" or "Interface\\AddOns\\WeakAuras\\Media\\Textures\\editdown"
+      end,
+      imageWidth = 24,
+      imageHeight = 24,
       func = function()
-        WeakAuras.OpenTextEditor(data, {"customText"})
+        local collapsed = WeakAuras.IsCollapsed("icon", "icon", "iconextra", true);
+        WeakAuras.SetCollapsed("icon", "icon", "iconextra", not collapsed);
       end,
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "c"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "c")))
-      end,
+      control = "WeakAurasIcon"
     },
-    progressPrecision = {
-      type = "select",
-      order = 44,
-      name = L["Remaining Time Precision"],
-      values = WeakAuras.precision_types,
-      get = function() return data.progressPrecision or 1 end,
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "pt"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "pt")))
-      end,
-      disabled = function()
-        return not (WeakAuras.ContainsPlaceHolders(data.text1, "p") or WeakAuras.ContainsPlaceHolders(data.text2, "p"));
-      end
-    },
-    totalPrecision = {
-      type = "select",
-      order = 44.5,
-      name = L["Total Time Precision"],
-      values = WeakAuras.precision_types,
-      get = function() return data.totalPrecision or 1 end,
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "pt"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "pt")))
-      end,
-      disabled = function()
-        return not (WeakAuras.ContainsPlaceHolders(data.text1, "t") or WeakAuras.ContainsPlaceHolders(data.text2, "t"));
-      end
-    },
-    otherHeader = {
-      type = "header",
-      order = 48,
+    iconExtra_space1 = {
+      type = "description",
       name = "",
+      width = indentWidth,
+      order = 7.02,
+      hidden = hiddenIconExtra,
     },
-    zoom = {
+    alpha = {
       type = "range",
-      name = L["Zoom"],
-      order = 49,
+      width = WeakAuras.normalWidth - indentWidth,
+      name = L["Alpha"],
+      order = 7.03,
       min = 0,
       max = 1,
       bigStep = 0.01,
-      isPercent = true
+      isPercent = true,
+      hidden = hiddenIconExtra,
+    },
+    zoom = {
+      type = "range",
+      width = WeakAuras.normalWidth,
+      name = L["Zoom"],
+      order = 7.04,
+      min = 0,
+      max = 1,
+      bigStep = 0.01,
+      isPercent = true,
+      hidden = hiddenIconExtra,
+    },
+    iconExtra_space2 = {
+      type = "description",
+      name = "",
+      width = indentWidth,
+      order = 7.05,
+      hidden = hiddenIconExtra,
     },
     iconInset = {
       type = "range",
+      width = WeakAuras.normalWidth - indentWidth,
       name = L["Icon Inset"],
-      order = 49.1,
+      order = 7.06,
       min = 0,
       max = 1,
       bigStep = 0.01,
       isPercent = true,
       hidden = function()
-        return not Masque;
+        return not Masque or hiddenIconExtra();
       end
     },
-    stickyDuration = {
+    keepAspectRatio = {
       type = "toggle",
-      name = L["Sticky Duration"],
-      desc = L["Prevents duration information from decreasing when an aura refreshes. May cause problems if used with multiple auras with different durations."],
-      order = 49.2
+      width = WeakAuras.normalWidth,
+      name = L["Keep Aspect Ratio"],
+      order = 7.07,
+      hidden = hiddenIconExtra,
     },
-    useTooltip = {
-      type = "toggle",
-      name = L["Tooltip on Mouseover"],
-      hidden = function() return not WeakAuras.CanHaveTooltip(data) end,
-      order = 49.5
-    },
-    spacer = {
+    cooldownHeader = {
       type = "header",
+      order = 11,
+      name = L["Cooldown Settings"],
+    },
+    cooldown = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Show Cooldown"],
+      order = 11.1,
+      disabled = function() return not WeakAuras.CanHaveDuration(data); end,
+      get = function() return WeakAuras.CanHaveDuration(data) and data.cooldown; end
+    },
+    inverse = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Inverse"],
+      order = 11.2,
+      disabled = function() return not (WeakAuras.CanHaveDuration(data) and data.cooldown); end,
+      get = function() return data.inverse and WeakAuras.CanHaveDuration(data) and data.cooldown; end,
+      hidden = function() return not data.cooldown end
+    },
+    cooldownSwipe = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Cooldown Swipe"],
+      order = 11.3,
+      disabled = function() return not WeakAuras.CanHaveDuration(data) end,
+      hidden = function() return not data.cooldown end,
+    },
+    cooldownEdge = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Cooldown Edge"],
+      order = 11.4,
+      disabled = function() return not WeakAuras.CanHaveDuration(data) end,
+      hidden = function() return not data.cooldown end,
+    },
+    cooldownTextDisabled = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Hide Cooldown Text"],
+      order = 11.5,
+      disabled = function() return not WeakAuras.CanHaveDuration(data); end,
+      hidden = function() return not data.cooldown end,
+    },
+    endHeader = {
+      type = "header",
+      order = 100,
       name = "",
-      order = 50
-    }
+    },
   };
-  options = WeakAuras.AddPositionOptions(options, id, data);
 
-  return options;
+  for k, v in pairs(WeakAuras.GlowOptions(id, data, 12)) do
+    options[k] = v
+  end
+
+  return {
+    icon = options,
+    position = WeakAuras.PositionOptions(id, data),
+  };
 end
 
 local function createThumbnail(parent)
@@ -359,6 +257,8 @@ local templates = {
     title = L["Default"],
     icon = "Interface\\ICONS\\Temp.blp",
     data = {
+      cooldown = true,
+      inverse = true,
     };
   },
   {
@@ -368,7 +268,8 @@ local templates = {
     data = {
       width = 20,
       height = 20,
-      cooldown = true
+      cooldown = true,
+      inverse = true,
     };
   },
   {
@@ -378,7 +279,8 @@ local templates = {
     data = {
       width = 32,
       height = 32,
-      cooldown = true
+      cooldown = true,
+      inverse = true,
     };
   },
   {
@@ -388,7 +290,8 @@ local templates = {
     data = {
       width = 40,
       height = 40,
-      cooldown = true
+      cooldown = true,
+      inverse = true,
     };
   },
   {
@@ -398,7 +301,8 @@ local templates = {
     data = {
       width = 48,
       height = 48,
-      cooldown = true
+      cooldown = true,
+      inverse = true,
     };
   },
   {
@@ -408,9 +312,121 @@ local templates = {
     data = {
       width = 64,
       height = 64,
-      cooldown = true
+      cooldown = true,
+      inverse = true,
     };
   }
 }
 
-WeakAuras.RegisterRegionOptions("icon", createOptions, "Interface\\ICONS\\Temp.blp", L["Icon"], createThumbnail, modifyThumbnail, L["Shows a spell icon with an optional cooldown overlay"], templates);
+local anchorPoints = {
+  BOTTOMLEFT = {
+    display = { L["Edge"], L["Bottom Left"] },
+    type = "point"
+  },
+  BOTTOM = {
+    display = { L["Edge"], L["Bottom"] },
+    type = "point"
+  },
+  BOTTOMRIGHT = {
+    display = { L["Edge"], L["Bottom Right"] },
+    type = "point"
+  },
+  RIGHT = {
+    display = { L["Edge"], L["Right"] },
+    type = "point"
+  },
+  TOPRIGHT = {
+    display = { L["Edge"], L["Top Right"] },
+    type = "point"
+  },
+  TOP = {
+    display = { L["Edge"], L["Top"] },
+    type = "point"
+  },
+  TOPLEFT = {
+    display = { L["Edge"], L["Top Left"] },
+    type = "point"
+  },
+  LEFT = {
+    display = { L["Edge"], L["Left"] },
+    type = "point"
+  },
+  CENTER = {
+    display = L["Center"],
+    type = "point"
+  },
+  INNER_BOTTOMLEFT = {
+    display = { L["Inner"], L["Bottom Left"] },
+    type = "point"
+  },
+  INNER_BOTTOM = {
+    display = { L["Inner"], L["Bottom"] },
+    type = "point"
+  },
+  INNER_BOTTOMRIGHT = {
+    display = { L["Inner"], L["Bottom Right"] },
+    type = "point"
+  },
+  INNER_RIGHT = {
+    display = { L["Inner"], L["Right"] },
+    type = "point"
+  },
+  INNER_TOPRIGHT = {
+    display = { L["Inner"], L["Top Right"] },
+    type = "point"
+  },
+  INNER_TOP = {
+    display = { L["Inner"], L["Top"] },
+    type = "point"
+  },
+  INNER_TOPLEFT = {
+    display = { L["Inner"], L["Top Left"] },
+    type = "point"
+  },
+  INNER_LEFT = {
+    display = { L["Inner"], L["Left"] },
+    type = "point"
+  },
+  OUTER_BOTTOMLEFT = {
+    display = { L["Outer"], L["Bottom Left"] },
+    type = "point"
+  },
+  OUTER_BOTTOM = {
+    display = { L["Outer"], L["Bottom"] },
+    type = "point"
+  },
+  OUTER_BOTTOMRIGHT = {
+    display = { L["Outer"], L["Bottom Right"] },
+    type = "point"
+  },
+  OUTER_RIGHT = {
+    display = { L["Outer"], L["Right"] },
+    type = "point"
+  },
+  OUTER_TOPRIGHT = {
+    display = { L["Outer"], L["Top Right"] },
+    type = "point"
+  },
+  OUTER_TOP = {
+    display = { L["Outer"], L["Top"] },
+    type = "point"
+  },
+  OUTER_TOPLEFT = {
+    display = { L["Outer"], L["Top Left"] },
+    type = "point"
+  },
+  OUTER_LEFT = {
+    display = { L["Outer"], L["Left"] },
+    type = "point"
+  },
+  ALL = {
+    display = L["Whole Area"],
+    type = "area"
+  }
+}
+
+local function GetAnchors(data)
+  return anchorPoints;
+end
+
+WeakAuras.RegisterRegionOptions("icon", createOptions, "interface\\icons\\spell_holy_sealofsalvation.blp", L["Icon"], createThumbnail, modifyThumbnail, L["Shows a spell icon with an optional cooldown overlay"], templates, GetAnchors);

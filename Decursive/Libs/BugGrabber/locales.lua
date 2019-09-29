@@ -43,15 +43,15 @@ L["CLASS_HUNTER"] = "사냥꾼"
 L["CLEAR_PRIO"] = "C"
 L["CLEAR_SKIP"] = "C"
 L["COLORALERT"] = "'%s'|1이;가; 필요할때의 알림 색상을 설정합니다."
-L["COLORCHRONOS"] = "크로노미터"
-L["COLORCHRONOS_DESC"] = "크로노미터의 색상을 설정합니다."
+L["COLORCHRONOS"] = "중앙 카운터"
+L["COLORCHRONOS_DESC"] = "중앙 카운터의 색상을 설정합니다."
 L["COLORSTATUS"] = "MUF 상태가 '%s'일때 색상을 설정합니다."
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "소환수 탐색과 해제"
 L["CURSE"] = "저주"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33<Archarodim+DcrReport@teaser.fr>로 이 창의 내용을 보고해 주십시오|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33<%s>로 이 창의 내용을 보고해 주십시오|r
 |cFF009999(CTRL+A키로 모두 선택하고 CTRL+C키로 당신의 클립보드 내 문자를 넣어 사용하십시오)|r
-또한 당신이 눈치챈 Decursive의 어떠한 이상 증상도 보고서에 알리십시오.
+또한 당신이 눈치챈 %s의 어떠한 이상 증상도 보고서에 알리십시오.
 ]=]
 L["DECURSIVE_DEBUG_REPORT"] = "**** |cFFFF0000Decursive 디버그 보고서|r ****"
 L["DECURSIVE_DEBUG_REPORT_NOTIFY"] = [=[디버그 보고서가 유효합니다!
@@ -101,12 +101,14 @@ L["HLP_LEFTCLICK"] = "좌-클릭"
 L["HLP_LL_ONCLICK_TEXT"] = [=[실시간 목록이 클릭되는 것은 아닙니다. 이 애드온의 추가 기능을 사용하는 방법을 알아보려면 설명서를 읽으십시오. WoWAce.com에서 'Decursive'를 검색하세요.
 (이 목록에서 Decursive 바를 이동하려면 /dcrshow 및 왼쪽-Alt-클릭으로 이동)]=]
 L["HLP_MIDDLECLICK"] = "가운데-클릭"
+L["HLP_MOUSE4"] = "4번 마우스 버튼"
+L["HLP_MOUSE5"] = "5번 마우스 버튼"
 L["HLP_NOTHINGTOCURE"] = "치료할 것이 없습니다!"
 L["HLP_RIGHTCLICK"] = "우-클릭"
 L["HLP_USEXBUTTONTOCURE"] = "해당 디버프를 치료하려면 \"%s\" 버튼을 사용하세요"
 L["HLP_WRONGMBUTTON"] = "잘못된 마우스 버튼입니다!"
 L["IGNORE_STEALTH"] = "은신 대상 무시"
-L["IS_HERE_MSG"] = "Decursive가 초기화 되었습니다. 옵션을 설정하세요."
+L["IS_HERE_MSG"] = "초기화되었습니다. 옵션(/decursive)을 확인하세요."
 L["LIST_ENTRY_ACTIONS"] = [=[|cFF33AA33[CTRL]|r 클릭: 해당 플레이어 제거
 |cFF33AA33좌|r-클릭: 해당 플레이어를 위로
 |cFF33AA33우|r-클릭: 해당 플레이어를 아래로
@@ -128,7 +130,7 @@ L["NORMAL"] = "정상"
 L["NOSPELL"] = "이용가능한 주문이 없습니다."
 L["OPT_ABOLISHCHECK_DESC"] = "'해제' 주문을 가진 대상을 표시하고 치유 할 지를 선택합니다."
 L["OPT_ABOUT"] = "관하여"
-L["OPT_ADD_A_CUSTOM_SPELL"] = "사용자 주문 추가"
+L["OPT_ADD_A_CUSTOM_SPELL"] = "사용자 주문 / 아이템 추가"
 L["OPT_ADD_A_CUSTOM_SPELL_DESC"] = "여길 클릭하고 마법책의 주문에 쉬프트-클릭합니다. 이름 또는 숫자ID로 직접 작성할 수 있습니다."
 L["OPT_ADDDEBUFF"] = "목록에 디버프 추가"
 L["OPT_ADDDEBUFF_DESC"] = "이 목록에 새로운 디버프 추가"
@@ -138,7 +140,7 @@ L["OPT_ADDDEBUFFFHIST_DESC"] = "예전에 사용된 디버프를 추가합니다
 L["OPT_ADVDISP"] = "고급 표시 설정"
 L["OPT_ADVDISP_DESC"] = "각 MUF 사이 간격 설정을 위해 테두리와 가운데 구분의 투명도를 설정할 수 있습니다."
 L["OPT_AFFLICTEDBYSKIPPED"] = "%s - %s에 걸리면 무시합니다."
-L["OPT_ALLOWMACROEDIT"] = "매크로 형식 허용"
+L["OPT_ALLOWMACROEDIT"] = "매크로 편집 허용"
 L["OPT_ALLOWMACROEDIT_DESC"] = "당신이 원하는 편집할 수 있도록 해당 매크로가 Decursive로부터 업데이트되지 않도록 설정할 수 있습니다."
 L["OPT_ALWAYSIGNORE"] = "비전투시에도 항상 무시"
 L["OPT_ALWAYSIGNORE_DESC"] = "선택 시 해당 디버프는 전투 중이 아닐때도 무시됩니다."
@@ -149,6 +151,11 @@ L["OPT_AUTOHIDEMFS_DESC"] = "언제 MUF 창을 자동으로 숨길지를 선택�
 L["OPT_BLACKLENTGH_DESC"] = "블랙리스트에 등록할 시간을 지정합니다."
 L["OPT_BORDERTRANSP"] = "테두리 투명도"
 L["OPT_BORDERTRANSP_DESC"] = "테두리의 투명도를 설정합니다."
+L["OPT_CENTERTEXT"] = "중앙 카운터:"
+L["OPT_CENTERTEXT_DISABLED"] = "사용 안 함"
+L["OPT_CENTERTEXT_ELAPSED"] = "경과 시간"
+L["OPT_CENTERTEXT_STACKS"] = "중첩 수"
+L["OPT_CENTERTEXT_TIMELEFT"] = "남은 시간"
 L["OPT_CENTERTRANSP"] = "가운데 투명도"
 L["OPT_CENTERTRANSP_DESC"] = "가운데의 투명도를 설정합니다."
 L["OPT_CHARMEDCHECK_DESC"] = "선택 시 지배에 걸린 대상을 표시하고 변이합니다."
@@ -173,10 +180,11 @@ L["OPT_CURINGOPTIONS_EXPLANATION"] = [=[당신이 치료를 원하는 재난의 
 http://www.wowace.com/addons/decursive/]=]
 L["OPT_CURINGORDEROPTIONS"] = "피해 형식과 우선순위"
 L["OPT_CURSECHECK_DESC"] = "체크 시 저주에 걸린 대상을 표시하고 치료합니다."
-L["OPT_CUSTOM_SPELL_ALLOW_EDITING"] = "매크로 편집 허용 (고급 사용자용)"
+L["OPT_CUSTOM_SPELL_ALLOW_EDITING"] = "위 주문에 대해 내부 매크로 편집 허용"
 L["OPT_CUSTOM_SPELL_ALLOW_EDITING_DESC"] = "사용자 주문의 Decursive에서 사용하기 위해 내부 매크로를 편집하기 원하면 이것을 선택하세요."
 L["OPT_CUSTOM_SPELL_CURE_TYPES"] = "피해 형식"
 L["OPT_CUSTOM_SPELL_IS_DEFAULT"] = "이 주문은 Decursive 자동 구성설정의 일부입니다. 만약 이 주문이 올바르게 작동하지않으면, Decursive 동작 기본값을 되돌려 삭제 또는 비활성할 수 있습니다."
+L["OPT_CUSTOM_SPELL_ISPET"] = "소환수 능력"
 L["OPT_CUSTOM_SPELL_MACRO_MISSING_NOMINAL_SPELL"] = "경고: 당신 매크로 상 %q 주문은 존재하지 않음, 거리와 대기시간 정보와 일치하지 않음..."
 L["OPT_CUSTOM_SPELL_MACRO_MISSING_UNITID_KEYWORD"] = "유닛ID 키워드가 누락됨."
 L["OPT_CUSTOM_SPELL_MACRO_TEXT"] = "매크로 문자:"
@@ -192,7 +200,12 @@ L["OPT_CUSTOM_SPELL_MACRO_TOO_LONG"] = "당신의 매크로가 길어서 %d 문�
 L["OPT_CUSTOM_SPELL_PRIORITY"] = "주문 우선순위"
 L["OPT_CUSTOM_SPELL_PRIORITY_DESC"] = "동일 피해 형식을 여러가지 주문으로 치료하려면, 원하는 주문의 우선순위가 높아야 합니다."
 L["OPT_CUSTOM_SPELL_UNAVAILABLE"] = "사용할 수 없음"
-L["OPT_CUSTOMSPELLS"] = "사용자 주문"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER"] = "유닛 필터링"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_DESC"] = "이 주문을 쓸 수 있는 유닛을 고릅니다."
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_NONE"] = "모든 유닛"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_NONPLAYER"] = "다른 유닛만"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_PLAYER"] = "플레이어만"
+L["OPT_CUSTOMSPELLS"] = "사용자 주문 / 아이템"
 L["OPT_CUSTOMSPELLS_DESC"] = "여기 당신의 주문을 추가해 Decursive의 자동 구성설정을 확장할 수 있습니다."
 L["OPT_CUSTOMSPELLS_EFFECTIVE_ASSIGNMENTS"] = "효과적인 주문 할당:"
 L["OPT_DEBCHECKEDBYDEF"] = [=[
@@ -203,16 +216,17 @@ L["OPT_DEBUFFFILTER_DESC"] = "이름과 직업에 의해 필터링 할 디버프
 L["OPT_DELETE_A_CUSTOM_SPELL"] = "삭제"
 L["OPT_DISABLEABOLISH"] = "'무효화' 주문은 사용할 수 없음"
 L["OPT_DISABLEABOLISH_DESC"] = "만약 사용시, Decursive는 '무효화'와 동등 이상의 '질병 해제'나 '독 해제'를 선호할 것입니다."
-L["OPT_DISABLEMACROCREATION"] = "매크로 생성 사용안함"
+L["OPT_DISABLEMACROCREATION"] = "매크로 생성 사용 안 함"
 L["OPT_DISABLEMACROCREATION_DESC"] = "Decursive 매크로를 더 이상 생성 또는 유지할 수 없습니다."
 L["OPT_DISEASECHECK_DESC"] = "선택 시 질병에 걸린 대상을 표시하고 치료합니다."
 L["OPT_DISPLAYOPTIONS"] = "디스플레이 옵션"
 L["OPT_DONOTBLPRIO_DESC"] = "우선순위에 등록된 유닛은 블랙리스트에 추가하지 않습니다."
 L["OPT_ENABLE_A_CUSTOM_SPELL"] = "사용"
+L["OPT_ENABLE_LIVELIST"] = "실시간 목록 사용"
 L["OPT_ENABLEDEBUG"] = "디버깅 사용"
 L["OPT_ENABLEDEBUG_DESC"] = "디버깅 출력 사용"
 L["OPT_ENABLEDECURSIVE"] = "Decursive 사용"
-L["OPT_FILTEROUTCLASSES_FOR_X"] = "당신이 전투중인 동안 %q로 지정된 클래스는 무시됩니다."
+L["OPT_FILTEROUTCLASSES_FOR_X"] = "%q|1은;는; 전투 중 지정된 클래스에서 무시됩니다."
 L["OPT_GENERAL"] = "기본 설정"
 L["OPT_GROWDIRECTION"] = "MUF 표시 반전"
 L["OPT_GROWDIRECTION_DESC"] = "MUF를 하단에서 상단으로 표시합니다."
@@ -243,7 +257,7 @@ L["OPT_MACROBIND_DESC"] = [=['Decursive' 매크로를 호출 할 키를 지정�
 
 키를 누르고 키보드의 'Enter'키를 누르면 새롭게 지정된 키가 저장됩니다.(당신의 마우스 커서가 편집 구역내에 있어야 합니다)]=]
 L["OPT_MACROOPTIONS"] = "매크로 설정"
-L["OPT_MACROOPTIONS_DESC"] = "Decursive에 의해 생성된 매크로의 동작을 설정합니다."
+L["OPT_MACROOPTIONS_DESC"] = "Decursive가 생성한 'mouseover' 매크로의 동작을 설정합니다."
 L["OPT_MAGICCHARMEDCHECK_DESC"] = "체크 시 지배에 걸린 대상을 표시하고 치료합니다."
 L["OPT_MAGICCHECK_DESC"] = "체크 시 마법에 걸린 대상을 표시하고 치료합니다."
 L["OPT_MAXMFS"] = "표시할 최대 유닛"
@@ -279,8 +293,8 @@ L["OPT_NEWVERSIONBUGMENOT_DESC"] = "새로운 버전의 Decursive가 발견되�
 L["OPT_NOKEYWARN"] = "키 없음 경고"
 L["OPT_NOKEYWARN_DESC"] = "지정된 키가 없다면 경고 문구를 표시합니다."
 L["OPT_NOSTARTMESSAGES"] = "환영 메시지 사용 안 함"
-L["OPT_NOSTARTMESSAGES_DESC"] = "매 로그인 시 대화창에 Decursive가 출력하는 메시지 3개를 제거합니다."
-L["OPT_OPTIONS_DISABLED_WHILE_IN_COMBAT"] = "이러한 옵션은 전투중에 사용할 수 없습니다."
+L["OPT_NOSTARTMESSAGES_DESC"] = "접속할 때마다 Decursive가 대화창에 출력하는 메시지 2개를 제거합니다."
+L["OPT_OPTIONS_DISABLED_WHILE_IN_COMBAT"] = "이 옵션은 전투 중에는 사용할 수 없습니다."
 L["OPT_PERFOPTIONWARNING"] = "경고: 당신이 뭘 하는지 정확히 모른다면 값을 바꾸지 마세요. 이 설정은 게임 성능에 큰 영향을 줄 수 있습니다. 사용자 대부분은 기본값인 0.1과 10을 쓰셔야 합니다."
 L["OPT_PLAYSOUND_DESC"] = "해제 가능한 디버프 발견시 효과음을 재생합니다."
 L["OPT_POISONCHECK_DESC"] = "체크 시 독에 걸린 대상을 표시하고 치료합니다."
@@ -304,8 +318,8 @@ L["OPT_RESETOPTIONS"] = "기본값으로 설정 초기화"
 L["OPT_RESETOPTIONS_DESC"] = "현재 프로필을 기본값으로 초기화합니다."
 L["OPT_RESTPROFILECONF"] = [=[정말로 '(%s) %s'
 프로필을 기본 설정으로
-초기화 하시겠습니까?]=]
-L["OPT_REVERSE_LIVELIST_DESC"] = "실시간 목록을 아래에서 위로 생성합니다."
+초기화할까요?]=]
+L["OPT_REVERSE_LIVELIST_DESC"] = "실시간 목록을 아래에서 위로 채웁니다."
 L["OPT_SCANLENGTH_DESC"] = "각 탐색의 시간 간격을 지정합니다."
 L["OPT_SHOW_STEALTH_STATUS"] = "은신 상태 보기"
 L["OPT_SHOW_STEALTH_STATUS_DESC"] = "플레이어가 은신중이면, 그 MUF는 특정한 색상을 갖게 될 것임"
@@ -412,9 +426,9 @@ L["COLORSTATUS"] = "Farbe für '%s' MUF-Status einstellen."
 L["CTRL"] = "Strg"
 L["CURE_PETS"] = "Begleiter scannen und reinigen"
 L["CURSE"] = "Fluch"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Bitte sende den Inhalt dieses Fensters an <Archarodim+DcrReport@teaser.fr>|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Bitte sende den Inhalt dieses Fensters an <%s>|r
 |cFF009999(Benutze Strg+A, um alles zu markieren, und dann Strg+C, um den Text in deine Zwischenablage zu kopieren)|r
-Bitte berichte ebenfalls, ob du merkwürdiges Verhalten von Decursive bemerkt hast.
+Bitte berichte ebenfalls, ob du merkwürdiges Verhalten von %s bemerkt hast.
 ]=]
 L["DECURSIVE_DEBUG_REPORT"] = " **** |cFFFF0000Decursive-Debug-Bericht|r ****"
 L["DECURSIVE_DEBUG_REPORT_NOTIFY"] = [=[Ein Debug-Bericht ist vorhanden!
@@ -795,9 +809,9 @@ L["COLORSTATUS"] = "設定當玩家狀態是 '%s' 時的 MUF 顏色."
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "檢測並淨化寵物"
 L["CURSE"] = "詛咒"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33請報告此視窗的內容給 <Archarodim+DcrReport@teaser.fr>|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33請報告此視窗的內容給 <%s>|r
 |cFF009999（使用 CTRL+A 選擇所有 CTRL+C 復制文本到剪切板）|r
-如果發現 Decursive 任何奇怪的行為也一并報告。
+如果發現 %s 任何奇怪的行為也一并報告。
 ]=]
 L["DECURSIVE_DEBUG_REPORT"] = "**** |cFFFF0000Decursive 除錯報告|r ****"
 L["DECURSIVE_DEBUG_REPORT_BUT_NEW_VERSION"] = [=[|cFF11FF33Decursive 啟動失敗但請勿擔心! 一個新版本的Decursive已經被偵測到 (%s)。你只需要執行更新。前往curse.com並搜索"Decursive" 或使用Curse Client，此服務會自動更新所有您最愛的UI。|r
@@ -1203,10 +1217,7 @@ L["COLORSTATUS"] = "设定“%s”时微单元框体的颜色。"
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "检测并净化宠物"
 L["CURSE"] = "诅咒"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33请电邮此窗口的内容给 <Archarodim+DcrReport@teaser.fr>|r
-|cFF009999（使用 Ctrl+A 选择所有 Ctrl+C 复制文本到剪切板）|r
-如果发现 Decursive 任何奇怪的行为也一并报告。
-]=]
+L["DEBUG_REPORT_HEADER"] = "|cFF11FF33请电邮此窗口的内容给 <%s>|r |cFF009999（使用 Ctrl+A 选择所有 Ctrl+C 复制文本到剪切板）|r 如果发现 %s 任何奇怪的行为也一并报告。"
 L["DECURSIVE_DEBUG_REPORT"] = "**** |cFFFF0000Decursive 除错报告|r ****"
 L["DECURSIVE_DEBUG_REPORT_BUT_NEW_VERSION"] = [=[|cFF11FF33Decursive 崩溃了但是别怕！新版本的 Decursive 已经被检测到了（%s）。只需简单更新。请到 curse.com 并查询“Decursive”'或使用 Curse 客户端，将自动更新全部插件。|r
 |cFFFF1133别浪费时间在汇报臭虫上了，因为可能已被修复了。只需更新 Decursive 来摆脱这些问题！|r
@@ -1617,9 +1628,9 @@ L["COLORSTATUS"] = "Установить цвет для статуса МФИ: 
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "Скан и лечение питомцев"
 L["CURSE"] = "Проклятие"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Пожайлуйста, отправьте содержимое этого окна по адресу <Archarodim+DcrReport@teaser.fr>|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Пожайлуйста, отправьте содержимое этого окна по адресу <%s>|r
 |cFF009999(Нажмите CTRL+A, чтобы выделить всё содержимое, а затем CTRL+C, чтобы переместить его в буфер обмена)|r
-В своём отчёте также сообщите о неполадках в работе Decursive, если таковые имеются.]=]
+В своём отчёте также сообщите о неполадках в работе %s, если таковые имеются.]=]
 L["DECURSIVE_DEBUG_REPORT"] = "**** |cFFFF0000Отчёт об отладке Decursive|r ****"
 L["DECURSIVE_DEBUG_REPORT_NOTIFY"] = [=[Отчёт об отладке доступен!
 Введите |cFFFF0000/DCRREPORT|r, чтобы увидеть его.]=]
@@ -1968,9 +1979,9 @@ L["COLORSTATUS"] = "Règle la couleur du statut '%s'."
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "Contrôler et guérir les familiers"
 L["CURSE"] = "Malédiction"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Merci d'envoyer par email le contenu de cette fenêtre à <Archarodim+DcrReport@teaser.fr>|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Merci d'envoyer par email le contenu de cette fenêtre à <%s>|r
 |cFF009999(Faire CTRL+A pour tout sélectionner et CTRL+C pour le copier dans votre "presse papier")|r
-Dîtes également dans votre rapport si vous avez remarqué un comportement étrange de Decursive.
+Dîtes également dans votre rapport si vous avez remarqué un comportement étrange de %s.
 ]=]
 L["DECURSIVE_DEBUG_REPORT"] = "**** |cFFFF0000Rapport de debuggage de Decursive|r ****"
 L["DECURSIVE_DEBUG_REPORT_BUT_NEW_VERSION"] = [=[|cFF11FF33Decursive s'est planté ! Mais n'ayez crainte ! Une NOUVELLE version de Decursive a été détectée (%s). Il suffit simplement de vous mettre à jour. Aller sur Curse.com et chercher 'Decursive' ou utilisez le client de Curse.com, Il mettra à jour tous vos add-ons préférés automatiquement.|r
@@ -2135,6 +2146,11 @@ Notez que les sorts par défaut gérés par Decursive ont une priorité allant d
 
 Ainsi, si vous donnez une priorité négative à l'un de vos sort, il ne sera choisi que si le sort par défaut n'est pas disponible.]=]
 L["OPT_CUSTOM_SPELL_UNAVAILABLE"] = "indisponible"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER"] = "Filtrage"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_DESC"] = "Sélectionnez les unités qui peuvent bénéficier de cette technique"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_NONE"] = "Toutes les unités"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_NONPLAYER"] = "Les autres seulement"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_PLAYER"] = "Seulement sois-même"
 L["OPT_CUSTOMSPELLS"] = "Sorts / objets personnalisés"
 L["OPT_CUSTOMSPELLS_DESC"] = [=[Ici vous pouvez ajouter des sorts pour étendre la configuration automatique de Decursive.
 Vos sorts personnalisés auront toujours une priorité plus élevée et remplaceront systématiquement les sorts par défaut (si et seulement si votre personnage peut utiliser ces sorts)]=]

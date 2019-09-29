@@ -1,0 +1,16 @@
+tag de6954fe2d1c13d4877e5fa55a8a006db5fa1a91 3.2.2
+Author:	Alar of Runetotem <alar@aspide.it>
+Date:	Sun Aug 4 20:11:19 2019 +0200
+
+Panel is no longer moveble due to Bliz restrictions
+
+commit ecafd1d8a15d16172fabbf1f266ee23ee1aeccfa
+Author: Alar of Runetotem <alar@aspide.it>
+Date:   Sun Aug 4 20:09:02 2019 +0200
+
+    27: Garrison Commander UI has a Glitch
+    
+    Task-Url: http://github.com/alarofrunetotem/GarrisonCommander/issues/27
+    
+    panel can no longer moved, sorry
+

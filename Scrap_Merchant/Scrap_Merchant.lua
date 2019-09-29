@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2017 João Cardoso
+Copyright 2008-2019 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -29,7 +29,7 @@ function Scrap:StartupMerchant()
 	Background = self:CreateTexture(nil, 'BORDER')
 	Background:SetHeight(27) Background:SetWidth(27)
 	Background:SetPoint('CENTER', -0.5, -1.2)
-	Background:SetTexture(0, 0, 0)
+	Background:SetColorTexture(0, 0, 0)
 
 	Icon = self:CreateTexture(self:GetName()..'Icon')
 	Icon:SetTexture('Interface\\Addons\\Scrap\\Art\\Enabled Box')
@@ -78,7 +78,7 @@ function Scrap:StartupMerchant()
 	end
 
 	-- Visualizer Tab
-	if select(5, GetAddOnInfo('Scrap_Visualizer')) then
+	if select(5, GetAddOnInfo('Scrap_Visualizer')) == 'DEMAND_LOADED' then
 		local tab = LibStub('SecureTabs-2.0'):Add(MerchantFrame)
 		tab:SetText('Scrap')
 		tab.OnSelect = function()
@@ -135,37 +135,33 @@ end
 
 function Scrap:OnEnter()
 	GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-	self:OnTooltipShow()
+	self:ShowTooltip(GameTooltip, L.SellJunk)
 	GameTooltip:Show()
 end
 
-function Scrap:OnTooltipShow(title)
+function Scrap:ShowTooltip(tooltip, title)
 	local infoType, itemID = GetCursorInfo()
 	if infoType == 'item' then
 		if self:IsJunk(itemID) then
-			GameTooltip:SetText(L.Remove, 1, 1, 1)
+			tooltip:SetText(L.Remove, 1, 1, 1)
 		else
-			GameTooltip:SetText(L.Add, 1, 1, 1)
+			tooltip:SetText(L.Add, 1, 1, 1)
 		end
 	else
 		local value = self:GetJunkValue()
 		local counters = {}
 
-		if self:AnyJunk() then
-			GameTooltip:SetText(title or L.SellJunk)
-
-			for bag, slot in self:IterateJunk() do
-				local _, count, _, quality = GetContainerItemInfo(bag, slot)
-				counters[quality] = (counters[quality] or 0) + count
-			end
-
-			for qual, count in pairs(counters) do
-				local r,g,b = GetItemQualityColor(qual)
-				GameTooltip:AddDoubleLine(_G['ITEM_QUALITY' .. qual .. '_DESC'], count, r,g,b, r,g,b)
-			end
-
-			GameTooltip:AddLine(value > 0 and (SELL_PRICE .. ':  ' .. GetCoinTextureString(value)) or ITEM_UNSELLABLE, 1,1,1)
+		for bag, slot in self:IterateJunk() do
+			local _, count, _, quality = GetContainerItemInfo(bag, slot)
+			counters[quality] = (counters[quality] or 0) + count
 		end
+
+		tooltip:SetText(title)
+		for qual, count in pairs(counters) do
+			local r,g,b = GetItemQualityColor(qual)
+			tooltip:AddDoubleLine(_G['ITEM_QUALITY' .. qual .. '_DESC'], count, r,g,b, r,g,b)
+		end
+		tooltip:AddLine(value > 0 and (SELL_PRICE .. ':  ' .. GetCoinTextureString(value)) or ITEM_UNSELLABLE, 1,1,1)
 	end
 end
 

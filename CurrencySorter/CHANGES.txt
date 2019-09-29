@@ -1,0 +1,11 @@
+------------------------------------------------------------------------
+r9 | andols | 2019-06-25 17:08:07 +0000 (Tue, 25 Jun 2019) | 2 lines
+Changed paths:
+   M /trunk/Cs.lua
+   M /trunk/Cs.xml
+   M /trunk/CurrencySorter.toc
+
+TOC update.
+Updated some comments and variables to english
+------------------------------------------------------------------------
+

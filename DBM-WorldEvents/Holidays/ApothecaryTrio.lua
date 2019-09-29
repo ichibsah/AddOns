@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("d288", "DBM-WorldEvents", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 15851 $"):sub(12, -3))
+mod:SetRevision("20190731161329")
 mod:SetCreatureID(36272, 36296, 36565)
 mod:SetModelID(16176)
 mod:SetZone()
@@ -15,38 +15,32 @@ mod:RegisterEvents(
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 68821",
-	"SPELL_DAMAGE",
-	"SPELL_MISSED"
+	"SPELL_PERIODIC_DAMAGE 68927 68934",
+	"SPELL_PERIODIC_MISSED 68927 68934"
 )
-
-mod:SetBossHealthInfo(36296, 36565, 36272)
 
 local warnChainReaction			= mod:NewCastAnnounce(68821, 3, nil, nil, "Melee", 2)
 
-local specWarnPerfumeSpill		= mod:NewSpecialWarningMove(68927)
-local specWarnCologneSpill		= mod:NewSpecialWarningMove(68934)
+local specWarnGTFO				= mod:NewSpecialWarningGTFO(68927, nil, nil, nil, 1, 8)
 
-local timerHummel				= mod:NewTimer(10.5, "HummelActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false)
-local timerBaxter				= mod:NewTimer(18.5, "BaxterActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false)
-local timerFrye					= mod:NewTimer(26.5, "FryeActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false)
-mod:AddBoolOption("TrioActiveTimer", true, "timer")
-local timerChainReaction		= mod:NewCastTimer(3, 68821, nil, "Melee")
+local timerHummel				= mod:NewTimer(10.5, "HummelActive", "132349", nil, false, "TrioActiveTimer")
+local timerBaxter				= mod:NewTimer(16.5, "BaxterActive", "132349", nil, false, "TrioActiveTimer")
+local timerFrye					= mod:NewTimer(25.5, "FryeActive", "132349", nil, false, "TrioActiveTimer")
+mod:AddBoolOption("TrioActiveTimer", true, "timer", nil, 1)
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 68821 then
+	if args.spellId == 68821 and self:AntiSpam(3, 1) then
 		warnChainReaction:Show()
-		timerChainReaction:Start()
 	end
 end
 
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 68927 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		specWarnPerfumeSpill:Show()
-	elseif spellId == 68934 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		specWarnCologneSpill:Show()
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if (spellId == 68927 or spellId == 68934) and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+		specWarnGTFO:Show(spellName)
+		specWarnGTFO:Play("watchfeet")
 	end
 end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.SayCombatStart or msg:find(L.SayCombatStart) then

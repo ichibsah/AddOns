@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2017 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -34,7 +34,7 @@ PawnLocal =
 	["ImportScaleMessage"] = "Pressione Ctrl+V para colar a tag de uma escala que você copiou de outra fonte aqui:",
 	["ImportScaleTagErrorMessage"] = "Pawn não entende essa tag de escala.  Você copiou a tag inteira?  Tente copiar e colar de novo:",
 	["ItemIDTooltipLine"] = "ID do Item",
-	["ItemLevelTooltipLine"] = "Nível do Item",
+	["ItemLevelTooltipLine"] = "Nível de Item",
 	["LootUpgradeAdvisorHeader"] = "Clique para comparar com seus items.|n",
 	["LootUpgradeAdvisorHeaderMany"] = "|TInterface\\AddOns\\Pawn\\Textures\\UpgradeArrow:0|t Este item é um upgrade para %d escalas.  Clique para comparar com seus items.",
 	["MissocketWorthwhileMessage"] = "   -- Mas é melhor usar somente %s gemas:",
@@ -301,21 +301,21 @@ Para mais informações sobre personalizar o Pawn, favor veja o arquivo de ajuda
 		["Warforged"] = "^Forjado para a Guerra$",
 		["Warglaives"] = "^Glaives de Guerra$",
 		["WeaponDamage"] = "^([%d%.,]+) %- ([%d%.,]+) d?e? ?Dano$",
-		["WeaponDamageArcane"] = "^%+?([%d%.,]+) %- ([%d%.,]+) de [dD]ano Arcano$",
-		["WeaponDamageArcaneExact"] = "^%+?([%d%.,]+) de [dD]ano Arcano$",
+		["WeaponDamageArcane"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [aA]rcano [dD]e [dD]ano$",
+		["WeaponDamageArcaneExact"] = "^%+?([%d%.,]+) [aA]rcano [dD]e [dD]ano$",
 		["WeaponDamageEnchantment"] = "^%+?([%d%.,]+) [dD]ano de [aA]rma$",
 		["WeaponDamageEquip"] = "^%+?([%d%.,]+) [dD]ano de [aA]rma%.$",
 		["WeaponDamageExact"] = "^%+?([%d%.,]+) Dano$",
-		["WeaponDamageFire"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [dD]ano de [dF]ogo$",
-		["WeaponDamageFireExact"] = "^%+?([%d%.,]+) [dD]ano de [dF]ogo$",
-		["WeaponDamageFrost"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [dD]ano [dD]e [gG]elo.$",
-		["WeaponDamageFrostExact"] = "^%+?([%d%.,]+) [dD]ano [dD]e [gG]elo.$",
-		["WeaponDamageHoly"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [dD]ano [sS]agrado$",
-		["WeaponDamageHolyExact"] = "^%+?([%d%.,]+) [dD]ano [sS]agrado$",
-		["WeaponDamageNature"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [dD]ano [dD]e [nN]atureza$",
-		["WeaponDamageNatureExact"] = "^%+?([%d%.,]+) [dD]ano [dD]e [nN]atureza$",
-		["WeaponDamageShadow"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [dD]ano [dD]e [sS]ombra$",
-		["WeaponDamageShadowExact"] = "^%+?([%d%.,]+) [dD]ano [dD]e [sS]ombra$",
+		["WeaponDamageFire"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [fF]ogo [dD]e [dD]ano$",
+		["WeaponDamageFireExact"] = "^%+?([%d%.,]+) [fF]ogo [dD]e [dD]ano$",
+		["WeaponDamageFrost"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [gG]elo [dD]e [dD]ano$",
+		["WeaponDamageFrostExact"] = "^%+?([%d%.,]+) [gG]elo [dD]e [dD]ano$",
+		["WeaponDamageHoly"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [sS]agrado [dD]e [dD]ano$",
+		["WeaponDamageHolyExact"] = "^%+?([%d%.,]+) [sS]agrado [dD]e [dD]ano$",
+		["WeaponDamageNature"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [nN]atureza [dD]e [dD]ano$",
+		["WeaponDamageNatureExact"] = "^%+?([%d%.,]+) [nN]atureza [dD]e [dD]ano$",
+		["WeaponDamageShadow"] = "^%+?([%d%.,]+) %- ([%d%.,]+) [sS]ombra [dD]e [dD]ano$",
+		["WeaponDamageShadowExact"] = "^%+?([%d%.,]+) [sS]ombra [dD]e [dD]ano$",
 	},
 	["UI"] = {
 		["AboutHeader"] = "Sobre o Pawn",
@@ -442,6 +442,8 @@ Todos os itens no World of Warcraft possui um número de ID associado a ele. Ess
 		["OptionsResetUpgradesTooltip"] = [=[O Pawn irá esquecer o que sabe sobre os melhores itens que você equipou e reescanear seu equipamento de forma a providenciar informações de melhorias mais atualizadas no futuro.
 
 Use essa funcionalidade se você perceber que o Pawn está sugerindo melhorias incorretas como resultado de itens que você vendeu, destruiu ou não utiliza mais. Isso vai afetar todos os seus personagens que usam o Pawn.]=],
+		["OptionsShowItemLevelUpgrades"] = "Show item level upgrades",
+		["OptionsShowItemLevelUpgradesTooltip"] = "Pawn will show you items that are of a higher item level than what you've previously equipped in that slot in addition to normal upgrades.",
 		["OptionsShowRelicUpgrades"] = "Mostrar melhorias de relíquias",
 		["OptionsShowRelicUpgradesTooltip"] = "O Pawn irá mostrar quando uma relíquia poderia aumentar o nível do item de uma de suas armas  artefato. (Isso funciona diferente de outras funcionalidades de melhoria, uma vez que é baseada somente no nível do item, e não nos atributos.)",
 		["OptionsSocketingAdvisor"] = "Mostrar assessor de engastes",

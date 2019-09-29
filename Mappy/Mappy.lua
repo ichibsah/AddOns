@@ -5,6 +5,8 @@ local gAddonName = select(1, ...)
 
 gMappy_Settings = nil
 
+Mappy.enableBlips = true
+
 Mappy.StackingInfo = {}
 
 Mappy.BlizzardButtonNames = {
@@ -205,6 +207,16 @@ function Mappy:AddonLoaded(pEventID, pAddonName)
 	SLASH_MAPPY1 = "/mappy"
 end
 
+function Mappy:HookMinimapClusterGetBottom()
+	MinimapCluster.Mappy_OriginalGetBottom = MinimapCluster.GetBottom
+	MinimapCluster.GetBottom = MinimapCluster.GetTop
+end
+
+function Mappy:UnhookMinimapClusterGetBottom()
+	MinimapCluster.GetBottom = MinimapCluster.Mappy_OriginalGetBottom
+	MinimapCluster.Mappy_OriginalGetBottom = nil
+end
+
 function Mappy:InitializeSettings()
 	gMappy_Settings =
 	{
@@ -279,20 +291,13 @@ function Mappy:InitializeSettings()
 end
 
 function Mappy:InitializeMinimap()
-	-- Apply taint fix
-	-- Disabling since it makes things worse for the quest tracker
-	-- self:ApplyKaleilsFixToPreventWorldMapTaintIssues()
-
 	-- Locate the addon buttons around the minimap
 	self:FindMinimapButtons()
-	
-	-- Initialize the minimap buttons
 	
 	self:InitializeDragging()
 	self:InitializeSquareShape()
 	
 	-- Get rid of the hide/show button
-	
 	if MinimapToggleButton then -- Not in patch 3.3
 		MinimapToggleButton:Hide()
 	end
@@ -300,12 +305,10 @@ function Mappy:InitializeMinimap()
 	MinimapBorderTop:Hide()
 	
 	-- Add scroll wheel support
-	
 	Minimap:SetScript("OnMouseWheel", function (pMinimap, pDirection) self:MinimapMouseWheel(pDirection) end)
 	Minimap:EnableMouseWheel(true)
 	
 	-- Add the coordinates display
-	
 	self.CoordString = Minimap:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 	self.CoordString:SetHeight(12)
 	self.CoordString:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 15, 15)
@@ -313,27 +316,11 @@ function Mappy:InitializeMinimap()
 	self.SchedulerLib:ScheduleRepeatingTask(0.2, self.Update, self)
 	
 	-- Adjust the objective tracker so it lines up nicely with the map
-
 	ObjectiveTrackerFrame:SetPoint("TOPRIGHT", MinimapCluster, "BOTTOMRIGHT", 10, -30)
 
-	-- Anchor the temporary enchant frame (and therefore buff and debuff frames)
-	
-	self.ReanchorBuffFrame()
-	
-	hooksecurefunc("TicketStatusFrame_OnEvent", self.ReanchorBuffFrame)
-	
-	-- Re-parent minimap objects so they don't fade with the map.  Also note the player arrow and make it larger
-	-- (I don't know why, but re-parenting is *sometimes* messing with QuestHelper.  I'm disabling this until I understand
-	-- the problem or simply decide it isn't worth trying to do.  One possible explanation is something with the frame
-	-- level getting messed up since I don't currently set that explicitly after re-parenting)
-	
-	-- self:ReparentLandmarks() 
-	
 	self:InitializeAttachedFrames()
 	
 	-- Register for events
-	
-	self.EventLib:RegisterEvent("ZONE_CHANGED_NEW_AREA", self.ZoneChangedNewArea, self)
 	self.EventLib:RegisterEvent("ZONE_CHANGED", self.ZoneChanged, self)
 	self.EventLib:RegisterEvent("ZONE_CHANGED_INDOORS", self.ZoneChanged, self)
 	
@@ -346,43 +333,15 @@ function Mappy:InitializeMinimap()
 	self:RegenEnabled()
 	
 	-- Schedule the configuration
-	
 	self.SchedulerLib:ScheduleUniqueTask(0.5, self.ConfigureMinimap, self)
 	
 	-- Monitor the mounted state so we can determine which opacity setting to use
-	
 	self.SchedulerLib:ScheduleUniqueRepeatingTask(0.5, self.UpdateMountedState, self)
 end
 
-function Mappy:ApplyKaleilsFixToPreventWorldMapTaintIssues()
-	local bck_WorldMapFrame_UIElementsFrame_ActionButton_Refresh = WorldMapFrame.UIElementsFrame.ActionButton.Refresh
-	function WorldMapFrame.UIElementsFrame.ActionButton:Refresh()
-		if InCombatLockdown() then return end
-		bck_WorldMapFrame_UIElementsFrame_ActionButton_Refresh(self)
-	end
-
-	local bck_WorldMapFrame_UIElementsFrame_BountyBoard_Refresh = WorldMapFrame.UIElementsFrame.BountyBoard.Refresh
-	function WorldMapFrame.UIElementsFrame.BountyBoard:Refresh()
-		if InCombatLockdown() then return end
-		bck_WorldMapFrame_UIElementsFrame_BountyBoard_Refresh(self)
-	end
-
-	local bck_WorldMapFrame_UpdateOverlayLocations = WorldMapFrame_UpdateOverlayLocations
-	WorldMapFrame_UpdateOverlayLocations = function()
-		if InCombatLockdown() then return end
-		bck_WorldMapFrame_UpdateOverlayLocations()
-	end
-
-	local bck_WorldMapScrollFrame_ResetZoom = WorldMapScrollFrame_ResetZoom
-	WorldMapScrollFrame_ResetZoom = function()
-		if InCombatLockdown() then return end
-		bck_WorldMapScrollFrame_ResetZoom()
-	end
-end
-
 function Mappy:InitializeAttachedFrames()
-	local vAttachmenFrame = CreateFrame("Frame", "MappyAttachmentFrame", UIParent, "SecureFrameTemplate")
-	self.AttachmentFrame = vAttachmenFrame
+	local attachmenFrame = CreateFrame("Frame", "MappyAttachmentFrame", UIParent, "SecureFrameTemplate")
+	self.AttachmentFrame = attachmenFrame
 
 	-- Give it an initial position
 	self.AttachmentFrame:SetPoint("BOTTOMRIGHT", MinimapCluster, "BOTTOMRIGHT", 0, 0)
@@ -714,10 +673,12 @@ function Mappy:ConfigureMinimapOptions()
 		self.ObjectIconsHighlightPath = self.ObjectIconsHighlightLargePath
 	end
 	
-	if self.GatherFlashState then
-		Minimap:SetBlipTexture(self.ObjectIconsHighlightPath)
-	else
-		Minimap:SetBlipTexture(self.ObjectIconsNormalPath)
+	if Mappy.enableBlips then
+		if self.GatherFlashState then
+			Minimap:SetBlipTexture(self.ObjectIconsHighlightPath)
+		else
+			Minimap:SetBlipTexture(self.ObjectIconsNormalPath)
+		end
 	end
 
 	self:AdjustBackgroundStyle()
@@ -1224,7 +1185,6 @@ function Mappy:ConfigureMinimap()
 	self:AdjustAlpha()
 	
 	-- Update the rotation
-	
 	if self.CurrentProfile.RotateMinimap ~= nil then
 		if self.CurrentProfile.RotateMinimap then
 			SetCVar("rotateMinimap", "1")
@@ -1234,10 +1194,41 @@ function Mappy:ConfigureMinimap()
 		
 		Minimap_UpdateRotationSetting()
 	end
+
+	-- Update the cluster position hack
+	Mappy:UpdateMinimapClusterBottomHook()
 end
 
-function Mappy:ZoneChangedNewArea()
-	SetMapToCurrentZone()
+function Mappy:UpdateMinimapClusterBottomHook()
+	-- Blizzard modified MultiActionBars to calculate a scaling value based on the
+	-- MinimapCluster's bottom position. This causes problems if the bottom is too
+	-- low on the screen (gather mode or positioning map in a bottom corner, for
+	-- example), so I'm hooking GetBottom() to return a high number to avoid the problem.
+	local minimapClusterBottomIsHooked = MinimapCluster.Mappy_OriginalGetBottom ~= nil
+
+	-- Get the actual bottom of the minimap
+	local minimapClusterBottom
+	if minimapClusterBottomIsHooked then
+		minimapClusterBottom = MinimapCluster.Mappy_OriginalGetBottom(MinimapCluster)
+	else
+		minimapClusterBottom = MinimapCluster:GetBottom()
+	end
+
+	-- Determine if the hook should be applied
+	local minimapClusterBottomMin = UIParent:GetTop() * 0.75
+	local minimapClusterBottomNeedsHooked = minimapClusterBottom < minimapClusterBottomMin
+
+	-- Leave if the hook state is already good
+	if minimapClusterBottomNeedsHooked == minimapClusterBottomIsHooked then
+		return
+	end
+
+	-- Hook/unhook
+	if minimapClusterBottomNeedsHooked then
+		Mappy:HookMinimapClusterGetBottom()
+	else
+		Mappy:UnhookMinimapClusterGetBottom()
+	end
 end
 
 function Mappy:GetUIObjectDescription(pUIObject)
@@ -1381,33 +1372,57 @@ function Mappy:IsDruidTravelForm()
 	end
 end
 
+function Mappy:ShouldForceMapToOpaque()
+	return IsIndoors()
+end
+
+function Mappy:GetInstanceType()
+	local _, instanceType, _, _, _, _, _, instanceMapID = GetInstanceInfo()
+	
+	-- Remap the Garrison instance to an outdoor type
+	if instanceMapID == 1159 then
+		instanceType = nil
+	end
+
+	-- Done
+	return instanceType
+end
+
 function Mappy:SelectAutoProfile()
-	local vInstanceName, vInstanceType = GetInstanceInfo()
-	local vProfileName
-	
-	if vInstanceType == "party"
-	or vInstanceType == "raid" then
-		vProfileName = gMappy_Settings.DungeonProfile
-	elseif vInstanceType == "pvp" then
-		vProfileName = gMappy_Settings.BattlegroundProfile
-	elseif IsMounted() or IsFlying() or self:IsDruidTravelForm() then
-		vProfileName = gMappy_Settings.MountedProfile
+	-- Leave if in combat lockdown
+	if InCombatLockdown() then
+		return
+	end
+
+	-- Use the instance type to figure out which profile to select
+	local profileName
+
+	local instanceType = self:GetInstanceType()
+	if instanceType == "party"
+	or instanceType == "raid" then
+		profileName = gMappy_Settings.DungeonProfile
+	elseif instanceType == "pvp" then
+		profileName = gMappy_Settings.BattlegroundProfile
+	elseif IsMounted() or IsFlying() or self:IsDruidTravelForm() or UnitInVehicle("player") then
+		profileName = gMappy_Settings.MountedProfile
 	else
-		vProfileName = gMappy_Settings.DefaultProfile
+		profileName = gMappy_Settings.DefaultProfile
 	end
 	
-	if not vProfileName then
+	-- Do nothing if no profile was selected
+	if not profileName then
 		return
 	end
 	
-	local vProfile = gMappy_Settings.Profiles[vProfileName]
-	
-	if not vProfile then
+	-- Fetch the profile
+	local profile = gMappy_Settings.Profiles[profileName]
+	if not profile then
 		return
 	end
 	
-	if not InCombatLockdown() and vProfile ~= self.CurrentProfile then
-		self:LoadProfile(vProfile)
+	-- Load the profile if it's changing
+	if profile ~= self.CurrentProfile then
+		self:LoadProfile(profile)
 	end
 end
 
@@ -1431,18 +1446,19 @@ function Mappy:Update()
 	end
 	
 	-- Update the coords
-	
 	if not self.CurrentProfile.HideCoordinates then
 		self:UpdateCoords()
 	end
 end
 
 function Mappy:UpdateCoords()
-	local	vX, vY = GetPlayerMapPosition("player")
-	if not vX or not vY or (vX == 0 and vY == 0) then
-		self.CoordString:SetText("")
-	else
-		self.CoordString:SetText(string.format("%.1f, %.1f", vX * 100, vY * 100))
+	if false then
+		local	vX, vY = GetPlayerMapPosition("player")
+		if not vX or not vY or (vX == 0 and vY == 0) then
+			self.CoordString:SetText("")
+		else
+			self.CoordString:SetText(string.format("%.1f, %.1f", vX * 100, vY * 100))
+		end
 	end
 end
 
@@ -1453,7 +1469,7 @@ function Mappy:AdjustAlpha(pForceAlpha)
 			self.MappyPlayerArrow:SetAlpha(1 - pForceAlpha)
 		end
 	else
-		local	vAlpha
+		local vAlpha
 		
 		if self.InCombat and not self.IsMounted then
 			vAlpha = self.CurrentProfile.MinimapCombatAlpha or 0.2
@@ -1469,15 +1485,26 @@ function Mappy:AdjustAlpha(pForceAlpha)
 		-- Detection of 'indoors' is imperfect however, so there are still times that the minimap
 		-- will go black when you don't want it to
 		
-		local	vMinimapIsInteriorMode = IsInInstance() or IsIndoors() or IsResting()
-		
-		if vAlpha > 0 and vMinimapIsInteriorMode then
+		local forceToOpaque = self:ShouldForceMapToOpaque()
+		if vAlpha > 0 and forceToOpaque then
 			vAlpha = 1
 		end
 
-		Minimap:SetAlpha(vAlpha)
-		if self.MappyPlayerArrow then
-			self.MappyPlayerArrow:SetAlpha(1 - vAlpha)
+		if Minimap:GetAlpha() ~= vAlpha then
+			Minimap:SetAlpha(vAlpha)
+
+			if self.MappyPlayerArrow then
+				self.MappyPlayerArrow:SetAlpha(1 - vAlpha)
+			end
+
+			-- Fudge the zoom to force the minimap to re-paint
+			local minimapZoom = Minimap:GetZoom()
+			if minimapZoom > 0 then
+				Minimap:SetZoom(minimapZoom - 1)
+			else
+				Minimap:SetZoom(minimapZoom + 1)
+			end
+			Minimap:SetZoom(minimapZoom)
 		end
 	end
 end
@@ -1517,13 +1544,13 @@ function Mappy:StoppedMoving()
 end
 
 function Mappy:UpdateMountedState()
-	local	vIsMounted = IsMounted()
+	local	isMounted = IsMounted()
 	
-	if (self.IsMounted == vIsMounted) then
+	if self.IsMounted == isMounted then
 		return
 	end
 	
-	self.IsMounted = vIsMounted
+	self.IsMounted = isMounted
 	self:AdjustAlpha()
 end
 
@@ -1863,6 +1890,10 @@ function Mappy:StopGatherFlash()
 end
 
 function Mappy:UpdateGatherFlash()
+	if not Mappy.enableBlips then
+		return
+	end
+
 	if not self.EnableFlashingNodes then
 		self.SchedulerLib:UnscheduleTask(self.UpdateGatherFlash, self)
 		Minimap:SetBlipTexture(self.ObjectIconsNormalPath)
@@ -1997,11 +2028,6 @@ function Mappy:PositionChanged()
 	self.CurrentProfile.OffsetY = vPosition.OffsetY
 	
 	self:SetFramePosition(MinimapCluster, self.CurrentProfile)
-end
-
-function Mappy.ReanchorBuffFrame()
-	--ConsolidatedBuffs:ClearAllPoints()
-	--ConsolidatedBuffs:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -15, 0)
 end
 
 function Mappy.SetFrameLevel(pFrame, pLevel)

@@ -1,15 +1,15 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John Wellesz).
 
     The only official and allowed distribution means are www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
@@ -17,8 +17,8 @@
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
 
-    
-    This file was last updated on 2017-06-30T1:45:54Z
+
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -381,7 +381,7 @@ function MicroUnitF:MFsDisplay_Update () -- {{{
                 --D:Debug("|cFF88AA00Show schedule for MUF", Unit, "UnitShown:", self.UnitShown);
             end
         else
-            --D:errln("showhide: no muf for", Unit); -- call delay display up 
+            --D:errln("showhide: no muf for", Unit); -- call delay display up
             self:Delayed_MFsDisplay_Update ();
         end
 
@@ -526,8 +526,6 @@ do
         current_x = current_x * FrameScale;
         current_y = current_y * FrameScale;
 
-        --D:Debug("xDelta=", current_x - saved_x, "yDelta=", current_y - saved_y); -- XXX will crash
-
         -- If executed for the very first time, then put it in the top right corner of the screen
         if (not saved_x or not saved_y) then
             saved_x =    (UIParent:GetWidth() * UIScale) - (UIParent:GetWidth() * UIScale) / 4;
@@ -597,7 +595,7 @@ do
             end
         end
 
-        -- y 
+        -- y
         if y_out_arrays[1] then
             if y_out_arrays[1] < 0 then
                 Handle_y_offset = -  y_out_arrays[1];
@@ -853,7 +851,7 @@ do
             MUFtoolTip:Show();
 
             -- if the tooltip is at the top of the screen it means it's overlaping the MUF, let's move the tooltip beneath the first MUF.
-            if floor(MUFtoolTip:GetTop() + 0.5) >= floor(UIParent:GetTop() + 0.5) then -- if at top
+            if floor(MUFtoolTip:GetTop() + 0.5) >= floor(UIParent:GetTop() + 0.5) then -- if at top -- XXX attempt to perform arithmetic on a nil value, reported on 2018-08-16
                 MUFtoolTip:ClearAllPoints();
                 MUFtoolTip:SetPoint(self:GetHelperAnchor(true));
             end
@@ -915,7 +913,7 @@ do
         end
 
         if D.profile.DebuffsFrameShowHelp then
-            D:DisplayLQTGameTooltip(keyHelp, frame);            
+            D:DisplayLQTGameTooltip(keyHelp, frame);
         end;
     end
 end
@@ -967,7 +965,7 @@ function MicroUnitF.OnPreClick(frame, Button) -- {{{
     elseif (frame.Object.UnitStatus == AFFLICTED and frame.Object.Debuffs[1]) then
         local NeededPrio = D:GiveSpellPrioNum(frame.Object.Debuffs[1].Type);
         local Unit = frame.Object.CurrUnit; -- shortcut
-        
+
 
         -- there is no spell for the requested prio ? (no spell registered to this modifier+mousebutton)
         if modifier and RequestedPrio and not D:tcheckforval(D.Status.CuringSpellsPrio, RequestedPrio) then
@@ -1613,7 +1611,7 @@ do
                     Status.SoundPlayed = false;
                 end
             end
-            
+
             if band(self.UnitStatus, AFFLICTED)~=0 then
                 MicroUnitF.UnitsDebuffedInRange =  MicroUnitF.UnitsDebuffedInRange + 1;
                 D:Debug("SetColor(): UnitsDebuffedInRange INCREASED:",  MicroUnitF.UnitsDebuffedInRange);
@@ -1860,6 +1858,6 @@ local MF_Textures = { -- unused
 
 -- }}}
 
-T._LoadedFiles["Dcr_DebuffsFrame.lua"] = "2.7.5.6";
+T._LoadedFiles["Dcr_DebuffsFrame.lua"] = "2.7.6.4";
 
 -- Heresy

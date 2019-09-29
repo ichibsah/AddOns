@@ -94,6 +94,7 @@ function IceCore.prototype:SetupDefaults()
 
 			bHideDuringPetBattles = true,
 			bHideInBarberShop = true,
+			bHideDuringShellGame = true,
 		},
 		global = {
 			lastRunVersion = 0,
@@ -139,7 +140,7 @@ StaticPopupDialogs["ICEHUD_UPDATE_PERIOD_MATTERS"] =
 function IceCore.prototype:CheckDisplayUpdateMessage()
 	local thisVersion
 --@non-debug@
-	thisVersion = 20170901021036
+	thisVersion = 20190920030916
 --@end-non-debug@
 --[===[@debug@
 	thisVersion = 99999999999999
@@ -171,6 +172,13 @@ function IceCore.prototype:CheckDisplayUpdateMessage()
 			if self.settings.modules["DruidMana"] ~= nil then
 				self.settings.modules["PlayerAltMana"] = self.settings.modules["DruidMana"]
 				self.settings.modules["DruidMana"] = nil
+			end
+		end
+		if self.accountSettings.lastRunVersion <= 20180720033008 then
+			if self.settings.modules["HarmonyPower"] ~= nil then
+				self.settings.modules["Chi"] = self.settings.modules["HarmonyPower"]
+				self.settings.modules["HarmonyPower"] = nil
+				self.settings.colors["ChiNumeric"] = self.settings.colors["HarmonyPowerNumeric"]
 			end
 		end
 		self.accountSettings.lastRunVersion = thisVersion
@@ -243,10 +251,15 @@ function IceCore.prototype:Enable(userToggle)
 		IceHUD_Options:GenerateModuleOptions()
 	end
 
-	self.IceHUDFrame:RegisterEvent("PET_BATTLE_OPENING_START")
-	self.IceHUDFrame:RegisterEvent("PET_BATTLE_OVER")
-	self.IceHUDFrame:RegisterEvent("BARBER_SHOP_OPEN")
-	self.IceHUDFrame:RegisterEvent("BARBER_SHOP_CLOSE")
+	if UnitCanPetBattle then
+		self.IceHUDFrame:RegisterEvent("PET_BATTLE_OPENING_START")
+		self.IceHUDFrame:RegisterEvent("PET_BATTLE_OVER")
+	end
+	if GetBarberShopStyleInfo then
+		self.IceHUDFrame:RegisterEvent("BARBER_SHOP_OPEN")
+		self.IceHUDFrame:RegisterEvent("BARBER_SHOP_CLOSE")
+	end
+	self.IceHUDFrame:RegisterEvent("UNIT_AURA")
 	self.IceHUDFrame:SetScript("OnEvent", function(self, event, ...)
 		if (event == "PET_BATTLE_OPENING_START") then
 			if IceHUD.IceCore.settings.bHideDuringPetBattles then
@@ -264,6 +277,15 @@ function IceCore.prototype:Enable(userToggle)
 			if IceHUD.IceCore.settings.bHideInBarberShop then
 				self:Show()
 			end
+		elseif (event == "UNIT_AURA") then
+			local unit = ...
+			if IceHUD.IceCore.settings.bHideDuringShellGame and unit == "player" and IceHUD:HasDebuffs("player", {271571})[1] and UnitInVehicle("player") then
+				self:RegisterEvent("UNIT_EXITED_VEHICLE")
+				self:Hide()
+			end
+		elseif (event == "UNIT_EXITED_VEHICLE") then
+			self:UnregisterEvent("UNIT_EXITED_VEHICLE")
+			self:Show()
 		end
 	end)
 
@@ -498,10 +520,14 @@ function IceCore.prototype:Disable(userToggle)
 		end
 	end
 
-	self.IceHUDFrame:UnregisterEvent("PET_BATTLE_OPENING_START")
-	self.IceHUDFrame:UnregisterEvent("PET_BATTLE_OVER")
-	self.IceHUDFrame:UnregisterEvent("BARBER_SHOP_OPEN")
-	self.IceHUDFrame:UnregisterEvent("BARBER_SHOP_CLOSE")
+	if UnitCanPetBattle then
+		self.IceHUDFrame:UnregisterEvent("PET_BATTLE_OPENING_START")
+		self.IceHUDFrame:UnregisterEvent("PET_BATTLE_OVER")
+	end
+	if GetBarberShopStyleInfo then
+		self.IceHUDFrame:UnregisterEvent("BARBER_SHOP_OPEN")
+		self.IceHUDFrame:UnregisterEvent("BARBER_SHOP_CLOSE")
+	end
 	self.IceHUDFrame:SetScript("OnEvent", nil)
 
 	self.enabled = false

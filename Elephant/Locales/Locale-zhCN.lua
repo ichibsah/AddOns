@@ -1,7 +1,7 @@
 --Chinese Local : CWDG Translation Team 月色狼影
 --CWDG site: http://cwowaddon.com  Chinese Addon/UI download center.
 --$Rev: 287 $
---$Date: 2016-10-30 23:38:13 -0500 (Sun, 30 Oct 2016) $
+--$Date: 2016-10-30 21:38:13 -0700 (Sun, 30 Oct 2016) $
 
 local L = LibStub("AceLocale-3.0"):NewLocale("Elephant", "zhCN")
 if not L then return end

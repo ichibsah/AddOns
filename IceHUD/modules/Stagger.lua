@@ -13,6 +13,7 @@ local ModerateID = 124274
 local HeavyID = 124273
 local StaggerID = 124255
 local staggerNames = {"", "", ""}
+local staggerIds = {LightID, ModerateID, HeavyID}
 
 local MinLevel = 10
 
@@ -165,7 +166,7 @@ end
 
 function StaggerBar.prototype:GetDebuffInfo()
 	if IceHUD.WowVer >= 70000 then
-		self.amount = UnitStagger(self.unit)
+		self.amount = UnitStagger(self.unit) or 0
 		self.staggerLevel = 1
 
 		local healthMax = UnitHealthMax(self.unit)
@@ -183,13 +184,13 @@ function StaggerBar.prototype:GetDebuffInfo()
 	local staggerLevel = 1
 
 	for i = 1, IceCore.BuffLimit do
-		local debuffID = select(11, UnitDebuff(self.unit, i))
+		local debuffID = select(IceHUD.WowVer < 80000 and 11 or 10, UnitDebuff(self.unit, i))
 
 		if debuffID == LightID or debuffID == ModerateID or debuffID == HeavyID then
-			local spellName = select(1, UnitDebuff(self.unit, i))
+			local spellName = UnitDebuff(self.unit, i)
 
-			duration = select(6, UnitAura(self.unit, spellName, "", "HARMFUL"))
-			amount = select(15, UnitAura(self.unit, spellName, "", "HARMFUL"))
+			duration = select((IceHUD.WowVer < 80000 and not IceHUD.WowClassic) and 6 or 5, UnitAura(self.unit, spellName, "", "HARMFUL"))
+			amount = select((IceHUD.WowVer < 80000 and not IceHUD.WowClassic) and 15 or 14, UnitAura(self.unit, spellName, "", "HARMFUL"))
 			staggerLevel = (debuffID == LightID) and 1 or (debuffID == ModerateID) and 2 or 3
 
 			break
@@ -201,9 +202,14 @@ function StaggerBar.prototype:GetDebuffInfo()
 	self.staggerLevel = staggerLevel or 1
 end
 
-function StaggerBar.prototype:COMBAT_LOG_EVENT_UNFILTERED(_, timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceFlags2, destGUID, destName, destFlags, destFlags2, spellID)
-	if destName == playerName then
-		if spellID == StaggerID or event == "SWING_DAMAGE" or event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REMOVED" then
+function StaggerBar.prototype:COMBAT_LOG_EVENT_UNFILTERED(...)
+	local eventArgs = {...}
+    if (CombatLogGetCurrentEventInfo) then
+        eventArgs = {CombatLogGetCurrentEventInfo()}
+    end
+
+	if eventArgs[9] == playerName then
+		if eventArgs[12] == StaggerID or eventArgs[2] == "SWING_DAMAGE" or eventArgs[2] == "SPELL_AURA_APPLIED" or eventArgs[2] == "SPELL_AURA_REMOVED" then
 			self:UpdateStaggerBar()
 		end
 	end
@@ -216,7 +222,7 @@ function StaggerBar.prototype:UpdateStaggerBar()
 	local maxHealth = UnitHealthMax(self.unit)
 	local scale = IceHUD:Clamp((self.amount / maxHealth) * (100 / self.moduleSettings.maxPercent), 0, 1)
 
-	if self.amount > 0 and (IceHUD.WowVer >= 7000 or self.duration <= 10) then
+	if self.amount > 0 and (IceHUD.WowVer >= 70000 or self.duration <= 10) then
 		-- self.timerFrame.bar:SetVertexColor(self:GetColor("StaggerTime", self.moduleSettings.timerAlpha))
 		self:UpdateBar(scale or 0, "Stagger"..self.staggerLevel)
 		self:UpdateShown()
@@ -227,8 +233,20 @@ function StaggerBar.prototype:UpdateStaggerBar()
 	end
 end
 
-function StaggerBar.prototype:GetDebuffDuration(unitName, buffName)
-	local name, _, _, _, _, duration, endTime = UnitDebuff(unitName, buffName)
+function StaggerBar.prototype:GetDebuffDuration(unitName, buffId)
+	local name, _, duration, endTime
+	if IceHUD.WowVer < 80000 then
+		name, _, _, _, _, duration, endTime = UnitDebuff(unitName, buffName)
+	else
+		for i = 1, IceCore.BuffLimit do
+			local id
+			name, _, _, _, duration, endTime, _, _, _, id = UnitDebuff(unitName, i)
+
+			if id == buffId then
+				break
+			end
+		end
+	end
 
 	if name then
 		return duration, endTime - GetTime()
@@ -255,7 +273,7 @@ function StaggerBar.prototype:UpdateTimerFrame(event, unit, fromUpdate)
 
 	if not fromUpdate then
 		for i = 1, 3 do
-			self.StaggerDuration, remaining = self:GetDebuffDuration(self.unit, staggerNames[i])
+			self.StaggerDuration, remaining = self:GetDebuffDuration(self.unit, staggerIds[i])
 
 			if remaining then
 				break

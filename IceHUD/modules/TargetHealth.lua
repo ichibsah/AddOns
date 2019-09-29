@@ -637,9 +637,11 @@ function IceTargetHealth.prototype:Enable(core)
 		self:RegisterEvent("UPDATE_FACTION", "CheckPvP")
 		self:RegisterEvent("PLAYER_FLAGS_CHANGED", "CheckPvP")
 		self:RegisterEvent("UNIT_FACTION", "CheckPvP")
-		self:RegisterEvent("LFG_PROPOSAL_UPDATE", "CheckPartyRole")
-		self:RegisterEvent("LFG_PROPOSAL_FAILED", "CheckPartyRole")
-		self:RegisterEvent("LFG_ROLE_UPDATE", "CheckPartyRole")
+		if GetLFGRoles then
+			self:RegisterEvent("LFG_PROPOSAL_UPDATE", "CheckPartyRole")
+			self:RegisterEvent("LFG_PROPOSAL_FAILED", "CheckPartyRole")
+			self:RegisterEvent("LFG_ROLE_UPDATE", "CheckPartyRole")
+		end
 	end
 
 	if (self.moduleSettings.hideBlizz) then
@@ -840,21 +842,46 @@ function IceTargetHealth.prototype:Update(unit)
 
 	self:UpdateBar(self.healthPercentage, self.color)
 
-	if not IceHUD.IceCore:ShouldUseDogTags() and self.frame:IsVisible() then
-		self:SetBottomText1(math.floor(self.healthPercentage * 100))
+	if IsAddOnLoaded("RealMobHealth") then
+		if not IceHUD.IceCore:ShouldUseDogTags() and self.frame:IsVisible() then
+			self:SetBottomText1(math.floor(self.healthPercentage * 100))
 
-		if self.moduleSettings.abbreviateHealth then
-			self.health = self:Round(self.health)
-			self.maxHealth = self:Round(self.maxHealth)
-		end
+			if self.moduleSettings.abbreviateHealth then
+				if RealMobHealth.UnitHasHealthData(unit) then
+					self.health, self.maxHealth = RealMobHealth.GetUnitHealth(unit)
+				end
+				self.health = self:Round(self.health)
+				self.maxHealth = self:Round(self.maxHealth)
+			end
 
-		if (self.maxHealth ~= 100) then
-			self:SetBottomText2(self:GetFormattedText(self.health, self.maxHealth), self.color)
-		else
-			self:SetBottomText2()
+			if RealMobHealth.UnitHasHealthData(unit) or (self.maxHealth ~= 100) then
+				if RealMobHealth.UnitHasHealthData(unit) then
+					self.health, self.maxHealth = RealMobHealth.GetUnitHealth(unit)
+					self:SetBottomText2(self:GetFormattedText(self.health, self.maxHealth), self.color)
+				else
+					self:SetBottomText2(self:GetFormattedText(self.health, self.maxHealth), self.color)
+				end				
+			else
+				self:SetBottomText2()
+			end
 		end
+	else
+		if not IceHUD.IceCore:ShouldUseDogTags() and self.frame:IsVisible() then
+			self:SetBottomText1(math.floor(self.healthPercentage * 100))
+
+			if self.moduleSettings.abbreviateHealth then
+				self.health = self:Round(self.health)
+				self.maxHealth = self:Round(self.maxHealth)
+			end
+
+			if (self.maxHealth ~= 100) then
+				self:SetBottomText2(self:GetFormattedText(self.health, self.maxHealth), self.color)
+			else
+				self:SetBottomText2()
+			end
+		end	
 	end
-
+	
 	self:CheckPvP()
 	self:CheckPartyRole()
 	self:SetIconAlpha()
@@ -969,17 +996,6 @@ function IceTargetHealth.prototype:UpdateRaidTargetIcon()
 	if self.frame.raidIcon then
 		self.frame.raidIcon:SetAlpha(self.moduleSettings.lockIconAlpha and 1 or self.alpha)
 	end
-end
-
-
-function IceTargetHealth.prototype:Round(health)
-	if (health > 1000000) then
-		return IceHUD:MathRound(health/1000000, 1) .. "M"
-	end
-	if (health > 1000) then
-		return IceHUD:MathRound(health/1000, 1) .. "k"
-	end
-	return health
 end
 
 

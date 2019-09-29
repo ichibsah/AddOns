@@ -12,6 +12,17 @@ IceCastBar.prototype.actionMessage = nil
 IceCastBar.prototype.unit = nil
 IceCastBar.prototype.current = nil
 
+local SPELL_POWER_MANA = SPELL_POWER_MANA
+if IceHUD.WowVer >= 80000 or IceHUD.WowClassic then
+	SPELL_POWER_MANA = Enum.PowerType.Mana
+end
+
+local UnitCastingInfo, UnitChannelInfo = UnitCastingInfo, UnitChannelInfo
+if IceHUD.WowClassic then
+	UnitCastingInfo = CastingInfo
+	UnitChannelInfo = ChannelInfo
+end
+
 local AuraIconWidth = 20
 local AuraIconHeight = 20
 
@@ -86,7 +97,7 @@ function IceCastBar.prototype:GetOptions()
 		end,
 		order = 39.998
 	}
-
+if IceHUD.WowVer < 80000 then
 	opts["showSpellRank"] =
 	{
 		type = 'toggle',
@@ -103,7 +114,7 @@ function IceCastBar.prototype:GetOptions()
 		end,
 		order = 39.999
 	}
-
+end
 	opts["iconSettings"] = {
 		type = 'group',
 		name = "|c"..self.configColor..L["Icon Settings"].."|r",
@@ -346,9 +357,18 @@ end
 
 
 function IceCastBar.prototype:StartBar(action, message)
-	local spell, rank, displayName, icon, startTime, endTime, isTradeSkill = UnitCastingInfo(self.unit)
+	local spell, rank, displayName, icon, startTime, endTime, isTradeSkill
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		spell, rank, displayName, icon, startTime, endTime, isTradeSkill = UnitCastingInfo(self.unit)
+	else
+		spell, displayName, icon, startTime, endTime, isTradeSkill = UnitCastingInfo(self.unit)
+	end
 	if not (spell) then
-		spell, rank, displayName, icon, startTime, endTime = UnitChannelInfo(self.unit)
+		if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+			spell, rank, displayName, icon, startTime, endTime = UnitChannelInfo(self.unit)
+		else
+			spell, displayName, icon, startTime, endTime = UnitChannelInfo(self.unit)
+		end
 	end
 
 	if not spell then
@@ -398,7 +418,7 @@ function IceCastBar.prototype:StopBar()
 end
 
 function IceCastBar.prototype:GetShortRank(rank)
-	if (rank) then
+	if IceHUD.WowVer < 80000 and rank then
 		local _, _, sRank = string.find(rank, "(%d+)")
 		if (sRank) then
 			return " (" .. sRank .. ")"
@@ -413,30 +433,30 @@ end
 -- NORMAL SPELLS                                                             --
 -------------------------------------------------------------------------------
 
-function IceCastBar.prototype:SpellCastSent(event, unit, spell, rank, target, lineId)
+function IceCastBar.prototype:SpellCastSent(event, unit, target, castGuid, spellId)
 	if (unit ~= self.unit) then return end
-	IceHUD:Debug("SpellCastSent", unit, spell, rank, target, lineId)
+	IceHUD:Debug("SpellCastSent", unit, target, castGuid, spellId)
 end
 
-function IceCastBar.prototype:SpellCastChanged(event, arg1)
-	IceHUD:Debug("SpellCastChanged", arg1)
+function IceCastBar.prototype:SpellCastChanged(event, cancelled)
+	IceHUD:Debug("SpellCastChanged", cancelled)
 end
 
-function IceCastBar.prototype:SpellCastStart(event, unit, spell, rank, lineId, spellId)
+function IceCastBar.prototype:SpellCastStart(event, unit, castGuid, spellId)
 	if (unit ~= self.unit) then return end
-	IceHUD:Debug("SpellCastStart", unit, spell, rank, lineId, spellId)
+	IceHUD:Debug("SpellCastStart", unit, castGuid, spellId)
 	--UnitCastingInfo(unit)
 
 	self:StartBar(IceCastBar.Actions.Cast)
-	self.current = lineId
+	self.current = castGuid
 end
 
-function IceCastBar.prototype:SpellCastStop(event, unit, spell, rank, lineId, spellId)
+function IceCastBar.prototype:SpellCastStop(event, unit, castGuid, spellId)
 	if (unit ~= self.unit) then return end
-	IceHUD:Debug("SpellCastStop", unit, spell, self.current, rank, lineId, spellId)
+	IceHUD:Debug("SpellCastStop", unit, castGuid, spellId)
 
 	-- ignore if not coming from current spell
-	if (self.current and lineId and self.current ~= lineId) then
+	if (self.current and castGuid and self.current ~= castGuid) then
 		return
 	end
 
@@ -450,12 +470,12 @@ function IceCastBar.prototype:SpellCastStop(event, unit, spell, rank, lineId, sp
 end
 
 
-function IceCastBar.prototype:SpellCastFailed(event, unit, spell, rank, lineId, spellId)
+function IceCastBar.prototype:SpellCastFailed(event, unit, castGuid, spellId)
 	if (unit ~= self.unit) then return end
-	IceHUD:Debug("SpellCastFailed", unit, self.current, lineId, spellId)
+	IceHUD:Debug("SpellCastFailed", unit, castGuid, spellId)
 
 	-- ignore if not coming from current spell
-	if (self.current and lineId and self.current ~= lineId) then
+	if (self.current and castGuid and self.current ~= castGuid) then
 		return
 	end
 
@@ -478,12 +498,12 @@ function IceCastBar.prototype:SpellCastFailed(event, unit, spell, rank, lineId, 
 	self:StartBar(IceCastBar.Actions.Failure, "Failed")
 end
 
-function IceCastBar.prototype:SpellCastInterrupted(event, unit, spell, rank, lineId, spellId)
+function IceCastBar.prototype:SpellCastInterrupted(event, unit, castGuid, spellId)
 	if (unit ~= self.unit) then return end
-	IceHUD:Debug("SpellCastInterrupted", unit, self.current, lineId, spellId)
+	IceHUD:Debug("SpellCastInterrupted", unit, castGuid, spellId)
 
 	-- ignore if not coming from current spell
-	if (self.current and lineId and self.current ~= lineId) then
+	if (self.current and castGuid and self.current ~= castGuid) then
 		return
 	end
 
@@ -492,11 +512,11 @@ function IceCastBar.prototype:SpellCastInterrupted(event, unit, spell, rank, lin
 	self:StartBar(IceCastBar.Actions.Failure, "Interrupted")
 end
 
-function IceCastBar.prototype:SpellCastDelayed(event, unit, delay)
+function IceCastBar.prototype:SpellCastDelayed(event, unit, castGuid, spellId)
 	if (unit ~= self.unit) then return end
 	--IceHUD:Debug("SpellCastDelayed", unit, UnitCastingInfo(unit))
 
-	local spell, rank, displayName, icon, startTime, endTime, isTradeSkill = UnitCastingInfo(self.unit)
+	local endTime = select((IceHUD.WowVer < 80000 and not IceHUD.WowClassic) and 6 or 5, UnitCastingInfo(self.unit))
 
 	if (endTime and self.actionStartTime) then
 		-- apparently this check is needed, got nils during a horrible lag spike
@@ -505,9 +525,9 @@ function IceCastBar.prototype:SpellCastDelayed(event, unit, delay)
 end
 
 
-function IceCastBar.prototype:SpellCastSucceeded(event, unit, spell, rank, lineId, spellId)
+function IceCastBar.prototype:SpellCastSucceeded(event, unit, castGuid, spellId)
 	if (unit ~= self.unit) then return end
-	--IceHUD:Debug("SpellCastSucceeded", unit, spell, rank)
+	--IceHUD:Debug("SpellCastSucceeded", unit, castGuid, spellId)
 
 	-- never show on channeled (why on earth does this event even fire when channeling starts?)
 	if (self.action == IceCastBar.Actions.Channel) then
@@ -515,9 +535,11 @@ function IceCastBar.prototype:SpellCastSucceeded(event, unit, spell, rank, lineI
 	end
 
 	-- ignore if not coming from current spell
-	if (self.current and self.current ~= lineId) then
+	if (self.current and self.current ~= castGuid) then
 		return
 	end
+
+	local spell = GetSpellInfo(spellId)
 
 	-- show after normal successfull cast
 	if (self.action == IceCastBar.Actions.Cast) then
@@ -554,7 +576,12 @@ function IceCastBar.prototype:SpellCastChannelUpdate(event, unit)
 	if (unit ~= self.unit or not self.actionStartTime) then return end
 	--IceHUD:Debug("SpellCastChannelUpdate", unit, UnitChannelInfo(unit))
 
-	local spell, rank, displayName, icon, startTime, endTime = UnitChannelInfo(unit)
+	local spell, rank, displayName, icon, startTime, endTime
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		spell, rank, displayName, icon, startTime, endTime = UnitChannelInfo(unit)
+	else
+		spell, displayName, icon, startTime, endTime = UnitChannelInfo(unit)
+	end
     if not spell then
         self.actionDuration = 0
     else

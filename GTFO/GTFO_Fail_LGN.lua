@@ -404,6 +404,50 @@ GTFO.SpellID["223435"] = {
   sound = 3;
 };
 
+GTFO.SpellID["220324"] = {
+  --desc = "Fel Energy Barrier";
+  sound = 3;
+};
+
+GTFO.SpellID["241523"] = {
+  --desc = "Felfire Boulder";
+  sound = 3;
+};
+
+GTFO.SpellID["242880"] = {
+  --desc = "Agatha's Fury (Agatha)";
+  sound = 3;
+};
+
+GTFO.SpellID["241666"] = {
+  --desc = "Fel Rupture (Tugar Bloodtotem)";
+  sound = 3;
+};
+
+-- *******************
+-- * Brawler's Guild *
+-- *******************
+
+GTFO.SpellID["229420"] = {
+  --desc = "Devour (Hippo)";
+  sound = 3;
+};
+
+GTFO.SpellID["229926"] = {
+  --desc = "Path of Despair";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["228988"] = {
+  --desc = "Burning Ground";
+  sound = 3;
+};
+
+GTFO.SpellID["229126"] = {
+  --desc = "Peck (Slippy)";
+  sound = 3;
+};
 
 -- **********
 -- * Mardum *
@@ -475,6 +519,15 @@ GTFO.SpellID["247186"] = {
   sound = 3;
 };
 
+GTFO.SpellID["202323"] = {
+  --desc = "Goliath's Bane (Sigurd the Giantslayer)";
+  sound = 3;
+};
+
+GTFO.SpellID["197362"] = {
+  --desc = "Wandering Keg (Chen Stormstout)";
+  sound = 3;
+};
 
 -- ********************
 -- * The Broken Shore *
@@ -2048,7 +2101,9 @@ GTFO.SpellID["252093"] = {
 
 GTFO.SpellID["218969"] = {
   --desc = "Fel Meteor (Invasive Gazer)";
+  applicationOnly = true;
   sound = 3;
+  test = true;
 };
 
 GTFO.SpellID["240364"] = {
@@ -2060,6 +2115,41 @@ GTFO.SpellID["252575"] = {
   --desc = "Fiery Release (Bursting Elemental)";
   sound = 3;
 };
+
+GTFO.SpellID["247389"] = {
+  --desc = "Slumbering Gasp (Matron Folnuna)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["247411"] = {
+  --desc = "Scorching Presence (Felblaze Maniac)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["247499"] = {
+  --desc = "Grotesque Spawn (Matron Folnuna)";
+  sound = 3;
+};
+
+GTFO.SpellID["254201"] = {
+  --desc = "Wake of Destruction (Sotanathor)";
+  sound = 3;
+};
+
+GTFO.SpellID["251735"] = {
+  --desc = "Swarming Insects";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["249238"] = {
+  --desc = "Slumber (Slumber Fog)";
+  applicationOnly = true;
+  sound = 1;
+};
+
 
 --- ***************************
 --- * Seat of the Triumvirate *
@@ -2092,3 +2182,248 @@ GTFO.SpellID["246900"] = {
   sound = 3;
   applicationOnly = true;
 };
+
+
+-- *******************************
+-- * Antorus, the Burning Throne *
+-- *******************************
+
+GTFO.SpellID["252112"] = {
+  --desc = "Talon Strike (Legion Talon)";
+  sound = 3;
+};
+
+GTFO.SpellID["244532"] = {
+  --desc = "Fel Bombardment (Garothi Worldbreaker)";
+  sound = 3;
+};
+
+GTFO.SpellID["253543"] = {
+  --desc = "Infernal Bombardment (Legion Devastator)";
+  sound = 3;
+};
+
+GTFO.SpellID["254760"] = {
+  --desc = "Corrupting Maw (Shatug)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["254502"] = {
+  --desc = "Fearsome Leap (Imperator Deconix)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["245121"] = {
+  --desc = "Entropic Blast (Entropic Mine)";
+  sound = 3;
+};
+
+GTFO.SpellID["244892"] = {
+  --desc = "Exploit Weakness (Admiral Svirax)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["243984"] = {
+  --desc = "Collapsing World (Portal Keeper Hasabel)";
+	soundFunction = function() -- Warn only if you get hit more than once
+		if (GTFO_FindEvent("CollapsingWorld")) then
+			return 3;
+		end
+		GTFO_AddEvent("CollapsingWorld", 1);
+		return 0;
+	end
+};
+
+GTFO.SpellID["244001"] = {
+  --desc = "Felstorm Barrage (Portal Keeper Hasabel)";
+  sound = 3;
+};
+
+GTFO.SpellID["249671"] = {
+  --desc = "Bombardment";
+  sound = 3;
+};
+
+GTFO.SpellID["247388"] = {
+  --desc = "Pulse Grenade (Imonar the Soulhunter)";
+  sound = 3;
+};
+
+GTFO.SpellID["247681"] = {
+  --desc = "Pulse Grenade (Imonar the Soulhunter)";
+  sound = 3;
+};
+
+GTFO.SpellID["247641"] = {
+  --desc = "Stasis Trap (Imonar the Soulhunter)";
+  applicationOnly = true;  
+  sound = 3;
+};
+
+GTFO.SpellID["247962"] = {
+  --desc = "Blastwire (Imonar the Soulhunter)";
+  sound = 3;
+};
+
+GTFO.SpellID["247716"] = {
+  --desc = "Charged Blasts (Imonar the Soulhunter)";
+  applicationOnly = true;  
+  sound = 3;
+  test = true;
+};
+
+GTFO.SpellID["254919"] = {
+  --desc = "Forging Strike (Kin'garoth)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["246634"] = {
+  --desc = "Apocalypse Blast (Kin'garoth)";
+  sound = 3;
+};
+
+GTFO.SpellID["257644"] = {
+  --desc = "Shadow Strike (Varimathras)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["244006"] = {
+  --desc = "Dark Eruption (Varimathras)";
+  sound = 3;
+};
+
+GTFO.SpellID["246374"] = {
+  --desc = "Shadow Blades (Asara, Mother of Night)";
+  sound = 3;
+};
+
+GTFO.SpellID["246209"] = {
+  --desc = "Punishing Flame (Dark Keeper Aedis)";
+  applicationOnly = true;  
+  sound = 3;
+};
+
+GTFO.SpellID["254022"] = {
+  --desc = "Corrupt Aegis (Aggramar)";
+  sound = 3;
+};
+
+GTFO.SpellID["246014"] = {
+  --desc = "Searing Tempest (Aggramar)";
+  sound = 3;
+  applicationOnly = true;  
+};
+
+GTFO.SpellID["244291"] = {
+  --desc = "Foe Breaker (Aggramar)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["244736"] = {
+  --desc = "Wake of Flame (Aggramar)";
+  sound = 3;
+  applicationOnly = true;  
+};
+
+GTFO.SpellID["245391"] = {
+  --desc = "Flare (Aggramar)";
+  sound = 3;
+};
+
+GTFO.SpellID["244686"] = {
+  --desc = "Meteor Swarm (Aggramar)";
+  sound = 3;
+};
+
+GTFO.SpellID["251815"] = {
+  --desc = "Edge of Obliteration (Argus the Unmaker)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["248499"] = {
+  --desc = "Sweeping Scythe (Argus the Unmaker)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["257299"] = {
+  --desc = "Ember of Rage (Argus the Unmaker)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["244601"] = {
+  --desc = "Supernova (Vulcanar)";
+  sound = 3;
+};
+
+GTFO.SpellID["244163"] = {
+  --desc = "Molten Flare (F'harg)";
+  sound = 3;
+};
+
+GTFO.SpellID["244071"] = {
+  --desc = "Weight of Darkness (Shatug)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["250701"] = {
+  --desc = "Fel Swipe (Fel-Powered Purifier)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["248321"] = {
+  --desc = "Conflagration (Imonar)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["250191"] = {
+  --desc = "Conflagration (Imonar)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["247932"] = {
+  --desc = "Shrapnel Blast (Imonar)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["244899"] = {
+  --desc = "Fiery Strike (Noura, Mother of Flames)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["245629"] = {
+  --desc = "Whirling Saber (Noura, Mother of Flames)";
+  sound = 3;
+};
+
+GTFO.SpellID["253588"] = {
+  --desc = "Fulminating Burst (Noura, Mother of Flames)";
+  sound = 3;
+  ignoreEvent = "Fulminating";
+};
+
+GTFO.SpellID["246663"] = {
+  --desc = "Surging Fel (Garothi Worldbreaker)";
+  sound = 3;
+};
+
+GTFO.SpellID["250007"] = {
+  --desc = "Empowered Pulse Grenade (Imonar)";
+  sound = 4;
+  test = true;
+};
+

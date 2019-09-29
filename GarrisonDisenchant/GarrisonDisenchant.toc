@@ -1,0 +1,10 @@
+## Interface: 80200
+## Author: Blazeflack
+## Version: 1.48
+## Title: GarrisonDisenchant
+## Notes: Auto populates a button with disenchantable items. Speeds up disenchanting when used with a keybind.
+## SavedVariablesPerCharacter: GarrisonDisenchantDB
+## X-Tukui-ProjectFolders: GarrisonDisenchant
+
+libs\LibProcessable\embed.xml
+GarrisonDisenchant.lua

@@ -1,0 +1,12 @@
+tag 4c65817dc2531d74779c3d7a5a84a8597d4450cc 1.5.5-release
+Author:	Hizuro <hizuro@gmx.net>
+Date:	Tue Jun 25 09:41:38 2019 +0200
+
+Tagging as 1.5.5-release
+
+commit 3c3d8669fe135fe345f3eb3f4dc5810ec1ae20b9
+Author: Hizuro <hizuro@gmx.net>
+Date:   Tue Jun 25 09:20:22 2019 +0200
+
+    update toc files for 8.2
+

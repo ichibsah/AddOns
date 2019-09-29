@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2017 João Cardoso
+Copyright 2008-2019 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -41,7 +41,7 @@ Scrap_BaseList = {
 	[51557] = false,
 	[40585] = false,
 	[43157] = false,
-	
+
 	[63206] = false,
 	[63207] = false,
 	[65274] = false,
@@ -50,7 +50,7 @@ Scrap_BaseList = {
 	[64401] = false,
 	[64400] = false,
 	[63352] = false,
-	
+
 	[86143] = false,
 	[92742] = false,
 	[92741] = false,
@@ -76,7 +76,6 @@ Scrap_BaseList = {
 	[114128] = false,
 	[120301] = false,
 	[120302] = false,
-	[114128] = false,
 
 	[114002] = false,
 }

@@ -1,23 +1,23 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John Wellesz).
 
     The only official and allowed distribution means are www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
 
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
-    
-    This file was last updated on 2015-01-26T3:31:39Z
+
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -159,7 +159,7 @@ function D:ShowHidePriorityListUI() --{{{
 end --}}}
 
 function D:ShowHideSkipListUI() --{{{
-    
+
     if not D.DcrFullyInitialized then
         return;
     end
@@ -248,11 +248,7 @@ function D:PlaySound (UnitID, Caller) --{{{
         local Debuffs, IsCharmed = self:UnitCurableDebuffs(UnitID, true);
         if Debuffs[1] or IsCharmed then
 
-            -- good sounds: Sound\\Doodad\\BellTollTribal.wav
-            --          Sound\\interface\\AuctionWindowOpen.wav
-            --          Sound\\interface\\AlarmClockWarning3.wav
-            
-
+            -- since WoW 8.2, one has to use ids found at https://wow.tools/files/
             self:SafePlaySoundFile(self.profile.SoundFile);
 
             self.Status.SoundPlayed = true;
@@ -306,7 +302,7 @@ function D:SaveLLPos () -- {{{
         self.profile.MainBarX = DecursiveMainBar:GetEffectiveScale() * DecursiveMainBar:GetLeft();
         self.profile.MainBarY = DecursiveMainBar:GetEffectiveScale() * DecursiveMainBar:GetTop() - UIParent:GetHeight() * UIParent:GetEffectiveScale();
 
-        
+
         if self.profile.MainBarX < 0 then
             self.profile.MainBarX = 0;
         end
@@ -320,7 +316,7 @@ end -- }}}
 
 -- set the scaling of the LIVELIST container according to the user settings
 function D:SetLLScale (NewScale) -- {{{
-    
+
     -- save the current position without any scaling
     D:SaveLLPos ();
     -- Set the new scale
@@ -328,7 +324,7 @@ function D:SetLLScale (NewScale) -- {{{
     DcrLiveList:SetScale(NewScale);
     -- Place the frame adapting its position to the news cale
     D:PlaceLL ();
-    
+
 end -- }}}
 -- }}}
 
@@ -409,22 +405,20 @@ do
     };
 
     -- This local function only sets interesting values of UnitDebuff()
-    local Name, Rank, Texture, Applications, TypeName, Duration, ExpirationTime, _, SpellID;
+    local Name, Texture, Applications, TypeName, Duration, ExpirationTime, _, SpellID;
     local function GetUnitDebuff  (Unit, i) --{{{
 
         if D.LiveList.TestItemDisplayed and UnitExists(Unit) then -- and not UnTrustedUnitIDs[Unit] then
             if i == 1 then
-                Name, Rank, Texture, Applications, TypeName, Duration, ExpirationTime, SpellID = "Test item", 1, "Interface\\AddOns\\Decursive\\iconON.tga", 2, DC.TypeNames[D.Status.ReversedCureOrder[1]], 70, (D.LiveList.TestItemDisplayed + 70), 0;
-                -- D:Debug("|cFFFF0000Setting test debuff for ", Unit, " (debuff ", i, ")|r");--, Name, Rank, Texture, Applications, TypeName, Duration, ExpirationTime);
+                Name, Texture, Applications, TypeName, Duration, ExpirationTime, SpellID = "Test item", "Interface\\AddOns\\Decursive\\iconON.tga", 2, DC.TypeNames[D.Status.ReversedCureOrder[1]], 70, (D.LiveList.TestItemDisplayed + 70), 0;
+                -- D:Debug("|cFFFF0000Setting test debuff for ", Unit, " (debuff ", i, ")|r");--, Name, Texture, Applications, TypeName, Duration, ExpirationTime);
                 return true;
             else
                 i = i - 1;
             end
         end
 
-        --    Name, Rank, Texture, Applications, TypeName, duration, ExpirationTime, unitCaster, isStealable = UnitAura("unit", index or ["name", "rank"][, "filter"])
-
-        Name, Rank, Texture, Applications, TypeName, Duration, ExpirationTime, _, _, _, SpellID = UnitDebuff (Unit, i);
+        Name, Texture, Applications, TypeName, Duration, ExpirationTime, _, _, _, SpellID = UnitDebuff (Unit, i);
 
         if Name then
             return true;
@@ -441,7 +435,7 @@ do
 
     local DcrC = T._C; -- for faster access
 
-    
+
 
 
     -- This is the core debuff scanning function of Decursive
@@ -470,7 +464,7 @@ do
             IsCharmed = false;
         end
 
-        if self.LiveList.TestItemDisplayed and not UnTrustedUnitIDs[Unit] and D.Status.ReversedCureOrder[1] == DC.CHARMED then
+        if self.LiveList.TestItemDisplayed and not UnTrustedUnitIDs[Unit] and (D.Status.ReversedCureOrder[1] == DC.CHARMED or D.Status.ReversedCureOrder[1] == DC.ENEMYMAGIC) then
             IsCharmed = true;
         end
 
@@ -489,7 +483,7 @@ do
                 end
             end
 
-        
+
             -- test for a type (Magic Curse Disease or Poison)
             if TypeName and TypeName ~= "" then
                 Type = DC.NameToTypes[TypeName];
@@ -580,6 +574,13 @@ do
         ["focus"]       = true,
         ["mouseover"]   = true,
     };
+
+    local HostileHolders = {
+        ["target"]      = true,
+        ["focus"]       = true,
+        ["mouseover"]   = true,
+    };
+
     local function UnitFilteringTest(unit, filterValue)
 
         --D:Debug("UnitFilteringTest:", unit, filterValue);
@@ -626,11 +627,11 @@ do
             continue_ = true;
 
             -- test if we have to ignore this debuf  {{{ --
-           
+
             if UnitFilteringTest(Unit, self.Status.UnitFilteringTypes[Debuff.Type]) then
                 continue_ = false; -- == skip this debuff
             end
-           
+
             if self.profile.DebuffsToIgnore[Debuff.Name] then -- XXX not sure it has any actual use nowadays (2013-06-18)
                 -- these are the BAD ones... the ones that make the target immune... abort this unit
                 --D:Debug("UnitCurableDebuffs(): %s is ignored", Debuff.Name);
@@ -657,7 +658,7 @@ do
                         if not self.profile.DebuffAlwaysSkipList[Debuff.Name] then
                             self:AddDelayedFunctionCall("ReScan"..Unit, D.MicroUnitF.UpdateMUFUnit, D.MicroUnitF, Unit);
                         end
-                        
+
                         D:Debug("UnitCurableDebuffs(): %s is configured to be skipped", Debuff.Name);
                         continue_ = false;
                     end
@@ -666,7 +667,7 @@ do
 
             -- }}}
 
-            
+
             if continue_ then
                 --      self:Debug("Debuffs matters");
                 -- If we are still here it means that this Debuff is something not to be ignored...
@@ -812,7 +813,23 @@ end
 --local UnitBuffsCache    = {};
 
 do
-    local UnitBuff = _G.UnitBuff;
+    local G_UnitBuff = _G.UnitBuff;
+
+    local buffName;
+
+
+    local function UnitBuff(unit, BuffNameToCheck)
+        for i = 1, 40 do
+            buffName = G_UnitBuff(unit, i)
+            if not buffName then
+                return
+            else
+                if BuffNameToCheck == buffName then
+                    return G_UnitBuff(unit, i)
+                end
+            end
+        end
+    end
 
     -- this function returns true if one of the debuff(s) passed to it is found on the specified unit
     function D:CheckUnitForBuffs(unit, BuffNamesToCheck) --{{{
@@ -821,7 +838,7 @@ do
         if type(BuffNamesToCheck) == "string" then
 
             return (UnitBuff(unit, BuffNamesToCheck)) and true or false;
-         
+
         else
             for buff in pairs(BuffNamesToCheck) do
 
@@ -850,6 +867,6 @@ end
 
 
 
-T._LoadedFiles["Decursive.lua"] = "2.7.5.6";
+T._LoadedFiles["Decursive.lua"] = "2.7.6.4";
 
 -- Sin

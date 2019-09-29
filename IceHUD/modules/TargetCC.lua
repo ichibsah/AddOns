@@ -53,6 +53,8 @@ local StunCCList = {
     105593,
     -- Remorseless Winter
     115001,
+    -- Between the Eyes
+    199804,
 }
 
 local IncapacitateCCList = {
@@ -78,6 +80,14 @@ local IncapacitateCCList = {
 	28271,
 	-- Polymorph: Penguin
 	59634,
+	-- Polymorph: Monkey
+	161354,
+	-- Polymorph: Polar Bear Cub
+	120137,
+	-- Polymorph: Porcupine
+	120140,
+	-- Polymorph: Direhorn
+	162625,
 	-- Hibernate
 	2637,
 	-- Freezing Trap Effect
@@ -113,6 +123,16 @@ local FearCCList = {
 	5246,
 	-- Hex
 	51514,
+	-- Hex: Compy
+	210873,
+	-- Hex: Wicker Mongrel
+	277784,
+	-- Hex: Zandalari Tendonripper
+	277778,
+	-- Hex: Spider
+	211004,
+	-- Hex: Skeletal Hatchling
+	269352,
 	-- Scare Beast
 	1513,
 }
@@ -315,7 +335,12 @@ end
 
 function TargetCC.prototype:GetMaxDebuffDuration(unitName, debuffNames)
 	local i = 1
-	local debuff, rank, texture, count, debuffType, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, "HARMFUL")
+	local debuff, rank, texture, count, debuffType, duration, endTime, unitCaster, _, _, spellId
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		debuff, rank, texture, count, debuffType, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, "HARMFUL")
+	else
+		debuff, texture, count, debuffType, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, "HARMFUL")
+	end
 	local isMine = unitCaster == "player"
 	local result = {nil, nil, nil}
 	local remaining
@@ -335,7 +360,11 @@ function TargetCC.prototype:GetMaxDebuffDuration(unitName, debuffNames)
 
 		i = i + 1;
 
-		debuff, rank, texture, count, debuffType, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, "HARMFUL")
+		if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+			debuff, rank, texture, count, debuffType, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, "HARMFUL")
+		else
+			debuff, texture, count, debuffType, duration, endTime, unitCaster, _, _, spellId = UnitAura(unitName, i, "HARMFUL")
+		end
 		isMine = unitCaster == "player"
 	end
 

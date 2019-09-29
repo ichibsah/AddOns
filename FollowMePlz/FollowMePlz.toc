@@ -1,0 +1,9 @@
+## Interface: 80000
+
+## Title: FollowMePlz
+## Version: 1.0.8.1
+## Notes: A simplistic follow addon
+
+## Author: Bomyne
+
+FollowMePlz.lua

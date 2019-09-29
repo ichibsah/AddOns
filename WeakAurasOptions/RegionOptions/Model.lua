@@ -1,46 +1,49 @@
+if not WeakAuras.IsCorrectVersion() then return end
+
 local L = WeakAuras.L;
+if WeakAuras.IsClassic() then return end -- Models disabled for classic
 
 local function createOptions(id, data)
   local options = {
-    model_path = {
-      type = "input",
-      width = "double",
-      name = L["Model"],
-      order = 0
+    __title = L["Model Settings"],
+    __order = 1,
+    modelIsUnit = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Show model of unit "],
+      order = 0.5,
+      hidden = function() return data.modelDisplayInfo and WeakAuras.BuildInfo > 80100 end
     },
+    -- Option for modelIsDisplayInfo added below
+
+    -- Option for path/id added below
     space2 = {
       type = "execute",
+      width = WeakAuras.normalWidth,
       name = "",
-      order = 1,
+      order = 1.5,
       image = function() return "", 0, 0 end,
       hidden = function() return data.modelIsUnit end
     },
     chooseModel = {
       type = "execute",
+      width = WeakAuras.normalWidth,
       name = L["Choose"],
       order = 2,
       func = function()
-        WeakAuras.OpenModelPicker(data, "model_path");
+        WeakAuras.OpenModelPicker(data);
       end,
       hidden = function() return data.modelIsUnit end
     },
-    modelIsUnit = {
-      type = "toggle",
-      name = L["Show model of unit "],
-      order = 3
-    },
-    portraitZoom = {
-      type = "toggle",
-      name = L["Portrait Zoom"],
-      order = 4,
-    },
     advance = {
       type = "toggle",
+      width = WeakAuras.normalWidth,
       name = L["Animate"],
       order = 5,
     },
     sequence = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Animation Sequence"],
       min = 0,
       max = 150,
@@ -51,13 +54,20 @@ local function createOptions(id, data)
     },
     api = {
       type = "toggle",
-      name = L["Use SetTransform (will change behaviour in 7.3)"],
+      name = L["Use SetTransform"],
       order = 7,
-      width = "double"
+      width = WeakAuras.normalWidth
+    },
+    portraitZoom = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Portrait Zoom"],
+      order = 8,
     },
     -- old settings
     model_z = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Z Offset"],
       softMin = -20,
       softMax = 20,
@@ -68,6 +78,7 @@ local function createOptions(id, data)
     },
     model_x = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["X Offset"],
       softMin = -20,
       softMax = 20,
@@ -78,6 +89,7 @@ local function createOptions(id, data)
     },
     model_y = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Y Offset"],
       softMin = -20,
       softMax = 20,
@@ -88,6 +100,7 @@ local function createOptions(id, data)
     },
     rotation = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Rotation"],
       min = 0,
       max = 360,
@@ -99,6 +112,7 @@ local function createOptions(id, data)
     -- New Settings
     model_st_tx = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["X Offset"],
       softMin = -1000,
       softMax = 1000,
@@ -109,6 +123,7 @@ local function createOptions(id, data)
     },
     model_st_ty = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Y Offset"],
       softMin = -1000,
       softMax = 1000,
@@ -119,6 +134,7 @@ local function createOptions(id, data)
     },
     model_st_tz = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Z Offset"],
       softMin = -1000,
       softMax = 1000,
@@ -129,6 +145,7 @@ local function createOptions(id, data)
     },
     model_st_rx = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["X Rotation"],
       min = 0,
       max = 360,
@@ -139,6 +156,7 @@ local function createOptions(id, data)
     },
     model_st_ry = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Y Rotation"],
       min = 0,
       max = 360,
@@ -149,6 +167,7 @@ local function createOptions(id, data)
     },
     model_st_rz = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Z Rotation"],
       min = 0,
       max = 360,
@@ -159,6 +178,7 @@ local function createOptions(id, data)
     },
     model_st_us = {
       type = "range",
+      width = WeakAuras.normalWidth,
       name = L["Scale"],
       min = 5,
       max = 1000,
@@ -167,22 +187,44 @@ local function createOptions(id, data)
       order = 26,
       hidden = function() return not data.api end
     },
-    border_header = {
+    endHeader = {
       type = "header",
-      name = L["Border Settings"],
-      order = 46
-    },
-    spacer = {
-      type = "header",
+      order = 100,
       name = "",
-      order = 50
-    }
+    },
   };
 
-  options = WeakAuras.AddPositionOptions(options, id, data);
-  options = WeakAuras.AddBorderOptions(options, id, data);
+  if WeakAuras.BuildInfo > 80100 then
+    options.modelDisplayInfo = {
+      type = "toggle",
+      width = WeakAuras.normalWidth,
+      name = L["Use Display Info Id"],
+      order = 0.6,
+      hidden = function() return data.modelIsUnit end
+    }
+    options.model_fileId = {
+      type = "input",
+      width = WeakAuras.doubleWidth,
+      name = L["Model"],
+      order = 1
+    }
+  else
+    options.model_path = {
+      type = "input",
+      width = WeakAuras.doubleWidth,
+      name = L["Model"],
+      order = 1
+    }
+  end
 
-  return options;
+  for k, v in pairs(WeakAuras.BorderOptions(id, data, nil, nil, 70)) do
+    options[k] = v
+  end
+
+  return {
+    model = options,
+    position = WeakAuras.PositionOptions(id, data, nil, nil, nil),
+  };
 end
 
 local function createThumbnail(parent)
@@ -210,27 +252,10 @@ local function modifyThumbnail(parent, region, data, fullModify, size)
   model:SetWidth(region:GetWidth() - 2);
   model:SetHeight(region:GetHeight() - 2);
   model:SetPoint("center", region, "center");
-  if tonumber(data.model_path) then
-    model:SetDisplayInfo(tonumber(data.model_path))
-  else
-    if (data.modelIsUnit) then
-      model:SetUnit(data.model_path)
-    else
-      pcall(function() model:SetModel(data.model_path) end);
-    end
-  end
+  WeakAuras.SetModel(model, data.model_path, data.model_fileId, data.modelIsUnit, data.modelDisplayInfo)
   model:SetScript("OnShow", function()
-    if tonumber(data.model_path) then
-      model:SetDisplayInfo(tonumber(data.model_path))
-    else
-      if (data.modelIsUnit) then
-        model:SetUnit(data.model_path)
-      else
-        pcall(function() model:SetModel(data.model_path) end);
-      end
-      model:SetPortraitZoom(data.portraitZoom and 1 or 0);
-    end
-
+    WeakAuras.SetModel(model, data.model_path, data.model_fileId, data.modelIsUnit, data.modelDisplayInfo)
+    model:SetPortraitZoom(data.portraitZoom and 1 or 0)
     if (data.api) then
       model:SetTransform(data.model_st_tx / 1000, data.model_st_ty / 1000, data.model_st_tz / 1000,
         rad(data.model_st_rx), rad(data.model_st_ry), rad(data.model_st_rz),
@@ -255,6 +280,7 @@ end
 local function createIcon()
   local data = {
     model_path = "Creature/Arthaslichking/arthaslichking.m2",
+    model_fileId = "122968", -- Creature/Arthaslichking/arthaslichking.m2
     modelIsUnit = false,
     model_x = 0,
     model_y = 0,
@@ -286,6 +312,7 @@ local templates = {
       width = 100,
       height = 100,
       model_path = "spells/6fx_smallfire.m2",
+      model_fileId = "937416", -- spells/6fx_smallfire.m2
       model_x = 0,
       model_y = -0.5,
       model_z = -1.5
@@ -300,6 +327,7 @@ local templates = {
       advance = true,
       sequence = 1,
       model_path = "spells/7fx_druid_halfmoon_missile.m2",
+      model_fileId = "1322288", -- spells/7fx_druid_halfmoon_missile.m2
       model_x = 0,
       model_y = 0.7,
       model_z = 1.5
@@ -314,6 +342,7 @@ local templates = {
       advance = true,
       sequence = 1,
       model_path = "spells/proc_arcane_impact_low.m2",
+      model_fileId = "1042743", -- spells/proc_arcane_impact_low.m2
       model_x = 0,
       model_y = 0.8,
       model_z = 2
@@ -328,6 +357,7 @@ local templates = {
       advance = true,
       sequence = 1,
       model_path = "spells/7fx_godking_orangerune_state.m2",
+      model_fileId = "1307356", -- spells/7fx_godking_orangerune_state.m2
     },
   },
   {
@@ -339,6 +369,7 @@ local templates = {
       advance = true,
       sequence = 1,
       model_path = "spells/7fx_godking_bluerune_state.m2",
+      model_fileId = "1307354", -- spells/7fx_godking_bluerune_state.m2
     }
   },
   {
@@ -350,6 +381,7 @@ local templates = {
       advance = true,
       sequence = 1,
       model_path = "spells/7fx_godking_yellowrune_state.m2",
+      model_fileId = "1307358", -- spells/7fx_godking_yellowrune_state.m2
     }
   },
   {
@@ -361,6 +393,7 @@ local templates = {
       advance = true,
       sequence = 1,
       model_path = "spells/7fx_godking_purplerune_state.m2",
+      model_fileId = "1307355", -- spells/7fx_godking_purplerune_state.m2
     }
   },
   {
@@ -372,6 +405,7 @@ local templates = {
       advance = true,
       sequence = 1,
       model_path = "spells/7fx_godking_greenrune_state.m2",
+      model_fileId = "1307357", -- spells/7fx_godking_greenrune_state.m2
     }
   },
 }

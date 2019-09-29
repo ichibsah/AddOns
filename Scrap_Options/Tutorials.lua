@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2017 João Cardoso
+Copyright 2008-2019 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -21,7 +21,7 @@ local L = Scrap_Locals
 Tutorials.RegisterTutorials('Scrap', {
 	savedvariable = 'Scrap_Tut',
 	title = 'Scrap',
-	
+
 	{
 		text = L.Tutorial_Welcome,
 		image = 'Interface\\Addons\\Scrap\\Art\\Enabled Icon',
@@ -66,5 +66,10 @@ Tutorials.RegisterTutorials('Scrap', {
 
 
 function Scrap:BlastTutorials()
+	Tutorials.TriggerTutorial('Scrap', 5)
+end
+
+function Scrap:ResetTutorials()
+	Tutorials.ResetTutorials('Scrap')
 	Tutorials.TriggerTutorial('Scrap', 5)
 end

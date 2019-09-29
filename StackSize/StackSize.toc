@@ -1,3 +1,0 @@
-## Interface: 70200
-## Title: StackSize
-code.lua

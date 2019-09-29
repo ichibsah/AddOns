@@ -19,6 +19,11 @@ IceUnitBar.prototype.hasPet = nil
 
 IceUnitBar.prototype.noFlash = nil
 
+local SPELL_POWER_INSANITY = SPELL_POWER_INSANITY
+if IceHUD.WowVer >= 80000 or IceHUD.WowClassic then
+	SPELL_POWER_INSANITY = Enum.PowerType.Insanity
+end
+
 -- Constructor --
 function IceUnitBar.prototype:init(name, unit)
 	IceUnitBar.super.prototype.init(self, name)
@@ -215,7 +220,7 @@ end
 function IceUnitBar.prototype:Update()
 	IceUnitBar.super.prototype.Update(self)
 
-	if IceHUD.WowVer < 70000 then
+	if UnitIsTapped then
 		self.tapped = UnitIsTapped(self.unit) and (not UnitIsTappedByPlayer(self.unit))
 	else
 		self.tapped = UnitIsTapDenied(self.unit)
@@ -227,6 +232,10 @@ function IceUnitBar.prototype:Update()
 
 	self.mana = UnitPower(self.unit, UnitPowerType(self.unit))
 	self.maxMana = UnitPowerMax(self.unit, UnitPowerType(self.unit))
+	if IceHUD.WowVer >= 70300 and UnitPowerType(self.unit) == SPELL_POWER_INSANITY then
+		self.mana = IceHUD:MathRound(self.mana / 100)
+		self.maxMana = IceHUD:MathRound(self.maxMana / 100)
+	end
 	self.manaPercentage = self.maxMana ~= 0 and (self.mana/self.maxMana) or 0
 
 	local locClass

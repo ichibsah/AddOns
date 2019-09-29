@@ -1,0 +1,37 @@
+## Author: Linty
+## Interface: 80000
+## Notes: LFG and Trade Advert Monitor.
+## SavedVariables: LFGShout_Global
+## Title: LFG Shout |cff3399FFVersion 2.07
+## Version: 2.07
+
+
+
+LibStub.lua
+CallbackHandler-1.0.lua
+LibDataBroker-1.1.lua
+
+#@no-lib-strip@
+Libs\LibQTip-1.0\lib.xml
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceTimer-3.0\AceTimer-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+#@end-no-lib-strip@
+
+LFGShout.lua
+Locale.lua
+LFGShout-Opt.lua
+LFGShout-PST.lua
+LFGShout-adv.lua
+
+Locale\zhTW.lua
+Locale\zhCN.lua
+Locale\koKR.lua
+Locale\frFR.lua
+Locale\esES.lua
+Locale\enUS.lua
+Locale\deDE.lua
+

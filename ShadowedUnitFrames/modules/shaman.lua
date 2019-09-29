@@ -5,7 +5,7 @@ function Shaman:OnEnable(frame)
 	frame.shamanBar = frame.shamanBar or ShadowUF.Units:CreateBar(frame)
 
 	frame:RegisterUnitEvent("UNIT_DISPLAYPOWER", self, "PowerChanged")
-	
+
 	frame:RegisterUpdateFunc(self, "PowerChanged")
 	frame:RegisterUpdateFunc(self, "Update")
 end
@@ -26,7 +26,7 @@ function Shaman:PowerChanged(frame)
 	local type = visible and "RegisterUnitEvent" or "UnregisterSingleEvent"
 
 	frame[type](frame, "UNIT_POWER_FREQUENT", self, "Update")
-	frame[type](frame, "UNIT_POWERMAX", self, "Update")
+	frame[type](frame, "UNIT_MAXPOWER", self, "Update")
 	ShadowUF.Layout:SetBarVisibility(frame, "shamanBar", visible)
 
 	if( visible ) then self:Update(frame) end

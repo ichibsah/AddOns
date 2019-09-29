@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2017 João Cardoso
+Copyright 2008-2019 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -77,30 +77,28 @@ function Scrap:Startup()
 	self:SetScript('OnEvent', function(self, event) self[event](self) end)
 	self:RegisterEvent('VARIABLES_LOADED')
 	self:RegisterEvent('MERCHANT_SHOW')
-end
-
-function Scrap:SettingsUpdated()
-	self.Junk = setmetatable(Scrap_ShareList and Scrap_SharedJunk or Scrap_Junk, Scrap_BaseList)
+	self.Startup = nil
+	self.Junk = {}
 end
 
 function Scrap:VARIABLES_LOADED()
-	self.Startup, self.VARIABLES_LOADED = nil
-	self:SettingsUpdated()
-	
-	if not Scrap_Tut then
+	self.Junk = setmetatable(Scrap_ShareList and Scrap_SharedJunk or Scrap_Junk, Scrap_BaseList)
+
+	if not Scrap_Version then
+		Scrap_ShareList = nil
+		Scrap_AutoRepair, Scrap_GuildRepair, Scrap_Learn = nil
+		Scrap_Unusable, Scrap_LowEquip, Scrap_LowConsume = nil
+
 		Scrap_AutoSell, Scrap_Safe = true, true
+		Scrap_Icons, Scrap_Glow = true, true
 	end
-	
-	if not Scrap_Version then	
-		Scrap_Icons = true
-	end
-	
+
 	Scrap_Version = 11
 end
 
 function Scrap:MERCHANT_SHOW()
 	self.MERCHANT_SHOW = nil
-	
+
 	if LoadAddOn('Scrap_Merchant') then
 		self:MERCHANT_SHOW()
 	else
@@ -120,10 +118,10 @@ end
 function Scrap:IterateJunk()
 	local bagNumSlots, bag, slot = GetContainerNumSlots(BACKPACK_CONTAINER), BACKPACK_CONTAINER, 0
 	local match, id
-	
+
 	return function()
 		match = nil
-		
+
 		while not match do
 			if slot < bagNumSlots then
 				slot = slot + 1
@@ -135,11 +133,11 @@ function Scrap:IterateJunk()
 				bag, slot = nil
 				break
 			end
-			
+
 			id = GetContainerItemID(bag, slot)
 			match = self:IsJunk(id, bag, slot)
 		end
-		
+
 		return bag, slot, id
 	end
 end
@@ -148,12 +146,12 @@ function Scrap:ToggleJunk(id)
 	local message
 
 	if self:IsJunk(id) then
-	   	self.Junk[id] = false
+		self.Junk[id] = false
 		message = L.Removed
 	else
-	   	self.Junk[id] = true
+		self.Junk[id] = true
 		message = L.Added
-  	end
+  end
 
 	self:Print(message, select(2, GetItemInfo(id)), 'LOOT')
 end
@@ -162,8 +160,8 @@ end
 --[[ Filters ]]--
 
 function Scrap:CheckFilters(...)
-	local _, link, quality, level, minLevel, _,_,_, equipSlot, _, value, class, subclass = GetItemInfo(...)
-	local level = max(level or 0, minLevel or 0)
+	local _, link, quality, _,_,_,_,_, equipSlot, _, value, class, subclass = GetItemInfo(...)
+	local level =  GetDetailedItemLevelInfo(...) or 0
 	local gray = quality == LE_ITEM_QUALITY_POOR
 	local value = value and value > 0
 
@@ -177,7 +175,7 @@ function Scrap:CheckFilters(...)
 		if value and self:StandardQuality(quality) and self:CombatItem(class, subclass, equipSlot) then
 			local bag, slot = self:GetSlot(...)
 			self:LoadTooltip(link, bag, slot)
-					
+
 			if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
 				local unusable = Scrap_Unusable and (Unfit:IsClassUnusable(class, subclass, equipSlot) or self:IsOtherClass())
 				return unusable or self:IsLowEquip(equipSlot, level, quality)
@@ -207,29 +205,30 @@ end
 
 function Scrap:IsLowEquip(slot, level, quality)
 	if Scrap_LowEquip and slot ~= ''  then
-		local slot1, slot2 = ACTUAL_SLOTS[slot] or slot
+		local slot1, slot2 = gsub(ACTUAL_SLOTS[slot] or slot, 'INVTYPE', 'INVSLOT')
 		local value = GetValue(level or 0, quality)
 		local double
-		
-		if slot1 == 'INVTYPE_WEAPON' or slot1 == 'INVTYPE_2HWEAPON' then
-			if slot1 == 'INVTYPE_2HWEAPON' then
+
+		if slot1 == 'INVSLOT_WEAPON' or slot1 == 'INVSLOT_2HWEAPON' then
+			if slot1 == 'INVSLOT_2HWEAPON' then
 				double = true
 			end
-			
-			slot1, slot2 = 'INVTYPE_MAINHAND', 'INVTYPE_OFFHAND'
-		elseif slot1 == 'INVTYPE_FINGER' then
-			slot1, slot2 = 'INVTYPE_FINGER1', 'INVTYPE_FINGER2'
+
+			slot1, slot2 = 'INVSLOT_MAINHAND', 'INVSLOT_OFFHAND'
+		elseif slot1 == 'INVSLOT_FINGER' then
+			slot1, slot2 = 'INVSLOT_FINGER1', 'INVSLOT_FINGER2'
 		end
-		
+
 		return self:IsBetterEquip(slot1, value) and (not slot2 or self:IsBetterEquip(slot2, value, double))
 	end
 end
 
 function Scrap:IsBetterEquip(slot, value, empty)
-	local item = GetInventoryItemID('player', slot)
+	local item = GetInventoryItemID('player', _G[slot])
 	if item then
-		local _,_, quality, level = GetItemInfo(item)
-		return GetValue(level or 0, quality) / value > 1.1
+		local level = GetDetailedItemLevelInfo(item) or 0
+		local _,_, quality = GetItemInfo(item)
+		return GetValue(level, quality) / value > 1.1
 	elseif empty then
 		return true
 	end
@@ -264,12 +263,13 @@ function Scrap:LoadTooltip(link, bag, slot)
 	else
 		Tooltip:SetHyperlink(link)
 	end
-	
+
+	self.limit = 2
 	self.numLines = Tooltip:NumLines()
 end
 
 function Scrap:BelongsToSet()
-	return CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
+	return C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
 end
 
 function Scrap:IsSoulbound(bag, slot)
@@ -299,7 +299,7 @@ end
 --[[ Utility ]]--
 
 function Scrap:PrintMoney(pattern, value)
-	self:Print(pattern, GetCoinTextureString(value), 'MONEY')
+	self:Print(pattern, GetMoneyString(value, true), 'MONEY')
 end
 
 function Scrap:Print (pattern, value, channel)
@@ -312,7 +312,7 @@ function Scrap:Print (pattern, value, channel)
 	end
 end
 
-function Scrap:GetID (link)
+function Scrap:GetID(link)
 	return link and tonumber(link:match('item:(%d+)'))
 end
 

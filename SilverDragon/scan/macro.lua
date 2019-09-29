@@ -4,7 +4,7 @@ local core = LibStub("AceAddon-3.0"):GetAddon("SilverDragon")
 local module = core:NewModule("Macro", "AceEvent-3.0", "AceConsole-3.0")
 local Debug = core.Debug
 
-local HBD = LibStub("HereBeDragons-1.0")
+local HBD = LibStub("HereBeDragons-2.0")
 
 function module:OnInitialize()
 	self.db = core.db:RegisterNamespace("Macro", {
@@ -72,7 +72,11 @@ function module:Update()
 	if mobs then
 		for id in pairs(mobs) do
 			local name = core:NameForMob(id)
-			if name and not core.db.global.ignore[id] then
+			if
+				name and
+				not core.db.global.ignore[id] and
+				core:IsMobInPhase(id, zone)
+			then
 				table.insert(macro, "/targetexact " .. name)
 				count = count + 1
 			end

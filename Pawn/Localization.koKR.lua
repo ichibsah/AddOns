@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2017 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -441,6 +441,8 @@ Pawn 사용자 설정의 더 자세한 정보는, 애드온에 포함된 help �
 		["OptionsResetUpgradesTooltip"] = [=[Pawn은 최상의 아이템으로 계속 장착 해왔던 아이템을 잊고, 앞으로 최신 향상 정보를 제공하기 위해 당신의 장비를 재탐색 합니다.
 
 Pawn이 상점에 판매했거나, 파괴했거나, 다른 방법으로 더이상 사용하지 않는 아이템을 향상 아이템으로 추천한다면 이 기능을 사용하세요. Pawn을 사용하는 모든 캐릭터에 영향을 미칩니다.]=],
+		["OptionsShowItemLevelUpgrades"] = "Show item level upgrades",
+		["OptionsShowItemLevelUpgradesTooltip"] = "Pawn will show you items that are of a higher item level than what you've previously equipped in that slot in addition to normal upgrades.",
 		["OptionsShowRelicUpgrades"] = "성물 향상 표시",
 		["OptionsShowRelicUpgradesTooltip"] = "성물이 당신의 유물 무기 중 하나의 아이템 레벨을 증가시킬 때 Pawn이 당신에게 표시합니다. (다른 향상 기능과 다르게 작동합니다, 능력치가 아닌 아이템 레벨에 기반하기 때문입니다.)",
 		["OptionsSocketingAdvisor"] = "보석 장착 조언가 표시",

@@ -15,8 +15,10 @@ end
 function TargetCast.prototype:Enable(core)
 	TargetCast.super.prototype.Enable(self, core)
 
-	self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE", "SpellCastInterruptible")
-	self:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", "SpellCastNotInterruptible")
+	if IceHUD.WowVer >= 30200 then
+		self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE", "SpellCastInterruptible")
+		self:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", "SpellCastNotInterruptible")
+	end
 end
 
 
@@ -82,18 +84,24 @@ function TargetCast.prototype:TargetChanged(unit)
 		return
 	end
 
-	local spell, _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
-	if (spell) then
-		self.notInterruptible = notInterruptibleCast
-		self:StartBar(IceCastBar.Actions.Cast)
-		return
+	if UnitCastingInfo then
+		local spell = UnitCastingInfo(self.unit)
+		local notInterruptible = select((IceHUD.WowVer < 80000 and not IceHUD.WowClassic) and 9 or 8, UnitCastingInfo(self.unit))
+		if spell then
+			self.notInterruptible = notInterruptibleCast
+			self:StartBar(IceCastBar.Actions.Cast)
+			return
+		end
 	end
 
-	local channel, _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
-	if (channel) then
-		self.notInterruptible = notInterruptibleChannel
-		self:StartBar(IceCastBar.Actions.Channel)
-		return
+	if UnitChannelInfo then
+		local channel = UnitChannelInfo(self.unit)
+		notInterruptible = select((IceHUD.WowVer < 80000 and not IceHUD.WowClassic) and 8 or 7, UnitChannelInfo(self.unit))
+		if channel then
+			self.notInterruptible = notInterruptibleChannel
+			self:StartBar(IceCastBar.Actions.Channel)
+			return
+		end
 	end
 
 	self:StopBar()
@@ -167,13 +175,18 @@ function TargetCast.prototype:GetOptions()
 end
 
 function TargetCast.prototype:StartBar(action, message)
-	local spell, rank, displayName, icon, startTime, endTime, isTradeSkill, castId, notInterruptible = UnitCastingInfo(self.unit)
-	if not (spell) then
-		spell, rank, displayName, icon, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(self.unit)
+	local spell, notInterruptible
+	if UnitCastingInfo then
+		spell = UnitCastingInfo(self.unit)
+		notInterruptible = select(IceHUD.WowVer < 80000 and 9 or 8, UnitCastingInfo(self.unit))
 	end
+	if UnitChannelInfo and not spell then
+		spell = UnitChannelInfo(self.unit)
+		notInterruptible = select(IceHUD.WowVer < 80000 and 8 or 7, UnitChannelInfo(self.unit))
 
-	if not spell then
-		return
+		if not spell then
+			return
+		end
 	end
 
 	self.notInterruptible = notInterruptible
@@ -185,4 +198,6 @@ end
 
 
 -- Load us up
-IceHUD.TargetCast = TargetCast:new()
+if not IceHUD.WowClassic then
+	IceHUD.TargetCast = TargetCast:new()
+end

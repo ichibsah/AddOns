@@ -1,0 +1,7 @@
+== LFG Shout ==
+== Add-on ToDo List ==
+
+# fix horde lnguage issue
+# add viewer window.
+# add class colors
+# Standard Reply Method

@@ -7,21 +7,21 @@ L["1 combo point: yellow, max combo points: red"] = "1 连击点:黄色, 5 连�
 L["1 lacerate: yellow, 5 lacerates: red"] = "1 割裂:黄色, 5 割裂:红色"
 L["1 maelstrom: yellow, 5 maelstroms: red"] = "1 气漩: 黄色, 5 气漩:红色"
 L["1 sunder: yellow, 5 sunders: red"] = "1 破甲:黄色, 5 破甲:红色"
---Translation missing 
+--[[Translation missing --]]
 L["A custom bar has been created and can be configured through Module Settings => MyCustomBar. It is highly recommended that you change the bar name of this module so that it's easier to identify."] = "A custom bar has been created and can be configured through Module Settings => MyCustomBar. It is highly recommended that you change the bar name of this module so that it's easier to identify."
---Translation missing 
+--[[Translation missing --]]
 L["A custom cooldown bar has been created and can be configured through Module Settings => MyCustomCD. It is highly recommended that you change the bar name of this module so that it's easier to identify."] = "A custom cooldown bar has been created and can be configured through Module Settings => MyCustomCD. It is highly recommended that you change the bar name of this module so that it's easier to identify."
---Translation missing 
+--[[Translation missing --]]
 L["A custom counter bar has been created and can be configured through Module Settings => MyCustomCounterBar. It is highly recommended that you change the bar name of this module so that it's easier to identify."] = "A custom counter bar has been created and can be configured through Module Settings => MyCustomCounterBar. It is highly recommended that you change the bar name of this module so that it's easier to identify."
---Translation missing 
+--[[Translation missing --]]
 L["A custom counter has been created and can be configured through Module Settings => MyCustomCounter. It is highly recommended that you change the bar name of this module so that it's easier to identify."] = "A custom counter has been created and can be configured through Module Settings => MyCustomCounter. It is highly recommended that you change the bar name of this module so that it's easier to identify."
---Translation missing 
+--[[Translation missing --]]
 L["A custom health bar has been created and can be configured through Module Settings => MyCustomHealth. It is highly recommended that you change the bar name of this module so that it's easier to identify."] = "A custom health bar has been created and can be configured through Module Settings => MyCustomHealth. It is highly recommended that you change the bar name of this module so that it's easier to identify."
---Translation missing 
+--[[Translation missing --]]
 L["A custom mana bar has been created and can be configured through Module Settings => MyCustomMana. It is highly recommended that you change the bar name of this module so that it's easier to identify."] = "A custom mana bar has been created and can be configured through Module Settings => MyCustomMana. It is highly recommended that you change the bar name of this module so that it's easier to identify."
 L["Abbreviate estimated health"] = "缩短判断治疗"
 L["Abbreviate health"] = "缩短治疗"
---Translation missing 
+--[[Translation missing --]]
 L["Absorb bar alpha"] = "Absorb bar alpha"
 L["Adjust the horizontal position of the aura icon"] = "调整光环图标的水平位置"
 L["Adjust the vertical placement of this bar"] = "调整垂直条列的放置"
@@ -39,7 +39,7 @@ L["Alpha in combat"] = "战斗内透明度"
 L["Alpha OOC and not full"] = "战斗外且未充满透明度"
 L["Alpha OOC and Target"] = "战斗外且有目标透明度"
 L["Alpha out of combat"] = "战斗外透明度"
---Translation missing 
+--[[Translation missing --]]
 L["Also show numeric"] = "Also show numeric"
 L["Always display bar"] = "永远显示条列"
 L["Always show at 100% alpha"] = "永远显示在100% 透明度"
@@ -47,13 +47,13 @@ L["Animate changes"] = "动画改变"
 L["Animation Duration"] = "动画持续时间"
 L["Animation Settings"] = "动画设定"
 L["Answers to questions that are frequently asked."] = "问题的答案是常见。"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Any valid unit id such as: party1, raid14, targettarget, etc. Not guaranteed to work with all unit ids.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[Any valid unit id such as: party1, raid14, targettarget, etc. Not guaranteed to work with all unit ids.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L["Are you sure you want to delete this module? This will remove all settings associated with it and cannot be un-done."] = "Are you sure you want to delete this module? This will remove all settings associated with it and cannot be un-done."
 L["Aura icon horizontal offset"] = "光环图示水平位移"
 L["Aura icon scale"] = "光环图示刻度"
@@ -96,11 +96,11 @@ L["BG Alpha in combat"] = "战斗内背景透明度"
 L["BG Alpha OOC and not Full"] = "战斗外且未充满背景透明度"
 L["BG Alpha OOC and Target"] = "战斗外且有目标背景透明度"
 L["BG Alpha out of combat"] = "战斗外背景透明度"
---Translation missing 
+--[[Translation missing --]]
 L["Blizzard currently does not provide a proper way to right-click dismiss a pet with custom unit frames."] = "Blizzard currently does not provide a proper way to right-click dismiss a pet with custom unit frames."
---Translation missing 
+--[[Translation missing --]]
 L["Blizzard currently does not provide a proper way to right-click focus with custom unit frames."] = "Blizzard currently does not provide a proper way to right-click focus with custom unit frames."
---Translation missing 
+--[[Translation missing --]]
 L["Blizzard currently does not provide a proper way to right-click report someone AFK with custom unit frames."] = "Blizzard currently does not provide a proper way to right-click report someone AFK with custom unit frames."
 L["Broadcasts crowd control effects you apply to your target via the party chat channel"] = "通过小队频道广播你施放的群体控制"
 L["Buff anchor to"] = "增益锚点至"
@@ -118,20 +118,20 @@ L["Buff/debuff icon zoom"] = "增益/减益图示缩放"
 L["Buff/Debuff Settings"] = "增益/减益设定"
 L["Buff/debuff size for buffs/debuffs that were applied by you, the player"] = "由你施加的Buff/debuff大小."
 L["Buffs / row"] = "增益 / 一排"
---Translation missing 
+--[[Translation missing --]]
 L["Cannot report AFK from addons"] = "Cannot report AFK from addons"
 L["Change color"] = "改变颜色"
 L["Change color when not in range"] = "不在范围内时改变颜色"
 L["Changes the bar color to the CastNotInRange color when the target goes out of range for the current spell."] = "当目标不在施法范围内时改变条颜色为'不在施法范围内'选项所设的颜色."
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Changes the color of this bar to be the minimum health or mana color when it's below the low threshold. See the 'MinHealthColor' and 'MinManaColor' colors in the 'Colors' option page.
 
 This option only applies to health and mana bars.]=] ] = [=[Changes the color of this bar to be the minimum health or mana color when it's below the low threshold. See the 'MinHealthColor' and 'MinManaColor' colors in the 'Colors' option page.
 
 This option only applies to health and mana bars.]=]
---Translation missing 
+--[[Translation missing --]]
 L["Checking this means that only buffs or debuffs that the player applied will trigger this bar"] = "Checking this means that only buffs or debuffs that the player applied will trigger this bar"
---Translation missing 
+--[[Translation missing --]]
 L["Choose a marker to edit. This will place the marker's settings in the fields above here."] = "Choose a marker to edit. This will place the marker's settings in the fields above here."
 L["Choose whether the runes use a cooldown-style wipe, simply an alpha fade to show availability or both."] = "选择使用冷却风格还是仅用透明度淡出方式显示符文的可用状态,亦或者两种方式同时使用."
 L["Choose whether the totems use a cooldown-style wipe or simply an alpha fade to show availability."] = "选择使用冷却风格还是仅用透明度淡出方式来显示图腾的可用状态."
@@ -140,7 +140,7 @@ L[ [=[Choose whether you'd like a graphical or numeric representation of the run
 NOTE: The color of 'Numeric' mode can be controlled by the HolyPowerNumeric color.]=] ] = [=[为符文选择图形或数字显示模式.
 
 注意: '数字'模式的颜色可通过神圣能量的数字颜色设定.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Choose whether you'd like a graphical or numeric representation of the runes.
 
 NOTE: The color of 'Numeric' mode can be controlled by the ShardCounterNumeric color.]=] ] = [=[Choose whether you'd like a graphical or numeric representation of the runes.
@@ -148,7 +148,7 @@ NOTE: The color of 'Numeric' mode can be controlled by the ShardCounterNumeric c
 NOTE: The color of 'Numeric' mode can be controlled by the ShardCounterNumeric color.]=]
 L["Class color bar"] = "职业颜色条列"
 L["Classification icon"] = "分类图示"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Click the + next to |cffffdc42Module Settings|r to see the available modules that you can tweak.
 
 Also notice that some modules have a + next to them. This will open up additional settings such as text tweaks and icon tweaks on that module.]=] ] = [=[Click the + next to |cffffdc42Module Settings|r to see the available modules that you can tweak.
@@ -175,30 +175,30 @@ L["Controls what it means for the bar to be filled. A normal bar will grow large
 L["Controls which direction the bar fills up. With this checked, the bar will fill opposite from normal (e.g. for health: 0% at the top, 100% at the bottom)."] = "控制条的填充方向. "
 L["Cooldown"] = "冷却"
 L["Cooldown timer display"] = "冷却定时器显示"
---Translation missing 
+--[[Translation missing --]]
 L["Cooldown type"] = "Cooldown type"
 L["Count color"] = "计数颜色"
 L["Count minimum color"] = "计数最低颜色"
 L["Counter"] = "定时器"
 L["Counter look and feel"] = "计数器的外观和感觉"
 L["Counter name"] = "计数器名称"
---Translation missing 
+--[[Translation missing --]]
 L["CounterBar"] = "CounterBar"
 L["Create"] = "新建"
 L["Create custom module"] = "新建自订组模"
 L["Create marker"] = "新建标记"
---Translation missing 
+--[[Translation missing --]]
 L["Create or remove markers at various points along the bar here"] = "Create or remove markers at various points along the bar here"
---Translation missing 
+--[[Translation missing --]]
 L["Creates a new marker with the chosen settings."] = "Creates a new marker with the chosen settings."
---Translation missing 
+--[[Translation missing --]]
 L["Creates a new module of this same type and with all the same settings."] = "Creates a new module of this same type and with all the same settings."
 L["Creates the selected custom module"] = "新建选择自订组模"
 L["Custom bar settings"] = "自订条列设定"
 L["Custom CD settings"] = "自订 CD 设定"
 L["Custom color"] = "自订颜色"
 L["Custom minimum color"] = "自订最低颜色"
---Translation missing 
+--[[Translation missing --]]
 L["Custom unit"] = "Custom unit"
 L["Debuff anchor to"] = "减益锚点至"
 L["Debuff grow direction"] = "减益增大方向"
@@ -208,13 +208,13 @@ L["Debuff Settings"] = "减益设定"
 L["Debuff size"] = "减益尺寸"
 L["Debuff vertical offset"] = "减益垂直位移"
 L["Debugging"] = "除错"
---Translation missing 
+--[[Translation missing --]]
 L["Defines when cast bar should flash on failed spells"] = "Defines when cast bar should flash on failed spells"
---Translation missing 
+--[[Translation missing --]]
 L["Defines when cast bar should flash on instant spells"] = "Defines when cast bar should flash on instant spells"
 L["Delete me"] = "删除我"
 L["Deletes this custom module and all associated settings. Cannot be undone!"] = "删除此自定模组和相关设置. 无法恢复!"
---Translation missing 
+--[[Translation missing --]]
 L["Determines the bar width compared to the whole texture width"] = "Determines the bar width compared to the whole texture width"
 L["Display aura icon"] = "显示光环图标"
 L["Display mode"] = "显示模式"
@@ -235,7 +235,7 @@ Remember to press Accept after filling out this box or it will not save.]=] ] = 
 输入 /dogtag 查看可用的tags.
 
 记得添加完毕点接受或回车确认修改, 否则设置不会保存.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[DogTag-formatted string to use for the left side of the bar.
 
 Type /dogtag for a list of available tags.
@@ -245,13 +245,13 @@ Remember to press Accept after filling out this box or it will not save.]=] ] = 
 Type /dogtag for a list of available tags.
 
 Remember to press Accept after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[DogTag-formatted string to use for the range display (only available if LibDogTag is being used)
 
 Type /dogtag for a list of available tags]=] ] = [=[DogTag-formatted string to use for the range display (only available if LibDogTag is being used)
 
 Type /dogtag for a list of available tags]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[DogTag-formatted string to use for the right side of the bar.
 
 Type /dogtag for a list of available tags.
@@ -261,7 +261,7 @@ Remember to press Accept after filling out this box or it will not save.]=] ] = 
 Type /dogtag for a list of available tags.
 
 Remember to press Accept after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[DogTag-formatted string to use for the second text line (leave blank to revert to old behavior)
 
 Type /dogtag for a list of available tags.
@@ -271,7 +271,7 @@ Remember to press Accept after filling out this box or it will not save.]=] ] = 
 Type /dogtag for a list of available tags.
 
 Remember to press Accept after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[DogTag-formatted string to use for the third text line (leave blank to revert to old behavior)
 
 Type /dogtag for a list of available tags.
@@ -281,7 +281,7 @@ Remember to press Accept after filling out this box or it will not save.]=] ] = 
 Type /dogtag for a list of available tags.
 
 Remember to press Accept after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[DogTag-formatted string to use for the top text line (leave blank to revert to old behavior)
 
 Type /dogtag for a list of available tags.
@@ -304,13 +304,13 @@ L["Enable/disable IceHUD"] = "启用/停用 IceHUD"
 L["Enable/disable module"] = "启用/停用组模"
 L["Enabled"] = "已启用"
 L["Energy Ticker Alpha"] = "能量继续装置透明度"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Enter which unit that this bar should be monitoring the health of (e.g.: focustarget, pettarget, etc.)
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[Enter which unit that this bar should be monitoring the health of (e.g.: focustarget, pettarget, etc.)
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Enter which unit that this bar should be monitoring the mana of (e.g.: focustarget, pettarget, etc.)
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[Enter which unit that this bar should be monitoring the mana of (e.g.: focustarget, pettarget, etc.)
@@ -319,30 +319,34 @@ Remember to press ENTER after filling out this box with the name you want or it 
 L["Error: IceHUD database not loaded correctly.  Please exit out of WoW and delete the database file (IceHUD.lua) found in: \\World of Warcraft\\WTF\\Account\\<Account Name>>\\SavedVariables\\"] = "错误: IceHUD 数据库末正加载。请 WOW 退出之后而且删除数据库档案 (IceHUD.lua) 找到在: \\World of Warcraft\\WTF\\账号\\<<账号名字>>\\SavedVariables\\"
 L["Exact match only"] = "只有恰当符合"
 L["Export profile"] = "汇出设定档"
---Translation missing 
+--[[Translation missing --]]
 L["Exports your active profile to something you can copy and paste to another user or use on another account."] = "Exports your active profile to something you can copy and paste to another user or use on another account."
 L["FAQs"] = "常见问题解答"
 L["Flash bar below Low Threshold"] = "闪烁条列低于低门限"
 L["Flash Instant Spells"] = "闪烁立即法术"
 L["Flash on Spell Failures"] = "闪烁法术失败"
 L["Flash when ready"] = "闪烁当就绪时"
---Translation missing 
+--[[Translation missing --]]
 L["Flashes the bar when it is below the Low Threshold specified above"] = "Flashes the bar when it is below the Low Threshold specified above"
 L["Font"] = "字型"
 L["Font Size"] = "字型尺寸"
 L["Force Text Justification"] = "强制文字调整"
 L["Friendly OOC alpha"] = "友好 OOC 透明度"
 L["Gap"] = "间隙"
+--[[Translation missing --]]
+L["Gap between Upper and Lower text vertically"] = "Gap between Upper and Lower text vertically"
 L["General Settings"] = "一般设定"
 L["Height"] = "高度"
 L["Hide Blizzard Buffs"] = "隐藏暴雪增益"
 L["Hide Blizzard Frame"] = "隐藏暴雪框架"
 L["Hide Blizzard Party"] = "隐藏暴雪队伍"
---Translation missing 
+--[[Translation missing --]]
 L["Hide during pet battles"] = "Hide during pet battles"
---Translation missing 
+--[[Translation missing --]]
+L["Hide during shell game"] = "Hide during shell game"
+--[[Translation missing --]]
 L["Hide in barbershops"] = "Hide in barbershops"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Hides Blizzard Arcane Charges frame and disables all events related to it.
 
 NOTE: Blizzard attaches the arcane charges UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=] ] = [=[Hides Blizzard Arcane Charges frame and disables all events related to it.
@@ -354,13 +358,13 @@ L[ [=[Hides Blizzard frame and disables all events related to it.
 NOTE: Blizzard attaches this UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=] ] = [=[隐藏暴雪框体并且禁用所有相关事件.
 
 NOTE: Blizzard attaches this UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Hides Blizzard Harmony Power frame and disables all events related to it.
 
 NOTE: Blizzard attaches the harmony power UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=] ] = [=[Hides Blizzard Harmony Power frame and disables all events related to it.
 
 NOTE: Blizzard attaches the harmony power UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Hides Blizzard Holy Power frame and disables all events related to it.
 
 NOTE: Blizzard attaches the holy power UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=] ] = [=[Hides Blizzard Holy Power frame and disables all events related to it.
@@ -368,13 +372,13 @@ NOTE: Blizzard attaches the holy power UI to the player's unitframe, so if you h
 NOTE: Blizzard attaches the holy power UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=]
 L["Hides Blizzard Player frame and disables all events related to it"] = "隐藏暴雪玩家框体并且禁用所有相关事件"
 L["Hides Blizzard Rune frame and disables all events related to it"] = "隐藏暴雪符文框体并且禁用所有相关事件"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Hides Blizzard Shadow Orb frame and disables all events related to it.
 
 NOTE: Blizzard attaches the shadow orb UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=] ] = [=[Hides Blizzard Shadow Orb frame and disables all events related to it.
 
 NOTE: Blizzard attaches the shadow orb UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Hides Blizzard shard frame and disables all events related to it.
 
 NOTE: Blizzard attaches the shard UI to the player's unitframe, so if you have that hidden in PlayerHealth, then this won't do anything.]=] ] = [=[Hides Blizzard shard frame and disables all events related to it.
@@ -388,7 +392,7 @@ L["Horizontal position"] = "水平位置"
 L["Horizontal position (for you dual screen freaks)"] = "水平位置 (for you dual screen freaks)"
 L["How far horizontally the buff frame should be offset from the anchor"] = "buff框体距锚点的水平位移距离"
 L["How far horizontally the debuff frame should be offset from the anchor"] = "debuff框体距锚点的水平位移距离"
---Translation missing 
+--[[Translation missing --]]
 L["How far to offset the numeric display up or down."] = "How far to offset the numeric display up or down."
 L["How far to push the elite icon right or left"] = "向左或向右移动精英图标的距离"
 L["How far to push the elite icon up or down"] = "向上或向下移动精英图标的距离"
@@ -396,16 +400,16 @@ L["How far to push the raid icon right or left"] = "向左或向右移动团队�
 L["How far to push the raid icon up or down"] = "向上或向下移动团队图标的距离"
 L["How far vertically the buff frame should be offset from the anchor"] = "buff框体距锚点的垂直位移距离"
 L["How far vertically the debuff frame should be offset from the anchor"] = "debuff框体距锚点的垂直位移距离"
---Translation missing 
+--[[Translation missing --]]
 L["How long the animation should take to play"] = "How long the animation should take to play"
 L["How many buffs/debuffs is shown on each row"] = "每行显示多少个buffs/debuffs"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[How many total applications of this buff/debuff can be applied. For example, only 5 sunders can ever be on a target, so this would be set to 5 for tracking Sunder.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[How many total applications of this buff/debuff can be applied. For example, only 5 sunders can ever be on a target, so this would be set to 5 for tracking Sunder.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L["How much space should be between each buff or debuff icon."] = "How much space should be between each buff or debuff icon."
 L["How much to offset the leader icon from the bar horizontally"] = "团长图标距条列的水平位移距离"
 L["How much to offset the leader icon from the bar vertically"] = "团长图标距条列的垂直位移距离"
@@ -425,9 +429,9 @@ L["How much to scale the PvP icon"] = "多少刻度的 PvP 图示"
 L["How much to scale the raid icon"] = "多少刻度的团队图示"
 L["How much to scale the status icon"] = "多少刻度的状态图示"
 L["How the graphical combo points should be displayed"] = "图形连击点显示方式"
---Translation missing 
+--[[Translation missing --]]
 L["How the graphical counter should be displayed"] = "How the graphical counter should be displayed"
---Translation missing 
+--[[Translation missing --]]
 L["How to display the buff timer next to the name of the buff on the bar"] = "How to display the buff timer next to the name of the buff on the bar"
 L["HUD scale"] = "HUD 刻度"
 L["IceHUD"] = "IceHUD"
@@ -440,9 +444,9 @@ L["Icon gap"] = "图示间隙"
 L["Icon set"] = "图示设定"
 L["Icon Settings"] = "图示设定"
 L["Icon size"] = "图示尺寸"
---Translation missing 
+--[[Translation missing --]]
 L["Icon size for auras that were applied by you, the player"] = "Icon size for auras that were applied by you, the player"
---Translation missing 
+--[[Translation missing --]]
 L["If the selected ability has a max range or only works on friendly units, this will ignore that check. Meaning you can use a CD bar for buff spells and it will display when you have an enemy targeted."] = "If the selected ability has a max range or only works on friendly units, this will ignore that check. Meaning you can use a CD bar for buff spells and it will display when you have an enemy targeted."
 L["If this is checked, then a health value of 1100 will display as 1.1k, otherwise it shows the number"] = "如果选择此项, 则血量值1100会显示为1.1k. 否则直接显示数值."
 L[ [=[If this is checked, then a health value of 1100 will display as 1.1k, otherwise it shows the number
@@ -450,27 +454,27 @@ L[ [=[If this is checked, then a health value of 1100 will display as 1.1k, othe
 Note: this only applies if you are NOT using DogTag]=] ] = [=[如果选择此项, 则血量值1100会显示为1.1k. 否则直接显示数值.
 
 注意: 这仅适用于没有使用DogTag的情况]=]
---Translation missing 
+--[[Translation missing --]]
 L["If this is checked, then the bar uses different colors depending on how many RtB buffs you have"] = "If this is checked, then the bar uses different colors depending on how many RtB buffs you have"
---Translation missing 
+--[[Translation missing --]]
 L["If this is checked, then the buff name must be entered exactly as the full buff name. Otherwise, you can use only a portion of the name such as 'Sting' to track all stings."] = "If this is checked, then the buff name must be entered exactly as the full buff name. Otherwise, you can use only a portion of the name such as 'Sting' to track all stings."
---Translation missing 
+--[[Translation missing --]]
 L["If this is checked, then the counter will use your 'out of target' alpha when targeting someone who is friendly."] = "If this is checked, then the counter will use your 'out of target' alpha when targeting someone who is friendly."
---Translation missing 
+--[[Translation missing --]]
 L["If this is checked, then the RtB buff time shows as a percent of the maximum attainable (taking set bonuses and talents into account). Otherwise, the bar always goes from full to empty when applying RtB no matter the duration."] = "If this is checked, then the RtB buff time shows as a percent of the maximum attainable (taking set bonuses and talents into account). Otherwise, the bar always goes from full to empty when applying RtB no matter the duration."
---Translation missing 
+--[[Translation missing --]]
 L["If this is checked, then the SnD buff time shows as a percent of the maximum attainable (taking set bonuses and talents into account). Otherwise, the bar always goes from full to empty when applying SnD no matter the duration."] = "If this is checked, then the SnD buff time shows as a percent of the maximum attainable (taking set bonuses and talents into account). Otherwise, the bar always goes from full to empty when applying SnD no matter the duration."
---Translation missing 
+--[[Translation missing --]]
 L["If this is checked, then whenever the counter is maxed out it will gently pulsate to let you know it's ready to be used."] = "If this is checked, then whenever the counter is maxed out it will gently pulsate to let you know it's ready to be used."
---Translation missing 
+--[[Translation missing --]]
 L["If this is disabled, then targeting a friendly will use the 'Alpha out of combat' setting instead of 'Alpha OOC and Target'."] = "If this is disabled, then targeting a friendly will use the 'Alpha out of combat' setting instead of 'Alpha OOC and Target'."
---Translation missing 
+--[[Translation missing --]]
 L["If this is set, the numeric value of the current rune count will show on top of the runes display."] = "If this is set, the numeric value of the current rune count will show on top of the runes display."
---Translation missing 
+--[[Translation missing --]]
 L["If you are using the 'class color bar' setting above, then enabling this will color NPC's by their hostility toward you since NPC class isn't very helpful or applicable information."] = "If you are using the 'class color bar' setting above, then enabling this will color NPC's by their hostility toward you since NPC class isn't very helpful or applicable information."
---Translation missing 
+--[[Translation missing --]]
 L["If you have game default font selected, this option has no effect"] = "If you have game default font selected, this option has no effect"
---Translation missing 
+--[[Translation missing --]]
 L["If your class power is not full (or not empty in the case of Holy Power) then the module will always be displayed on your screen using the In Combat alpha setting. Otherwise it will fade to the OOC alpha when you leave combat."] = "If your class power is not full (or not empty in the case of Holy Power) then the module will always be displayed on your screen using the In Combat alpha setting. Otherwise it will fade to the OOC alpha when you leave combat."
 L["Ignore range"] = "忽略范围"
 L["Import profile"] = "汇入设定档"
@@ -478,7 +482,7 @@ L["Imports a profile as exported from another user's IceHUD."] = "从其他用�
 L["Inactive mode"] = "不活动模式"
 L["Incoming heal bar alpha"] = "收入治疗条列透明度"
 L["Invert bar"] = "颠倒条列"
---Translation missing 
+--[[Translation missing --]]
 L["Item to track"] = "Item to track"
 L["Lacerate Count Font Size"] = "割裂计数字型尺寸"
 L["Lacerate gap"] = "割裂间隙"
@@ -519,13 +523,13 @@ L["Makes all modules visible so you can see where they're placed and find any th
 L["Marker Settings"] = "标记设定"
 L["Maximum applications"] = "最大应用"
 L["Maximum duration"] = "最大持续时间"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Maximum Duration for the bar (the bar will remained full if it has longer than maximum remaining).  Leave 0 for spell duration.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[Maximum Duration for the bar (the bar will remained full if it has longer than maximum remaining).  Leave 0 for spell duration.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L["Minimum stacks to show"] = "Minimum stacks to show"
 L["Module color configuration options"] = "组模颜色配置选项"
 L["Module configuration options"] = "组模配置选项"
@@ -536,30 +540,30 @@ L["Mouse settings"] = "鼠标设定"
 L["Mouseover"] = "鼠标悬停"
 L["Mouseover for buffs"] = "鼠标悬停为增益"
 L["Mouseover for target"] = "鼠标悬停为目标"
---Translation missing 
+--[[Translation missing --]]
 L["No decoration"] = "No decoration"
---Translation missing 
+--[[Translation missing --]]
 L["Number of updates per second. The higher this number is, the smoother bars will animate. However, higher settings will also use more CPU, so balance it to your liking. 30 is the recommended setting."] = "Number of updates per second. The higher this number is, the smoother bars will animate. However, higher settings will also use more CPU, so balance it to your liking. 30 is the recommended setting."
---Translation missing 
+--[[Translation missing --]]
 L["Numeric vertical offset"] = "Numeric vertical offset"
 L["Offset"] = "位移"
 L["Offset of the bar"] = "条列位移"
 L["Offset of the text from the bar horizontally"] = "从条列水平文字位移"
---Translation missing 
+--[[Translation missing --]]
 L["Offset of the text from the bar vertically (negative is farther below)"] = "Offset of the text from the bar vertically (negative is farther below)"
 L["Only show buffs by me"] = "只有显示增益由我"
 L["Only show debuffs by me"] = "只有显示减益由我"
 L["Only show for my debuffs"] = "只有显示我的减益"
 L["Only show if target uses mana"] = "只有显示如果目标使用法力"
 L["Only show in groups"] = "只有显示组群"
---Translation missing 
+--[[Translation missing --]]
 L["Only show the bar when the number of applications of this buff or debuff exceeds this number"] = "Only show the bar when the number of applications of this buff or debuff meets or exceeds this number"
 L["Only show the threat bar if you are in a group or you have an active pet"] = "只在队伍中或有宠物时显示威胁条"
---Translation missing 
+--[[Translation missing --]]
 L["Only show with a target selected"] = "Only show with a target selected"
 L["Only track auras by me"] = "只有追踪光环由我"
 L["Other"] = "其它"
---Translation missing 
+--[[Translation missing --]]
 L["Outline"] = "Outline"
 L["Override alpha when not full"] = "未充满时覆盖透明度"
 L["Override global texture"] = "覆盖通用材质"
@@ -571,9 +575,9 @@ L["Party Role Icon Scale"] = "队伍角色图示刻度"
 L["Party Role Icon Vertical Offset"] = "队伍角色图示垂直位移"
 L["Position (percent)"] = "位置(百分比)"
 L["Positioning Settings"] = "位置设定"
---Translation missing 
+--[[Translation missing --]]
 L["Potential RtB time bar alpha"] = "Potential RtB time bar alpha"
---Translation missing 
+--[[Translation missing --]]
 L["Potential SnD time bar alpha"] = "Potential SnD time bar alpha"
 L["Predefined settings for different bars"] = "预先定义设定为不同条列"
 L["Presets"] = "预先环置"
@@ -588,53 +592,53 @@ L["Raid Icon X Offset"] = "团队图示 X 位移"
 L["Raid Icon Y Offset"] = "团队图示 Y 位移"
 L["Range string"] = "范围字符串"
 L["Remove"] = "移除"
---Translation missing 
+--[[Translation missing --]]
 L["Respect lag tolerance"] = "Respect lag tolerance"
 L["Reverse channeling"] = "翻转通道"
 L["Reverse direction"] = "颠倒方向"
 L["Right Tag"] = "右标签"
 L["Rotate 90 degrees"] = "旋转 90 度"
 L["Rune cooldown mode"] = "符文冷却模式"
---Translation missing 
+--[[Translation missing --]]
 L["Rune display mode"] = "Rune display mode"
 L["Rune gap"] = "符文间隙"
 L["Rune orientation"] = "符文方位"
 L["Scale"] = "刻度"
---Translation missing 
+--[[Translation missing --]]
 L["Scale for non-mana users"] = "Scale for non-mana users"
 L["Scale of the bar"] = "条列刻度"
 L["Scale of the element"] = "元素刻度"
---Translation missing 
+--[[Translation missing --]]
 L["Second place threat alpha"] = "Second place threat alpha"
---Translation missing 
+--[[Translation missing --]]
 L["Select a custom module that you want to create here, then press the 'Create' button."] = "Select a custom module that you want to create here, then press the 'Create' button."
---Translation missing 
+--[[Translation missing --]]
 L["Select which unit that this bar should be looking for buffs/debuffs on"] = "Select which unit that this bar should be looking for buffs/debuffs on"
 L["Self Color"] = "自己颜色"
 L["Self Display Mode"] = "自己显示模式"
---Translation missing 
+--[[Translation missing --]]
 L["Set the color of the TargetTarget bar if you are your target's target."] = "Set the color of the TargetTarget bar if you are your target's target."
 L["Sets the height of this module."] = "设定此组模的高度。"
---Translation missing 
+--[[Translation missing --]]
 L["Sets the width of this module if 'size to gap' is not set"] = "Sets the width of this module if 'size to gap' is not set"
 L["Settings for bar transparencies"] = "设定条列透明度"
 L["Settings related to bars"] = "设定相关的条列"
 L["Settings related to icons"] = "设定相关的图示"
 L["Settings related to positioning and alpha"] = "设定相关的位置和透明度"
 L["Settings related to texts"] = "设定相关的文本"
---Translation missing 
+--[[Translation missing --]]
 L["Shadow"] = "Shadow"
---Translation missing 
+--[[Translation missing --]]
 L["Show absorbs"] = "Show absorbs"
---Translation missing 
+--[[Translation missing --]]
 L["Show Anticipation"] = "Show Anticipation"
---Translation missing 
+--[[Translation missing --]]
 L["Show bar as % of maximum"] = "Show bar as % of maximum"
 L["Show buffs"] = "显示增益"
 L["Show combat status"] = "显示战斗状态"
 L["Show debuffs"] = "显示减益"
 L["Show default cast bar"] = "显示减益施放条"
---Translation missing 
+--[[Translation missing --]]
 L["Show during cast"] = "Show during cast"
 L["Show Elite Icon"] = "显示精英图标"
 L["Show graphical or numeric combo points"] = "显示图形或是数字的连续点"
@@ -647,11 +651,11 @@ L["Show leader icon"] = "显示领袖者图标"
 L["Show loot master icon"] = "显示物品拾取助手图标"
 L["Show Minimap Icon"] = "显示小地图图标"
 L["Show Party Role icon"] = "显示队伍角色图标"
---Translation missing 
+--[[Translation missing --]]
 L["Show points stored by the Anticipation talent"] = "Show points stored by the Anticipation talent"
 L["Show PvP icon"] = "显示 PvP 图标"
 L["Show Raid Icon"] = "显示团队图标"
---Translation missing 
+--[[Translation missing --]]
 L["Show raid icon"] = "Show raid icon"
 L["Show resting status"] = "显示休息状态"
 L["Show rogue/cat energy ticker"] = "显示盗贼/猫德的能量断续装置"
@@ -662,48 +666,48 @@ L["Show spell rank"] = "显示法术等级"
 L["Show stacking debuffs"] = "显示堆栈减益"
 L["Show stacking debuffs in ToT info"] = "显示在 ToT 信息堆栈减益"
 L["Show status icon"] = "显示状态图标"
---Translation missing 
+--[[Translation missing --]]
 L["Show tank name"] = "Show tank name"
---Translation missing 
+--[[Translation missing --]]
 L["Show the tooltip for this unit when the mouse is hovering over it."] = "Show the tooltip for this unit when the mouse is hovering over it."
---Translation missing 
+--[[Translation missing --]]
 L["Show tooltip"] = "Show tooltip"
---Translation missing 
+--[[Translation missing --]]
 L["Show when not full"] = "Show when not full"
---Translation missing 
+--[[Translation missing --]]
 L["Show when zero"] = "Show when zero"
---Translation missing 
+--[[Translation missing --]]
 L["Show with no target"] = "Show with no target"
---Translation missing 
+--[[Translation missing --]]
 L["Shows a flash behind each holy rune when it becomes available."] = "Shows a flash behind each holy rune when it becomes available."
---Translation missing 
+--[[Translation missing --]]
 L["Shows a flash behind each shard when it becomes available."] = "Shows a flash behind each shard when it becomes available."
---Translation missing 
+--[[Translation missing --]]
 L["Shows the name of the threat holder colorized by his or her role"] = "Shows the name of the threat holder colorized by his or her role"
 L["Side"] = "侧面"
---Translation missing 
+--[[Translation missing --]]
 L["Side of the HUD where the bar appears"] = "Side of the HUD where the bar appears"
---Translation missing 
+--[[Translation missing --]]
 L["Since the last time you updated IceHUD, many significant CPU and memory optimizations have been made. If bar animation looks jumpy to you, open the /icehud configuration page and raise the 'Update Period' slider. This will cause higher CPU usage but will look nicer. Enjoy IceHUD!"] = "Since the last time you updated IceHUD, many significant CPU and memory optimizations have been made. If bar animation looks jumpy to you, open the /icehud configuration page and raise the 'Update Period' slider. This will cause higher CPU usage but will look nicer. Enjoy IceHUD!"
 L["Size and Placement"] = "尺寸和位置"
 L["Size to gap"] = "尺寸至间隙"
 L["Sort by expiration"] = "排序终止"
---Translation missing 
+--[[Translation missing --]]
 L["Space between bars on the same side"] = "Space between bars on the same side"
 L["Space between buffs"] = "空间在增益之间"
---Translation missing 
+--[[Translation missing --]]
 L["Spacing between each combo point (only works for graphical mode)"] = "Spacing between each combo point (only works for graphical mode)"
---Translation missing 
+--[[Translation missing --]]
 L["Spacing between each icon (only works for graphical mode)"] = "Spacing between each icon (only works for graphical mode)"
---Translation missing 
+--[[Translation missing --]]
 L["Spacing between each lacerate count (only works for graphical mode)"] = "Spacing between each lacerate count (only works for graphical mode)"
---Translation missing 
+--[[Translation missing --]]
 L["Spacing between each maelstrom point (only works for graphical mode)"] = "Spacing between each maelstrom point (only works for graphical mode)"
---Translation missing 
+--[[Translation missing --]]
 L["Spacing between each rune (only works for graphical mode)"] = "Spacing between each rune (only works for graphical mode)"
---Translation missing 
+--[[Translation missing --]]
 L["Spacing between each sunder count (only works for graphical mode)"] = "Spacing between each sunder count (only works for graphical mode)"
---Translation missing 
+--[[Translation missing --]]
 L["Spacing between each totem (only works for graphical mode)"] = "Spacing between each totem (only works for graphical mode)"
 L["Spell cast text visible"] = "法术施放文字可见"
 L["Spell to track"] = "法术至追踪"
@@ -714,21 +718,23 @@ L["Status Icon Scale"] = "状态图示刻度"
 L["Status Icon Vertical Offset"] = "状态图示垂直位移"
 L["Sunder Count Font Size"] = "破甲计数字型尺寸"
 L["Sunder gap"] = "破甲间隙"
---Translation missing 
+--[[Translation missing --]]
 L["Text appearance"] = "Text appearance"
 L["Text Horizontal Offset"] = "文字水平位移"
 L["Text Settings"] = "文字设定"
+--[[Translation missing --]]
+L["Text Vertical Gap"] = "Text Vertical Gap"
 L["Text Vertical Offset"] = "文字垂直位移"
 L["Texture"] = "材质"
---Translation missing 
+--[[Translation missing --]]
 L["The alpha value for the second-place threat bar to be (this is multiplied by the bar's alpha so it's always proportionate)"] = "The alpha value for the second-place threat bar to be (this is multiplied by the bar's alpha so it's always proportionate)"
 L["The color for this bar"] = "颜色条列"
 L["The color for this counter"] = "颜色计数器"
---Translation missing 
+--[[Translation missing --]]
 L["The color this marker should be."] = "The color this marker should be."
---Translation missing 
+--[[Translation missing --]]
 L["The height of the marker on the bar."] = "The height of the marker on the bar."
---Translation missing 
+--[[Translation missing --]]
 L[ [=[The lower text to display under this bar (accepts LibDogTag formatting)
 
 See http://www.wowace.com/wiki/LibDogTag-2.0/ or type /dogtag for tag info.
@@ -738,7 +744,7 @@ Remember to press ENTER after filling out this box or it will not save.]=] ] = [
 See http://www.wowace.com/wiki/LibDogTag-2.0/ or type /dogtag for tag info.
 
 Remember to press ENTER after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[The lower text to display under this bar.
 
 NOTE: this text block does NOT support DogTags.
@@ -748,27 +754,27 @@ Remember to press ENTER/Accept after filling out this box or it will not save.]=
 NOTE: this text block does NOT support DogTags.
 
 Remember to press ENTER/Accept after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L["The minimum color for this counter (only used if Change Color is enabled)"] = "The minimum color for this counter (only used if Change Color is enabled)"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[The name of this bar (must be unique!).
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[The name of this bar (must be unique!).
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[The name of this counter (must be unique!). 
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[The name of this counter (must be unique!). 
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L["The point on the TargetInfo frame that the buff frame gets connected to"] = "The point on the TargetInfo frame that the buff frame gets connected to"
---Translation missing 
+--[[Translation missing --]]
 L["The point on the TargetInfo frame that the debuff frame gets connected to"] = "The point on the TargetInfo frame that the debuff frame gets connected to"
---Translation missing 
+--[[Translation missing --]]
 L["The type of thing to track the cooldown of"] = "The type of thing to track the cooldown of"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[The upper text to display under this bar (accepts LibDogTag formatting)
 
 See http://www.wowace.com/wiki/LibDogTag-2.0/ or type /dogtag for tag info.
@@ -778,7 +784,7 @@ Remember to press ENTER after filling out this box or it will not save.]=] ] = [
 See http://www.wowace.com/wiki/LibDogTag-2.0/ or type /dogtag for tag info.
 
 Remember to press ENTER after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[The upper text to display under this bar.
 
 NOTE: this text block does NOT support DogTags.
@@ -788,51 +794,53 @@ Remember to press ENTER/Accept after filling out this box or it will not save.]=
 NOTE: this text block does NOT support DogTags.
 
 Remember to press ENTER/Accept after filling out this box or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L["Thick outline"] = "Thick outline"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[This controls how all non-DogTag text on all modules appears.
 
 NOTE: Requires a UI reload to take effect.]=] ] = [=[This controls how all non-DogTag text on all modules appears.
 
 NOTE: Requires a UI reload to take effect.]=]
---Translation missing 
+--[[Translation missing --]]
 L["This controls what happens to runes that are inactive. Darkened means they are visible but colored black, Hidden means they are not displayed."] = "This controls what happens to runes that are inactive. Darkened means they are visible but colored black, Hidden means they are not displayed."
---Translation missing 
+--[[Translation missing --]]
 L["This is a per-pixel horizontal adjustment. You should probably use the 'offset' setting above as it is designed to snap bars together. This may be used in the case of a horizontal bar needing to be positioned outside the normal bar locations."] = "This is a per-pixel horizontal adjustment. You should probably use the 'offset' setting above as it is designed to snap bars together. This may be used in the case of a horizontal bar needing to be positioned outside the normal bar locations."
---Translation missing 
+--[[Translation missing --]]
 L["This option requires the UI to be reloaded. Do you wish to reload it now?"] = "This option requires the UI to be reloaded. Do you wish to reload it now?"
---Translation missing 
+--[[Translation missing --]]
 L["This sets the alignment for the text on this bar"] = "This sets the alignment for the text on this bar"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[This specifies at what point along the bar this marker should be displayed. Remember to press ENTER when you are done typing.
 
 Example: if you wanted a marker at 40 energy and you have 100 total energy, then this would be 40. If you want it at 40 energy and you have 120 total energy, then this would be 33.]=] ] = [=[This specifies at what point along the bar this marker should be displayed. Remember to press ENTER when you are done typing.
 
 Example: if you wanted a marker at 40 energy and you have 100 total energy, then this would be 40. If you want it at 40 energy and you have 120 total energy, then this would be 33.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[This will fade the bars or numeric representation from the min color specified to the regular color
 
 (e.g. if the min color is yellow, the color is red, and there are 3 total applications, then the first would be yellow, second orange, and third red)]=] ] = [=[This will fade the bars or numeric representation from the min color specified to the regular color
 
 (e.g. if the min color is yellow, the color is red, and there are 3 total applications, then the first would be yellow, second orange, and third red)]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[This will fade the graphical representation from the min color specified to the regular color
 
 (e.g. if the min color is yellow, the color is red, and there are 3 total applications, then the first would be yellow, second orange, and third red)]=] ] = [=[This will fade the graphical representation from the min color specified to the regular color
 
 (e.g. if the min color is yellow, the color is red, and there are 3 total applications, then the first would be yellow, second orange, and third red)]=]
---Translation missing 
+--[[Translation missing --]]
 L["This will hide the entire mod during pet battles."] = "This will hide the entire mod during pet battles."
---Translation missing 
+--[[Translation missing --]]
 L["This will hide the entire mod when interacting with a barbershop."] = "This will hide the entire mod when interacting with a barbershop."
---Translation missing 
+--[[Translation missing --]]
+L["This will hide the entire mod when playing the BfA Tortollan shell game world quest."] = "This will hide the entire mod when playing the BfA Tortollan shell game world quest."
+--[[Translation missing --]]
 L["This will override the global bar texture setting for this bar with the one specified below."] = "This will override the global bar texture setting for this bar with the one specified below."
---Translation missing 
+--[[Translation missing --]]
 L["This will override the global bar texture setting for this bar."] = "This will override the global bar texture setting for this bar."
---Translation missing 
+--[[Translation missing --]]
 L["This will remove the marker selected in the 'edit marker' box. This action is irreversible."] = "This will remove the marker selected in the 'edit marker' box. This action is irreversible."
---Translation missing 
+--[[Translation missing --]]
 L[ [=[This will rotate this module by 90 degrees to give a horizontal orientation.
 
 WARNING: This feature is brand new and a bit rough around the edges. You will need to greatly adjust the vertical and horizontal offset of this bar plus move the text around in order for it to look correct.
@@ -842,7 +850,7 @@ And I mean greatly.]=] ] = [=[This will rotate this module by 90 degrees to give
 WARNING: This feature is brand new and a bit rough around the edges. You will need to greatly adjust the vertical and horizontal offset of this bar plus move the text around in order for it to look correct.
 
 And I mean greatly.]=]
---Translation missing 
+--[[Translation missing --]]
 L["This will update the marker selected in the 'edit marker' box with the values specified."] = "This will update the marker selected in the 'edit marker' box with the values specified."
 L["Toggle bar background visibility"] = "切换条列背景可见度"
 L["Toggle bar visibility"] = "切换条列可见度"
@@ -853,13 +861,13 @@ L["Toggle mouseover on/off for target"] = "切换鼠标悬停开启/关闭为目
 L["Toggle spell cast text visibility"] = "切换法术施放文字可见度"
 L["Toggle upper text visibility"] = "切换较高文字可见度"
 L["Toggles contextual background coloring"] = "切换上下文背景着色"
---Translation missing 
+--[[Translation missing --]]
 L["Toggles whether or not buffs are displayed at all"] = "Toggles whether or not buffs are displayed at all"
---Translation missing 
+--[[Translation missing --]]
 L["Toggles whether or not debuffs are displayed at all"] = "Toggles whether or not debuffs are displayed at all"
---Translation missing 
+--[[Translation missing --]]
 L["Toggles whether or not to show the CastNonInterruptible color for this bar when a cast is non-interruptible"] = "Toggles whether or not to show the CastNonInterruptible color for this bar when a cast is non-interruptible"
---Translation missing 
+--[[Translation missing --]]
 L["Toggles whether or not to sort by expiration time (otherwise they're sorted how the game sorts them - by application time)"] = "Toggles whether or not to sort by expiration time (otherwise they're sorted how the game sorts them - by application time)"
 L["ToT frame texture"] = "ToT 框架材质"
 L["Totem cooldown mode"] = "图腾冷却模式"
@@ -874,193 +882,193 @@ L["Update Period"] = "更新期间"
 L["Upper Text"] = "较高文字"
 L["Upper Text Color"] = "较高文字颜色"
 L["Upper text visible"] = "较高文字可见"
---Translation missing 
+--[[Translation missing --]]
 L["Use class color as the bar color instead of default color"] = "Use class color as the bar color instead of default color"
---Translation missing 
+--[[Translation missing --]]
 L["Use class color as the bar color instead of reaction color"] = "Use class color as the bar color instead of reaction color"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Use class color as the bar color instead of reaction color
 
 (Note: The 'color bar by health %' setting overrides this)]=] ] = [=[Use class color as the bar color instead of reaction color
 
 (Note: The 'color bar by health %' setting overrides this)]=]
 L["Use Dog Tags"] = "使用 Dog Tags"
---Translation missing 
+--[[Translation missing --]]
 L["Use multiple buff colors"] = "Use multiple buff colors"
 L["Use normal alpha"] = "使用正常透明度"
---Translation missing 
+--[[Translation missing --]]
 L["Use 'Target' alpha for friendlies"] = "Use 'Target' alpha for friendlies"
---Translation missing 
+--[[Translation missing --]]
 L["Use this for abilities that don't require a target to cast, but you only want to see them when you have a target"] = "Use this for abilities that don't require a target to cast, but you only want to see them when you have a target"
---Translation missing 
+--[[Translation missing --]]
 L["Use your Dismiss Pet spell to dismiss a pet"] = "Use your Dismiss Pet spell to dismiss a pet"
---Translation missing 
+--[[Translation missing --]]
 L["Uses the 'color bar by mana %' setting/colors even for classes that don't use Mana"] = "Uses the 'color bar by mana %' setting/colors even for classes that don't use Mana"
---Translation missing 
+--[[Translation missing --]]
 L["Usually CD bars will always display if they're set to 'When Ready' or 'Always' mode regardless of your other transparency settings. If you'd rather this bar show/hide as per normal transparency rules, then check this box."] = "Usually CD bars will always display if they're set to 'When Ready' or 'Always' mode regardless of your other transparency settings. If you'd rather this bar show/hide as per normal transparency rules, then check this box."
 L["Vertical Position"] = "垂直位置"
 L["Vertical position"] = "垂直位置"
 L["Visibility Settings"] = "可见度设定"
---Translation missing 
+--[[Translation missing --]]
 L["What alpha value to use for the bar that displays how long your RtB will last if you activate it. (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"] = "What alpha value to use for the bar that displays how long your RtB will last if you activate it. (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"
---Translation missing 
+--[[Translation missing --]]
 L["What alpha value to use for the bar that displays how long your SnD will last if you activate it. (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"] = "What alpha value to use for the bar that displays how long your SnD will last if you activate it. (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"
---Translation missing 
+--[[Translation missing --]]
 L["What alpha value to use for the bar that displays how much effective health you have including absorbs (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"] = "What alpha value to use for the bar that displays how much effective health you have including absorbs (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"
---Translation missing 
+--[[Translation missing --]]
 L["What alpha value to use for the bar that displays how much health you'll have after an incoming heal (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"] = "What alpha value to use for the bar that displays how much health you'll have after an incoming heal (This gets multiplied by the bar's current alpha to stay in line with the bar on top of it)"
---Translation missing 
+--[[Translation missing --]]
 L["What graphical representation each rune should have. When setting to anything other than 'graphical', the module will behave more like combo points and simply show how many are active."] = "What graphical representation each rune should have. When setting to anything other than 'graphical', the module will behave more like combo points and simply show how many are active."
---Translation missing 
+--[[Translation missing --]]
 L["What this bar should do whenever the player is the TargetOfTarget"] = "What this bar should do whenever the player is the TargetOfTarget"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[What this bar should do whenever the player is the TargetOfTarget
 
 NOTE: When this is set to 'hide', then click-targeting is not available due to Blizzard's restrictions]=] ] = [=[What this bar should do whenever the player is the TargetOfTarget
 
 NOTE: When this is set to 'hide', then click-targeting is not available due to Blizzard's restrictions]=]
---Translation missing 
+--[[Translation missing --]]
 L["When checked, if a 'Custom Lag Tolerance' is set in the game's Combat options, the lag indicator will always use that tolerance value. Otherwise, it uses the computed latency."] = "When checked, if a 'Custom Lag Tolerance' is set in the game's Combat options, the lag indicator will always use that tolerance value. Otherwise, it uses the computed latency."
---Translation missing 
+--[[Translation missing --]]
 L["When tanking, this toggles whether or not the second-highest threat value found in your party or raid is displayed on top of your actual threat value"] = "When tanking, this toggles whether or not the second-highest threat value found in your party or raid is displayed on top of your actual threat value"
---Translation missing 
+--[[Translation missing --]]
 L["When the bar drops below this amount, it will start flashing (0 means never). For the 'mana' bar this only applies to mana and not rage/energy/focus/runic power."] = "When the bar drops below this amount, it will start flashing (0 means never). For the 'mana' bar this only applies to mana and not rage/energy/focus/runic power."
 L["When to display this bar."] = "当显示此条列"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Whether or not the addon should use the DogTag library (this will increase the CPU usage of the mod). DogTag controls all text displayed around bars such as health or mana amounts. Type |cffffff78/dog|r to see all DogTag options.
 
 NOTE: after changing this option, you must reload the UI or else bad things happen]=] ] = [=[Whether or not the addon should use the DogTag library (this will increase the CPU usage of the mod). DogTag controls all text displayed around bars such as health or mana amounts. Type |cffffff78/dog|r to see all DogTag options.
 
 NOTE: after changing this option, you must reload the UI or else bad things happen]=]
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to allow click casting of Hunger For Blood"] = "Whether or not to allow click casting of Hunger For Blood"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to allow click targeting/casting and the player drop-down menu for this bar (Note: does not work properly with HiBar, have to click near the base of the bar)"] = "Whether or not to allow click targeting/casting and the player drop-down menu for this bar (Note: does not work properly with HiBar, have to click near the base of the bar)"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to allow click targeting/casting and the player drop-down menu for this bar while the player is in combat (Note: does not work properly with HiBar, have to click near the base of the bar)"] = "Whether or not to allow click targeting/casting and the player drop-down menu for this bar while the player is in combat (Note: does not work properly with HiBar, have to click near the base of the bar)"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to allow click targeting/casting and the target drop-down menu for this bar (Note: does not work properly with HiBar, have to click near the base of the bar)"] = "Whether or not to allow click targeting/casting and the target drop-down menu for this bar (Note: does not work properly with HiBar, have to click near the base of the bar)"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to allow click targeting/casting for this bar (Note: does not work properly with HiBar, have to click near the base of the bar)"] = "Whether or not to allow click targeting/casting for this bar (Note: does not work properly with HiBar, have to click near the base of the bar)"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to allow the mouse to interact with the totems. If this is enabled, then right-clicking a totem will cancel it. Otherwise mouse clicks will not get caught by the totems and no tooltips will be shown."] = "Whether or not to allow the mouse to interact with the totems. If this is enabled, then right-clicking a totem will cancel it. Otherwise mouse clicks will not get caught by the totems and no tooltips will be shown."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to animate the bar falloffs/gains"] = "Whether or not to animate the bar falloffs/gains"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to display an icon for the aura that this bar is tracking"] = "Whether or not to display an icon for the aura or item that this bar is tracking"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to display the first line of text on this module which is the target's name."] = "Whether or not to display the first line of text on this module which is the target's name."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to display the second line of text on this module which is the target's details (level, class, PvP status, etc.)."] = "Whether or not to display the second line of text on this module which is the target's details (level, class, PvP status, etc.)."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to display the third line of text on this module which is the target's guild and realm (if they are from another realm)."] = "Whether or not to display the third line of text on this module which is the target's guild and realm (if they are from another realm)."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to display this bar even if the buff/debuff specified is not present."] = "Whether or not to display this bar even if the buff/debuff specified is not present."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to display when you have no target selected but have combo points available"] = "Whether or not to display when you have no target selected but have combo points available"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to reverse the direction of the cast bar when a spell is being channeled. For example, if a normal cast causes this bar to fill up, then checking this option will cause a channeled spell to empty the bar instead."] = "Whether or not to reverse the direction of the cast bar when a spell is being channeled. For example, if a normal cast causes this bar to fill up, then checking this option will cause a channeled spell to empty the bar instead."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show absorb amounts as a lighter-colored bar on top of your current health."] = "Whether or not to show absorb amounts as a lighter-colored bar on top of your current health."
 L["Whether or not to show an IceHUD icon on the minimap."] = "无论是不是显示在小地图的 IceHUD"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show incoming heals as a lighter-colored bar on top of your current health (requires LibHealComm-4.0 or official patch 4.0)"] = "Whether or not to show incoming heals as a lighter-colored bar on top of your current health (requires LibHealComm-4.0 or official patch 4.0)"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the combat status portion of the status icon (for example, if you only care when you're resting, not when you're in combat)"] = "Whether or not to show the combat status portion of the status icon (for example, if you only care when you're resting, not when you're in combat)"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the counter when the value is zero. This will cause a 0 to be displayed at all times for Numeric mode and faded markers for graphical mode."] = "Whether or not to show the counter when the value is zero. This will cause a 0 to be displayed at all times for Numeric mode and faded markers for graphical mode."
 L["Whether or not to show the default cast bar."] = "无论是不是显示默认值施放条"
 L["Whether or not to show the loot master icon"] = "无论是不是显示物品拾取助手图标"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the party leader icon above this bar"] = "Whether or not to show the party leader icon above this bar"
 L["Whether or not to show the Party Role icon"] = "无论是不是显示队伍角色图标"
 L["Whether or not to show the PvP icon"] = "无论是不是显示 PvP 图标"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the raid icon above this bar"] = "Whether or not to show the raid icon above this bar"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the raid icon for this unit."] = "Whether or not to show the raid icon for this unit."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the rank of a spell being cast."] = "Whether or not to show the rank of a spell being cast."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the rare/elite icon above this bar"] = "Whether or not to show the rare/elite icon above this bar"
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the remaining cast time of a spell being cast."] = "Whether or not to show the remaining cast time of a spell being cast."
---Translation missing 
+--[[Translation missing --]]
 L["Whether or not to show the resting status portion of the status icon (for example, if you only care when you're in combat, but not when you're resting)"] = "Whether or not to show the resting status portion of the status icon (for example, if you only care when you're in combat, but not when you're resting)"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Whether or not to show the status icon (resting/combat) above this bar
 
 Note: You can configure resting/combat separately below, but disabling both resting and combat is the same as disabling the icon altogether]=] ] = [=[Whether or not to show the status icon (resting/combat) above this bar
 
 Note: You can configure resting/combat separately below, but disabling both resting and combat is the same as disabling the icon altogether]=]
---Translation missing 
+--[[Translation missing --]]
 L["Whether the runes should draw side-by-side or on top of one another"] = "Whether the runes should draw side-by-side or on top of one another"
---Translation missing 
+--[[Translation missing --]]
 L["Whether the totems should draw side-by-side or on top of one another"] = "Whether the totems should draw side-by-side or on top of one another"
---Translation missing 
+--[[Translation missing --]]
 L["Whether this bar should hide when the player has 0 combo points or stay visible"] = "Whether this bar should hide when the player has 0 combo points or stay visible"
---Translation missing 
+--[[Translation missing --]]
 L["Whether to always show this module at 100% alpha or not"] = "Whether to always show this module at 100% alpha or not"
---Translation missing 
+--[[Translation missing --]]
 L["Whether to display this bar when you target a unit, even if the buff/debuff specified is not present."] = "Whether to display this bar when you target a unit, even if the buff/debuff specified is not present."
---Translation missing 
+--[[Translation missing --]]
 L["Whether to draw the elite icon in front of or behind this bar"] = "Whether to draw the elite icon in front of or behind this bar"
---Translation missing 
+--[[Translation missing --]]
 L["Whether to draw the PvP icon in front of or behind this bar"] = "Whether to draw the PvP icon in front of or behind this bar"
---Translation missing 
+--[[Translation missing --]]
 L["Whether to draw the raid icon in front of or behind this bar"] = "Whether to draw the raid icon in front of or behind this bar"
---Translation missing 
+--[[Translation missing --]]
 L["Whether to show the Runes module any time the player has fewer than max runes available (regardless of combat/target status)."] = "Whether to show the Runes module any time the player has fewer than max runes available (regardless of combat/target status)."
---Translation missing 
+--[[Translation missing --]]
 L["Whether to show this bar when a spellcast longer than the global cooldown is being cast."] = "Whether to show this bar when a spellcast longer than the global cooldown is being cast."
---Translation missing 
+--[[Translation missing --]]
 L["Whether to show threat in scaled values or raw values. Scaled threat means that you will pull aggro when it hits 100%. Raw threat means you will pull aggro at either 110% (melee) or 130% (ranged). Omen uses raw threat which can cause this mod to disagree with Omen if it is in scaled mode."] = "Whether to show threat in scaled values or raw values. Scaled threat means that you will pull aggro when it hits 100%. Raw threat means you will pull aggro at either 110% (melee) or 130% (ranged). Omen uses raw threat which can cause this mod to disagree with Omen if it is in scaled mode."
 L["Whether we are tracking a buff or debuff"] = "无论我们追踪增益或减益"
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Which buff/debuff this bar will be tracking.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[Which buff/debuff this bar will be tracking.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Which buff/debuff this counter will be tracking. 
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[Which buff/debuff this counter will be tracking. 
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
---Translation missing 
+--[[Translation missing --]]
 L["Which direction the buffs should grow from the anchor point"] = "Which direction the buffs should grow from the anchor point"
---Translation missing 
+--[[Translation missing --]]
 L["Which direction the debuffs should grow from the anchor point"] = "Which direction the debuffs should grow from the anchor point"
---Translation missing 
+--[[Translation missing --]]
 L["Which icon set to use for elite/rare elite/rare textures. This simply changes the look of the classification icon."] = "Which icon set to use for elite/rare elite/rare textures. This simply changes the look of the classification icon."
---Translation missing 
+--[[Translation missing --]]
 L["Which item cooldown this bar will be tracking."] = "Which item cooldown this bar will be tracking."
---Translation missing 
+--[[Translation missing --]]
 L[ [=[Which spell cooldown this bar will be tracking.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=] ] = [=[Which spell cooldown this bar will be tracking.
 
 Remember to press ENTER after filling out this box with the name you want or it will not save.]=]
 L["Width"] = "宽度"
---Translation missing 
+--[[Translation missing --]]
 L["Will only show buffs that you cast instead of all buffs active"] = "Will only show buffs that you cast instead of all buffs active"
---Translation missing 
+--[[Translation missing --]]
 L["Will only show debuffs that you cast instead of all debuffs active"] = "Will only show debuffs that you cast instead of all debuffs active"
---Translation missing 
+--[[Translation missing --]]
 L["Will only show this bar if the target uses mana (as opposed to rage, energy, runic power, etc.)"] = "Will only show this bar if the target uses mana (as opposed to rage, energy, runic power, etc.)"
---Translation missing 
+--[[Translation missing --]]
 L["With this checked, the bar will only activate for your own CC spells and not those of others."] = "With this checked, the bar will only activate for your own CC spells and not those of others."
---Translation missing 
+--[[Translation missing --]]
 L[ [=[With this enabled, all icons draw so you can configure their placement
 
 Note: the combat and status icons are actually the same texture so you'll only see combat in config mode (unless you're already resting)]=] ] = [=[With this enabled, all icons draw so you can configure their placement
 
 Note: the combat and status icons are actually the same texture so you'll only see combat in config mode (unless you're already resting)]=]
---Translation missing 
+--[[Translation missing --]]
 L["With this enabled, all icons will be 100% visible regardless of the alpha settings for this bar."] = "With this enabled, all icons will be 100% visible regardless of the alpha settings for this bar."
---Translation missing 
+--[[Translation missing --]]
 L["With this enabled, the raid icon is always 100% alpha, regardless of the bar's alpha. Otherwise, it assumes the bar's alpha level."] = "With this enabled, the raid icon is always 100% alpha, regardless of the bar's alpha. Otherwise, it assumes the bar's alpha level."
---Translation missing 
+--[[Translation missing --]]
 L["You have changed IceHUD profiles while in combat. This can cause problems due to Blizzard's secure frame policy. You may need to reload your UI to repair IceHUD."] = "You have changed IceHUD profiles while in combat. This can cause problems due to Blizzard's secure frame policy. You may need to reload your UI to repair IceHUD."
 

@@ -1,0 +1,14 @@
+## Interface: 80200
+## Title: |cffffffffOrder|r|cffffff00Hall|r|cffffffffFollower|r|cffffff00Gear|r|cff00ffffOptimizer|r
+## Author: Sanex
+## Version: 1.16
+## LoadOnDemand: 1
+## LoadWith: Blizzard_GarrisonUI
+## SavedVariables: OHFGODB
+## Notes: Optimizes your Order Hall followers to specified item upgrade tiers. Based on FollowerGearOptimizer by Sortokk.
+
+libs\load_libs.xml
+locales\load_locales.xml
+init.lua
+core\load_core.xml
+

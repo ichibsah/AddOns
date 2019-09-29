@@ -1,5 +1,5 @@
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + (tonumber(("2016102991302"):match("%d+")) or 33333333333333)
+local MINOR_VERSION = 90000 + (tonumber(("@file-date-integer@"):match("%d+")) or 33333333333333)
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -9,12 +9,25 @@ local _G, select, unpack = _G, select, unpack
 local ALTERNATE_POWER_INDEX, UnitPower, UnitPowerMax, UnitPowerType =
 	  ALTERNATE_POWER_INDEX, UnitPower, UnitPowerMax, UnitPowerType
 
+local SPELL_POWER_MANA, SPELL_POWER_RUNES, SPELL_POWER_CHI, SPELL_POWER_ECLIPSE, SPELL_POWER_SOUL_SHARDS, SPELL_POWER_ARCANE_CHARGES =
+	  SPELL_POWER_MANA, SPELL_POWER_RUNES, SPELL_POWER_CHI, SPELL_POWER_ECLIPSE, SPELL_POWER_SOUL_SHARDS, SPELL_POWER_ARCANE_CHARGES
+local SPELL_POWER_BURNING_EMBERS, SPELL_POWER_HOLY_POWER, SPELL_POWER_LIGHT_FORCE, SPELL_POWER_SHADOW_ORBS =
+	  SPELL_POWER_BURNING_EMBERS, SPELL_POWER_HOLY_POWER, SPELL_POWER_LIGHT_FORCE, SPELL_POWER_SHADOW_ORBS
+
 DogTag_Unit_funcs[#DogTag_Unit_funcs+1] = function(DogTag_Unit, DogTag)
 
 local L = DogTag_Unit.L
 
 local wow_700 = select(4, GetBuildInfo()) >= 70000
+local wow_800 = select(4, GetBuildInfo()) >= 80000
 local mpEvents = "UNIT_POWER_FREQUENT#$unit;UNIT_MAXPOWER#$unit;UNIT_DISPLAYPOWER#$unit"
+
+if wow_800 then
+	SPELL_POWER_MANA, SPELL_POWER_RUNES, SPELL_POWER_CHI, SPELL_POWER_ECLIPSE, SPELL_POWER_SOUL_SHARDS, SPELL_POWER_ARCANE_CHARGES =
+	Enum.PowerType.Mana, Enum.PowerType.Runes, Enum.PowerType.Chi, Enum.PowerType.LunarPower, Enum.PowerType.SoulShards, Enum.PowerType.ArcaneCharges
+	SPELL_POWER_BURNING_EMBERS, SPELL_POWER_HOLY_POWER, SPELL_POWER_LIGHT_FORCE, SPELL_POWER_SHADOW_ORBS =
+	Enum.PowerType.Obsolete, Enum.PowerType.HolyPower, Enum.PowerType.Obsolete, Enum.PowerType.Obsolete
+end
 
 DogTag:AddTag("Unit", "MP", {
 	code = UnitPower,
@@ -129,94 +142,97 @@ DogTag:AddTag("Unit", "FractionalMana", {
 	category = L["Power"]
 })
 
+if ALTERNATE_POWER_INDEX then -- WoW Classic compat
+	DogTag:AddTag("Unit", "AltP", {
+		code = UnitPower,
+		arg = {
+			'unit', 'string;undef', 'player',
+			'index', 'number;undef', ALTERNATE_POWER_INDEX
+		},
+		ret = "number",
+		events = "UNIT_POWER_FREQUENT#$unit",
+		doc = L["Return the current alternate power of unit"],
+		example = ('[AltP] => "%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)*.632),
+		category = L["Power"]
+	})
 
-DogTag:AddTag("Unit", "AltP", {
-	code = UnitPower,
-	arg = {
-		'unit', 'string;undef', 'player',
-		'index', 'number;undef', ALTERNATE_POWER_INDEX
-	},
-	ret = "number",
-	events = "UNIT_POWER_FREQUENT#$unit",
-	doc = L["Return the current alternate power of unit"],
-	example = ('[AltP] => "%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)*.632),
-	category = L["Power"]
-})
+	DogTag:AddTag("Unit", "MaxAltP", {
+		code = UnitPowerMax,
+		arg = {
+			'unit', 'string;undef', 'player',
+			'index', 'number;undef', ALTERNATE_POWER_INDEX
+		},
+		ret = "number",
+		events = "UNIT_MAXPOWER#$unit",
+		doc = L["Return the maximum alternate power of unit"],
+		example = ('[MaxAltP] => "%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)),
+		category = L["Power"]
+	})
 
-DogTag:AddTag("Unit", "MaxAltP", {
-	code = UnitPowerMax,
-	arg = {
-		'unit', 'string;undef', 'player',
-		'index', 'number;undef', ALTERNATE_POWER_INDEX
-	},
-	ret = "number",
-	events = "UNIT_MAXPOWER#$unit",
-	doc = L["Return the maximum alternate power of unit"],
-	example = ('[MaxAltP] => "%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)),
-	category = L["Power"]
-})
+	DogTag:AddTag("Unit", "PercentAltP", {
+		alias = "[AltP(unit=unit) / MaxAltP(unit=unit) * 100]:Round(1)",
+		arg = {
+			'unit', 'string;undef', 'player'
+		},
+		doc = L["Return the percentage alternate power of unit"],
+		example = '[PercentAltP] => "63.2"; [PercentAltP:Percent] => "63.2%"',
+		category = L["Power"]
+	})
 
-DogTag:AddTag("Unit", "PercentAltP", {
-	alias = "[AltP(unit=unit) / MaxAltP(unit=unit) * 100]:Round(1)",
-	arg = {
-		'unit', 'string;undef', 'player'
-	},
-	doc = L["Return the percentage alternate power of unit"],
-	example = '[PercentAltP] => "63.2"; [PercentAltP:Percent] => "63.2%"',
-	category = L["Power"]
-})
+	DogTag:AddTag("Unit", "MissingAltP", {
+		alias = "MaxAltP(unit=unit) - AltP(unit=unit)",
+		arg = {
+			'unit', 'string;undef', 'player'
+		},
+		doc = L["Return the missing alternate power of unit"],
+		example = ('[MissingAltP] => "%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)*.368),
+		category = L["Power"]
+	})
 
-DogTag:AddTag("Unit", "MissingAltP", {
-	alias = "MaxAltP(unit=unit) - AltP(unit=unit)",
-	arg = {
-		'unit', 'string;undef', 'player'
-	},
-	doc = L["Return the missing alternate power of unit"],
-	example = ('[MissingAltP] => "%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)*.368),
-	category = L["Power"]
-})
+	DogTag:AddTag("Unit", "FractionalAltP", {
+		alias = "Concatenate(AltP(unit=unit), '/', MaxAltP(unit=unit))",
+		arg = {
+			'unit', 'string;undef', 'player'
+		},
+		doc = L["Return the current and maximum alternate power of unit"],
+		example = ('[FractionalAltP] => "%d/%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)*.632, UnitPowerMax("player",ALTERNATE_POWER_INDEX)),
+		category = L["Power"]
+	})
+end
 
-DogTag:AddTag("Unit", "FractionalAltP", {
-	alias = "Concatenate(AltP(unit=unit), '/', MaxAltP(unit=unit))",
-	arg = {
-		'unit', 'string;undef', 'player'
-	},
-	doc = L["Return the current and maximum alternate power of unit"],
-	example = ('[FractionalAltP] => "%d/%d"'):format(UnitPowerMax("player",ALTERNATE_POWER_INDEX)*.632, UnitPowerMax("player",ALTERNATE_POWER_INDEX)),
-	category = L["Power"]
-})
+if UnitStagger then  -- WoW Classic compat
+	DogTag:AddTag("Unit", "Stagger", {
+		code = UnitStagger,
+		arg = {
+			'unit', 'string;undef', 'player',
+		},
+		ret = "number",
+		events = "UNIT_ABSORB_AMOUNT_CHANGED#$unit",
+		doc = L["Return the current stagger amount of unit"],
+		example = ('[Stagger] => "%d"'):format(UnitStagger("player")),
+		category = L["Power"]
+	})
 
-DogTag:AddTag("Unit", "Stagger", {
-	code = UnitStagger,
-	arg = {
-		'unit', 'string;undef', 'player',
-	},
-	ret = "number",
-	events = "UNIT_ABSORB_AMOUNT_CHANGED#$unit",
-	doc = L["Return the current stagger amount of unit"],
-	example = ('[Stagger] => "%d"'):format(UnitStagger("player")),
-	category = L["Power"]
-})
+	DogTag:AddTag("Unit", "PercentStagger", {
+		alias = "(Stagger(unit=unit) / MaxHP(unit=unit) * 100):Round",
+		arg = {
+			'unit', 'string;undef', 'player',
+		},
+		doc = L["Return the current stagger amount of unit"],
+		example = ('[Stagger] => "%d"'):format(UnitStagger("player")),
+		category = L["Power"]
+	})
 
-DogTag:AddTag("Unit", "PercentStagger", {
-	alias = "(Stagger(unit=unit) / MaxHP(unit=unit) * 100):Round",
-	arg = {
-		'unit', 'string;undef', 'player',
-	},
-	doc = L["Return the current stagger amount of unit"],
-	example = ('[Stagger] => "%d"'):format(UnitStagger("player")),
-	category = L["Power"]
-})
-
-DogTag:AddTag("Unit", "FractionalStagger", {
-	alias = "Concatenate(Stagger(unit=unit), '/', MaxHP(unit=unit))",
-	arg = {
-		'unit', 'string;undef', 'player',
-	},
-	doc = L["Return the current stagger amount of unit"],
-	example = ('[Stagger] => "%d"'):format(UnitStagger("player")),
-	category = L["Power"]
-})
+	DogTag:AddTag("Unit", "FractionalStagger", {
+		alias = "Concatenate(Stagger(unit=unit), '/', MaxHP(unit=unit))",
+		arg = {
+			'unit', 'string;undef', 'player',
+		},
+		doc = L["Return the current stagger amount of unit"],
+		example = ('[Stagger] => "%d"'):format(UnitStagger("player")),
+		category = L["Power"]
+	})
+end
 
 
 DogTag:AddTag("Unit", "TypePower", {
@@ -416,6 +432,13 @@ local specialPowers = {
 		eventPowerIdentifier = "SOUL_SHARDS",
 	},
 	{
+		class = "WARLOCK",
+		tag = "SoulShardParts",
+		arg2 = SPELL_POWER_SOUL_SHARDS,
+		arg3 = true,
+		eventPowerIdentifier = "SOUL_SHARDS",
+	},
+	{
 		class = "PALADIN",
 		tag = "HolyPower",
 		arg2 = SPELL_POWER_HOLY_POWER,
@@ -460,14 +483,6 @@ if not wow_700 then -- Parnic: shadow orbs are no more in 7.0
 	}
 	specialPowers[#specialPowers + 1] =
 	{
-		class = "WARLOCK",
-		tag = "SoulShardParts",
-		arg2 = SPELL_POWER_SOUL_SHARDS,
-		arg3 = true,
-		eventPowerIdentifier = "SOUL_SHARDS",
-	}
-	specialPowers[#specialPowers + 1] =
-	{
 		class = "DRUID",
 		tag = "EclipsePower",
 		arg2 = SPELL_POWER_ECLIPSE,
@@ -493,7 +508,7 @@ for _, data in pairs(specialPowers) do
 	--local category = class == pclass and L["Power"] or nil
 	--local noDoc = class ~= pclass
 
-	local specialPowerEvents = "UNIT_POWER#player#" .. data.eventPowerIdentifier .. ";UNIT_MAXPOWER#player#" .. data.eventPowerIdentifier .. ";UNIT_DISPLAYPOWER#player"
+	local specialPowerEvents = "UNIT_POWER_UPDATE#player#" .. data.eventPowerIdentifier .. ";UNIT_MAXPOWER#player#" .. data.eventPowerIdentifier .. ";UNIT_DISPLAYPOWER#player"
 
 	DogTag:AddTag("Unit", tag, {
 		code = function()

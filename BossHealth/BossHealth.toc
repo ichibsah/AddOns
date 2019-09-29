@@ -1,0 +1,8 @@
+## Interface: 80000
+## Title: BossHealth
+## Notes: Boss Health Bars
+## Author: Saibantes
+## SavedVariablesPerCharacter: BossHealth_FramePos
+
+BossIDs.lua
+BossHealth.lua

@@ -1,6 +1,17 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("IceHUD", false)
 local PetMana = IceCore_CreateClass(IceUnitBar)
 
+local SPELL_POWER_RAGE = SPELL_POWER_RAGE
+local SPELL_POWER_FOCUS = SPELL_POWER_FOCUS
+local SPELL_POWER_ENERGY = SPELL_POWER_ENERGY
+local SPELL_POWER_RUNIC_POWER = SPELL_POWER_RUNIC_POWER
+if IceHUD.WowVer >= 80000 or IceHUD.WowClassic then
+	SPELL_POWER_RAGE = Enum.PowerType.Rage
+	SPELL_POWER_FOCUS = Enum.PowerType.Focus
+	SPELL_POWER_ENERGY = Enum.PowerType.Energy
+	SPELL_POWER_RUNIC_POWER = Enum.PowerType.RunicPower
+end
+
 -- Constructor --
 function PetMana.prototype:init()
 	PetMana.super.prototype.init(self, "PetMana", "pet")
@@ -51,13 +62,17 @@ function PetMana.prototype:Enable(core)
 	PetMana.super.prototype.Enable(self, core)
 
 	self:RegisterEvent("PET_UI_UPDATE",	 "CheckPet")
-	self:RegisterEvent("PLAYER_PET_CHANGED", "CheckPet")
-	self:RegisterEvent("PET_BAR_CHANGED", "CheckPet")
+	if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+		self:RegisterEvent("PLAYER_PET_CHANGED", "CheckPet")
+	end
+	self:RegisterEvent(IceHUD.WowVer < 80000 and not IceHUD.WowClassic and "PET_BAR_CHANGED" or "PET_BAR_UPDATE_USABLE", "CheckPet")
 	self:RegisterEvent("UNIT_PET", "CheckPet")
 
-	if IceHUD.WowVer >= 40000 then
-		self:RegisterEvent("UNIT_POWER", "UpdateEvent")
-		self:RegisterEvent("UNIT_MAXPOWER", "UpdateEvent")
+	if IceHUD.WowVer >= 40000 or IceHUD.WowClassic then
+		self:RegisterEvent(IceHUD.UnitPowerEvent, "UpdateEvent")
+		if IceHUD.WowVer < 80000 and not IceHUD.WowClassic then
+			self:RegisterEvent("UNIT_MAXPOWER", "UpdateEvent")
+		end
 	else
 		self:RegisterEvent("UNIT_MANA", "UpdateEvent")
 		self:RegisterEvent("UNIT_MAXMANA", "UpdateEvent")
@@ -71,9 +86,11 @@ function PetMana.prototype:Enable(core)
 
 	self:RegisterEvent("UNIT_DISPLAYPOWER", "ManaType")
 
-	self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
-	self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckVehicle")
+	if UnitHasVehicleUI then
+		self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnteringVehicle")
+		self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitingVehicle")
+	end
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringWorld")
 
 	self:CheckPet()
 	self:ManaType(nil, self.unit)
@@ -224,11 +241,15 @@ function PetMana.prototype:ExitingVehicle(event, unit)
 	end
 end
 
-function PetMana.prototype:CheckVehicle()
-	if UnitHasVehicleUI("player") then
-		self:EnteringVehicle(nil, "player", true)
-	else
-		self:ExitingVehicle(nil, "player")
+function PetMana.prototype:EnteringWorld()
+	self:Update(self.unit)
+
+	if UnitHasVehicleUI then
+		if UnitHasVehicleUI("player") then
+			self:EnteringVehicle(nil, "player", true)
+		else
+			self:ExitingVehicle(nil, "player")
+		end
 	end
 end
 

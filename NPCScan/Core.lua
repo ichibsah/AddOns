@@ -12,12 +12,14 @@ local table = _G.table
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
 local AddOnFolderName, private = ...
+local Data = private.Data
+local Enum = private.Enum
 
 local LibStub = _G.LibStub
-local NPCScan = LibStub("AceAddon-3.0"):NewAddon(AddOnFolderName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceBucket-3.0", "LibSink-2.0", "LibToast-1.0")
-local VL = LibStub("AceLocale-3.0"):GetLocale(AddOnFolderName .. "Vignette")
+
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-local HereBeDragons = LibStub("HereBeDragons-1.0")
+local HereBeDragons = LibStub("HereBeDragons-2.0")
+local NPCScan = LibStub("AceAddon-3.0"):NewAddon(AddOnFolderName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceBucket-3.0", "LibSink-2.0", "LibToast-1.0")
 
 -- ----------------------------------------------------------------------------
 -- Debugger.
@@ -54,20 +56,57 @@ end
 local NPCIDFromName = {}
 private.NPCIDFromName = NPCIDFromName
 
-local QuestNPCs = {}
-private.QuestNPCs = QuestNPCs
-
 local QuestIDFromName = {}
 private.QuestIDFromName = QuestIDFromName
-
-local VignetteNPCs = {}
-private.VignetteNPCs = VignetteNPCs
 
 -- ----------------------------------------------------------------------------
 -- AddOn Methods.
 -- ----------------------------------------------------------------------------
 function NPCScan:OnInitialize()
-	local db = LibStub("AceDB-3.0"):New("NPCScanDB", private.DatabaseDefaults, "Default")
+	-- ----------------------------------------------------------------------------
+	-- Data initialization
+	-- ----------------------------------------------------------------------------
+	local DefaultPreferences = private.DefaultPreferences
+	local UIMapType = _G.Enum.UIMapType
+
+	for _, achievementID in pairs(Enum.AchievementID) do
+		DefaultPreferences.profile.detection.achievementIDs[achievementID] = Enum.DetectionGroupStatus.Enabled
+	end
+
+	for _, continentID in pairs(Enum.ContinentID) do
+		local continent = Data.Continents[continentID]
+
+		if not continent then
+			continent = {
+				Maps = {}
+			}
+
+			Data.Continents[continentID] = continent
+		end
+
+		continent.ID = continentID
+		continent.name = HereBeDragons:GetLocalizedMap(Enum.ContinentMapID[continentID])
+
+		DefaultPreferences.profile.detection.continentIDs[continentID] = Enum.DetectionGroupStatus.Enabled
+	end
+
+	for mapID, map in pairs(Data.Maps) do
+		local continentInfo = _G.MapUtil.GetMapParentInfo(mapID, _G.Enum.UIMapType.Continent)
+		local continentID = continentInfo and Enum.MapContinentID[continentInfo.mapID] or Enum.ContinentID.Cosmic
+		local mapInfo = _G.C_Map.GetMapInfo(mapID)
+
+		if mapInfo.mapType == UIMapType.Dungeon or mapInfo.mapType == UIMapType.Orphan then
+			map.isDungeon = true
+		end
+
+		map.continentID = continentID
+		map.ID = mapID
+		map.name = HereBeDragons:GetLocalizedMap(mapID) or _G.UNKNOWN
+
+		Data.Continents[continentID].Maps[mapID] = map
+	end
+
+	local db = LibStub("AceDB-3.0"):New("NPCScanDB", DefaultPreferences, "Default")
 	db.RegisterCallback(self, "OnProfileChanged", "RefreshPreferences")
 	db.RegisterCallback(self, "OnProfileCopied", "RefreshPreferences")
 	db.RegisterCallback(self, "OnProfileReset", "RefreshPreferences")
@@ -97,146 +136,76 @@ function NPCScan:OnEnable()
 	-- ----------------------------------------------------------------------------
 	-- Build lookup tables.
 	-- ----------------------------------------------------------------------------
-	for mapID, npcs in pairs(private.MapNPCs) do
-		for npcID in pairs(npcs) do
-			local npcData = private.NPCData[npcID]
-			if not npcData then
-				npcData = {}
-				private.NPCData[npcID] = npcData
-			end
+	for mapID, map in pairs(Data.Maps) do
+		for npcID in pairs(map.NPCs) do
+			local npc = private.InitializeNPC(npcID)
 
-			npcData.mapIDs = npcData.mapIDs or {}
-			npcData.mapIDs[#npcData.mapIDs + 1] = mapID
-			npcData.npcID = npcID
+			map.NPCs[npcID] = npc
 
-			-- This sets values for NPCIDFromName, which is used for vignette detection.
-			self:GetNPCNameFromID(npcID)
+			npc.mapIDs = npc.mapIDs or {}
+			npc.mapIDs[#npc.mapIDs + 1] = mapID
+
+			table.sort(npc.mapIDs, private.SortByMapNameThenByID)
 		end
 	end
 
-	for npcID, data in pairs(private.NPCData) do
-		table.sort(data.mapIDs, private.SortByMapNameThenByID)
+	private.InitializeAchievements()
 
-		if data.questID then
-			local npcIDs = QuestNPCs[data.questID]
-			if not npcIDs then
-				npcIDs = {}
-				QuestNPCs[data.questID] = npcIDs
-			end
+	local hasChecked = {}
 
-			npcIDs[npcID] = true
-
-			local questName = NPCScan:GetQuestNameFromID(data.questID)
-			if questName and questName ~= _G.UNKNOWN then
-				QuestIDFromName[questName] = data.questID
-			end
-		end
-
-		if data.vignetteName then
-			local vignetteName = VL[data.vignetteName]
-
-			local npcIDs = VignetteNPCs[vignetteName]
-			if not npcIDs then
-				npcIDs = {}
-				VignetteNPCs[vignetteName] = npcIDs
-			end
-
-			npcIDs[npcID] = true
-		end
-	end
-
-	-- ----------------------------------------------------------------------------
-	-- Assign Achievement ID to appropriate NPCData entry.
-	-- ----------------------------------------------------------------------------
-	local CriteriaType = {
-		NPCKill = 0,
-		Quest = 27,
-		Spell = 28,
+	local questMapIDs = {
+		[Enum.MapID.Argus] = true,
+		[Enum.MapID.BrokenIsles] = true,
+		[Enum.MapID.KulTiras] = true,
+		[Enum.MapID.Zandalar] = true,
 	}
 
-	local missingNPCs = {}
+	local vignetteMapIDs = {
+		[Enum.MapID.Argus] = true,
+		[Enum.MapID.BrokenIsles] = true,
+		[Enum.MapID.Draenor] = true,
+		[Enum.MapID.KulTiras] = true,
+		[Enum.MapID.Pandaria] = true,
+		[Enum.MapID.Zandalar] = true,
+	}
 
-	for achievementID, achievement in pairs(private.AchievementData) do
-		achievement.ID = achievementID
+	for mapID, map in pairs(Data.Maps) do
+		local continent = _G.MapUtil.GetMapParentInfo(mapID, _G.Enum.UIMapType.Continent, true)
 
-		table.wipe(missingNPCs)
-
-		for criteriaIndex = 1, _G.GetAchievementNumCriteria(achievementID) do
-			local assetName, criteriaType, isCriteriaCompleted, _, _, _, _, assetID, _, criteriaID = _G.GetAchievementCriteriaInfo(achievementID, criteriaIndex)
-			local _, _, _, isAchievementCompleted = _G.GetAchievementInfo(achievementID)
-
-			achievement.isCompleted = isAchievementCompleted
-
-			if criteriaType == CriteriaType.NPCKill then
-				if assetID > 0 then
-					local found
-					for mapID, npcIDs in pairs(private.MapNPCs) do
-						if npcIDs[assetID] then
-							found = true
-							break;
-						end
-					end
-
-					if found then
-						local npcData = private.NPCData[assetID]
-						npcData.achievementID = achievementID
-						npcData.achievementCriteriaID = criteriaID
-						npcData.isCriteriaCompleted = isCriteriaCompleted
-
-						achievement.criteriaNPCs[assetID] = true
-					else
-						missingNPCs[#missingNPCs + 1] = ("\n [%s] = true, -- %s"):format(assetID, assetName)
-					end
-				end
-			elseif criteriaType == CriteriaType.Quest then
-				if QuestNPCs[assetID] then
-					for npcID in pairs(QuestNPCs[assetID]) do
-						local npcData = private.NPCData[npcID]
-						npcData.achievementID = achievementID
-						npcData.achievementCriteriaID = criteriaID
-						npcData.isCriteriaCompleted = isCriteriaCompleted
-
-						achievement.criteriaNPCs[npcID] = true
-					end
-				else
-					private.Debug("***** AchievementID.%s: Quest %s with assetID %d", private.AchievementLabel[achievementID], assetName, assetID)
-				end
-			elseif criteriaType == CriteriaType.Spell then
-				-- Ignore this for now.
-			else
-				private.Debug("***** AchievementID.%s: Unknown criteria type %d, assetID %d", private.AchievementLabel[achievementID], criteriaType, assetID)
-			end
-		end
-
-		if #missingNPCs > 0 then
-			private.Debug("***** AchievementID.%s: Missing MapNPCs entry.", private.AchievementLabel[achievementID])
-
-			for index = 1, #missingNPCs do
-				private.Debug(missingNPCs[index])
-			end
-
-			private.Debug("*****")
-		end
-	end
-
-	for mapID, npcs in pairs(private.MapNPCs) do
+		local missingData = {}
 		local mapHeaderPrinted
 
-		for npcID in pairs(npcs) do
-			if mapID >= 1015 then
-				local npcData = private.NPCData[npcID]
+		for npcID in pairs(map.NPCs) do
+			local npc = map.NPCs[npcID]
 
-				if not npcData.questID and not npcData.achievementID then
-					if not mapHeaderPrinted then
-						mapHeaderPrinted = true
-						private.Debug("-- ----------------------------------------------------------------------------")
-						private.Debug("-- %s (%d)", HereBeDragons:GetLocalizedMap(mapID), mapID)
-						private.Debug("-- ----------------------------------------------------------------------------")
-					end
+			if not hasChecked[npcID] then
+				local questID = npc.questID or npc.achievementQuestID
 
-					private.Debug("NPC %d (%s) has no questID.", npcID, self:GetNPCNameFromID(npcID))
+				if not questID and (not continent or questMapIDs[continent.mapID]) then
+					missingData[npcID] = "questID"
 				end
+
+				if not npc.vignetteID and (not continent or vignetteMapIDs[continent.mapID]) then
+					if missingData[npcID] then
+						missingData[npcID] = ("%s, vignetteID"):format(missingData[npcID])
+					else
+						missingData[npcID] = "vignetteID"
+					end
+				end
+
+				hasChecked[npcID] = true
 			end
+		end
+
+		for npcID, missingText in pairs(missingData) do
+			if not mapHeaderPrinted then
+				mapHeaderPrinted = true
+				private.Debug("-- ----------------------------------------------------------------------------")
+				private.Debug("-- %s (%d)", HereBeDragons:GetLocalizedMap(mapID) or _G.UNKNOWN, mapID)
+				private.Debug("-- ----------------------------------------------------------------------------")
+			end
+
+			private.Debug("NPC %d (%s) is missing: %s.", npcID, self:GetNPCNameFromID(npcID), missingText)
 		end
 	end
 
@@ -251,10 +220,11 @@ function NPCScan:OnEnable()
 	self:RegisterBucketEvent("CRITERIA_UPDATE", 5)
 	self:RegisterEvent("LOOT_CLOSED")
 	self:RegisterEvent("NAME_PLATE_UNIT_ADDED")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-	self:RegisterEvent("VIGNETTE_ADDED")
-	self:RegisterBucketEvent("WORLD_MAP_UPDATE", 0.5)
+	self:RegisterEvent("VIGNETTE_MINIMAP_UPDATED")
+	self:RegisterBucketEvent("VIGNETTES_UPDATED", 0.5)
 
 	HereBeDragons.RegisterCallback(NPCScan, "PlayerZoneChanged", "UpdateScanList")
 
@@ -275,7 +245,7 @@ do
 		if not npcName then
 			DatamineTooltip:SetHyperlink(("unit:Creature-0-0-0-0-%d"):format(npcID))
 
-			npcName = _G['NPCScanDatamineTooltipTextLeft1']:GetText()
+			npcName = _G["NPCScanDatamineTooltipTextLeft1"]:GetText()
 
 			if npcName and npcName ~= "" then
 				private.db.locale.npcNames[npcID] = npcName
@@ -294,7 +264,7 @@ do
 		if not questName then
 			DatamineTooltip:SetHyperlink(("quest:%d"):format(questID))
 
-			questName = _G['NPCScanDatamineTooltipTextLeft1']:GetText()
+			questName = _G["NPCScanDatamineTooltipTextLeft1"]:GetText()
 
 			if questName and questName ~= "" then
 				private.db.locale.questNames[questID] = questName
@@ -311,54 +281,55 @@ end
 do
 	local SUBCOMMAND_FUNCS
 
-	function NPCScan:ChatCommand(input)
-		SUBCOMMAND_FUNCS = SUBCOMMAND_FUNCS or {
-			ADD = private.AddUserDefinedNPC,
-			REMOVE = private.RemoveUserDefinedNPC,
-			SEARCH = function(subject)
-				AceConfigDialog:Open(AddOnFolderName)
-				AceConfigDialog:SelectGroup(AddOnFolderName, "npcOptions", "search")
-				private.PerformNPCSearch(subject)
-			end,
-			--[===[@debug@
-			DEBUG = function()
-				local debugger = private.GetDebugger()
+	 function NPCScan:ChatCommand(input)
+		SUBCOMMAND_FUNCS =
+			SUBCOMMAND_FUNCS or
+			{
+				ADD = private.AddUserDefinedNPC,
+				COMPARE = private.CompareData,
+				REMOVE = private.RemoveUserDefinedNPC,
+				SEARCH = function(subject)
+					AceConfigDialog:Open(AddOnFolderName)
+					AceConfigDialog:SelectGroup(AddOnFolderName, "npcOptions", "search")
+					private.PerformNPCSearch(subject)
+				end,
+				--[===[@debug@
+				DEBUG = function()
+					local debugger = private.GetDebugger()
 
-				if debugger:Lines() == 0 then
-					debugger:AddLine("Nothing to report.")
+					if debugger:Lines() == 0 then
+						debugger:AddLine("Nothing to report.")
+						debugger:Display()
+						debugger:Clear()
+						return
+					end
+
 					debugger:Display()
-					debugger:Clear()
-					return
-				end
+				end,
+				DUMP = function(dumpType, parameters)
+					local func = private.DUMP_COMMANDS[dumpType]
 
-				debugger:Display()
-			end,
-			DUMP = function(arguments)
-				local dumpType, arguments = NPCScan:GetArgs(arguments, 2)
+					if func then
+						private.TextDump = private.TextDump or _G.LibStub("LibTextDump-1.0"):New(AddOnFolderName)
+						func(parameters)
+					else
+						NPCScan:Print("Unknown dump command. Valid commands:")
 
-				local func = private.DUMP_COMMANDS[dumpType]
-
-				if func then
-					private.TextDump = private.TextDump or _G.LibStub("LibTextDump-1.0"):New(AddOnFolderName)
-					func(arguments)
-				else
-					NPCScan:Print("Unknown dump command. Valid commands:")
-
-					for command in pairs(private.DUMP_COMMANDS) do
-						NPCScan:Printf("     %s", command)
+						for command in pairs(private.DUMP_COMMANDS) do
+							NPCScan:Printf("     %s", command)
+						end
 					end
 				end
-			end,
-			--@end-debug@]===]
-		}
+				--@end-debug@]===]
+			}
 
-		local subcommand, arguments = self:GetArgs(input, 2)
+		local subcommand, arg1, arg2 = self:GetArgs(input, 3)
 
 		if subcommand then
 			local func = SUBCOMMAND_FUNCS[subcommand:upper()]
 
 			if func then
-				func(arguments or "")
+				func(arg1, arg2)
 			end
 		else
 			AceConfigDialog:Open(AddOnFolderName)

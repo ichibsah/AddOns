@@ -1,8 +1,8 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John
@@ -12,7 +12,7 @@
     www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is
     required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
@@ -20,7 +20,7 @@
     Decursive is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY.
 
-    This file was last updated on 2014-10-13T14:20:46Z
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -72,8 +72,8 @@ T._LoadedFiles["frFR.lua"] = false;
 
 local L = LibStub("AceLocale-3.0"):NewLocale("Decursive", "frFR");
 
-if not L then 
-    T._LoadedFiles["frFR.lua"] = "2.7.5.6";
+if not L then
+    T._LoadedFiles["frFR.lua"] = "2.7.6.4";
     return;
 end
 
@@ -114,9 +114,9 @@ L["COLORSTATUS"] = "Règle la couleur du statut '%s'."
 L["CTRL"] = "Ctrl"
 L["CURE_PETS"] = "Contrôler et guérir les familiers"
 L["CURSE"] = "Malédiction"
-L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Merci d'envoyer par email le contenu de cette fenêtre à <Archarodim+DcrReport@teaser.fr>|r
+L["DEBUG_REPORT_HEADER"] = [=[|cFF11FF33Merci d'envoyer par email le contenu de cette fenêtre à <%s>|r
 |cFF009999(Faire CTRL+A pour tout sélectionner et CTRL+C pour le copier dans votre "presse papier")|r
-Dîtes également dans votre rapport si vous avez remarqué un comportement étrange de Decursive.
+Dîtes également dans votre rapport si vous avez remarqué un comportement étrange de %s.
 ]=]
 L["DECURSIVE_DEBUG_REPORT"] = "**** |cFFFF0000Rapport de debuggage de Decursive|r ****"
 L["DECURSIVE_DEBUG_REPORT_BUT_NEW_VERSION"] = [=[|cFF11FF33Decursive s'est planté ! Mais n'ayez crainte ! Une NOUVELLE version de Decursive a été détectée (%s). Il suffit simplement de vous mettre à jour. Aller sur Curse.com et chercher 'Decursive' ou utilisez le client de Curse.com, Il mettra à jour tous vos add-ons préférés automatiquement.|r
@@ -281,6 +281,11 @@ Notez que les sorts par défaut gérés par Decursive ont une priorité allant d
 
 Ainsi, si vous donnez une priorité négative à l'un de vos sort, il ne sera choisi que si le sort par défaut n'est pas disponible.]=]
 L["OPT_CUSTOM_SPELL_UNAVAILABLE"] = "indisponible"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER"] = "Filtrage"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_DESC"] = "Sélectionnez les unités qui peuvent bénéficier de cette technique"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_NONE"] = "Toutes les unités"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_NONPLAYER"] = "Les autres seulement"
+L["OPT_CUSTOM_SPELL_UNIT_FILTER_PLAYER"] = "Seulement sois-même"
 L["OPT_CUSTOMSPELLS"] = "Sorts / objets personnalisés"
 L["OPT_CUSTOMSPELLS_DESC"] = [=[Ici vous pouvez ajouter des sorts pour étendre la configuration automatique de Decursive.
 Vos sorts personnalisés auront toujours une priorité plus élevée et remplaceront systématiquement les sorts par défaut (si et seulement si votre personnage peut utiliser ces sorts)]=]
@@ -486,4 +491,4 @@ L["UNSTABLERELEASE"] = "Version instable"
 
 
 
-T._LoadedFiles["frFR.lua"] = "2.7.5.6";
+T._LoadedFiles["frFR.lua"] = "2.7.6.4";

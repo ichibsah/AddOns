@@ -1,8 +1,8 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John
@@ -12,7 +12,7 @@
     www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is
     required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
@@ -20,7 +20,7 @@
     Decursive is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY.
 
-    This file was last updated on 2014-10-13T14:20:46Z
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -71,8 +71,8 @@ end
 
 local L = LibStub("AceLocale-3.0"):NewLocale("Decursive", "ptBR");
 
-if not L then 
-    T._LoadedFiles["ptBR.lua"] = "2.7.5.6";
+if not L then
+    T._LoadedFiles["ptBR.lua"] = "2.7.6.4";
     return;
 end
 
@@ -119,5 +119,5 @@ L["STR_DCR_PRIO"] = "Prioridade do Decursive"
 
 
 
-T._LoadedFiles["ptBR.lua"] = "2.7.5.6";
+T._LoadedFiles["ptBR.lua"] = "2.7.6.4";
 

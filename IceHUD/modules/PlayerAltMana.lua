@@ -6,6 +6,13 @@ PlayerAltMana.prototype.PlayerAltManaMax = nil
 
 local _, unitClass = UnitClass("player")
 
+local SPELL_POWER_MANA = SPELL_POWER_MANA
+local SPELL_POWER_INSANITY = SPELL_POWER_INSANITY
+if IceHUD.WowVer >= 80000 or IceHUD.WowClassic then
+	SPELL_POWER_MANA = Enum.PowerType.Mana
+	SPELL_POWER_INSANITY = Enum.PowerType.Insanity
+end
+
 -- Constructor --
 function PlayerAltMana.prototype:init()
 	PlayerAltMana.super.prototype.init(self, "PlayerAltMana", "player")
@@ -76,12 +83,23 @@ function PlayerAltMana.prototype:Update()
 
 	self.PlayerAltMana = UnitPower(self.unit, SPELL_POWER_MANA)
 	self.PlayerAltManaMax = UnitPowerMax(self.unit, SPELL_POWER_MANA)
+	self.PlayerAltManaPercentage = self.PlayerAltManaMax ~= 0 and (self.PlayerAltMana/self.PlayerAltManaMax) or 0
 
 	if (not self.alive or not ShouldShow(self.unit) or not self.PlayerAltMana or not self.PlayerAltManaMax or self.PlayerAltManaMax == 0) then
 		self:Show(false)
 		return
 	else
 		self:Show(true)
+	end
+
+	if not IceHUD.IceCore:ShouldUseDogTags() and self.frame:IsVisible() then
+		self:SetBottomText1(math.floor(self.PlayerAltManaPercentage * 100))
+
+		if (self.PlayerAltManaMax ~= 100) then
+			self:SetBottomText2(self:GetFormattedText(self:Round(self.PlayerAltMana), self:Round(self.PlayerAltManaMax)), "PlayerMana")
+		else
+			self:SetBottomText2()
+		end
 	end
 
 	self:UpdateBar(self.PlayerAltManaMax ~= 0 and self.PlayerAltMana / self.PlayerAltManaMax or 0, "PlayerAltMana")

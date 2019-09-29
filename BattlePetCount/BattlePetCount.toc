@@ -1,6 +1,6 @@
-## Interface: 70300
+## Interface: 80000
 ## Title: BattlePetCount
-## Version: 1.8.15
+## Version: 1.8.16
 ## Notes: Indicate how many and what quality battle pets you have.
 ## Author: End
 ## X-Email: end@cornhooves.org

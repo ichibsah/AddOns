@@ -19,6 +19,11 @@ for _, v in ipairs(RtBBuffs) do
   RtBSet[v] = true
 end
 
+local SPELL_POWER_COMBO_POINTS = SPELL_POWER_COMBO_POINTS
+if IceHUD.WowVer >= 80000 or IceHUD.WowClassic then
+  SPELL_POWER_COMBO_POINTS = Enum.PowerType.ComboPoints
+end
+
 -- Constructor --
 function RollTheBones.prototype:init()
   RollTheBones.super.prototype.init(self, "RollTheBones", "player")
@@ -30,6 +35,8 @@ function RollTheBones.prototype:init()
   self:SetDefaultColor("RollTheBones", 1, 0.6, 0.2)
   self:SetDefaultColor("RollTheBones2", 0.75, 1, 0.2)
   self:SetDefaultColor("RollTheBones3", 0.4, 1, 0.2)
+  self:SetDefaultColor("RollTheBones4", 0.4, 1, 0.2)
+  self:SetDefaultColor("RollTheBones5", 0.1, 1, 0.7)
   self:SetDefaultColor("RollTheBones6", 0.1, 1, 0.7)
   self:SetDefaultColor("RollTheBonesPotential", 1, 1, 1)
 
@@ -43,7 +50,7 @@ function RollTheBones.prototype:Enable(core)
   RollTheBones.super.prototype.Enable(self, core)
 
   self:RegisterEvent("UNIT_AURA", "UpdateRollTheBones")
-  self:RegisterEvent("UNIT_POWER", "ComboPointsChanged")
+  self:RegisterEvent(IceHUD.UnitPowerEvent, "ComboPointsChanged")
 
   if not self.moduleSettings.alwaysFullAlpha then
     self:Show(false)
@@ -59,7 +66,7 @@ function RollTheBones.prototype:Disable(core)
 end
 
 function RollTheBones.prototype:ComboPointsChanged(...)
-  if select('#', ...) >= 3 and select(1, ...) == "UNIT_POWER" and select(3, ...) ~= "COMBO_POINTS" then
+  if select('#', ...) >= 3 and select(1, ...) == IceHUD.UnitPowerEvent and select(3, ...) ~= "COMBO_POINTS" then
     return
   end
 
@@ -212,8 +219,12 @@ end
 
 function RollTheBones.prototype:GetBuffDuration(unitName, ids)
   local i = 1
-  local buff, rank, texture, type, duration, endTime, remaining, spellId
-  buff, _, _, _, type, duration, endTime, _, _, _, spellId = UnitBuff(unitName, i)
+  local buff, _, type, duration, endTime, spellId
+  if IceHUD.WowVer < 80000 then
+    buff, _, _, _, type, duration, endTime, _, _, _, spellId = UnitBuff(unitName, i)
+  else
+    buff, _, _, type, duration, endTime, _, _, _, spellId = UnitBuff(unitName, i)
+  end
 
   local realDuration, remaining, count
   local now = GetTime()
@@ -230,7 +241,11 @@ function RollTheBones.prototype:GetBuffDuration(unitName, ids)
 
     i = i + 1;
 
-    buff, _, _, _, type, duration, endTime, _, _, _, spellId = UnitBuff(unitName, i)
+    if IceHUD.WowVer < 80000 then
+      buff, _, _, _, type, duration, endTime, _, _, _, spellId = UnitBuff(unitName, i)
+    else
+      buff, _, _, type, duration, endTime, _, _, _, spellId = UnitBuff(unitName, i)
+    end
 
   end
 

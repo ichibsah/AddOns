@@ -1,3 +1,82 @@
+v1.12.5:
+- (Classic) Disabled GCD module as the Classic client doesn't support tracking GCD.
+- (Classic) Packaged new LibDogTag-Unit to pick up Happiness tag fixes.
+
+v1.12.4:
+- Fixed spellcast failure events on the castbar not being handled properly. (thanks, Fulzamoth!)
+
+v1.12.3:
+- (Classic) Added support for RealMobHealth on the TargetHealth module when DogTags are disabled. (thanks, TwentyOneZ!)
+- (Classic) Added support for LibClassicDurations on the TargetInfo module to show (de)buff durations when the lib is installed. (thanks, Fulzamoth!)
+
+v1.12.2:
+- (Classic) Fixed error when changing profiles or disabling IceHUD
+
+v1.12.1:
+- (Classic) Fixed energy ticker resetting when spending energy.
+- (Classic) Fixed stack counters throwing errors and generally not functioning.
+- (Classic) Disabled target and target-of-target castbars. Added a note to the FAQ as to why.
+
+v1.12.0:
+- Initial WoW Classic compatibility
+
+v1.11.11:
+- Updated TOC to 8.2
+
+v1.11.10:
+- Fixed pet health/power not updating every time it was supposed to.
+
+v1.11.9:
+- Fixed player health never quite reaching full (and therefore never adhering to "full" alpha settings). It seems like a WoW client patch caused UNIT_MAXHEALTH to stop firing.
+
+v1.11.8:
+- Updated TOC to 8.1
+
+v1.11.7:
+- Fixed Warlock shard numeric formatting incorrectly in non-Destruction specs.
+- Possibly fixed reported bug with Brewmaster Monks' Stagger bars.
+- Added several spells to be tracked in the CC modules.
+
+v1.11.6:
+- Only show placeholder icon on custom bars when in configuration mode (fixes placeholder icon showing up for abilities the player hasn't enabled yet, like Survival Hunter's Bombs).
+- Fixed Custom Cooldown bars not displaying properly when both "ignore range" and "only show with target" were checked.
+
+v1.11.5:
+- Added Rogue's Between the Eyes stun to the CC stun bar list.
+- Added option (enabled by default) to hide mod during shell games.
+- Packaged new LibDogTag-Unit to fix hostile NPC class names displaying in all caps.
+
+v1.11.4:
+- Fixed cast lag indicator updating randomly mid-cast.
+
+v1.11.3:
+- Balance druids with Nature's Wrath now treat 50-100 astral power as full for alpha purposes (so the bar will fade to "out of combat" levels when resting around 50%).
+- Fixed the GCD and player castbar lag indicator to show up again.
+- Fixed a longstanding bug where the castbar lag indicator would sometimes be the size of the full bar if the mod never received the client-side "started casting" notification.
+- Improved reliability of castbar lag indicator. Blizzard doesn't offer the necessary events to display this with 100% certainty.
+- Fixed an error caused by the Runes module when toggling "Hide Blizzard Frame" off.
+
+v1.11.2:
+- Fixed Stagger bar to work in 8.0
+- Fixed DK Runes in graphical mode not always correctly showing runes on cooldown (curse ticket 238, thanks ithorazei!)
+- Renamed HarmonyPower module to Chi and moved saved settings over
+
+v1.11.1:
+- Fixed error when playing as a Monk
+- Fixed castbar sometimes showing gibberish text and sometimes disappearing when the cast wasn't complete yet
+
+v1.11.0:
+- Updated TOC for 8.0
+
+v1.10.18:
+- BfA compatibility
+- Added gap setting between upper and lower text (github pull request #1, thanks lrds!)
+- Fixed Roll the Bones coloring when gaining 5 buffs.
+
+v1.10.17:
+- Fixed Insanity display with DogTags disabled
+- Show text on Absorb and AltMana with DogTags disabled
+
 v1.10.16.1:
 - Added option to hide the raid icon for Info frames.
 - Updated TOC for 7.3

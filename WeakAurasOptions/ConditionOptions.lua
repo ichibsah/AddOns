@@ -6,18 +6,21 @@
 -- [] Trigger number
 --   [] Condition name
 --      - display: Display Name
---      - type: Type, e.g. "select", "number", "timer"
---      - values: (only for "select")
+--      - type: Type, e.g. "select", "number", "timer", "unit"
+--      - values: (only for "select" and "unit")
 --      - test: a test function template
 
 -- Conditions + Changes: Actually active settings on a aura
 -- Datastructure:
 -- [] Index
 --    - check
---      - trigger: Trigger number
+--      - trigger: Trigger number. Negative values indicate a special check:
+--          -1: Global conditions
+--          -2: Combinator
 --      - variable: Variable inside the trigger state to check
 --      - op: Operator to use for check
 --      - value: Value to check
+--      - checks: Sub Checks for Combinations, each containg trigger, variable, op, value or checks
 --      - (for merged) references
 --          - id => conditionIndex
 --               => op
@@ -41,7 +44,7 @@
 --   - setter: The setter function, called both on activating and deactivating a property change
 ---  - action: The action function, called on activating a condition
 --   - type: The type
-
+if not WeakAuras.IsCorrectVersion() then return end
 
 local WeakAuras = WeakAuras;
 local L = WeakAuras.L;
@@ -54,7 +57,7 @@ local function addSpace(args, order)
     name = "",
     image = function() return "", 0, 0 end,
     order = order,
-    width = "normal"
+    width = WeakAuras.normalWidth
   }
   order = order + 1;
   return order;
@@ -66,7 +69,7 @@ local function addHalfSpace(args, order)
     name = "",
     image = function() return "", 0, 0 end,
     order = order,
-    width = "half"
+    width = WeakAuras.halfWidth
   }
   order = order + 1;
   return order;
@@ -201,9 +204,9 @@ local function wrapWithPlaySound(func, kit)
   return function(info, v)
     func(info, v);
     if (tonumber(v)) then
-      PlaySound(tonumber(v), "Master");
+      pcall(PlaySound, tonumber(v), "Master");
     else
-      PlaySoundFile(v, "Master");
+      pcall(PlaySoundFile, v, "Master");
     end
   end
 end
@@ -214,10 +217,12 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
   local valuesForProperty = filterUsedProperties(allProperties.indexToProperty, display, usedProperties, conditions[i].changes[j].property);
   args["condition" .. i .. "property" .. j] = {
     type = "select",
+    width = WeakAuras.normalWidth,
     name = blueIfSubset(data, conditions[i].changes[j]) .. thenText,
     desc = descIfSubset(data, conditions[i].changes[j]),
     order = order,
     values = valuesForProperty,
+    control = "WeakAurasTwoColumnDropdown",
     get = function()
       local property = conditions[i].changes[j].property;
       return property and allProperties.propertyToIndex[property];
@@ -271,25 +276,20 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
         return;
       end
 
+      local default = allProperties.propertyMap[property].default;
       if (data.controlledChildren) then
         for id, reference in pairs(conditions[i].changes[j].references) do
           local auraData = WeakAuras.GetData(id);
           local conditionIndex = conditions[i].check.references[id].conditionIndex;
           auraData[conditionVariable][conditionIndex].changes[reference.changeIndex].property = property;
-          auraData[conditionVariable][conditionIndex].changes[reference.changeIndex].value = nil;
+          auraData[conditionVariable][conditionIndex].changes[reference.changeIndex].value = default;
           WeakAuras.Add(auraData);
         end
         conditions[i].changes[j].property = property;
         WeakAuras.ReloadTriggerOptions(data);
       else
-        local oldType;
-        if (conditions[i].changes[j].property) then
-          oldType = allProperties.propertyMap[conditions[i].changes[j].property] and allProperties.propertyMap[conditions[i].changes[j].property].type;
-        end
         conditions[i].changes[j].property = property;
-        if (oldType ~= allProperties.propertyMap[property].type) then
-          conditions[i].changes[j].value = nil;
-        end
+        conditions[i].changes[j].value = default;
         WeakAuras.Add(data);
         WeakAuras.ReloadTriggerOptions(data);
       end
@@ -381,6 +381,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
   if (propertyType == "bool" or propertyType == "number") then
     args["condition" .. i .. "value" .. j] = {
       type = "toggle",
+      width = WeakAuras.normalWidth,
       name = blueIfNoValue(data, conditions[i].changes[j], "value", L["Differences"]),
       desc = descIfNoValue(data, conditions[i].changes[j], "value", propertyType),
       order = order,
@@ -400,6 +401,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
         args["condition" .. i .. "value" .. j].softMax = properties.softMax;
         args["condition" .. i .. "value" .. j].step = properties.step;
         args["condition" .. i .. "value" .. j].bigStep = properties.bigStep;
+        args["condition" .. i .. "value" .. j].isPercent = properties.isPercent;
       else
         args["condition" .. i .. "value" .. j].type = "input";
         args["condition" .. i .. "value" .. j].validate = WeakAuras.ValidateNumeric;
@@ -408,6 +410,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
   elseif (propertyType == "color") then
     args["condition" .. i .. "value" .. j] = {
       type = "color",
+      width = WeakAuras.normalWidth,
       name = blueIfNoValue(data, conditions[i].changes[j], "value", L["Differences"]),
       desc = descIfNoValue(data, conditions[i].changes[j], "value", propertyType),
       order = order,
@@ -416,7 +419,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
         if (conditions[i].changes[j].value and type(conditions[i].changes[j].value) == "table") then
           return conditions[i].changes[j].value[1], conditions[i].changes[j].value[2], conditions[i].changes[j].value[3], conditions[i].changes[j].value[4];
         end
-        return nil;
+        return 1, 1, 1, 1;
       end,
       set = setValueColor
     }
@@ -425,6 +428,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
     local values = property and allProperties.propertyMap[property] and allProperties.propertyMap[property].values;
     args["condition" .. i .. "value" .. j] = {
       type = "select",
+      width = WeakAuras.normalWidth,
       values = values,
       name = blueIfNoValue(data, conditions[i].changes[j], "value", L["Differences"]),
       desc = descIfNoValue(data, conditions[i].changes[j], "value", propertyType, values),
@@ -438,6 +442,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
   elseif (propertyType == "sound") then
     args["condition" .. i .. "value" .. j .. "sound_type"] = {
       type = "select",
+      width = WeakAuras.normalWidth,
       values = WeakAuras.sound_condition_types,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "sound_type", L["Differences"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "sound_type", propertyType, WeakAuras.sound_condition_types),
@@ -466,6 +471,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "sound"] = {
       type = "select",
+      width = WeakAuras.normalWidth,
       values = WeakAuras.sound_types,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "sound", L["Differences"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "sound", propertyType, WeakAuras.sound_types),
@@ -481,6 +487,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "sound_channel"] = {
       type = "select",
+      width = WeakAuras.normalWidth,
       values = WeakAuras.sound_channel_types,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "sound_channel", L["Sound Channel"], L["Sound Channel"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "sound_channel", propertyType, WeakAuras.sound_channel_types),
@@ -495,6 +502,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "sound_repeat"] = {
       type = "range",
+      width = WeakAuras.normalWidth,
       min = 0,
       softMax = 60,
       bigStep = 1,
@@ -512,6 +520,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "sound_repeat_space"] = {
       type = "description",
+      width = WeakAuras.normalWidth,
       name = "",
       order = order,
       hidden = function() return not (anySoundType("Loop")) end
@@ -535,7 +544,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "sound_path"] = {
       type = "input",
-      width = "double",
+      width = WeakAuras.doubleWidth,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "sound_path", L["Sound File Path"], L["Sound File Path"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "sound_path", propertyType),
       order = order,
@@ -549,7 +558,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "sound_kit_id"] = {
       type = "input",
-      width = "double",
+      width = WeakAuras.doubleWidth,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "sound_kit_id", L["Sound Kit ID"], L["Sound Kit ID"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "sound_kit_id", propertyType),
       order = order,
@@ -565,6 +574,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
   elseif (propertyType == "chat") then
     args["condition" .. i .. "value" .. j .. "message type"] = {
       type = "select",
+      width = WeakAuras.normalWidth,
       values = WeakAuras.send_chat_message_types,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "message_type", L["Differences"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "message_type", propertyType, WeakAuras.send_chat_message_types),
@@ -594,6 +604,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "message dest"] = {
       type = "input",
+      width = WeakAuras.normalWidth,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "message_dest", L["Send To"], L["Send To"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "message_dest", propertyType),
       order = order,
@@ -609,6 +620,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "message channel"] = {
       type = "input",
+      width = WeakAuras.normalWidth,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "message_channel", L["Channel Number"], L["Channel Number"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "message_channel", propertyType),
       order = order,
@@ -624,12 +636,12 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     local descMessage = descIfNoValue2(data, conditions[i].changes[j], "value", "message", propertyType);
     if (not descMessage and data ~= WeakAuras.tempGroup) then
-      descMessage = L["Dynamic text tooltip"] .. WeakAuras.GetAdditionalProperties(data);
+      descMessage = L["Dynamic text tooltip"] .. WeakAuras.GetAdditionalProperties(data)
     end
 
     args["condition" .. i .. "value" .. j .. "message"] = {
       type = "input",
-      width = "double",
+      width = WeakAuras.doubleWidth,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "message", L["Message"], L["Message"]),
       desc = descMessage,
       order = order,
@@ -640,49 +652,48 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
     }
     order = order + 1;
 
-    local function customHiden()
+    local function customHidden()
       local message = type(conditions[i].changes[j].value) == "table" and conditions[i].changes[j].value.message;
       if (not message) then return true; end
-      return not WeakAuras.ContainsPlaceHolders(message, "c");
+      return not WeakAuras.ContainsCustomPlaceHolder(message);
     end
 
     args["condition" .. i .. "value" .. j .. "custom"] = {
       type = "input",
-      width = "normal",
+      width = WeakAuras.doubleWidth,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "custom", L["Custom Code"], L["Custom Code"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "custom", propertyType),
       order = order,
       multiline = true,
-      hidden = customHiden,
+      hidden = customHidden,
       get = function()
         return type(conditions[i].changes[j].value) == "table" and conditions[i].changes[j].value.custom;
       end,
       control = "WeakAurasMultiLineEditBox",
-      set = setValueComplex("custom")
+      set = setValueComplex("custom"),
+      arg = {
+        extraFunctions = {
+          {
+            buttonLabel = L["Expand"],
+            func = function()
+              if (data.controlledChildren) then
+                -- Collect multi paths
+                local multipath = {};
+                for id, reference in pairs(conditions[i].changes[j].references) do
+                  local conditionIndex = conditions[i].check.references[id].conditionIndex;
+                  local changeIndex = reference.changeIndex;
+                  multipath[id] = {"conditions", conditionIndex, "changes", changeIndex, "value", "custom"};
+                end
+                WeakAuras.OpenTextEditor(data, multipath, nil, true);
+              else
+                WeakAuras.OpenTextEditor(data, {"conditions", i, "changes", j, "value", "custom"});
+              end
+            end
+          }
+        }
+      }
     }
-    order = order + 1;
 
-    args["condition" .. i .. "value" .. j .. "custom_expand"] = {
-      type = "execute",
-      order = order,
-      name = L["Expand Text Editor"],
-      func = function()
-        if (data.controlledChildren) then
-          -- Collect multi paths
-          local multipath = {};
-          for id, reference in pairs(conditions[i].changes[j].references) do
-            local conditionIndex = conditions[i].check.references[id].conditionIndex;
-            local changeIndex = reference.changeIndex;
-            multipath[id] = {"conditions", conditionIndex, "changes", changeIndex, "value", "custom"};
-            print("Adding path", id, conditionIndex, changeIndex);
-          end
-          WeakAuras.OpenTextEditor(data, multipath, nil, true);
-        else
-          WeakAuras.OpenTextEditor(data, {"conditions", i, "changes", j, "value", "custom"});
-        end
-      end,
-      hidden = customHiden
-    }
     order = order + 1;
 
     args["condition" .. i .. "value" .. j .. "custom_error"] = {
@@ -695,7 +706,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
         local _, errorString = loadstring("return  " .. custom);
         return errorString and "|cFFFF0000"..errorString or "";
       end,
-      width = "double",
+      width = WeakAuras.doubleWidth,
       order = order,
       hidden = function()
         local message = type(conditions[i].changes[j].value) == "table" and conditions[i].changes[j].value.message;
@@ -727,7 +738,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
 
     args["condition" .. i .. "value" .. j .. "custom"] = {
       type = "input",
-      width = "normal",
+      width = WeakAuras.doubleWidth,
       name = blueIfNoValue2(data, conditions[i].changes[j], "value", "message_custom", L["Custom Code"], L["Custom Code"]),
       desc = descIfNoValue2(data, conditions[i].changes[j], "value", "message_custom", propertyType),
       order = order,
@@ -736,31 +747,31 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
         return type(conditions[i].changes[j].value) == "table" and conditions[i].changes[j].value.custom;
       end,
       control = "WeakAurasMultiLineEditBox",
-      set = setValueComplex("custom")
-    }
-    order = order + 1;
-
-    args["condition" .. i .. "value" .. j .. "custom_expand"] = {
-      type = "execute",
-      order = order,
-      name = L["Expand Text Editor"],
-      func = function()
-        if (data.controlledChildren) then
-          -- Collect multi paths
-          local multipath = {};
-          for id, reference in pairs(conditions[i].changes[j].references) do
-            local conditionIndex = conditions[i].check.references[id].conditionIndex;
-            local changeIndex = reference.changeIndex;
-            local childData = WeakAuras.GetData(id);
-            childData.conditions[conditionIndex].changes[changeIndex].value = childData.conditions[conditionIndex].changes[changeIndex].value or {};
-            multipath[id] = {"conditions", conditionIndex, "changes", changeIndex, "value", "custom"};
-          end
-          WeakAuras.OpenTextEditor(data, multipath, true, true);
-        else
-          data.conditions[i].changes[j].value = data.conditions[i].changes[j].value or {};
-          WeakAuras.OpenTextEditor(data, {"conditions", i, "changes", j, "value", "custom"}, true);
-        end
-      end,
+      set = setValueComplex("custom"),
+      arg = {
+        extraFunctions = {
+          {
+            buttonLabel = L["Expand"],
+            func = function()
+              if (data.controlledChildren) then
+                -- Collect multi paths
+                local multipath = {};
+                for id, reference in pairs(conditions[i].changes[j].references) do
+                  local conditionIndex = conditions[i].check.references[id].conditionIndex;
+                  local changeIndex = reference.changeIndex;
+                  local childData = WeakAuras.GetData(id);
+                  childData.conditions[conditionIndex].changes[changeIndex].value = childData.conditions[conditionIndex].changes[changeIndex].value or {};
+                  multipath[id] = {"conditions", conditionIndex, "changes", changeIndex, "value", "custom"};
+                end
+                WeakAuras.OpenTextEditor(data, multipath, true, true);
+              else
+                data.conditions[i].changes[j].value = data.conditions[i].changes[j].value or {};
+                WeakAuras.OpenTextEditor(data, {"conditions", i, "changes", j, "value", "custom"}, true);
+              end
+            end
+          }
+        }
+      }
     }
     order = order + 1;
 
@@ -774,7 +785,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
         local _, errorString = loadstring("return function() " .. custom .. "\n end");
         return errorString and "|cFFFF0000"..errorString or "";
       end,
-      width = "double",
+      width = WeakAuras.doubleWidth,
       order = order,
       hidden = function()
         local custom = type(conditions[i].changes[j].value) == "table" and conditions[i].changes[j].value.custom;
@@ -810,32 +821,123 @@ local function checkSameValue(samevalue, propertyType)
   end
 end
 
-local function addControlsForCondition(args, order, data, conditionVariable, conditions, i, conditionTemplates, allProperties)
-  if (not conditions[i].check) then
-    return;
+local function getOrCreateSubCheck(base, path)
+  for _, i in ipairs(path) do
+    base.checks = base.checks or {};
+    base.checks[i] = base.checks[i] or {};
+    base = base.checks[i];
   end
-  args["condition" .. i .. "header"] = {
-    type = "header",
-    name = "",
-    order = order
-  };
-  order = order + 1;
+  return base;
+end
 
-  local optionsName = blueIfSubset (data, conditions[i].check);
-  if (conditions[i].check.trigger) then
-    optionsName = optionsName .. string.format(L["If Trigger %s"], conditions[i].check.trigger + 1);
+
+local function getSubCheck(base, path)
+  for _, i in ipairs(path) do
+    if (not base.checks or not base.checks[i]) then
+      return nil;
+    end
+    base = base.checks[i];
+  end
+  return base;
+end
+
+local function removeSubCheck(base, path)
+  -- Ensures that the parents exists
+  getOrCreateSubCheck(base, path);
+
+  local choppedPath = CopyTable(path);
+  tremove(choppedPath, #path);
+
+  local parent = getSubCheck(base, choppedPath);
+  tremove(parent.checks, path[#path]);
+end
+
+local function addControlsForIfLine(args, order, data, conditionVariable, conditions, i, path, conditionTemplates, conditionTemplateWithoutCombinations, allProperties, parentType)
+  local check = getSubCheck(conditions[i].check, path);
+
+  local indentDepth = min(#path, 3); -- Be reasonable
+  local indentWidth = (indentDepth > 0 and 0.02 or 0) + indentDepth * 0.03;
+  local normalWidth = WeakAuras.normalWidth - indentWidth;
+
+  local conditionTemplatesToUse = indentDepth < 3 and conditionTemplates or conditionTemplateWithoutCombinations;
+
+  local optionsName = blueIfSubset(data, conditions[i].check);
+  local needsTriggerName = check and check.trigger and check.trigger ~= -1 and check.trigger ~= -2;
+  if (parentType) then
+    local isFirst = path[#path] == 1;
+    if (isFirst) then
+      if (needsTriggerName) then
+        optionsName = optionsName .. string.format(L["Trigger %s"], check.trigger);
+      end
+    else
+      if (needsTriggerName) then
+        if (parentType == "AND") then
+          optionsName = optionsName .. string.format(L["and Trigger %s"], check.trigger);
+        else
+          optionsName = optionsName .. string.format(L["or Trigger %s"], check.trigger);
+        end
+      end
+    end
   else
-    optionsName = optionsName .. L["If"];
+    if (needsTriggerName) then
+      optionsName = optionsName .. string.format(L["If Trigger %s"], check.trigger);
+    else
+      optionsName = optionsName .. L["If"];
+    end
   end
 
-  args["condition" .. i .. "if"] = {
+  if (indentWidth > 0) then
+    -- Our container frame is not exactly at width = 2, due to some legacy
+    -- Typically that works fine because the next widget doesn't fit into
+    -- previous line. But the bullets are so small that we need to ensure
+    -- that the previous line is full
+    args["space" .. order] = {
+      type = "description",
+      name = "",
+      image = function() return "", 0, 0 end,
+      order = order,
+      width = WeakAuras.doubleWidth * 1.5,
+    }
+    order = order + 1;
+
+    if (indentWidth > 0.05) then
+      args["condition" .. i .. tostring(path) .. "indent"] = {
+        type = "description",
+        width = indentWidth - 0.05,
+        name = "",
+        order = order
+      }
+      order = order + 1;
+    end
+
+    args["condition" .. i .. tostring(path) .. "bullet"] = {
+      type = "description",
+      width = 0.05,
+      name = "",
+      order = order,
+      image = "Interface\\Addons\\WeakAuras\\Media\\Textures\\bullet" .. indentDepth,
+      imageWidth = 10,
+      imageHeight = 10,
+    }
+    order = order + 1;
+  end
+
+  local valuesForIf;
+  if (indentDepth > 0) then
+    valuesForIf = conditionTemplatesToUse.displayWithRemove;
+  else
+    valuesForIf = isSubset(data, conditions[i].check) and conditionTemplatesToUse.displayWithCopy or conditionTemplatesToUse.display;
+  end
+
+  args["condition" .. i .. tostring(path) .. "if"] = {
     type = "select",
     name = optionsName,
     desc = descIfSubset(data, conditions[i].check),
     order = order,
-    values = isSubset(data, conditions[i].check) and conditionTemplates.displayWithCopy or conditionTemplates.display,
+    values = valuesForIf,
+    width = normalWidth;
     set = function(info, v)
-      if (conditionTemplates.indexToTrigger[v] == "COPY") then
+      if (conditionTemplatesToUse.indexToTrigger[v] == "COPY") then
         for _, id in ipairs(data.controlledChildren) do
           if (conditions[i].check.references[id]) then
           -- Already exists
@@ -856,6 +958,9 @@ local function addControlsForCondition(args, order, data, conditionVariable, con
             condition.check.variable = conditions[i].check.variable;
             condition.check.op = conditions[i].check.op;
             condition.check.value = conditions[i].check.value;
+            if (conditions[i].check.checks) then
+              condition.check.checks = CopyTable(conditions[i].check.checks);
+            end
 
             condition.changes = {};
             for changeIndex, change in ipairs(conditions[i].changes) do
@@ -876,30 +981,27 @@ local function addControlsForCondition(args, order, data, conditionVariable, con
             local auraData = WeakAuras.GetData(id);
             tinsert(auraData[conditionVariable], insertPoint, condition);
             WeakAuras.Add(auraData);
-
           end
         end
         WeakAuras.ReloadTriggerOptions(data);
         return;
-      elseif (conditionTemplates.indexToTrigger[v] == "DELETE") then
+      end
+
+      if (conditionTemplatesToUse.indexToTrigger[v] == "REMOVE") then
         if (data.controlledChildren) then
           for id, reference in pairs(conditions[i].check.references) do
             local auraData = WeakAuras.GetData(id);
-            tremove(auraData[conditionVariable], reference.conditionIndex);
-            WeakAuras.Add(auraData);
+            removeSubCheck(auraData[conditionVariable][reference.conditionIndex].check, path);
           end
-          WeakAuras.ReloadTriggerOptions(data);
-          return;
         else
-          tremove(conditions, i);
-          WeakAuras.Add(data);
-          WeakAuras.ReloadTriggerOptions(data);
-          return;
+          removeSubCheck(conditions[i].check, path);
         end
+        WeakAuras.ReloadTriggerOptions(data);
+        return;
       end
 
-      local trigger = conditionTemplates.indexToTrigger[v];
-      local variable = conditionTemplates.indexToVariable[v];
+      local trigger = conditionTemplatesToUse.indexToTrigger[v];
+      local variable = conditionTemplatesToUse.indexToVariable[v];
       if (not trigger or not variable) then
         return;
       end
@@ -907,34 +1009,36 @@ local function addControlsForCondition(args, order, data, conditionVariable, con
       if (data.controlledChildren) then
         for id, reference in pairs(conditions[i].check.references) do
           local auraData = WeakAuras.GetData(id);
-          auraData[conditionVariable][reference.conditionIndex].check.variable = variable;
-          auraData[conditionVariable][reference.conditionIndex].check.trigger = trigger;
-          auraData[conditionVariable][reference.conditionIndex].check.value = nil;
+          local childCheck = getOrCreateSubCheck(auraData[conditionVariable][reference.conditionIndex].check, path);
+          childCheck.variable = variable;
+          childCheck.trigger = trigger;
+          childCheck.value = nil;
           WeakAuras.Add(auraData);
         end
         WeakAuras.ReloadTriggerOptions(data);
       else
         local oldType;
-        if (conditions[i].check.trigger and conditions[i].check.variable) then
-          local templatesForTrigger = conditionTemplates.all[conditions[i].check.trigger];
-          local templatesForTriggerAndCondition = templatesForTrigger and templatesForTrigger[conditions[i].check.variable];
+        check = getOrCreateSubCheck(conditions[i].check, path);
+        if (check.trigger and check.variable) then
+          local templatesForTrigger = conditionTemplatesToUse.all[check.trigger];
+          local templatesForTriggerAndCondition = templatesForTrigger and templatesForTrigger[check.variable];
           oldType = templatesForTriggerAndCondition and templatesForTriggerAndCondition.type;
         end
-        conditions[i].check.variable = variable;
-        conditions[i].check.trigger = trigger;
-        local newType = conditionTemplates.all[trigger][variable].type;
+        check.variable = variable;
+        check.trigger = trigger;
+        local newType = conditionTemplatesToUse.all[trigger][variable].type;
         if (newType ~= oldType) then
-          conditions[i].check.value = nil;
+          check.value = nil;
         end
         WeakAuras.Add(data);
         WeakAuras.ReloadTriggerOptions(data);
       end
     end,
     get = function()
-      local trigger = conditions[i].check.trigger;
-      local variable = conditions[i].check.variable;
+      local trigger = check and check.trigger;
+      local variable = check and check.variable;
       if ( trigger and variable ) then
-        return conditionTemplates.conditionToIndex[trigger .. "-" .. variable];
+        return conditionTemplatesToUse.conditionToIndex[trigger .. "-" .. variable];
       end
       return "";
     end
@@ -942,129 +1046,191 @@ local function addControlsForCondition(args, order, data, conditionVariable, con
 
   order = order + 1;
 
+  if (check and (check.variable == "AND" or check.variable == "OR")) then
+    order = addSpace(args, order);
+
+    local subCheckCount = check.checks and #check.checks or 0;
+    -- We always want one more control than there are existing checks
+    subCheckCount = subCheckCount + 1;
+
+    for subCheck = 1, subCheckCount do
+      local subPath = CopyTable(path);
+      tinsert(subPath, subCheck);
+      order = addControlsForIfLine(args, order, data, conditionVariable, conditions, i, subPath, conditionTemplates, conditionTemplateWithoutCombinations, allProperties, check.variable);
+    end
+  end
+
   local currentConditionTemplate = nil;
-  local check = conditions[i] and conditions[i].check;
   local trigger = check and check.trigger;
   local variable = check and check.variable;
   if (trigger and variable) then
-    if (conditionTemplates.all[trigger]) then
-      currentConditionTemplate = conditionTemplates.all[trigger][variable];
+    if (conditionTemplatesToUse.all[trigger]) then
+      currentConditionTemplate = conditionTemplatesToUse.all[trigger][variable];
     end
   end
 
-  local setOp;
-  local setValue;
-  if (data.controlledChildren) then
-    setOp = function(info, v)
-      conditions[i].check.op = v;
-      for id, reference in pairs(conditions[i].check.references) do
-        local auraData = WeakAuras.GetData(id);
-        auraData[conditionVariable][reference.conditionIndex].check.op = v;
-        WeakAuras.Add(auraData);
+  if (currentConditionTemplate and currentConditionTemplate.type and type(currentConditionTemplate.type) == "string") then
+    local setOp;
+    local setValue;
+    if (data.controlledChildren) then
+      setOp = function(info, v)
+        check = getOrCreateSubCheck(conditions[i].check, path);
+        for id, reference in pairs(conditions[i].check.references) do
+          local auraData = WeakAuras.GetData(id);
+          local childCheck = getOrCreateSubCheck(auraData[conditionVariable][reference.conditionIndex].check, path);
+          childCheck.op = v;
+          WeakAuras.Add(auraData);
+        end
+        check.op = v;
+        WeakAuras.ReloadTriggerOptions(data);
       end
-      conditions[i].check.op = v;
-      WeakAuras.ReloadTriggerOptions(data);
-    end
-    setValue = function(info, v)
-      conditions[i].check.op = v;
-      for id, reference in pairs(conditions[i].check.references) do
-        local auraData = WeakAuras.GetData(id);
-        auraData[conditionVariable][reference.conditionIndex].check.value = v;
-        WeakAuras.Add(auraData);
+      setValue = function(info, v)
+        check = getOrCreateSubCheck(conditions[i].check, path);
+        for id, reference in pairs(conditions[i].check.references) do
+          local auraData = WeakAuras.GetData(id);
+          local childCheck = getOrCreateSubCheck(auraData[conditionVariable][reference.conditionIndex].check, path);
+          childCheck.value = v;
+          WeakAuras.Add(auraData);
+        end
+        check.value = v;
+        WeakAuras.ReloadTriggerOptions(data);
       end
-      conditions[i].check.value = v;
-      WeakAuras.ReloadTriggerOptions(data);
+    else
+      setOp = function(info, v)
+        check = getOrCreateSubCheck(conditions[i].check, path);
+        check.op = v;
+        WeakAuras.Add(data);
+      end
+      setValue = function(info, v)
+        check = getOrCreateSubCheck(conditions[i].check, path);
+        check.value = v;
+        WeakAuras.Add(data);
+      end
     end
-  else
-    setOp = function(info, v)
-      conditions[i].check.op = v;
-      WeakAuras.Add(data);
-    end
-    setValue = function(info, v)
-      conditions[i].check.value = v;
-      WeakAuras.Add(data);
-    end
-  end
 
-  if (currentConditionTemplate) then
     if (currentConditionTemplate.type == "number" or currentConditionTemplate.type == "timer") then
-      args["condition" .. i .. "_op"] = {
+      local opTypes = WeakAuras.operator_types
+      if currentConditionTemplate.operator_types_without_equal then
+        opTypes = WeakAuras.operator_types_without_equal
+      elseif currentConditionTemplate.operator_types_only_equal then
+        opTypes = WeakAuras.equality_operator_types
+      end
+
+      args["condition" .. i .. tostring(path) .. "_op"] = {
         name = blueIfNoValue(data, conditions[i].check, "op", L["Differences"]),
         desc = descIfNoValue(data, conditions[i].check, "op", currentConditionTemplate.type),
         type = "select",
         order = order,
-        values = WeakAuras.operator_types,
-        width = "half",
+        values = opTypes,
+        width = WeakAuras.halfWidth,
         get = function()
-          return conditions[i].check.op;
+          return check.op;
         end,
         set = setOp,
       }
       order = order + 1;
 
-      args["condition" .. i .. "_value"] = {
+      args["condition" .. i .. tostring(path) .. "_value"] = {
         type = "input",
         name = blueIfNoValue(data, conditions[i].check, "value", L["Differences"]),
         desc = descIfNoValue(data, conditions[i].check, "value", currentConditionTemplate.type),
-        width = "half",
+        width = WeakAuras.halfWidth,
         order = order,
         validate = WeakAuras.ValidateNumeric,
         get = function()
-          return conditions[i].check.value;
+          return check.value;
         end,
         set = setValue
       }
       order = order + 1;
-    elseif (currentConditionTemplate.type == "select") then
-      args["condition" .. i .. "_op"] = {
-        name = blueIfNoValue(data, conditions[i].check, "op", L["Differences"]),
-        desc = descIfNoValue(data, conditions[i].check, "op", currentConditionTemplate.type),
-        type = "select",
-        order = order,
-        values = WeakAuras.equality_operator_types,
-        get = function()
-          return conditions[i].check.op;
-        end,
-        set = setOp,
-      }
-      order = order + 1;
+    elseif (currentConditionTemplate.type == "select") or (currentConditionTemplate.type == "unit") then
+      if (type(currentConditionTemplate.values) == "table") then
+        args["condition" .. i .. tostring(path) .. "_op"] = {
+          name = blueIfNoValue(data, conditions[i].check, "op", L["Differences"]),
+          desc = descIfNoValue(data, conditions[i].check, "op", currentConditionTemplate.type),
+          type = "select",
+          width = WeakAuras.normalWidth,
+          order = order,
+          values = WeakAuras.equality_operator_types,
+          get = function()
+            return check.op;
+          end,
+          set = setOp,
+        }
+        order = order + 1;
 
-      order = addSpace(args, order);
+        order = addSpace(args, order);
 
-      args["condition" .. i .. "_value"] = {
-        type = "select",
-        name = blueIfNoValue(data, conditions[i].check, "value", L["Differences"]),
-        desc = descIfNoValue(data, conditions[i].check, "value", currentConditionTemplate.type),
-        order = order,
-        values = currentConditionTemplate.values,
-        get = function()
-          return conditions[i].check.value;
-        end,
-        set = setValue
-      }
-      order = order + 1;
+        if (currentConditionTemplate.type == "unit") then
+          args["condition" .. i .. tostring(path) .. "_value"] = {
+            type = "select",
+            width = WeakAuras.normalWidth,
+            name = blueIfNoValue(data, conditions[i].check, "value", L["Differences"]),
+            desc = descIfNoValue(data, conditions[i].check, "value", currentConditionTemplate.type),
+            order = order,
+            values = currentConditionTemplate.values,
+            get = function()
+              return currentConditionTemplate.values[check.value] and check.value or (check.value and "member")
+            end,
+            set = setValue
+          }
+          order = order + 1;
+
+          args["condition" .. i .. tostring(path) .. "_member"] = {
+            type = "input",
+            width = WeakAuras.doubleWidth,
+            name = blueIfNoValue(data, conditions[i].check, "value", L["Differences"]),
+            desc = descIfNoValue(data, conditions[i].check, "value", currentConditionTemplate.type),
+            order = order,
+            get = function()
+              return check and check.value
+            end,
+            set = setValue,
+            hidden = function()
+              return not conditions[i].check.value or currentConditionTemplate.values[conditions[i].check.value] and conditions[i].check.value ~= "member"
+            end
+          }
+          order = order + 1;
+        else
+          args["condition" .. i .. tostring(path) .. "_value"] = {
+            type = "select",
+            width = WeakAuras.normalWidth,
+            name = blueIfNoValue(data, conditions[i].check, "value", L["Differences"]),
+            desc = descIfNoValue(data, conditions[i].check, "value", currentConditionTemplate.type),
+            order = order,
+            values = currentConditionTemplate.values,
+            get = function()
+              return check.value
+            end,
+            set = setValue
+          }
+          order = order + 1;
+        end
+      end
     elseif (currentConditionTemplate.type == "bool") then
-      args["condition" .. i .. "_value"] = {
+      args["condition" .. i .. tostring(path) .. "_value"] = {
         type = "select",
+        width = WeakAuras.normalWidth,
         name = blueIfNoValue(data, conditions[i].check, "value", L["Differences"]),
         desc = descIfNoValue(data, conditions[i].check, "value", currentConditionTemplate.type),
         order = order,
         values = WeakAuras.bool_types,
         get = function()
-          return conditions[i].check.value;
+          return check and check.value;
         end,
         set = setValue
       }
       order = order + 1;
     elseif (currentConditionTemplate.type == "string") then
-      args["condition" .. i .. "_op"] = {
+      args["condition" .. i .. tostring(path) .. "_op"] = {
         name = blueIfNoValue(data, conditions[i].check, "op", L["Differences"]),
         desc = descIfNoValue(data, conditions[i].check, "op", currentConditionTemplate.type),
         type = "select",
+        width = WeakAuras.normalWidth,
         order = order,
         values = WeakAuras.string_operator_types,
         get = function()
-          return conditions[i].check.op;
+          return check and check.op;
         end,
         set = setOp
       }
@@ -1072,23 +1238,203 @@ local function addControlsForCondition(args, order, data, conditionVariable, con
 
       order = addSpace(args, order);
 
-      args["condition" .. i .. "_value"] = {
+      args["condition" .. i .. tostring(path) .. "_value"] = {
         type = "input",
+        width = WeakAuras.normalWidth,
         name = blueIfNoValue(data, conditions[i].check, "value", L["Differences"]),
         desc = descIfNoValue(data, conditions[i].check, "value", currentConditionTemplate.type),
         order = order,
         get = function()
-          return conditions[i].check.value;
+          return check and check.value;
         end,
         set = setValue
       }
       order = order + 1;
+    elseif (currentConditionTemplate.type == "combination") then
+      -- Do nothing
     else
       order = addSpace(args, order);
     end
   else
     order = addSpace(args, order);
   end
+  return order;
+end
+
+local function addControlsForCondition(args, order, data, conditionVariable, conditions, i, conditionTemplates, conditionTemplateWithoutCombinations, allProperties)
+  if (not conditions[i].check) then
+    return;
+  end
+
+  local collapsed = false;
+  if data.controlledChildren then
+    for id, reference in pairs(conditions[i].check.references) do
+      local index = reference.conditionIndex;
+      if WeakAuras.IsCollapsed(id, "condition", index, false) then
+        collapsed = true;
+        break;
+      end
+    end
+  else
+    collapsed = WeakAuras.IsCollapsed(data.id, "condition", i, false);
+  end
+
+  args["condition" .. i .. "header"] = {
+    type = "execute",
+    name = L["Condition %i"]:format(i),
+    order = order,
+    width = WeakAuras.doubleWidth - 0.45,
+    --fontSize = "large",
+    func = function()
+      if data.controlledChildren then
+        for id, reference in pairs(conditions[i].check.references) do
+          local index = reference.conditionIndex
+          WeakAuras.SetCollapsed(id, "condition", index, not collapsed);
+        end
+      else
+        WeakAuras.SetCollapsed(data.id, "condition", i, not collapsed);
+      end
+      WeakAuras.ReloadTriggerOptions(data);
+    end,
+    image = collapsed and "Interface\\AddOns\\WeakAuras\\Media\\Textures\\expand" or "Interface\\AddOns\\WeakAuras\\Media\\Textures\\collapse" ,
+    imageWidth = 18,
+    imageHeight = 18,
+    control = "WeakAurasExpand"
+  };
+  order = order + 1;
+
+  args["condition" .. i .. "up"] = {
+    type = "execute",
+    name = L["Move Up"],
+    order = order,
+    disabled = function()
+      if (data.controlledChildren) then
+        for id, reference in pairs(conditions[i].check.references) do
+          local index = reference.conditionIndex;
+          if (index > 1) then
+            return false;
+          end
+        end
+        return true;
+      else
+        return i == 1;
+      end
+    end,
+    func = function()
+      if (data.controlledChildren) then
+        for id, reference in pairs(conditions[i].check.references) do
+          local auraData = WeakAuras.GetData(id);
+          local index = reference.conditionIndex;
+          if (index > 1) then
+            local tmp = auraData[conditionVariable][reference.conditionIndex];
+            tremove(auraData[conditionVariable], reference.conditionIndex);
+            tinsert(auraData[conditionVariable], reference.conditionIndex - 1, tmp);
+            WeakAuras.Add(auraData);
+          end
+        end
+        WeakAuras.ReloadTriggerOptions(data);
+      else
+        if (i > 1) then
+          local tmp = conditions[i];
+          tremove(conditions, i);
+          tinsert(conditions, i - 1, tmp);
+          WeakAuras.Add(data);
+          WeakAuras.ReloadTriggerOptions(data);
+        end
+      end
+    end,
+    width = 0.15,
+    image = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\moveup",
+    imageWidth = 24,
+    imageHeight = 24,
+    control = "WeakAurasIcon"
+  };
+  order = order + 1;
+
+  args["condition" .. i .. "down"] = {
+    type = "execute",
+    name = L["Move Down"],
+    order = order,
+    disabled = function()
+      if (data.controlledChildren) then
+        for id, reference in pairs(conditions[i].check.references) do
+          local index = reference.conditionIndex;
+          local auraData = WeakAuras.GetData(id);
+          if (index < #auraData[conditionVariable]) then
+            return false;
+          end
+        end
+        return true;
+      else
+        return i == #conditions;
+      end
+    end,
+    func = function()
+      if (data.controlledChildren) then
+        for id, reference in pairs(conditions[i].check.references) do
+          local auraData = WeakAuras.GetData(id);
+          local index = reference.conditionIndex;
+          if (index < #auraData[conditionVariable]) then
+            local tmp = auraData[conditionVariable][reference.conditionIndex];
+            tremove(auraData[conditionVariable], reference.conditionIndex);
+            tinsert(auraData[conditionVariable], reference.conditionIndex + 1, tmp);
+            WeakAuras.Add(auraData);
+          end
+        end
+        WeakAuras.ReloadTriggerOptions(data);
+        return;
+      else
+        if (i < #conditions) then
+          local tmp = conditions[i];
+          tremove(conditions, i);
+          tinsert(conditions, i + 1, tmp);
+          WeakAuras.Add(data);
+          WeakAuras.ReloadTriggerOptions(data);
+          return;
+        end
+      end
+    end,
+    width = 0.15,
+    image = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\movedown",
+    imageWidth = 24,
+    imageHeight = 24,
+    control = "WeakAurasIcon"
+  };
+  order = order + 1;
+
+  args["condition" .. i .. "delete"] = {
+    type = "execute",
+    name = L["Delete"],
+    order = order,
+    func = function()
+      if (data.controlledChildren) then
+        for id, reference in pairs(conditions[i].check.references) do
+          local auraData = WeakAuras.GetData(id);
+          tremove(auraData[conditionVariable], reference.conditionIndex);
+          WeakAuras.Add(auraData);
+        end
+        WeakAuras.ReloadTriggerOptions(data);
+        return;
+      else
+        tremove(conditions, i);
+        WeakAuras.Add(data);
+        WeakAuras.ReloadTriggerOptions(data);
+        return;
+      end
+    end,
+    width = 0.15,
+    image = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\delete",
+    imageWidth = 24,
+    imageHeight = 24,
+    control = "WeakAurasIcon"
+  };
+  order = order + 1;
+
+  if collapsed then
+    return order;
+  end
+
+  order = addControlsForIfLine(args, order, data, conditionVariable, conditions, i, {}, conditionTemplates, conditionTemplateWithoutCombinations, allProperties);
 
   -- Add Property changes
 
@@ -1106,14 +1452,15 @@ local function addControlsForCondition(args, order, data, conditionVariable, con
 
   args["condition" .. i .. "_addChange"] = {
     type = "execute",
+    width = WeakAuras.normalWidth,
     name = L["Add Property Change"],
     order = order,
     func = function()
       if (data.controlledChildren) then
-        for _, id in ipairs(data.controlledChildren) do
+        for id, reference in pairs(conditions[i].check.references) do
           local auradata = WeakAuras.GetData(id);
-          auradata[conditionVariable][i].changes = auradata[conditionVariable][i].changes or {};
-          auradata[conditionVariable][i].changes[#auradata[conditionVariable][i].changes + 1] = {};
+          auradata[conditionVariable][reference.conditionIndex].changes = auradata[conditionVariable][reference.conditionIndex].changes or {}
+          tinsert(auradata[conditionVariable][reference.conditionIndex].changes, {})
           WeakAuras.Add(auradata);
         end
         WeakAuras.ReloadTriggerOptions(data);
@@ -1132,7 +1479,7 @@ local function addControlsForCondition(args, order, data, conditionVariable, con
 end
 
 local function mergeConditionTemplates(allConditionTemplates, auraConditionsTemplate, numTriggers)
-  for triggernum = 0, numTriggers -1 do
+  for triggernum = 1, numTriggers do
     local auraTemplatesForTrigger = auraConditionsTemplate[triggernum];
     if (auraTemplatesForTrigger) then
       allConditionTemplates[triggernum] = allConditionTemplates[triggernum] or {};
@@ -1153,6 +1500,60 @@ local function mergeConditionTemplates(allConditionTemplates, auraConditionsTemp
   end
 end
 
+local function createConditionTemplatesValueList(allConditionTemplates, numTriggers, excludeCombinations)
+  local conditionTemplates = {};
+  conditionTemplates.all = allConditionTemplates;
+  conditionTemplates.indexToTrigger = {};
+  conditionTemplates.indexToVariable = {};
+  conditionTemplates.conditionToIndex = {};
+  conditionTemplates.display = {};
+
+  local index = 1;
+  local startTriggernum = excludeCombinations and -1 or -2;
+  for triggernum = startTriggernum, numTriggers do
+    local templatesForTrigger = allConditionTemplates[triggernum];
+    if triggernum ~= 0 then
+      -- Sort Conditions for one trigger
+      local sorted = {};
+      if (templatesForTrigger) then
+        for conditionName in pairs(templatesForTrigger) do
+          tinsert(sorted, conditionName);
+        end
+        table.sort(sorted, function(a, b)
+          return templatesForTrigger[a].display < templatesForTrigger[b].display;
+        end);
+
+        if (#sorted > 0) then
+          if (triggernum == -2) then
+            -- Do Nothing
+            conditionTemplates.display[index]  = string.format(L["Combinations"]);
+          elseif (triggernum == -1) then
+            conditionTemplates.display[index]  = string.format(L["Global Conditions"]);
+          else
+            conditionTemplates.display[index]  = string.format(L["Trigger %d"], triggernum);
+          end
+          index = index + 1;
+
+          for _, conditionName in ipairs(sorted) do
+            conditionTemplates.display[index] = "    " .. templatesForTrigger[conditionName].display;
+            conditionTemplates.indexToTrigger[index] = triggernum;
+            conditionTemplates.indexToVariable[index] = conditionName;
+            conditionTemplates.conditionToIndex[triggernum .. "-" .. conditionName] = index;
+            index = index + 1;
+          end
+        end
+      end
+    end
+  end
+
+  conditionTemplates.displayWithRemove = CopyTable(conditionTemplates.display);
+  conditionTemplates.displayWithRemove[9997] = "•" .. L["Remove"] .. "•";
+  conditionTemplates.indexToTrigger[9997] = "REMOVE";
+  conditionTemplates.indexToVariable[9997] = "REMOVE";
+
+  return conditionTemplates;
+end
+
 local function createConditionTemplates(data)
   -- The allConditionTemplates contains a table per trigger.
   -- Each table contains a entry per condition variable
@@ -1167,55 +1568,29 @@ local function createConditionTemplates(data)
     allConditionTemplates = {};
     for _, id in ipairs(data.controlledChildren) do
       local data = WeakAuras.GetData(id);
-      numTriggers = max(numTriggers, data.numTriggers);
+      numTriggers = max(numTriggers, #data.triggers);
 
       local auraConditionsTemplate = WeakAuras.GetTriggerConditions(data);
       mergeConditionTemplates(allConditionTemplates, auraConditionsTemplate, numTriggers)
     end
   else
     allConditionTemplates = WeakAuras.GetTriggerConditions(data);
-    numTriggers = data.numTriggers;
+    numTriggers = #data.triggers;
   end
 
-  local conditionTemplates = {};
-  conditionTemplates.all = allConditionTemplates;
-  conditionTemplates.indexToTrigger = {};
-  conditionTemplates.indexToVariable = {};
-  conditionTemplates.conditionToIndex = {};
-  conditionTemplates.display = {};
+  allConditionTemplates[-2] = {
+    ["AND"] = {
+      display = L["All of"],
+      type = "combination"
+    },
+    ["OR"] = {
+      display = L["Any of"],
+      type = "combination"
+    }
+  }
+  allConditionTemplates[-1] = WeakAuras.GetGlobalConditions();
 
-  local index = 1;
-  for triggernum = 0, numTriggers - 1 do
-    local templatesForTrigger = allConditionTemplates[triggernum];
-
-    -- Sort Conditions for one trigger
-    local sorted = {};
-    if (templatesForTrigger) then
-      for conditionName in pairs(templatesForTrigger) do
-        tinsert(sorted, conditionName);
-      end
-      table.sort(sorted, function(a, b)
-        return templatesForTrigger[a].display < templatesForTrigger[b].display;
-      end);
-
-      if (#sorted > 0) then
-        conditionTemplates.display[index]  = string.format(L["Trigger %d"], triggernum + 1);
-        index = index + 1;
-      end
-
-      for _, conditionName in ipairs(sorted) do
-        conditionTemplates.display[index] = "    " .. templatesForTrigger[conditionName].display;
-        conditionTemplates.indexToTrigger[index] = triggernum;
-        conditionTemplates.indexToVariable[index] = conditionName;
-        conditionTemplates.conditionToIndex[triggernum .. "-" .. conditionName] = index;
-        index = index + 1;
-      end
-    end
-  end
-
-  conditionTemplates.display[9999] = "•" .. L["Remove this condition"] .. "•";
-  conditionTemplates.indexToTrigger[9999] = "DELETE";
-  conditionTemplates.indexToVariable[9999] = "DELETE";
+  local conditionTemplates = createConditionTemplatesValueList(allConditionTemplates, numTriggers);
 
   if (data.controlledChildren) then
     conditionTemplates.displayWithCopy = {};
@@ -1226,7 +1601,9 @@ local function createConditionTemplates(data)
     conditionTemplates.indexToVariable[9998] = "COPY";
   end
 
-  return conditionTemplates;
+  local conditionTemplateWithoutCombinations = createConditionTemplatesValueList(allConditionTemplates, numTriggers, true);
+
+  return conditionTemplates, conditionTemplateWithoutCombinations;
 end
 
 local function buildAllPotentialProperies(data, category)
@@ -1235,7 +1612,7 @@ local function buildAllPotentialProperies(data, category)
   if (data.controlledChildren) then
     for _, id in ipairs(data.controlledChildren) do
       local auradata = WeakAuras.GetData(id);
-      local regionProperties = WeakAuras.regionTypes[auradata.regionType] and WeakAuras.regionTypes[auradata.regionType].properties
+      local regionProperties = WeakAuras.GetProperties(auradata);
       if (regionProperties) then
         for k, v in pairs(regionProperties) do
           if (v.category == category) then
@@ -1261,7 +1638,7 @@ local function buildAllPotentialProperies(data, category)
       end
     end
   else
-    local regionProperties = WeakAuras.regionTypes[data.regionType] and WeakAuras.regionTypes[data.regionType].properties
+    local regionProperties = WeakAuras.GetProperties(data);
     if (regionProperties) then
       for k, v in pairs(regionProperties) do
         if (v.category == category) then
@@ -1276,7 +1653,12 @@ local function buildAllPotentialProperies(data, category)
     tinsert(allProperties.indexToProperty, k);
   end
   table.sort(allProperties.indexToProperty, function(a, b)
-    return allProperties.propertyMap[a].display <  allProperties.propertyMap[b].display
+    local av = allProperties.propertyMap[a].display
+    av = type(av) == "table" and av[1] or av
+
+    local bv = allProperties.propertyMap[b].display
+    bv = type(bv) == "table" and bv[1] or bv
+    return av < bv
   end);
 
   allProperties.propertyToIndex = {};
@@ -1303,7 +1685,51 @@ local function buildAllPotentialProperies(data, category)
   return allProperties;
 end
 
-local function findMatchingCondition(all, needle, start)
+local function compareSubChecks(a, b, allConditionTemplates)
+  if (a == nil and b == nil) then
+    return true;
+  end
+  if (a == nil or b == nil) then
+    return false;
+  end
+
+  if (#a ~= #b) then
+    return false;
+  end
+
+  local count = #a;
+
+  for i = 1, count do
+    if (a[i].trigger ~= b[i].trigger or a[i].variable ~= b[i].variable) then
+      return false;
+    end
+
+    if (a[i].trigger == -2) then
+      if (not compareSubChecks(a[i].checks, b[i].checks, allConditionTemplates)) then
+        return false;
+      end
+    else
+      local currentConditionTemplate = allConditionTemplates[a[i].trigger] and allConditionTemplates[a[i].trigger][a[i].variable];
+      if (not currentConditionTemplate) then
+        return true;
+      end
+
+      local type = currentConditionTemplate.type;
+      if (type == "number" or type == "timer" or type == "select" or type == "string") then
+        if (a[i].op ~= b[i].op or a[i].value ~= b[i].value) then
+          return false;
+        end
+      elseif (type == "bool") then
+        if (a[i].value ~= b[i].value) then
+          return false;
+        end
+      end
+    end
+  end
+  return true;
+end
+
+local function findMatchingCondition(all, needle, start, allConditionTemplates)
   while (true) do
     local condition = all[start];
     if (not condition) then
@@ -1311,7 +1737,13 @@ local function findMatchingCondition(all, needle, start)
     end
 
     if (condition.check.trigger == needle.check.trigger and condition.check.variable == needle.check.variable) then
-      return start;
+      if (condition.check.trigger == -2) then
+        if (compareSubChecks(condition.check.checks, needle.check.checks, allConditionTemplates)) then
+          return start;
+        end
+      else
+        return start;
+      end
     end
     start = start + 1;
   end
@@ -1427,14 +1859,14 @@ local function mergeCondition(all, aura, id, conditionIndex, allProperties)
   end
 end
 
-local function mergeConditions(all, aura, id, propertyTypes)
+local function mergeConditions(all, aura, id, allConditionTemplates, propertyTypes)
   if (not aura) then
     return;
   end
 
   local currentInsertPoint = 1;
   for conditionIndex, condition in ipairs(aura) do
-    local match = findMatchingCondition(all, condition, currentInsertPoint);
+    local match = findMatchingCondition(all, condition, currentInsertPoint, allConditionTemplates);
     if (not match) then
       local copy = {};
       WeakAuras.DeepCopy(condition, copy);
@@ -1479,7 +1911,7 @@ end
 
 function WeakAuras.GetConditionOptions(data, args, conditionVariable, startorder, category)
   -- Build potential Conditions Templates structure
-  local conditionTemplates = createConditionTemplates(data);
+  local conditionTemplates, conditionTemplateWithoutCombinations = createConditionTemplates(data);
 
   -- Build potential properties structure
   local allProperties = buildAllPotentialProperies(data, category);
@@ -1492,7 +1924,7 @@ function WeakAuras.GetConditionOptions(data, args, conditionVariable, startorder
     for index = last, 1, -1 do
       local id = data.controlledChildren[index];
       local data = WeakAuras.GetData(id);
-      mergeConditions(conditions, data[conditionVariable], data.id, allProperties);
+      mergeConditions(conditions, data[conditionVariable], data.id, conditionTemplates.all, allProperties);
     end
   else
     data[conditionVariable] = data[conditionVariable] or {};
@@ -1501,10 +1933,12 @@ function WeakAuras.GetConditionOptions(data, args, conditionVariable, startorder
 
   local order = startorder;
   for i = 1, #conditions do
-    order = addControlsForCondition(args, order, data, conditionVariable, conditions, i, conditionTemplates, allProperties);
+    order = addControlsForCondition(args, order, data, conditionVariable, conditions, i, conditionTemplates, conditionTemplateWithoutCombinations, allProperties);
   end
+
   args["addCondition"] = {
     type = "execute",
+    width = WeakAuras.normalWidth,
     name = L["Add Condition"],
     order = order,
     func = function()
@@ -1516,6 +1950,7 @@ function WeakAuras.GetConditionOptions(data, args, conditionVariable, startorder
           aura[conditionVariable][#aura[conditionVariable]].changes = {};
           aura[conditionVariable][#aura[conditionVariable]].changes[1] = {}
           aura[conditionVariable][#aura[conditionVariable]].category = category;
+          WeakAuras.SetCollapsed(id, "condition", #aura[conditionVariable], false);
           WeakAuras.Add(aura);
         end
         WeakAuras.ReloadTriggerOptions(data);
@@ -1525,6 +1960,7 @@ function WeakAuras.GetConditionOptions(data, args, conditionVariable, startorder
         conditions[#conditions].changes = {};
         conditions[#conditions].changes[1] = {}
         conditions[#conditions].category = category;
+        WeakAuras.SetCollapsed(data.id, "condition", #conditions, false);
         WeakAuras.Add(data);
         WeakAuras.ReloadTriggerOptions(data);
       end

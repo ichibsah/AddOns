@@ -1,11 +1,7 @@
--- Last update by GlitterStorm @ Azralon on Feb,28th,2015
+﻿-- Last update by GlitterStorm @ Azralon on Feb,28th,2015
 if GetLocale() ~= "ptBR" then return end
 
-DBM_CORE_NEED_LOCALS				= "Are you good with programming or languages? If yes, the DBM team needs your help to keep DBM the best boss mod for WoW. Join the team by visiting |HDBM:localizersneeded|h|cff3588ffhere|r"
 DBM_HOW_TO_USE_MOD					= "Bem vindo ao DBM. Digite /dbm help para obter uma lista dos comandos disponíveis. Para acessar as opções, digite /dbm no seu chat para começar a configuração. Carregue zonas específicas manualmente para configurar opções específicas de cada chefe para o seu gosto pessoal. O DBM tenta fazer isso automaticamente para você, observando sua spec na primeira vez que é executado. De qualquer forma, você pode querer habilitar outras opções."
-
-DBM_FORUMS_MESSAGE					= "Achou um bug, tradução ruim ou temporizadores de chefes incorretos? Acha que alguma mod de chefe precisa de aviso adicional, temporizador ou recurso especial? me mande por correio se for de Azralon @ GlitterStorm ou \nVisit the new Deadly Boss Mods discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttp://www.deadlybossmods.com|r (you can click the link to copy the URL)"
-DBM_FORUMS_COPY_URL_DIALOG			= "Come visit our discussion and support forums"
 
 DBM_CORE_LOAD_MOD_ERROR				= "Erro ao carregar módulo %s: %s "
 DBM_CORE_LOAD_MOD_SUCCESS			= "Módulo '%s' carregado. Para mais opções, digite /dbm ou /dbm help no chat"
@@ -92,12 +88,11 @@ DBM_CORE_OK							= "Ok"
 
 DBM_CORE_GENERIC_WARNING_OTHERS		= "e mais um"
 DBM_CORE_GENERIC_WARNING_OTHERS2	= "e %d outros"
-DBM_CORE_GENERIC_WARNING_BERSERK	= "Frenético em %s %s" 
-DBM_CORE_GENERIC_TIMER_BERSERK		= "Frenético" 
+DBM_CORE_GENERIC_WARNING_BERSERK	= "Frenético em %s %s"
+DBM_CORE_GENERIC_TIMER_BERSERK		= "Frenético"
 DBM_CORE_OPTION_TIMER_BERSERK		= "Exibir cronógrafo para $spell:26662"
 DBM_CORE_GENERIC_TIMER_COMBAT		= "Combate começou"
 DBM_CORE_OPTION_TIMER_COMBAT		= "Exibir cronógrafo para começo do combate"
-DBM_CORE_OPTION_HEALTH_FRAME		= "Exibir quadro de vida do chefe"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS		= "Barras"
 DBM_CORE_OPTION_CATEGORY_WARNINGS	= "Categoria de anúncios"
@@ -132,7 +127,7 @@ DBM_CORE_VOICE_PACK_OUTDATED		= "O pacote de vozes do seu DBM pode estar sem alg
 DBM_CORE_VOICE_MISSING				= "Você tinha um pacote de vozes DBM selecionado que não pode ser encontrado. Sua seleção foi restaurada para 'Nenhum/None'. Caso seja um erro, certifique-se que o pacote esta instalado corretamente e habilitado em addons."
 DBM_CORE_VOICE_COUNT_MISSING		= "Voz de contagem regressiva %d esta selecionada para um pacote de voz que não pode ser encontrado. Foi restaurada a configuração padrão."
 
-DBM_CORE_UPDATEREMINDER_HEADER		= "Sua versão do Deadly Boss Mods está desatualizada.\n A versão %s (r%d) está disponível para baixar no site da curse, WoWI ou aqui:"
+DBM_CORE_UPDATEREMINDER_HEADER		= "Sua versão do Deadly Boss Mods está desatualizada.\n A versão %s (%s) está disponível para baixar no site da curse, WoWI ou aqui:"
 DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "A sua versão alpha do DBM está desatualizada.\n Você esta pelo menos %d versões de testes para trás. É recomendado que os usuários do DBM utilizem a versão mais recente do alpha ou a mais recente das versões estáveis. Versões alphas desatualizadas podem resultar em faltas de algumas funcionalidades ou totalmente inoperante."
 DBM_CORE_UPDATEREMINDER_FOOTER		= "Pressione Ctrl+C para copiar o link de download para a área de transferência."
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Pressione Ctrl+C para copiar o link de download para a área de transferência."
@@ -205,16 +200,12 @@ DBM_CORE_SLASHCMD_HELP2				= {
 DBM_CORE_TIMER_USAGE	= {
 	"DBM timer commands:",
 	"/dbm timer <time> <text>: Starts a <x> second DBM Timer with the name <text>.",
-	"/dbm ctimer <time> <text>: Starts a timer that also has countdown text.",
 	"/dbm ltimer <time> <text>: Starts a timer that also automatically loops until canceled.",
-	"/dbm cltimer <time> <text>: Starts a timer that also has countdown text and loops until canceled.",
 	"('Broadcast' in front of any timer also shares it with raid if leader/promoted)",
-	"/dbm timer endloop: Stops any looping ltimer or cltimer."
+	"/dbm timer endloop: Stops any looping ltimer."
 }
 
 DBM_ERROR_NO_PERMISSION				= "Você não tem as permissões necessárias para fazer isso."
-
-DBM_CORE_BOSSHEALTH_HIDE_FRAME		= "Esconder quadro de vida"
 
 DBM_CORE_ALLIANCE					= "Aliança"
 DBM_CORE_HORDE						= "Horda"
@@ -244,7 +235,7 @@ DBM_CORE_AUTO_TIMER_TEXTS.cast			= "%s"
 DBM_CORE_AUTO_TIMER_TEXTS.active		= "%s acaba" --Buff/Debuff/event on boss
 DBM_CORE_AUTO_TIMER_TEXTS.fades			= "%s desvanece" --Buff/Debuff on players
 DBM_CORE_AUTO_TIMER_TEXTS.cd			= "%s recarrega"
-DBM_CORE_AUTO_TIMER_TEXTS.cdcount		= "%s recarrega (%%d)"
+DBM_CORE_AUTO_TIMER_TEXTS.cdcount		= "%s recarrega (%%s)"
 DBM_CORE_AUTO_TIMER_TEXTS.cdsource		= "%s recarrega: >%%s<"
 DBM_CORE_AUTO_TIMER_TEXTS.next			= "Próx. %s"
 DBM_CORE_AUTO_TIMER_TEXTS.nextcount		= "Próx. %s (%%s)"
@@ -326,9 +317,6 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.switchcount	= "%s - mude de alvo (%%s)"
 
 DBM_CORE_AUTO_ICONS_OPTION_TEXT		= "Colocar ícones nos alvos de $spell:%s"
 DBM_CORE_AUTO_ICONS_OPTION_TEXT2		= "Set icons on $spell:%s"
-DBM_CORE_AUTO_SOUND_OPTION_TEXT		= "Tocar som \"Fuja garotinha\" para $spell:%s"
-DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT	= "Tocar som de contagem regressiva para $spell:%s"
-DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT	= "Tocar som de contagem regressiva para duração de $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.yell		= "Gritar quando você é afetado por $spell:%s"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yell	= "%s em " .. UnitName("player") .. "!"
 

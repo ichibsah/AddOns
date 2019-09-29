@@ -1,10 +1,12 @@
+if not WeakAuras.IsCorrectVersion() then return end
+
 local L = WeakAuras.L;
 
 local root2 = math.sqrt(2);
 local halfroot2 = root2/2;
 
 local default = {
-  texture = "Textures\\SpellActivationOverlays\\Eclipse_Sun",
+  texture = "Interface\\Addons\\WeakAuras\\PowerAurasMedia\\Auras\\Aura3",
   desaturate = false,
   width = 200,
   height = 200,
@@ -21,6 +23,8 @@ local default = {
   yOffset = 0,
   frameStrata = 1
 };
+
+WeakAuras.regionPrototype.AddAlphaToDefault(default);
 
 local screenWidth, screenHeight = math.ceil(GetScreenWidth() / 20) * 20, math.ceil(GetScreenHeight() / 20) * 20;
 
@@ -42,6 +46,7 @@ local properties = {
     min = 1,
     softMax = screenWidth,
     bigStep = 1,
+    default = 32
   },
   height = {
     display = L["Height"],
@@ -49,30 +54,41 @@ local properties = {
     type = "number",
     min = 1,
     softMax = screenHeight,
-    bigStep = 1
+    bigStep = 1,
+    default = 32
   },
+  mirror = {
+    display = L["Mirror"],
+    setter = "SetMirror",
+    type = "bool"
+  }
 }
 
-WeakAuras.regionPrototype.AddProperties(properties);
+WeakAuras.regionPrototype.AddProperties(properties, default);
 
 local function create(parent)
-  local frame = CreateFrame("FRAME", nil, UIParent);
-  frame:SetMovable(true);
-  frame:SetResizable(true);
-  frame:SetMinResize(1, 1);
+  local region = CreateFrame("FRAME", nil, UIParent);
+  region:SetMovable(true);
+  region:SetResizable(true);
+  region:SetMinResize(1, 1);
 
-  local texture = frame:CreateTexture();
-  frame.texture = texture;
-  texture:SetAllPoints(frame);
+  local texture = region:CreateTexture();
+  texture:SetSnapToPixelGrid(false)
+  texture:SetTexelSnappingBias(0)
+  region.texture = texture;
+  texture:SetAllPoints(region);
 
-  WeakAuras.regionPrototype.create(frame);
-  return frame;
+  WeakAuras.regionPrototype.create(region);
+  region.values = {};
+
+  region.AnchorSubRegion = WeakAuras.regionPrototype.AnchorSubRegion
+
+  return region;
 end
 
 local function modify(parent, region, data)
   WeakAuras.regionPrototype.modify(parent, region, data);
-
-  region.texture:SetTexture(data.texture);
+  WeakAuras.SetTextureOrAtlas(region.texture, data.texture);
   region.texture:SetDesaturated(data.desaturate)
   region:SetWidth(data.width);
   region:SetHeight(data.height);
@@ -91,9 +107,11 @@ local function modify(parent, region, data)
     return 0.5+vx,0.5-vy , 0.5-vy,0.5-vx , 0.5+vy,0.5+vx , 0.5-vx,0.5+vy
   end
 
+  region.mirror = data.mirror
+
   local function DoTexCoord()
     local mirror_h, mirror_v = region.mirror_h, region.mirror_v;
-    if(data.mirror) then
+    if(region.mirror) then
       mirror_h = not mirror_h;
     end
     local ulx,uly , llx,lly , urx,ury , lrx,lry;
@@ -159,9 +177,15 @@ local function modify(parent, region, data)
     region:Scale(region.scalex, region.scaley);
   end
 
-  function region:SetTexture(path)
-    local texturePath = path;
-    region.texture:SetTexture(texturePath);
+  function region:SetMirror(mirror)
+    region.mirror = mirror
+    DoTexCoord()
+  end
+
+  function region:Update()
+    if region.state.texture then
+      WeakAuras.SetTextureOrAtlas(region.texture, region.state.texture);
+    end
   end
 
   function region:Color(r, g, b, a)
@@ -210,6 +234,8 @@ local function modify(parent, region, data)
     region.Rotate = nil;
     region.GetRotation = nil;
   end
+
+  WeakAuras.regionPrototype.modifyFinish(parent, region, data);
 end
 
 WeakAuras.RegisterRegionType("texture", create, modify, default, properties);

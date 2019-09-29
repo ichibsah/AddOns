@@ -1,15 +1,15 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2014 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John Wellesz).
 
     The only official and allowed distribution means are www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
@@ -17,7 +17,7 @@
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
 
-    This file was last updated on 2017-06-25T19:35:37Z
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -137,7 +137,7 @@ function D:PetUnitName (Unit, Check) -- {{{
     if not Check or self:UnitIsPet(Unit) then
         Name = ("%s-%s"):format(DC.PET, Name);
     end
-    
+
     return Name;
 
 end -- }}}
@@ -148,7 +148,7 @@ function D:UnitName(Unit)
             return name.."-"..server;
         else
             return name;
-        end 
+        end
 end
 
 local function isFormattedString(string)
@@ -184,7 +184,7 @@ function D:Println( ... ) --{{{
     end
 end --}}}
 
-function D:ColorPrint (r,g,b, ... ) --XXX
+function D:ColorPrint (r,g,b, ... )
 
     local datas = {UseFormatIfPresent(...)};
 
@@ -204,13 +204,13 @@ function D:ColorPrint (r,g,b, ... ) --XXX
     if not self.db then
         self:Print(ColorHeader, unpack(datas));
     end
-    
+
 end
 
 function D:errln( ... ) --{{{
     if not D.db or D.profile.Print_Error then
         self:ColorPrint(1,0,0,...);
-        
+
     end
 end --}}}
 
@@ -239,6 +239,14 @@ function D:tremovebyval(tab, val) -- {{{
     return false;
 end -- }}}
 
+function D:tMap(t, f)
+    local mapped_t = {};
+    for k,v in pairs(t) do
+        mapped_t[k] = f(v);
+    end
+    return mapped_t;
+end
+
 function D:tAsString(t, indent) -- debugging function
 
     if type(t) ~= 'table' then
@@ -249,9 +257,9 @@ function D:tAsString(t, indent) -- debugging function
         indent = "  ";
     end
 
-    local s = "\n" .. indent .. "{"
+    local s = "\n" .. indent .. "{" .. "\n"
     for k,v in pairs(t) do
-        s = s .. "\n" .. indent .. indent .. ("[%s] = [%s],\n"):format(tostring(k), self:tAsString(v, indent .. "  "))
+        s = s .. indent .. indent .. ("[%s] = [%s],\n"):format(tostring(k), self:tAsString(v, indent .. "  "))
     end
     return s .. indent .. "}"
 end
@@ -270,11 +278,11 @@ end -- }}}
 
 -- tcopy: recursively copy contents of one table to another
 function D:tcopy(to, from)   -- "to" must be a table (possibly empty)
-    if (type(from) ~= "table") then 
+    if (type(from) ~= "table") then
         return error(("D:tcopy: bad argument #2 'from' must be a table, got '%s' instead"):format(type(from)),2);
     end
 
-    if (type(to) ~= "table") then 
+    if (type(to) ~= "table") then
         return error(("D:tcopy: bad argument #1 'to' must be a table, got '%s' instead"):format(type(to)),2);
     end
     for k,v in pairs(from) do
@@ -290,14 +298,14 @@ end
 
 -- tcopycallback: recursively copy contents of one table to another calling a callback before storing the new values
 function D:tcopycallback(to, from, CallBack) -- "to" must be a table (possibly empty)
-    if (type(from) ~= "table") then 
+    if (type(from) ~= "table") then
         return error(("D:tcopycallback: bad argument #2 'from' must be a table, got '%s' instead"):format(type(from)),2);
     end
 
-    if (type(to) ~= "table") then 
+    if (type(to) ~= "table") then
         return error(("D:tcopycallback: bad argument #1 'to' must be a table, got '%s' instead"):format(type(to)),2);
     end
-    if (type(CallBack) ~= "function") then 
+    if (type(CallBack) ~= "function") then
         return error(("D:tcopycallback: bad argument #3 'CallBack' must be a function ref, got '%s' instead"):format(type(CallBack)),2);
     end
     for k,v in pairs(from) do
@@ -460,12 +468,12 @@ end
 function D:SetCoords(t, A, B, C, D, E, F)
         local det = A*E - B*D;
         local ULx, ULy, LLx, LLy, URx, URy, LRx, LRy;
-        
+
         ULx, ULy = ( B*F - C*E ) / det, ( -(A*F) + C*D ) / det;
         LLx, LLy = ( -B + B*F - C*E ) / det, ( A - A*F + C*D ) / det;
         URx, URy = ( E + B*F - C*E ) / det, ( -D - A*F + C*D ) / det;
         LRx, LRy = ( E - B + B*F - C*E ) / det, ( -D + A -(A*F) + C*D ) / det;
-        
+
         t:SetTexCoord(ULx, ULy, LLx, LLy, URx, URy, LRx, LRy);
 end
 
@@ -474,6 +482,13 @@ do
     DC.ClassesColors = { };
 
     local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS;
+
+    local NON_CLASSIC_CLASSES = {
+        ["DEMONHUNTER"]    = true,
+        ["DEATHKNIGHT"]    = true,
+        ["MONK"]           = true
+
+    };
 
     function D:GetClassColor (EnglishClass, noCache)
         if not DC.ClassesColors[EnglishClass] or noCache then
@@ -507,7 +522,7 @@ do
                 if LC[class] then -- Some badly coded add-ons are modifying RAID_CLASS_COLORS causing multiple problems...
                     D:GetClassColor(class, true);
                     D:GetClassHexColor(class, true);
-                else
+                elseif not (DC.WOWC and NON_CLASSIC_CLASSES[class]) then
                     D:AddDebugText("Strange class found in RAID_CLASS_COLORS:", class, 'maxClass:', CLASS_SORT_ORDER and #CLASS_SORT_ORDER or 'CLASS_SORT_ORDER unavailable...');
                     print("Decursive: |cFFFF0000Unexpected value found in _G.RAID_CLASS_COLORS table|r\nThis may cause many issues, Decursive will display this message until the culprit add-on is fixed or removed, the unexpected value is: '", class, "'");
                 end
@@ -522,7 +537,7 @@ do
 
     if CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.RegisterCallback then
         CUSTOM_CLASS_COLORS:RegisterCallback(function() D:ScheduleDelayedCall('update_Class_Colors', D.CreateClassColorTables, .3, D) end);
-    end 
+    end
 
 end
 
@@ -538,7 +553,7 @@ function D:GetSpellFromLink(link)
             return nil;
         end
 
-        if spellRank ~= "" then
+        if spellRank and spellRank ~= "" then
             spellName = ("%s(%s)"):format(spellName, spellRank);
         end
         D:Debug('Spell link detected:', spellID, spellName, spellRank);
@@ -900,4 +915,4 @@ do
 end
 
 
-T._LoadedFiles["Dcr_utils.lua"] = "2.7.5.6";
+T._LoadedFiles["Dcr_utils.lua"] = "2.7.6.4";

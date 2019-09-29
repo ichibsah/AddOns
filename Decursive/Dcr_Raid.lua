@@ -1,23 +1,23 @@
 --[[
     This file is part of Decursive.
-    
-    Decursive (v 2.7.5.6) add-on for World of Warcraft UI
-    Copyright (C) 2006-2016 John Wellesz (archarodim AT teaser.fr) ( http://www.2072productions.com/to/decursive.php )
+
+    Decursive (v 2.7.6.4) add-on for World of Warcraft UI
+    Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Starting from 2009-10-31 and until said otherwise by its author, Decursive
     is no longer free software, all rights are reserved to its author (John Wellesz).
 
     The only official and allowed distribution means are www.2072productions.com, www.wowace.com and curse.com.
     To distribute Decursive through other means a special authorization is required.
-    
+
 
     Decursive is inspired from the original "Decursive v1.9.4" by Patrick Bohnet (Quu).
     The original "Decursive 1.9.4" is in public domain ( www.quutar.com )
 
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
-    
-    This file was last updated on 2016-10-26T6:00:42Z
+
+    This file was last updated on 2019-09-09T00:15:26Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -223,6 +223,11 @@ do
 
     local FakeRoles = {}; local roles = {"HEALER", "TANK", "DAMAGER", "NONE"};
     local function _UnitGroupRolesAssigned(unit)
+
+        if DC.WOWC then
+            return "NONE";
+        end
+
         if not TestMode then
             return UnitGroupRolesAssigned(unit);
         elseif not FakeRoles[unit] then
@@ -313,7 +318,7 @@ do
                     end
                 end
             end
-        end 
+        end
 
         if not unit then
             GUIDToUnit_ScannedAll = true;
@@ -505,10 +510,10 @@ do
 
         -- First clean and load the prioritylist (remove missing units)
         setInternalList(self.profile.PriorityList, IPL);
-        
+
         -- Get a cleaned skip list
         setInternalList(self.profile.SkipList, ISL);
-        
+
         Lookforpets = true;
 
         -- if we are not in a raid but in a party
@@ -592,7 +597,7 @@ do
             end
 
             -- Add the player to the main list if needed
-            
+
             addUnit("player", 0, myGUID, CurrentGroup)
 
             -- Now we have a cache without the units we want to skip
@@ -659,7 +664,7 @@ end
 
 
 -------------------------------------------------------------------------------
-T._LoadedFiles["Dcr_Raid.lua"] = "2.7.5.6";
+T._LoadedFiles["Dcr_Raid.lua"] = "2.7.6.4";
 
 -- "Your God is dead and no one cares"
 -- "If there is a Hell I'll see you there"

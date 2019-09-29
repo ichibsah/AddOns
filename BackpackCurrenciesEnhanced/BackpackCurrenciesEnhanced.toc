@@ -1,7 +1,0 @@
-﻿## Interface: 70100
-## Title: Backpack Currencies Enhanced
-## Version: 1.1
-## Notes: Improves the display of currencies under the backpack
-## Author: Malcorne (EU-Hyjal)
-
-BackpackCurrenciesEnhanced.lua

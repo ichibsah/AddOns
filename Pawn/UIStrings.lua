@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2017 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -271,8 +271,8 @@ PawnUIFrame_ShowSocketingAdvisorCheck_Text = L.OptionsSocketingAdvisor
 PawnUIFrame_ShowSocketingAdvisorCheck_Tooltip = L.OptionsSocketingAdvisorTooltip
 PawnUIFrame_ShowBoth1HAnd2HUpgradesCheck_Text = L.OptionsUpgradesForBothWeaponTypes
 PawnUIFrame_ShowBoth1HAnd2HUpgradesCheck_Tooltip = L.OptionsUpgradesForBothWeaponTypesTooltip
-PawnUIFrame_ShowRelicUpgradesCheck_Text = L.OptionsShowRelicUpgrades
-PawnUIFrame_ShowRelicUpgradesCheck_Tooltip = L.OptionsShowRelicUpgradesTooltip
+PawnUIFrame_ShowItemLevelUpgradesCheck_Text = L.OptionsShowItemLevelUpgrades
+PawnUIFrame_ShowItemLevelUpgradesCheck_Tooltip = L.OptionsShowItemLevelUpgradesTooltip
 
 PawnUIFrame_OtherOptionsHeaderLabel_Text = L.OptionsOtherHeader
 PawnUIFrame_DebugCheck_Text = L.OptionsDebug

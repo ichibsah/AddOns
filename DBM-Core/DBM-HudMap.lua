@@ -1,5 +1,5 @@
---Original code and concept by Antiarc. Used and modified with his permission.
---First adaptation in dbm credits to VEM team. Continued on their behalf do to no time from origiinal author to make it an external mod or DBM plugin.
+﻿--Original code and concept by Antiarc. Used and modified with his permission.
+--First adaptation in dbm credits to VEM team. Continued on their behalf do to no time from original author to make it an external mod or DBM plugin.
 
 local ADDON_NAME = ...
 
@@ -14,7 +14,6 @@ local error, print = error, print
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0")
 local updateFrame = CreateFrame("Frame", "DBMHudMapUpdateFrame")
 local onUpdate, Point, Edge
-local followedUnits = {}
 local callbacks = CallbackHandler:New(mod)
 local activeMarkers = 0
 local hudarActive = false
@@ -23,7 +22,7 @@ local encounterMarkers = {}
 
 local GetNumGroupMembers, GetNumSubgroupMembers, IsInRaid = GetNumGroupMembers, GetNumSubgroupMembers, IsInRaid
 local GetTime, WorldFrame = GetTime, WorldFrame
-local UnitExists, UnitIsUnit, UnitPosition, UnitDebuff, UnitIsConnected, GetPlayerFacing = UnitExists, UnitIsUnit, UnitPosition, UnitDebuff, UnitIsConnected, GetPlayerFacing
+local UnitExists, UnitIsUnit, UnitPosition, UnitIsConnected, GetPlayerFacing = UnitExists, UnitIsUnit, UnitPosition, UnitIsConnected, GetPlayerFacing
 local GetInstanceInfo = GetInstanceInfo
 
 local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
@@ -48,44 +47,44 @@ end
 local targetCanvasAlpha
 
 local textureLookup = {
-	star		= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_1.blp]],
-	circle		= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_2.blp]],
-	diamond		= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_3.BLP]],
-	triangle	= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_4.blp]],
-	moon		= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_5.blp]],
-	square		= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_6.blp]],
-	cross		= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_7.blp]],
-	skull		= [[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_8.blp]],
-	cross2		= [[Interface\RAIDFRAME\ReadyCheck-NotReady.blp]],
-	check		= [[Interface\RAIDFRAME\ReadyCheck-Ready.blp]],
-	question	= [[Interface\RAIDFRAME\ReadyCheck-Waiting.blp]],
-	targeting	= [[Interface\Minimap\Ping\ping5.blp]],
+	star		= 137001,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_1.blp]]
+	circle		= 137002,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_2.blp]]
+	diamond		= 137003,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_3.BLP]]
+	triangle	= 137004,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_4.blp]]
+	moon		= 137005,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_5.blp]]
+	square		= 137006,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_6.blp]]
+	cross		= 137007,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_7.blp]]
+	skull		= 137008,--[[Interface\TARGETINGFRAME\UI-RaidTargetingIcon_8.blp]]
+	cross2		= 136813,--[[Interface\RAIDFRAME\ReadyCheck-NotReady.blp]]
+	check		= 136814,--[[Interface\RAIDFRAME\ReadyCheck-Ready.blp]]
+	question	= 136815,--[[Interface\RAIDFRAME\ReadyCheck-Waiting.blp]]
+	targeting	= 136439,--[[Interface\Minimap\Ping\ping5.blp]]
 	highlight	= [[Interface\AddOns\DBM-Core\textures\alert_circle]],
 	timer		= [[Interface\AddOns\DBM-Core\textures\timer]],
-	glow		= [[Interface\GLUES\MODELS\UI_Tauren\gradientCircle]],
-	party		= [[Interface\MINIMAP\PartyRaidBlips]],
-	ring		= [[SPELLS\CIRCLE]],
-	rune1		= [[SPELLS\AURARUNE256.BLP]],
-	rune2		= [[SPELLS\AURARUNE9.BLP]],
-	rune3		= [[SPELLS\AURARUNE_A.BLP]],
-	rune4		= [[SPELLS\AURARUNE_B.BLP]],
-	odunblue	= [[Interface\Icons\Boss_OdunRunes_Blue.blp]],--Blue fishies
-	odungreen	= [[Interface\Icons\Boss_OdunRunes_Green.blp]],--Green cube
-	odunorange	= [[Interface\Icons\Boss_OdunRunes_Orange.blp]],--Orange N
-	odunpurple	= [[Interface\Icons\Boss_OdunRunes_Purple.blp]],--Purple K
-	odunyellow	= [[Interface\Icons\Boss_OdunRunes_Yellow.blp]],--Yellow H
-	astrored	= [[Interface\Icons\icon_7fx_nightborn_astromancer_red.blp]],--Wolf
-	astroyellow	= [[Interface\Icons\icon_7fx_nightborn_astromancer_yellow.blp]],--Crab
-	astroblue	= [[Interface\Icons\icon_7fx_nightborn_astromancer_blue.blp]],--Dragon
-	astrogreen	= [[Interface\Icons\icon_7fx_nightborn_astromancer_green.blp]],--Hunter
-	paw			= [[SPELLS\Agility_128.blp]],
-	cyanstar	= [[SPELLS\CYANSTARFLASH.BLP]],
-	summon		= [[SPELLS\DarkSummon.blp]],
-	reticle		= [[SPELLS\Reticle_128.blp]],
-	fuzzyring	= [[SPELLS\WHITERINGTHIN128.BLP]],
-	fatring		= [[SPELLS\WhiteRingFat128.blp]],
-	swords		= [[SPELLS\Strength_128.blp]],
-	beam1		= [[Textures\SPELLCHAINEFFECTS\Beam_01]]
+	glow		= 132039,--[[Interface\GLUES\MODELS\UI_Tauren\gradientCircle]]
+	party		= 249183,--[[Interface\MINIMAP\PartyRaidBlips]]
+	ring		= 165793,--[[SPELLS\CIRCLE]]
+	rune1		= 165630,--[[SPELLS\AURARUNE256.BLP]]
+	rune2		= 165637,--[[SPELLS\AURARUNE9.BLP]]
+	rune3		= 165638,--[[SPELLS\AURARUNE_A.BLP]]
+	rune4		= 165639,--[[SPELLS\AURARUNE_B.BLP]]
+	odunblue	= 1323035,--[[Interface\Icons\Boss_OdunRunes_Blue.blp]]--Blue fishies
+	odungreen	= 1323036,--[[Interface\Icons\Boss_OdunRunes_Green.blp]]--Green cube
+	odunorange	= 1323039,--[[Interface\Icons\Boss_OdunRunes_Orange.blp]]--Orange N
+	odunpurple	= 1323037,--[[Interface\Icons\Boss_OdunRunes_Purple.blp]]--Purple K
+	odunyellow	= 1323038,--[[Interface\Icons\Boss_OdunRunes_Yellow.blp]]--Yellow H
+	astrored	= 1391537,--[[Interface\Icons\icon_7fx_nightborn_astromancer_red.blp]]--Wolf
+	astroyellow	= 1391538,--[[Interface\Icons\icon_7fx_nightborn_astromancer_yellow.blp]]--Crab
+	astroblue	= 1391535,--[[Interface\Icons\icon_7fx_nightborn_astromancer_blue.blp]]--Dragon
+	astrogreen	= 1391536,--[[Interface\Icons\icon_7fx_nightborn_astromancer_green.blp]]--Hunter
+	paw			= 165558,--[[SPELLS\Agility_128.blp]]
+	cyanstar	= 165860,--[[SPELLS\CYANSTARFLASH.BLP]]
+	summon		= 165881,--[[SPELLS\DarkSummon.blp]]
+	reticle		= 166706,--[[SPELLS\Reticle_128.blp]]
+	fuzzyring	= 167208,--[[SPELLS\WHITERINGTHIN128.BLP]]
+	fatring		= 167207,--[[SPELLS\WhiteRingFat128.blp]]
+	swords		= 166984,--[[SPELLS\Strength_128.blp]]
+	beam1		= 424588--[[Textures\SPELLCHAINEFFECTS\Beam_01]]
 }
 
 local textureKeys, textureVals = {}, {}
@@ -293,7 +292,6 @@ function mod:Enable()
 	DBM:Debug("HudMap Activating", 2)
 	self.currentMap = select(8, GetInstanceInfo())
 	mainFrame:Show()
---	mainFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	mainFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
 	self.canvas:Show()
 	self.canvas:SetAlpha(1)
@@ -345,15 +343,6 @@ do
 			mod:OnInitialize()
 			--mod:Enable()
 			mainFrame:UnregisterEvent("ADDON_LOADED")
---[[		elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-			local timestamp, clevent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID = ...
-			if clevent == "UNIT_DIED" then
-				for k, v in pairs(followedUnits) do
-					if sourceName and k and UnitIsUnit(sourceName, k) and not v.persist then
-						v:Free()
-					end
-				end
-			end--]]
 		elseif event == "LOADING_SCREEN_DISABLED" then
 			mod.currentMap = select(8, GetInstanceInfo())
 		end
@@ -454,7 +443,7 @@ local function DrawRouteLineCustom(T, C, sx, sy, ex, ey, w, extend, relPoint)
 		Bwid = ((l * c) - (w * s)) * TAXIROUTE_LINEFACTOR_2;
 		Bhgt = ((w * c) - (l * s)) * TAXIROUTE_LINEFACTOR_2;
 		BLx, BLy, BRy = (w / l) * sc, s * s, (l / w) * sc;
-		BRx, TLx, TLy, TRx = 1 - BLy, BLy, 1 - BRy, 1 - BLx; 
+		BRx, TLx, TLy, TRx = 1 - BLy, BLy, 1 - BRy, 1 - BLx;
 		TRy = BRx;
 	else
 		Bwid = ((l * c) + (w * s)) * TAXIROUTE_LINEFACTOR_2;
@@ -694,7 +683,7 @@ Edge = setmetatable({
 		elseif self.dx and self.dy then
 			dx, dy = self.dx, self.dy
 		end
-		
+
 		if self.w then
 			w = self.w
 		else
@@ -704,7 +693,7 @@ Edge = setmetatable({
 		local visible
 		if sx and sy and dx and dy then
 			local px, py = mod:GetUnitPosition("player")
-			local radius = zoomScale * zoomScale 
+			local radius = zoomScale * zoomScale
 			local d1 = pow(px - sx, 2) + pow(py - sy, 2)
 			local d2 = pow(px - dx, 2) + pow(py - dy, 2)
 			visible = d1 < radius or d2 < radius
@@ -771,9 +760,6 @@ do
 		Free = function(self, noAnimate)
 			if self:OnFree(noAnimate) == false then return end
 
-			if self.follow then
-				followedUnits[self.follow] = nil
-			end
 			for edge, _ in pairs(self.edges) do
 				edge:Free()
 			end
@@ -810,11 +796,11 @@ do
 			return self
 		end,
 
+		--Doubt anything actually uses Follow call, should probably be stripped out
 		Follow = function(self, unit)
 			self.stickX = nil
 			self.stickY = nil
 			self.follow = unit
-			followedUnits[unit] = self
 			return self
 		end,
 
@@ -982,13 +968,13 @@ do
 
 			local alert = false
 			if type(self.shouldUpdateRange) == "string" and self.shouldUpdateRange ~= "all" then--Spellname passed, debuff filter
-				if not UnitDebuff("player", self.shouldUpdateRange) then--Debuff faded from player, auto switch to "all" type
+				if not DBM:UnitDebuff("player", self.shouldUpdateRange) then--Debuff faded from player, auto switch to "all" type
 					self.shouldUpdateRange = true
 					self:UpdateAlerts(self)
 					return
 				end
 				for index, unit in group() do
-					if not UnitDebuff(unit, self.shouldUpdateRange) and not UnitIsDead(unit) then
+					if not DBM:UnitDebuff(unit, self.shouldUpdateRange) and not UnitIsDead(unit) then
 						alert = mod:DistanceToPoint(unit, x, y) < self.radius
 						if alert then break end
 					end
@@ -1026,7 +1012,7 @@ do
 		SetTexture = function(self, texfile, blend)
 			local tex = self.texture
 			texfile = texfile or "glow"
-			tex:SetTexture(textureLookup[texfile] or texfile or [[Interface\GLUES\MODELS\UI_Tauren\gradientCircle]])
+			tex:SetTexture(textureLookup[texfile] or texfile or 132039)--[[Interface\GLUES\MODELS\UI_Tauren\gradientCircle]]
 			if texCoordLookup[texfile] then
 				tex:SetTexCoord(unpack(texCoordLookup[texfile]))
 			else
@@ -1292,28 +1278,11 @@ end
 edge_mt.__index = Edge
 point_mt.__index = Point
 
-function mod:PlaceRangeMarker(texture, x, y, radius, duration, r, g, b, a, blend, priority)
-	local red, green, blue = r, g, b
-	local size, alpha, graphic = radius, a, texture
-	if priority then
-		if DBM.Options.HUDColorOverride then
-			local colors = priority == 1 and DBM.Options.HUDColor1 or priority == 2 and DBM.Options.HUDColor2 or priority == 3 and DBM.Options.HUDColor3 or priority == 4 and DBM.Options.HUDColor4
-			red, green, blue = colors[1], colors[2], colors[3]
-		end
-		if DBM.Options.HUDSizeOverride then
-			size = priority == 1 and DBM.Options.HUDSize1 or priority == 2 and DBM.Options.HUDSize2 or priority == 3 and DBM.Options.HUDSize3 or priority == 4 and DBM.Options.HUDSize4
-		end
-		if DBM.Options.HUDAlphaOverride then
-			alpha = priority == 1 and DBM.Options.HUDAlpha1 or priority == 2 and DBM.Options.HUDAlpha2 or priority == 3 and DBM.Options.HUDAlpha3 or priority == 4 and DBM.Options.HUDAlpha4
-		end
-		if DBM.Options.HUDTextureOverride then
-			graphic = priority == 1 and DBM.Options.HUDTexture1 or priority == 2 and DBM.Options.HUDTexture2 or priority == 3 and DBM.Options.HUDTexture3 or priority == 4 and DBM.Options.HUDTexture4
-		end
-	end
-	return Point:New(self.currentMap, x, y, nil, duration, graphic, size, blend, red, green, blue, alpha)
+function mod:PlaceRangeMarker(texture, x, y, radius, duration, r, g, b, a, blend)
+	return Point:New(self.currentMap, x, y, nil, duration, texture, radius, blend, r, g, b, a)
 end
 
-function mod:PlaceStaticMarkerOnPartyMember(texture, person, radius, duration, r, g, b, a, blend, priority)
+function mod:PlaceStaticMarkerOnPartyMember(texture, person, radius, duration, r, g, b, a, blend)
 	if not r and person then--Auto generate class color if colors were left nil
 		local _, cls = UnitClass(person)
 		if cls and RAID_CLASS_COLORS[cls] then
@@ -1321,30 +1290,13 @@ function mod:PlaceStaticMarkerOnPartyMember(texture, person, radius, duration, r
 		else
 			DBM:Debug("HudMap Marker failed, no color defined and no unit class")
 			return--Should not happen, but prevent error if it does
-		end
-	end
-	local red, green, blue = r, g, b
-	local size, alpha, graphic = radius, a, texture
-	if priority then
-		if DBM.Options.HUDColorOverride then
-			local colors = priority == 1 and DBM.Options.HUDColor1 or priority == 2 and DBM.Options.HUDColor2 or priority == 3 and DBM.Options.HUDColor3 or priority == 4 and DBM.Options.HUDColor4
-			red, green, blue = colors[1], colors[2], colors[3]
-		end
-		if DBM.Options.HUDSizeOverride then
-			size = priority == 1 and DBM.Options.HUDSize1 or priority == 2 and DBM.Options.HUDSize2 or priority == 3 and DBM.Options.HUDSize3 or priority == 4 and DBM.Options.HUDSize4
-		end
-		if DBM.Options.HUDAlphaOverride then
-			alpha = priority == 1 and DBM.Options.HUDAlpha1 or priority == 2 and DBM.Options.HUDAlpha2 or priority == 3 and DBM.Options.HUDAlpha3 or priority == 4 and DBM.Options.HUDAlpha4
-		end
-		if DBM.Options.HUDTextureOverride then
-			graphic = priority == 1 and DBM.Options.HUDTexture1 or priority == 2 and DBM.Options.HUDTexture2 or priority == 3 and DBM.Options.HUDTexture3 or priority == 4 and DBM.Options.HUDTexture4
 		end
 	end
 	local x, y = self:GetUnitPosition(person)
-	return Point:New(self.currentMap, x, y, nil, duration, graphic, size, blend, red, green, blue, alpha)
+	return Point:New(self.currentMap, x, y, nil, duration, texture, radius, blend, r, g, b, a)
 end
 
-function mod:PlaceRangeMarkerOnPartyMember(texture, person, radius, duration, r, g, b, a, blend, priority)
+function mod:PlaceRangeMarkerOnPartyMember(texture, person, radius, duration, r, g, b, a, blend)
 	if not r and person then--Auto generate class color if colors were left nil
 		local _, cls = UnitClass(person)
 		if cls and RAID_CLASS_COLORS[cls] then
@@ -1354,24 +1306,7 @@ function mod:PlaceRangeMarkerOnPartyMember(texture, person, radius, duration, r,
 			return--Should not happen, but prevent error if it does
 		end
 	end
-	local red, green, blue = r, g, b
-	local size, alpha, graphic = radius, a, texture
-	if priority then
-		if DBM.Options.HUDColorOverride then
-			local colors = priority == 1 and DBM.Options.HUDColor1 or priority == 2 and DBM.Options.HUDColor2 or priority == 3 and DBM.Options.HUDColor3 or priority == 4 and DBM.Options.HUDColor4
-			red, green, blue = colors[1], colors[2], colors[3]
-		end
-		if DBM.Options.HUDSizeOverride then
-			size = priority == 1 and DBM.Options.HUDSize1 or priority == 2 and DBM.Options.HUDSize2 or priority == 3 and DBM.Options.HUDSize3 or priority == 4 and DBM.Options.HUDSize4
-		end
-		if DBM.Options.HUDAlphaOverride then
-			alpha = priority == 1 and DBM.Options.HUDAlpha1 or priority == 2 and DBM.Options.HUDAlpha2 or priority == 3 and DBM.Options.HUDAlpha3 or priority == 4 and DBM.Options.HUDAlpha4
-		end
-		if DBM.Options.HUDTextureOverride then
-			graphic = priority == 1 and DBM.Options.HUDTexture1 or priority == 2 and DBM.Options.HUDTexture2 or priority == 3 and DBM.Options.HUDTexture3 or priority == 4 and DBM.Options.HUDTexture4
-		end
-	end
-	return Point:New(nil, nil, nil, person, duration, graphic, size, blend, red, green, blue, alpha)
+	return Point:New(nil, nil, nil, person, duration, texture, radius, blend, r, g, b, a)
 end
 
 function mod:RegisterEncounterMarker(spellid, name, marker)
@@ -1385,33 +1320,24 @@ function mod:RegisterEncounterMarker(spellid, name, marker)
 	marker.RegisterCallback(self, "Free", "FreeEncounterMarker", key)
 end
 
-function mod:RegisterPositionMarker(spellid, name, texture, x, y, radius, duration, r, g, b, a, blend, priority)
-	local red, green, blue = r, g, b
-	local size, alpha, graphic = radius, a, texture
-	if priority then
-		if DBM.Options.HUDColorOverride then
-			local colors = priority == 1 and DBM.Options.HUDColor1 or priority == 2 and DBM.Options.HUDColor2 or priority == 3 and DBM.Options.HUDColor3 or priority == 4 and DBM.Options.HUDColor4
-			red, green, blue = colors[1], colors[2], colors[3]
-		end
-		if DBM.Options.HUDSizeOverride then
-			size = priority == 1 and DBM.Options.HUDSize1 or priority == 2 and DBM.Options.HUDSize2 or priority == 3 and DBM.Options.HUDSize3 or priority == 4 and DBM.Options.HUDSize4
-		end
-		if DBM.Options.HUDAlphaOverride then
-			alpha = priority == 1 and DBM.Options.HUDAlpha1 or priority == 2 and DBM.Options.HUDAlpha2 or priority == 3 and DBM.Options.HUDAlpha3 or priority == 4 and DBM.Options.HUDAlpha4
-		end
-		if DBM.Options.HUDTextureOverride then
-			graphic = priority == 1 and DBM.Options.HUDTexture1 or priority == 2 and DBM.Options.HUDTexture2 or priority == 3 and DBM.Options.HUDTexture3 or priority == 4 and DBM.Options.HUDTexture4
+function mod:RegisterPositionMarker(spellid, name, texture, x, y, radius, duration, r, g, b, a, blend, localMap, AreaID)
+	if localMap then
+		if x >= 0 and x <= 100 and y >= 0 and y <= 100 then
+			local localMap = tonumber(AreaID) or C_Map.GetBestMapForUnit("player")
+			local vector = CreateVector2D(x/100, y/100)
+			local _, temptable = C_Map.GetWorldPosFromMapPos(localMap, vector)
+			x, y = temptable.x, temptable.y
 		end
 	end
 	local marker = encounterMarkers[spellid..name]
 	if marker ~= nil then return marker end
-	marker = Point:New(self.currentMap, x, y, nil, duration, graphic, size, blend, red, green, blue, alpha)
+	marker = Point:New(self.currentMap, x, y, nil, duration, texture, radius, blend, r, g, b, a)
 	self:RegisterEncounterMarker(spellid, name, marker)
 	return marker
 end
 
-function mod:RegisterStaticMarkerOnPartyMember(spellid, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf, priority)
-	if DBM.Options.FilterSelfHud and canFilterSelf and UnitIsUnit("player", person) then a = 0 end
+function mod:RegisterStaticMarkerOnPartyMember(spellid, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf)
+	--if DBM.Options.FilterSelfHud and canFilterSelf and UnitIsUnit("player", person) then a = 0 end
 	if not r and person then--Auto generate class color if colors were left nil
 		local _, cls = UnitClass(person)
 		if cls and RAID_CLASS_COLORS[cls] then
@@ -1419,35 +1345,18 @@ function mod:RegisterStaticMarkerOnPartyMember(spellid, texture, person, radius,
 		else
 			DBM:Debug("HudMap Marker failed, no color defined and no unit class")
 			return--Should not happen, but prevent error if it does
-		end
-	end
-	local red, green, blue = r, g, b
-	local size, alpha, graphic = radius, a, texture
-	if priority and a ~= 0 then
-		if DBM.Options.HUDColorOverride then
-			local colors = priority == 1 and DBM.Options.HUDColor1 or priority == 2 and DBM.Options.HUDColor2 or priority == 3 and DBM.Options.HUDColor3 or priority == 4 and DBM.Options.HUDColor4
-			red, green, blue = colors[1], colors[2], colors[3]
-		end
-		if DBM.Options.HUDSizeOverride then
-			size = priority == 1 and DBM.Options.HUDSize1 or priority == 2 and DBM.Options.HUDSize2 or priority == 3 and DBM.Options.HUDSize3 or priority == 4 and DBM.Options.HUDSize4
-		end
-		if DBM.Options.HUDAlphaOverride then
-			alpha = priority == 1 and DBM.Options.HUDAlpha1 or priority == 2 and DBM.Options.HUDAlpha2 or priority == 3 and DBM.Options.HUDAlpha3 or priority == 4 and DBM.Options.HUDAlpha4
-		end
-		if DBM.Options.HUDTextureOverride then
-			graphic = priority == 1 and DBM.Options.HUDTexture1 or priority == 2 and DBM.Options.HUDTexture2 or priority == 3 and DBM.Options.HUDTexture3 or priority == 4 and DBM.Options.HUDTexture4
 		end
 	end
 	local marker = encounterMarkers[spellid..person]
 	if marker ~= nil then return marker end
 	local x, y = self:GetUnitPosition(person)
-	marker = Point:New(self.currentMap, x, y, nil, duration, graphic, size, blend, red, green, blue, alpha)
+	marker = Point:New(self.currentMap, x, y, nil, duration, texture, radius, blend, r, g, b, a)
 	self:RegisterEncounterMarker(spellid, person, marker)
 	return marker
 end
 
-function mod:RegisterRangeMarkerOnPartyMember(spellid, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf, priority)
-	if DBM.Options.FilterSelfHud and canFilterSelf and UnitIsUnit("player", person) then a = 0 end
+function mod:RegisterRangeMarkerOnPartyMember(spellid, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf)
+	--if DBM.Options.FilterSelfHud and canFilterSelf and UnitIsUnit("player", person) then a = 0 end
 	if not r and person then--Auto generate class color if colors were left nil
 		local _, cls = UnitClass(person)
 		if cls and RAID_CLASS_COLORS[cls] then
@@ -1457,26 +1366,9 @@ function mod:RegisterRangeMarkerOnPartyMember(spellid, texture, person, radius, 
 			return--Should not happen, but prevent error if it does
 		end
 	end
-	local red, green, blue = r, g, b
-	local size, alpha, graphic = radius, a, texture
-	if priority and a ~= 0 then
-		if DBM.Options.HUDColorOverride then
-			local colors = priority == 1 and DBM.Options.HUDColor1 or priority == 2 and DBM.Options.HUDColor2 or priority == 3 and DBM.Options.HUDColor3 or priority == 4 and DBM.Options.HUDColor4
-			red, green, blue = colors[1], colors[2], colors[3]
-		end
-		if DBM.Options.HUDSizeOverride then
-			size = priority == 1 and DBM.Options.HUDSize1 or priority == 2 and DBM.Options.HUDSize2 or priority == 3 and DBM.Options.HUDSize3 or priority == 4 and DBM.Options.HUDSize4
-		end
-		if DBM.Options.HUDAlphaOverride then
-			alpha = priority == 1 and DBM.Options.HUDAlpha1 or priority == 2 and DBM.Options.HUDAlpha2 or priority == 3 and DBM.Options.HUDAlpha3 or priority == 4 and DBM.Options.HUDAlpha4
-		end
-		if DBM.Options.HUDTextureOverride then
-			graphic = priority == 1 and DBM.Options.HUDTexture1 or priority == 2 and DBM.Options.HUDTexture2 or priority == 3 and DBM.Options.HUDTexture3 or priority == 4 and DBM.Options.HUDTexture4
-		end
-	end
 	local marker = encounterMarkers[spellid..person]
 	if marker ~= nil then return marker end
-	marker = Point:New(nil, nil, nil, person, duration, graphic, size, blend, red, green, blue, alpha)
+	marker = Point:New(nil, nil, nil, person, duration, texture, radius, blend, r, g, b, a)
 	self:RegisterEncounterMarker(spellid, person, marker)
 	return marker
 end
@@ -1511,7 +1403,7 @@ end
 function mod:DistanceBetweenPoints(x1, y1, x2, y2)
 	local dx = x2 - x1
 	local dy = y2 - y1
-	return abs(pow((dx*dx)+(dy*dy), 0.5))	
+	return abs(pow((dx*dx)+(dy*dy), 0.5))
 end
 
 function mod:DistanceToPoint(unit, x, y)
@@ -1547,7 +1439,11 @@ function mod:SetZoom(zoom, zoomChange)
 end
 
 function mod:SetFixedZoom(zoom)
-	fixedZoomScale = zoom
+	if type(zoom) == "number" then
+		fixedZoomScale = zoom
+	else
+		fixedZoomScale = nil
+	end
 end
 
 function mod:Update()
@@ -1610,7 +1506,7 @@ do
 		end
 
 		local hyp = abs(sqrt((dx * dx) + (dy * dy)))
-		local x, y = sin(angle + bearing), cos(angle + bearing)
+		x, y = sin(angle + bearing), cos(angle + bearing)
 		nx, ny = -x * hyp, -y * hyp
 
 		if alwaysShow then

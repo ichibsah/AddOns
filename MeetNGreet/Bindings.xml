@@ -1,8 +1,0 @@
-<Bindings>
-	<Binding name="MeetNGreet_Farewell" header="MeetNGreet">
-		MeetNGreet:Farewell()
-	</Binding>
-	<Binding name="MeetNGreet_Greet">
-		MeetNGreet:Greet()
-	</Binding>
-</Bindings>
