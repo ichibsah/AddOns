@@ -249,6 +249,7 @@ qcLocalize = {
 	TEMPLEOFTHEREDCRANE = "Temple of the Red Crane",
 	TEROKKARFOREST = "Terokkar Forest",
 	THEARCATRAZ = "The Arcatraz",
+	THEBARRENS = "The Barrens",
 	THEBASTIONOFTWILIGHT = "The Bastion of Twilight",
 	THEBATTLEFORGILNEAS = "The Battle for Gilneas",
 	THEBLACKMORASS = "The Black Morass",
@@ -445,4 +446,6 @@ qcLocalize = {
 	PLAYERVSPLAYER = "Player Vs Player",
 	HERITAGE = "Heritage",
 	RATEDPVP = "Rated Pvp",
+	WORLDPVP = "World Pvp",
+	THEETERNALPALACE = "The Eternal Palace",
 	}

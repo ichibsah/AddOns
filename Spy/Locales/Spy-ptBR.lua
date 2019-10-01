@@ -39,7 +39,7 @@ Jogadores que são adicionados à Lista Negra são reportados pelo Spy através 
 O menu de contexto também permite que você justifique as razões que o levou a colocar determinada pessoa na Lista Negra. Se quiser colocar uma motivo especifico que não tenha na lista, em seguida, use "Digite seu próprio motivo..." em Outra lista..
 
 
-|cffffd000Autor: http://www.curse.com/users/slipjack |cffffffff
+|cffffd000Autor: Slipjack|cffffffff
 
 ]]
 L["EnableSpy"] = "Ativar Spy"
@@ -148,8 +148,6 @@ L["PrioritiseKoSDescription"] = "Marque isso para sempre motrar primeiro inimigo
 L["MinimapOptions"] = "Mapa"
 L["MinimapOptionsDescription"] = [[
 Para jogadores que podem rastrear humanóides o minimapa pode ser utilizado para fornecer recursos adicionais.
-
-Jogadores que podem rastrear humanóides incluem caçadores, druidas e aqueles que recebem a habilidade por outros meios como por exemplo comendo Filé de Worg Esturricado.
 ]]
 L["MinimapTracking"] = "Ativar rastreamento no minimapa"
 L["MinimapTrackingDescription"] = "Marque isso para ativar rastreamento e detecção no minimapa. Jogadores inimigos detectados no minimapa serão adicionados à lista de Proximidades."
@@ -465,4 +463,5 @@ Spy_IgnoreList = {
 	["Beijo-do-inverno"]=true,	["War Headquarters (PvP)"]=true,
 	["Assassino da Aliança"]=true, ["Assassino da Horda"]=true,	
 	["Chapéu de Pássaro Místico"]=true, ["Primo Mãomole"]=true,		
+	["Azerita para a Aliança"]=true, ["Azerita para a Horda"]=true,	
 };

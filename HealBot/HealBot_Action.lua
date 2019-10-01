@@ -387,7 +387,8 @@ function HealBot_Action_SetrSpell()
         if HEALBOT_GAME_VERSION>3 then
             sName=HealBot_KnownSpell(HEALBOT_POWER_WORD_FORTITUDE)
         else
-            sName=HealBot_KnownSpell(HBC_POWER_WORD_FORTITUDE)
+            sName=HealBot_KnownSpell(HBC_PRAYER_OF_FORTITUDE)
+            if not sName then sName=HealBot_KnownSpell(HBC_POWER_WORD_FORTITUDE) end
         end
 		if sName then 
 			HealBot_RangeSpells["BUFF"]=sName
@@ -3042,8 +3043,6 @@ local function HealBot_Action_hbmenuFrame_DropDown_Initialize(self,level,menuLis
     local info
     level = level or 1;
     if level==1 then
- 
-        xButton=HealBot_Unit_Button[self.unit]
         info = UIDropDownMenu_CreateInfo();
         info.isTitle = 1
         info.text = self.name
@@ -3052,12 +3051,12 @@ local function HealBot_Action_hbmenuFrame_DropDown_Initialize(self,level,menuLis
         info = UIDropDownMenu_CreateInfo();
         info.hasArrow = false; 
         info.notCheckable = true;
-        if HealBot_AlwaysEnabled[self.guid] then
+        if HealBot_AlwaysEnabled[UnitGUID(self.unit)] then
             info.text = HEALBOT_SKIN_DISTEXT;
         else
             info.text = HEALBOT_SKIN_ENTEXT;
         end
-        info.func = function() HealBot_Action_Toggle_Enabled(xButton); end
+        info.func = function() HealBot_Action_Toggle_Enabled(self.unit); end
         UIDropDownMenu_AddButton(info, 1);
 
         info = UIDropDownMenu_CreateInfo();
@@ -3107,7 +3106,7 @@ local function HealBot_Action_hbmenuFrame_DropDown_Initialize(self,level,menuLis
         info.hasArrow = false; 
         info.notCheckable = true;
         info.text = HEALBOT_WORD_RESET
-        info.func = function() HealBot_Reset_Unit(xButton); end
+        info.func = function() HealBot_Reset_Unit(self.unit); end
         UIDropDownMenu_AddButton(info, 1);
         
         info = UIDropDownMenu_CreateInfo();
@@ -3514,7 +3513,7 @@ function HealBot_Action_SetHealButton(unit,hbGUID,hbCurFrame,unitType)
             HealBot_Action_rCalls[unit]={["aggroIndicator"]="notSet",["powerIndicator"]="notSet",["manaIndicator"]="notSet",["barText"]="notSet",["hca"]=0,}
             HealBot_Action_SetAllButtonAttribs(shb,"Enemy")
             HealBot_Action_SetAllButtonAttribs(shb,"Enabled")
-            HealBot_setUnitIcons(unit)
+            HealBot_setUnitIcons(unit, hbGUID)
             HealBot_OnEvent_UnitHealth(shb)
             HealBot_HealsInUpdate(shb)
             HealBot_AbsorbsUpdate(shb)
@@ -3984,7 +3983,7 @@ end
 local function HealBot_MountsPets_ToggelMount(mountType)
     if IsMounted() then
         Dismount()
-	elseif CanExitVehicle() then	
+	elseif HEALBOT_GAME_VERSION>3 and CanExitVehicle() then	
 		VehicleExit()
     elseif HealBot_mountData["ValidUse"] and IsOutdoors() and not HealBot_IsFighting then
         local mount = nil
@@ -4096,7 +4095,7 @@ local function HealBot_Action_DoHealUnit_Wheel(self, delta)
     elseif HealBot_MouseWheelCmd==HEALBOT_DEMOTE_RA then
         DemoteAssistant(xUnit)
     elseif HealBot_MouseWheelCmd==HEALBOT_TOGGLE_ENABLED then
-        HealBot_Action_Toggle_Enabled(xButton)
+        HealBot_Action_Toggle_Enabled(xUnit)
     elseif HealBot_MouseWheelCmd==HEALBOT_TOGGLE_MYTARGETS then
         HealBot_Panel_ToggelHealTarget(xButton.unit)
     elseif HealBot_MouseWheelCmd==HEALBOT_TOGGLE_PRIVATETANKS then
@@ -4104,7 +4103,7 @@ local function HealBot_Action_DoHealUnit_Wheel(self, delta)
     elseif HealBot_MouseWheelCmd==HEALBOT_TOGGLE_PRIVATEHEALERS then
         HealBot_Panel_ToggelPrivateHealers(xButton.unit, false)
     elseif HealBot_MouseWheelCmd==HEALBOT_RESET_BAR then
-        HealBot_Reset_Unit(xButton)
+        HealBot_Reset_Unit(xUnit)
     elseif HealBot_MouseWheelCmd==HEALBOT_RANDOMMOUNT and UnitIsUnit(xUnit,"player") and not UnitAffectingCombat("player") then
         HealBot_MountsPets_ToggelMount("all")
     elseif HealBot_MouseWheelCmd==HEALBOT_RANDOMGOUNDMOUNT and UnitIsUnit(xUnit,"player") and not UnitAffectingCombat("player") then
@@ -4166,6 +4165,7 @@ local function HealBot_Action_UseSmartCast(bp)
 end
 
 local function HealBot_Action_PreClick(self,button)
+    local xButton=self
     if self.id<999 and UnitExists(self.unit) and UnitIsFriend("player",self.unit) then
         HealBot_setLuVars("TargetUnitID", self.unit)
         usedSmartCast=false;
@@ -4204,10 +4204,10 @@ local function HealBot_Action_PreClick(self,button)
                 end
             elseif button=="LeftButton" and HealBot_Globals.SmartCast and not IsModifierKeyDown() and 
                    not HealBot_Data["UILOCK"] and not UnitAffectingCombat(self.unit) then
-                HealBot_Action_UseSmartCast(self)
+                HealBot_Action_UseSmartCast(xButton)
             end
         elseif IsShiftKeyDown() and IsControlKeyDown() and IsAltKeyDown() and button=="MiddleButton" then
-            HealBot_Action_Toggle_Enabled(self)
+            HealBot_Action_Toggle_Enabled(self.unit)
         elseif not HealBot_Data["UILOCK"] and not UnitAffectingCombat(self.unit) then
             if HealBot_Globals.ProtectPvP then
                 if UnitIsPVP(self.unit) and not UnitIsPVP("player") then 
@@ -4231,16 +4231,8 @@ local function HealBot_Action_PostClick(self,button)
         HealBot_Panel_clickToFocus("hide")
         HealBot_nextRecalcParty(3)
     elseif UnitExists(self.unit) and UnitIsFriend("player",self.unit) and usedSmartCast then
-        if self.unit=="target" then
-            if aj==1 then
-                self:SetAttribute(HB_prefix.."helpbutton"..aj, "target"..aj);
-                self:SetAttribute(HB_prefix.."type"..aj, "target")
-                self:SetAttribute(HB_prefix.."type-target"..aj, "target")
-            end
-        else
-            HealBot_Action_SetButtonAttrib(self,abutton,ModKey,"Enemy",aj)
-            HealBot_Action_SetButtonAttrib(self,abutton,ModKey,"Enabled",aj)
-        end
+        HealBot_Action_SetButtonAttrib(self,abutton,ModKey,"Enemy",aj)
+        HealBot_Action_SetButtonAttrib(self,abutton,ModKey,"Enabled",aj)
     end
 end
 
@@ -4590,14 +4582,14 @@ function HealBot_Action_OnDragStart(self, hbCurFrame)
     end
 end
 
-function HealBot_Action_Toggle_Enabled(button)
-    local xGUID=UnitGUID(button.unit)
-    if HealBot_AlwaysEnabled[button.guid] then
-        HealBot_AlwaysEnabled[button.guid]=nil
+function HealBot_Action_Toggle_Enabled(unit)
+    local xGUID=UnitGUID(unit)
+    if HealBot_AlwaysEnabled[xGUID] then
+        HealBot_AlwaysEnabled[xGUID]=nil
     else
-        HealBot_AlwaysEnabled[button.guid]=true
+        HealBot_AlwaysEnabled[xGUID]=true
     end
-    HealBot_Action_ResetUnitStatus(button)
+    HealBot_setOptions_Timer(80)
 end
 
 function HealBot_Action_AlwaysEnabled(hbGUID)
@@ -4621,7 +4613,9 @@ function HealBot_Action_SmartCast(button)
         rSpell=HealBot_RangeSpells["BUFF"]
     elseif HealBot_Globals.SmartCastHeal then
         local x=button.health.max-(button.health.current+button.health.incoming)
-        if x>(UnitLevel("player")*20) then
+        local h=25
+        if HEALBOT_GAME_VERSION<4 then h=10 end
+        if x>(UnitLevel("player")*h) then
             scuSpell=HealBot_SmartCast(x)
         end
     end

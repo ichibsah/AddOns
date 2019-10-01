@@ -39,7 +39,7 @@ Wird ein Spieler der "Bei Sichtkontakt zu Töten"-Liste erkannt, erklingt ein Al
 Ausserdem können Sie mithilfe des Dropdown-Menüs die Gründe hinterlegen, warum Sie jemanden zu der "Bei Sichtkontakt zu Töten"-Liste hinzugefügt haben. Möchten Sie einen nicht in der Liste hinterlegten Grund eingeben, verwenden Sie "Geben Sie Ihren eigenen Grund..." in der anderen Liste.
 
 
-|cffffd000Autor: http://www.curse.com/users/slipjack |cffffffff
+|cffffd000Autor: Slipjack|cffffffff
 
 ]]
 L["EnableSpy"] = "Aktiviert Spy"
@@ -148,8 +148,6 @@ L["PrioritiseKoSDescription"] = "Stellen Sie hier ein, das feindliche Spieler, d
 L["MinimapOptions"] = "Karte"
 L["MinimapOptionsDescription"] = [[
 Spieler, die Humanoide verfolgen können, können die Minikarte für zusätzliche Features nutzen.
- 
-Spieler, die Humanoide verfolgen können, inklusive Jäger, Druiden, und Diejenigen, die die Fähigkeit mit anderen Mitteln, wie z.B. Essen eines geschwärztem Worgsteaks, erhalten haben.
 ]]
 L["MinimapTracking"] = "Aktiviere Minimap-Tracking"
 L["MinimapTrackingDescription"] = "Stellen Sie hier die Verfolgung und Entdeckung auf der Minikarte ein. Bekannte feindliche Spieler, die auf der Minikarte entdeckt werden, werden der In der Nähe-Liste hinzugefügt."
@@ -464,5 +462,6 @@ Spy_IgnoreList = {
 	["Meeresstängel"]=true, ["Sirenenpollen"]=true, ["Sternmoos"]=true,   
 	["Winterkuss"]=true, ["War Headquarters (PvP)"]=true,
 	["Allianzattentäter"]=true, ["Hordeattentäter"]=true,	
-	["Mystiker Vogelhut"]=true, ["Cousin Träghand"]=true,	
+	["Mystiker Vogelhut"]=true, ["Cousin Träghand"]=true,
+	["Azerit für die Allianz"]=true, ["Azerit für die Horde"]=true,	
 };

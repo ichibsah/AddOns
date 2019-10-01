@@ -21,9 +21,18 @@ PawnSingleStatMultiplier = "_SingleMultiplier"
 PawnMultipleStatsFixed = "_MultipleFixed"
 PawnMultipleStatsExtract = "_MultipleExtract"
 
+local IsClassic = GetExpansionLevel() == 0
+
 ------------------------------------------------------------
 -- Localization
 ------------------------------------------------------------
+
+-- Check for using Classic on a non-English system. ***
+if IsClassic and GetLocale() ~= "enUS" and GetLocale() ~= "frFR" then
+	local WrongClassicLocaleMessage = "Sorry, Pawn currently supports English and French on WoW Classic.  I'm working to support all languages soon."
+	message(WrongClassicLocaleMessage)
+	VgerCore.Fail(WrongClassicLocaleMessage)
+end
 
 -- The languages that Pawn is currently translated into (http://www.wowpedia.org/API_GetLocale)
 PawnLocalizedLanguages = { "deDE", "enUS", "enGB", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW" }
@@ -38,7 +47,9 @@ end
 
 -- Turns a game constant into a regular expression but without the ^ and $ on the ends.
 function PawnGameConstantUnwrapped(Text)
-	-- REVIEW: This function seems like it might be pretty inefficient...
+	-- Some of these constants don't exist on Classic, so skip them: but not on live, where we would want this to error out.
+	if Text == nil and IsClassic then return "^UNUSED$" end
+
 	local Ret1 = gsub(Text, "%%", "%%%%")
 	return gsub(Ret1, "%-", "%%-")
 end

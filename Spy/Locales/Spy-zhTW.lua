@@ -39,7 +39,7 @@ Spy 不會顯示被加入到忽略清單中的玩家。透過滑鼠右鍵選單�
 滑鼠右鍵選單也可以設定將某人加入到即殺清單的原因。如果你想要輸入不在清單中的原因，請在其他清單中使用 "自行輸入原因..."。
 
 
-|cffffd000Author: http://www.curse.com/users/slipjack|cffffffff
+|cffffd000作者: Slipjack|cffffffff
 
 ]]
 L["EnableSpy"] = "啟用"
@@ -148,8 +148,6 @@ L["PrioritiseKoSDescription"] = "在附近清單中總是將即殺的敵方玩�
 L["MinimapOptions"] = "地圖"
 L["MinimapOptionsDescription"] = [[
 提供額外的功能給能夠從小地圖追蹤人形生物的玩家。
-
-能夠追蹤人形生物的玩家包括獵人、德魯伊，或是透過其他方式獲得這個能力，像是吃焦黑的座狼排。
 ]]
 L["MinimapTracking"] = "啟用小地圖追蹤"
 L["MinimapTrackingDescription"] = "啟用小地圖追蹤和偵測，在小地圖偵測到的已知敵方玩家會加入到附近清單。"
@@ -464,5 +462,6 @@ Spy_IgnoreList = {
 	["海潮茎杆"]=true, ["海妖花粉"]=true, ["星光苔"]=true,   
 	["凛冬之吻"]=true, ["战争指挥部（PvP）"]=true,
 	["联盟刺客"]=true, ["部落刺客"]=true,
-	["秘法师鸟羽帽"]=true, ["表弟慢热手"]=true,		
+	["秘法师鸟羽帽"]=true, ["表弟慢热手"]=true,	
+	["联盟的艾泽里特"]=true, ["部落的艾泽里特"]=true,	
 };

@@ -566,7 +566,13 @@ function PawnUIFrame_DeleteScaleButton_OnOK(ConfirmationText)
 end
 
 function PawnUI_ScalesTab_SelectFrame()
-	if PawnOptions.AutoSelectScales then
+	if GetExpansionLevel() == 0 then
+		PawnUIFrame_AutoManualDivider:Hide()
+		PawnUIFrame_AutoSelectScalesOnButton:Hide()
+		PawnUIFrame_AutoSelectScalesOffButton:Hide()
+		PawnUIScalesTab_AutoFrame:Hide()
+		PawnUIScalesTab_ManualFrame:Show()
+	elseif PawnOptions.AutoSelectScales then
 		PawnUIFrame_AutoSelectScalesOnButton.SelectedTexture:Show()
 		PawnUIScalesTab_AutoFrame:Show()
 		PawnUIFrame_AutoSelectScalesOffButton.SelectedTexture:Hide()
@@ -990,7 +996,7 @@ function PawnUI_SetCompareItem(Index, ItemLink)
 		VgerCore.Fail("Index must be 1 or 2.")
 		return
 	end
-	
+
 	-- Get the item data for this item link; we can't do a comparison without it.
 	local Item
 	if ItemLink then
@@ -1002,7 +1008,14 @@ function PawnUI_SetCompareItem(Index, ItemLink)
 				VgerCore.Fail("Second parameter must be an item link or item data from PawnGetItemData.")
 				return
 			end
+		elseif type(ItemLink) == "number" or tonumber(ItemLink) ~= nil then
+			ItemLink = "item:" .. ItemLink
+			Item = PawnGetItemData(ItemLink)
+			-- If Item is nil, then that item isn't actually a valid item with stats, so we shouldn't allow it in the compare UI.
+			if not Item then return end
 		else
+			-- Check to make sure it's an item link and not, say, a battle pet.
+			if PawnGetHyperlinkType(ItemLink) ~= "item" then return end
 			-- Unenchant the item link.
 			ItemLink = PawnUnenchantItemLink(ItemLink, true)
 			Item = PawnGetItemData(ItemLink)
@@ -1069,12 +1082,6 @@ end
 
 -- Same as PawnUI_SetCompareItem, but shows the Pawn Compare UI if not already visible.
 function PawnUI_SetCompareItemAndShow(Index, ItemLink)
-	if Index ~= 1 and Index ~= 2 then
-		VgerCore.Fail("Index must be 1 or 2.")
-		return
-	end
-	if not ItemLink or PawnGetHyperlinkType(ItemLink) ~= "item" then return end
-	
 	-- Set this as a compare item.
 	local Success = PawnUI_SetCompareItem(Index, ItemLink)
 	if Success then
@@ -1760,7 +1767,12 @@ function PawnUIOptionsTabPage_OnShow()
 	PawnUIFrame_UpgradeTrackingList_UpdateSelection()
 
 	-- Advisor options
-	PawnUIFrame_ShowBagUpgradeAdvisorCheck:SetChecked(PawnCommon.ShowBagUpgradeAdvisor)
+	if GetExpansionLevel() == 0 then
+		-- The bag upgrade advisor isn't supported on Classic.
+		PawnUIFrame_ShowBagUpgradeAdvisorCheck:Hide()
+	else
+		PawnUIFrame_ShowBagUpgradeAdvisorCheck:SetChecked(PawnCommon.ShowBagUpgradeAdvisor)
+	end
 	PawnUIFrame_ShowLootUpgradeAdvisorCheck:SetChecked(PawnCommon.ShowLootUpgradeAdvisor)
 	PawnUIFrame_ShowQuestUpgradeAdvisorCheck:SetChecked(PawnCommon.ShowQuestUpgradeAdvisor)
 	PawnUIFrame_ShowSocketingAdvisorCheck:SetChecked(PawnCommon.ShowSocketingAdvisor)
@@ -1897,6 +1909,11 @@ function PawnUIAboutTabPage_OnShow()
 	local Version = GetAddOnMetadata("Pawn", "Version")
 	if Version then 
 		PawnUIFrame_AboutVersionLabel:SetText(format(PawnUIFrame_AboutVersionLabel_Text, Version))
+	end
+	if GetExpansionLevel() == 0 then
+		-- WoW Classic doesn't use the Mr. Robot scales, so hide that logo and information.
+		PawnUIFrame_MrRobotLogo:Hide()
+		PawnUIFrame_MrRobotLabel:Hide()
 	end
 end
 
@@ -2342,6 +2359,16 @@ function PawnUI_EnsureLoaded()
 		PawnUIOpenedYet = true
 		PawnUIFrame_ScaleSelector_Refresh()
 		PawnUIFrame_ShowScaleCheck_Label:SetText(format(PawnUIFrame_ShowScaleCheck_Label_Text, UnitName("player")))
+		if GetExpansionLevel() == 0 then
+			-- WoW Classic doesn't have gems or specs.
+			PawnUIFrameTab4:Hide()
+			PawnUIFrame_IgnoreGemsWhileLevelingCheck:Hide()
+			PawnUIFrame_ShowSocketingAdvisorCheck:Hide()
+
+			PawnUIFrame_NewScaleFromDefaultsButton:Hide()
+			PawnUIFrame_NewScaleFromDefaultsButton_Label:Hide()
+			PawnUIFrame_ShowSpecIconsCheck:Hide()
+		end
 		if not PawnCommon then
 			VgerCore.Fail("Pawn UI OnShow handler was called before PawnCommon was initialized.")
 			PawnUISwitchToTab(PawnUIHelpTabPage)

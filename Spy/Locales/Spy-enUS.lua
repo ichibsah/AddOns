@@ -39,7 +39,7 @@ Players on your Kill On Sight list cause an alarm to sound when detected. You ca
 The drop down menu can also be used to set the reasons why you have added someone to the Kill On Sight list. If you want to enter a specific reason that is not in the list, then use the "Enter your own reason..." in the Other list.
 
 
-|cffffd000Author: http://www.curse.com/users/slipjack|cffffffff
+|cffffd000Author: Slipjack|cffffffff
 
 ]]
 L["EnableSpy"] = "Enable Spy"
@@ -148,8 +148,6 @@ L["PrioritiseKoSDescription"] = "Set this to always show Kill On Sight enemy pla
 L["MinimapOptions"] = "Map"
 L["MinimapOptionsDescription"] = [[
 For players who can track humanoids the minimap can be utilised to provide additional features.
-
-Players who can track humanoids include hunters, druids, and those who have received the ability through other means such as eating a Blackened Worg Steak.
 ]]
 L["MinimapTracking"] = "Enable minimap tracking"
 L["MinimapTrackingDescription"] = "Set this to enable minimap tracking and detection. Known enemy players detected on the minimap will be added to the Nearby list."
@@ -465,4 +463,5 @@ Spy_IgnoreList = {
 	["Winter's Kiss"]=true, ["War Headquarters (PvP)"]=true,
 	["Alliance Assassin"]=true, ["Horde Assassin"]=true,	
 	["Mystic Birdhat"]=true, ["Cousin Slowhands"]=true,	
+	["Azerite for the Alliance"]=true, ["Azerite for the Horde"]=true,
 };

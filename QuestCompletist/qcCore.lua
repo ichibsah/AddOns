@@ -24,7 +24,7 @@ local qcNewDataAlertTooltip = nil
 local qcMutuallyExclusiveAlertTooltip = nil
 
 --[[ Constants ]]--
-local QCADDON_VERSION = 109.24
+local QCADDON_VERSION = 109.25
 local QCADDON_PURGE = true
 local QCDEBUG_MODE = false
 local QCADDON_CHAT_TITLE = "|CFF9482C9Quest Completist:|r "
@@ -225,6 +225,15 @@ local function qcGetCategoryQuests(categoryId, searchText) -- *
 			end
 		end
 	end
+--      Attempt to Hide Daily and Worldquest
+--		if (qcSettings.QC_L_HIDE_PROFESSION == 1) then
+--		local playerFaction, _ = UnitFactionGroup("player")
+--		local factionFlag = qcFactionBits[stringUpper(playerFaction)]
+--		for i = #qcCategoryQuests, 3, -1 do
+--	
+--			end
+--		end
+--	end
 	if (qcSettings.QC_ML_HIDE_FACTION == 1) then
 		local playerFaction, _ = UnitFactionGroup("player")
 		local factionFlag = qcFactionBits[stringUpper(playerFaction)]

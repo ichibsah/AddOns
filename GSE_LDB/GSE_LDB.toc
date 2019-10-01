@@ -1,8 +1,8 @@
-## Interface: 80200
+## Interface: 80250
 ## Title: |cff0000FFGSE2:|r |cFF00D1FFLDB|r
 ## Notes: LibDataBroker Plugin for GSE2
 ## Author: TimothyLuke
-## Version: 2.4.19
+## Version: 2.4.20
 ## Dependencies: GSE
 
 

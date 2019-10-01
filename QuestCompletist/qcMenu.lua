@@ -170,7 +170,7 @@ qcMenu={
 {text=qcL.NAZMIR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1080,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.VOLDUN,isTitle=false,notCheckable=false,hasArrow=false,arg1=1081,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.ZULDAZAR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1082,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
-{text=qcL.TEMP,isTitle=false,notCheckable=false,hasArrow=false,arg1=1114,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+--{text=qcL.TEMP,isTitle=false,notCheckable=false,hasArrow=false,arg1=1114,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.BFAUNCATEQUEST,isTitle=false,notCheckable=false,hasArrow=false,arg1=1150,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
 {text=stringformat("   %s",qcL.MISCELLANEOUS),isTitle=false,notCheckable=true,hasArrow=true,menuList={
 {text=stringformat("   %s",qcL.CLASSCAMPAINS),isTitle=false,notCheckable=true,hasArrow=true,menuList={
@@ -346,7 +346,7 @@ qcMenu={
 {text=qcL.TOMBOFSARGERAS,isTitle=false,notCheckable=false,hasArrow=false,arg1=1040,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
 {text=stringformat("   %s",GetText("EXPANSION_NAME7")),isTitle=false,notCheckable=true,hasArrow=true,menuList={
 {text=qcL.ATALDAZAR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1100,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
-{text=qcL.BATTLEOFDAZARALOR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1013,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+{text=qcL.BATTLEOFDAZARALOR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1113,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.CRUCIBLEOFSTORMS,isTitle=false,notCheckable=false,hasArrow=false,arg1=1101,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.FREEHOLD,isTitle=false,notCheckable=false,hasArrow=false,arg1=1102,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.KINGSREST,isTitle=false,notCheckable=false,hasArrow=false,arg1=1103,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
@@ -354,6 +354,7 @@ qcMenu={
 {text=qcL.SIEGEOFBORAUS,isTitle=false,notCheckable=false,hasArrow=false,arg1=1105,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.SIEGEOFZULDAZAR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1106,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.TEMPLEOFSETHRALISS,isTitle=false,notCheckable=false,hasArrow=false,arg1=1107,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+{text=qcL.THEETERNALPALACE,isTitle=false,notCheckable=false,hasArrow=false,arg1=1114,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.THEMOTHERLOAD,isTitle=false,notCheckable=false,hasArrow=false,arg1=1112,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.THEUNDERROT,isTitle=false,notCheckable=false,hasArrow=false,arg1=1108,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.TOLDAGOR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1109,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
@@ -387,7 +388,8 @@ qcMenu={
 {text=qcL.SILVERSHARDMINES,isTitle=false,notCheckable=false,hasArrow=false,arg1=405,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.TEMPLEOFKOTMOGU,isTitle=false,notCheckable=false,hasArrow=false,arg1=406,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
 {text=qcL.HERITAGE,isTitle=false,notCheckable=false,hasArrow=false,arg1=1093,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
-{text=qcL.RATEDPVP,isTitle=false,notCheckable=false,hasArrow=false,arg1=1094,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
+{text=qcL.RATEDPVP,isTitle=false,notCheckable=false,hasArrow=false,arg1=1094,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+{text=qcL.WORLDPVP,isTitle=false,notCheckable=false,hasArrow=false,arg1=1095,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
 {text=stringformat("   %s",qcL.PROFESSIONS),isTitle=false,notCheckable=true,hasArrow=true,menuList={{text=qcL.ALCHEMY,isTitle=false,notCheckable=false,hasArrow=false,arg1=5,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.ARCHAEOLOGY,isTitle=false,notCheckable=false,hasArrow=false,arg1=11,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.BLACKSMITHING,isTitle=false,notCheckable=false,hasArrow=false,arg1=25,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
