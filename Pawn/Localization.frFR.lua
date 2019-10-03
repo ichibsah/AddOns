@@ -81,10 +81,6 @@ Pour plus d'information sur la Personnalisation de Pawn, regarder le fichier d'a
 	["Stats"] = {
 		["AgilityInfo"] = "Agilité : Augmente le pouvoir de certaines compétences de classe.",
 		--[[Translation missing --]]
-		["AllResist"] = "All Resistances",
-		--[[Translation missing --]]
-		["AllResistInfo"] = "All Resistances.  Reduces the damage taken from any elemental attack.",
-		--[[Translation missing --]]
 		["ApInfo"] = "Attack Power.  Increases the damage of physical attacks.  Does not include attack power gained from strength and agility.",
 		--[[Translation missing --]]
 		["ArcaneResistInfo"] = "Arcane Resistance.  Reduces the damage taken from arcane-based attacks.",
@@ -665,7 +661,7 @@ Cette commande ne peut etre défaite!]=],
 
 -- Special case: wands actually use different text on live versus classic.
 -- So, patch things up here.
-if GetExpansionLevel() == 0 then
+if VgerCore.IsClassic then
 
 	local TooltipParsing_Classic =
 	{

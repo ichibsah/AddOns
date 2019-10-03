@@ -7,10 +7,10 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0305
+PawnVersion = 2.0307
 
 -- Pawn requires this version of VgerCore:
-local PawnVgerCoreVersionRequired = 1.10
+local PawnVgerCoreVersionRequired = 1.11
 
 -- Floating point math
 local PawnEpsilon = 0.0000000001
@@ -149,7 +149,9 @@ function PawnInitialize()
 	local CurrentLocale = GetLocale()
 	local CurrentLocaleIsSupported
 	local SupportedLocale
-	for _, SupportedLocale in pairs(PawnLocalizedLanguages) do
+	local LanguageList = PawnLocalizedLanguages
+	if VgerCore.IsClassic then LanguageList = PawnLocalizedLanguagesClassic end
+	for _, SupportedLocale in pairs(LanguageList) do
 		if CurrentLocale == SupportedLocale then
 			CurrentLocaleIsSupported = true
 			break
@@ -158,6 +160,9 @@ function PawnInitialize()
 	if not CurrentLocaleIsSupported then
 		-- No need to translate this string...
 		local WrongLocaleMessage = "Sorry, this version of Pawn is for English, French, German, Italian, Korean, Portuguese, Russian, Spanish, Simplified Chinese, and Traditional Chinese only."
+		if VgerCore.IsClassic then
+			WrongLocaleMessage = "Sorry, this version of Pawn on WoW Classic is for English, French, German, and Spanish only.  I'm working to support all languages soon."
+		end
 		VgerCore.Message(VgerCore.Color.Salmon .. WrongLocaleMessage)
 		message(WrongLocaleMessage)
 	end
@@ -594,7 +599,7 @@ function PawnInitializeOptions()
 	end
 	if PawnCommon.LastVersion < 2.0101 then
 		-- The new Bag Upgrade Advisor is on by default, but it's not supported in Classic.
-		if GetExpansionLevel() == 0 then
+		if VgerCore.IsClassic then
 			PawnCommon.ShowBagUpgradeAdvisor = false
 		else
 			PawnCommon.ShowBagUpgradeAdvisor = true
@@ -614,7 +619,7 @@ function PawnInitializeOptions()
 	end
 	if PawnCommon.LastVersion < 2.0244 then
 		-- The "show item level upgrades" option is new for 2.2.44 and on by default, but NOT in Classic.
-		if GetExpansionLevel() == 0 then
+		if VgerCore.IsClassic then
 			PawnCommon.ShowItemLevelUpgrades = false
 		else
 			PawnCommon.ShowItemLevelUpgrades = true
@@ -628,7 +633,7 @@ function PawnInitializeOptions()
 	PawnOptions.LastVersion = PawnVersion
 
 	-- Pawn on WoW Classic doesn't have Automatic mode.
-	if GetExpansionLevel() == 0 then
+	if VgerCore.IsClassic then
 		PawnOptions.AutoSelectScales = false
 	end
 
@@ -655,7 +660,7 @@ end
 -- Once per new version of Pawn that adds keybindings, bind the new actions to default keys.
 function PawnSetDefaultKeybindings()
 	-- SaveBindings doesn't work on WoW Classic.
-	if GetExpansionLevel() == 0 then return end
+	if VgerCore.IsClassic then return end
 
 	-- It's possible that this will happen before the main initialization code, so we need to ensure that the
 	-- default Pawn options have been set already.  Doing this multiple times is harmless.
@@ -780,8 +785,22 @@ function PawnCommand(Command)
 		if ItemLink1 and strlen(ItemLink1) == 0 then ItemLink1 = nil end
 		if ItemLink2 and strlen(ItemLink2) == 0 then ItemLink2 = nil end
 		if ItemLink1 or ItemLink2 then
-			if ItemLink1 then PawnUI_SetCompareItemAndShow(1, ItemLink1) end
-			if ItemLink2 then PawnUI_SetCompareItemAndShow(2, ItemLink2) end
+			if ItemLink2 then
+				local IsReady2 = (GetItemInfo(ItemLink2) ~= nil)
+				if IsReady2 then
+					PawnUI_SetCompareItemAndShow(2, ItemLink2)
+				else
+					C_Timer.After(1, function() PawnUI_SetCompareItemAndShow(2, ItemLink2) end)
+				end
+			end
+			if ItemLink1 then
+				local IsReady1 = (GetItemInfo(ItemLink1) ~= nil)
+				if IsReady1 then
+					PawnUI_SetCompareItemAndShow(1, ItemLink1)
+				else
+					C_Timer.After(1, function() PawnUI_SetCompareItemAndShow(1, ItemLink1) end)
+				end
+			end
 		else
 			VgerCore.Message("Usage: /pawn compare [ left ItemID | ItemLink [ right ]] ItemID | ItemLink")
 			VgerCore.Message("  /pawn compare 16795")
@@ -814,10 +833,7 @@ function PawnGetCachedItem(ItemLink, ItemName, NumLines)
 	if PawnCommon.Debug then return end
 	-- If this is WoW Classic, the cache is also disabled.
 	-- (There's a problem I haven't tracked down yet where item tooltips are returned with incomplete stats and then get cached in that incomplete state.)
-	-- *** Maybe clear an item from the cache whenever GET_ITEM_INFO_RECEIVED(ID, true) occurs?
-	if GetExpansionLevel() == 0 then return end
-
-	--VgerCore.Message("Searching cache for: " .. tostring(ItemLink) .. " aka " .. tostring(ItemName) .. " with " .. tostring(NumLines) .. " lines...") -- ***
+	if VgerCore.IsClassic then return end
 
 	-- Otherwise, search the item cache for this item.
 	local _
@@ -825,14 +841,11 @@ function PawnGetCachedItem(ItemLink, ItemName, NumLines)
 		if (not NumLines) or (NumLines == CachedItem.NumLines) then
 			if ItemLink and CachedItem.Link then
 				if ItemLink == CachedItem.Link then
-					--VgerCore.Message("  Found it!  " .. CachedItem.NumLines .. " lines.") -- ***
 					return CachedItem
 				end
 			end
 		end
 	end
-
-	--VgerCore.Message("  No luck.") -- ***
 end
 
 -- Adds an item to the item cache, removing existing items if necessary.
@@ -841,7 +854,7 @@ function PawnCacheItem(CachedItem)
 	if PawnCommon.Debug then return end
 	-- If this is WoW Classic, the cache is also disabled.
 	-- (There's a problem I haven't tracked down yet where item tooltips are returned with incomplete stats and then get cached in that incomplete state.)
-	if GetExpansionLevel() == 0 then return end
+	if VgerCore.IsClassic then return end
 	
 	-- Cache it.
 	if PawnItemCacheMaxSize <= 0 then return end
@@ -2108,6 +2121,10 @@ function PawnLookForSingleStat(RegexTable, Stats, ThisString, DebugMessages)
 					MatchIndex = 1
 				end
 				local ExtractedValue = Matches[MatchIndex]
+				if not ExtractedValue then
+					VgerCore.Fail("Didn't extract a value for " .. Stat .. ".  Is the translation missing a capture (#)?")
+					ExtractedValue = 0
+				end
 				if Stat ~= "Speed" and (PawnLocal.ThousandsSeparator ~= "" or (PawnLocal.ThousandsSeparator == PawnLocal.DecimalSeparator)) then
 					-- Skip this for Speed because Spanish uses the wrong character for speed, and speed would never be >=1,000
 					-- In 7.0, Russian also used the comma for both thousands and decimal separators, so use the same logic then.
@@ -2275,7 +2292,7 @@ function PawnGetItemValue(Item, ItemLevel, SocketBonus, ScaleName, DebugMessages
 	local ThisValue, Stat, Quantity
 	for Stat, Quantity in pairs(Item) do
 		ThisValue = ScaleValues[Stat]
-		if GetExpansionLevel() > 0 then
+		if not VgerCore.IsClassic then
 			-- When not in Classic:
 			-- Attack Power gets converted into Strength or Agility, whichever is most valuable.
 			-- BUG: Since Attack Power doesn't appear in the Values tab, it also won't show on the Compare tab.  The Compare tab

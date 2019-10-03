@@ -54,8 +54,6 @@ local function AddIndentedDoubleLine(tooltip, a, b, level, color)
 		b = "nil";
 	end
 	tooltip:AddDoubleLine(indented, b, color.r, color.g, color.b, color.r, color.g, color.b);
-	
-	
 end
 
 function WQT:AddDebugToTooltip(tooltip, questInfo, level)
@@ -615,6 +613,22 @@ end
 -- This is just easier to maintain than changing the entire string every time
 local _patchNotes = {
 		{["version"] = "8.2.03"
+			,["minor"] = "4"
+			,["fixes"] = {
+				"Fixed an issue introduced in 8.2.03.3 preventing interaction with the default quest log. A reminder to nog push out an update at 1am..."
+			}
+		}
+		,{["version"] = "8.2.03"
+			,["minor"] = "3"
+			,["fixes"] = {
+				"Fixed an error related to reward quality colors."
+				,"Fixed a number of issues related to combat"
+				,"Fixed an issue that could cause the quest list to dissapear completely."
+				,"Fixed the quest details frame being positioned slightly off."
+				,"Fixed the world quest list bleeding through overlay frames when moving around."
+			}
+		}
+		,{["version"] = "8.2.03"
 			,["minor"] = "2"
 			,["fixes"] = {
 				"Fixed an error for TomTom users when completing a regular quest."

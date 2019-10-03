@@ -1,9 +1,9 @@
 ## Interface: 80200
 ## Title: The Undermine Journal
-## Notes: Sat, September 28, 2019
+## Notes: Tue, October 1, 2019
 ## OptionalDeps: Auctionator, AuctionLite, LibExtraTip
 ## SavedVariablesPerCharacter: TUJTooltipsHidden
-## Version: 5.4.20190928
+## Version: 5.4.20191001
 
 libs\LibStub.lua
 libs\LibRealmInfo.lua
