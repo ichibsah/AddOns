@@ -4,6 +4,7 @@ local SM = LibStub:GetLibrary("LibSharedMedia-3.0")
 local _
 
 SM:Register("font", "ABF", [[Interface\AddOns\Spy\Fonts\ABF.ttf]])
+SM:Register("font", "Big Noodle Titling", [[Interface\AddOns\Spy\Fonts\BigNoodleTitling.ttf]])
 
 function Spy:AddFontString(string)
 	local Font, Height, Flags

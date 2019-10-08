@@ -904,6 +904,7 @@ function Spy:ShowTooltip(self, show, id)
 			local titleText = Spy.db.profile.Colors.Tooltip["Title Text"]
 
 			GameTooltip:SetOwner(Spy.MainWindow, "ANCHOR_NONE")
+--			GameTooltip:SetOwner(Spy.MainWindow, "ANCHOR_CURSOR")			
 			GameTooltip:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -CONTAINER_OFFSET_X - 13, CONTAINER_OFFSET_Y)
 			GameTooltip:ClearLines()
 			GameTooltip:AddLine(string.gsub(name, "%-", " - "), titleText.r, titleText.g, titleText.b)

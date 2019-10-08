@@ -6,7 +6,7 @@ local L = AceLocale:GetLocale("Spy")
 local _
 
 Spy = LibStub("AceAddon-3.0"):NewAddon("Spy", "AceConsole-3.0", "AceEvent-3.0", "AceComm-3.0", "AceTimer-3.0")
-Spy.Version = "3.6.13"
+Spy.Version = "3.6.14"
 Spy.DatabaseVersion = "1.1"
 Spy.Signature = "[Spy]"
 Spy.ButtonLimit = 15
@@ -30,6 +30,7 @@ Spy.AlertType = nil
 Spy.UpgradeMessageSent = false
 Spy.zName = ""
 Spy.ChnlTime = 0
+Spy.Skull = -1
 
 -- Localizations for xml
 L_STATS = "Spy "..L["Statistics"]
@@ -310,6 +311,8 @@ Spy.options = {
 						["2002"] = L["2002"],
 						["2002 Bold"] = L["2002 BOLD"],
 						["Arial Narrow"] = L["ARIAL NARROW"],
+						["AR ZhongkaiGBK Medium"] = L["AR ZhongkaiGBK Medium"],						
+						["Big Noodle Titling"] = L["BIG NOODLE TITLING"], 
 						["Friz Quadrata TT"] = L["FRIZ QUADRATA TT"],
 						["FrizQuadrataCTT"] = L["FRIZQUADRATACTT"],
 						["MoK"] = L["MOK"],
@@ -1664,9 +1667,22 @@ function Spy:PlayerTargetEvent()
 			local level = tonumber(UnitLevel("target"))
 			local guild = GetGuildInfo("target")
 			local guess = false
-			if level <= 0 then
-				guess = true
-				level = nil
+			if level == Spy.Skull then
+				if playerData and playerData.level then
+					if playerData.level > (UnitLevel("player") + 10) and playerData.level < Spy.MaximumPlayerLevel then	
+						guess = true
+						level = nil
+					elseif UnitLevel("player") < Spy.MaximumPlayerLevel - 9 then
+						guess = true
+						level = UnitLevel("player") + 10
+					end	
+				else
+					guess = true
+					level = UnitLevel("player") + 10
+				end
+--			else
+--				guess = true
+--				level = nil
 			end
 			
 			Spy:UpdatePlayerData(name, class, level, race, guild, true, guess)
@@ -1694,9 +1710,22 @@ function Spy:PlayerMouseoverEvent()
 			local level = tonumber(UnitLevel("mouseover"))
 			local guild = GetGuildInfo("mouseover")
 			local guess = false
-			if level <= 0 then
-				guess = true
-				level = nil
+			if level == Spy.Skull then
+				if playerData and playerData.level then
+					if playerData.level > (UnitLevel("player") + 10) and playerData.level < Spy.MaximumPlayerLevel then	
+						guess = true
+						level = nil
+					elseif UnitLevel("player") < Spy.MaximumPlayerLevel - 9 then
+						guess = true
+						level = UnitLevel("player") + 10
+					end	
+				else
+					guess = true
+					level = UnitLevel("player") + 10
+				end
+--			else
+--				guess = true
+--				level = nil
 			end
 
 			Spy:UpdatePlayerData(name, class, level, race, guild, true, guess)
