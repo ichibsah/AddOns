@@ -12,7 +12,7 @@ a local reference to debugprofilestop(), even if they aren't using this library
 directly.
 
 -------------------------------------------------------------------------------
- 
+
 AccurateTime is hereby placed in the Public Domain
 See the wowace page for usage and documentation.
 Author: Sapu94 (sapu94@gmail.com)
@@ -30,7 +30,7 @@ if _G.AccurateTime then
 		-- newer (or same) version already loaded - abort
 		return
 	end
-	
+
 	-- undo hook so we can re-hook
 	debugprofilestart = _G.AccurateTime._debugprofilestart
 	debugprofilestop = _G.AccurateTime._debugprofilestop
@@ -122,7 +122,7 @@ end
 -- upgrade the frame
 AccurateTime._frame:SetScript("OnUpdate", OnUpdate)
 
---@debug@
+--[[
 function AccurateTimeTest()
 	local start = debugprofilestop()
 	for i=1, 10000000 do
@@ -139,4 +139,4 @@ function AccurateTimeTest()
 	end
 	print("raw", debugprofilestop()-start)
 end
---@end-debug@
+--]]

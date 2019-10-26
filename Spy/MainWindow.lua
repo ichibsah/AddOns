@@ -882,7 +882,6 @@ end
 
 function Spy:RestoreMainWindowPosition(x, y, width, height)
 	Spy.MainWindow:ClearAllPoints()
---	Spy.MainWindow:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
 	if not Spy.db.profile.InvertSpy then 	
 		Spy.MainWindow:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
 	else		
@@ -903,9 +902,12 @@ function Spy:ShowTooltip(self, show, id)
 		if name and name ~= "" then
 			local titleText = Spy.db.profile.Colors.Tooltip["Title Text"]
 
-			GameTooltip:SetOwner(Spy.MainWindow, "ANCHOR_NONE")
---			GameTooltip:SetOwner(Spy.MainWindow, "ANCHOR_CURSOR")			
-			GameTooltip:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -CONTAINER_OFFSET_X - 13, CONTAINER_OFFSET_Y)
+			if not Spy.db.profile.DisplayTooltipNearSpyWindow then
+				GameTooltip:SetOwner(Spy.MainWindow, "ANCHOR_NONE")
+				GameTooltip:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -CONTAINER_OFFSET_X - 13, CONTAINER_OFFSET_Y)
+			else
+				GameTooltip:SetOwner(self, Spy.db.profile.TooltipAnchor)
+			end
 			GameTooltip:ClearLines()
 			GameTooltip:AddLine(string.gsub(name, "%-", " - "), titleText.r, titleText.g, titleText.b)
 

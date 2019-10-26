@@ -1,11 +1,11 @@
-﻿HEALBOT_VERSION    = "8.2.5.1";
+﻿HEALBOT_VERSION    = "8.2.5.4";
 HEALBOT_VERSION_SC = HEALBOT_VERSION
 HEALBOT_ABOUT_URL = "https://healbot.dpm15.net/"
 
 local version = GetBuildInfo()
 local vMajor = string.split(".", version)
 HEALBOT_GAME_VERSION = tonumber(vMajor)
-if HEALBOT_GAME_VERSION==1 then HEALBOT_VERSION = "1.13.2.6" end
+if HEALBOT_GAME_VERSION==1 then HEALBOT_VERSION = "1.13.2.9" end
 
 function HealBot_globalVars()
     --Consumables
@@ -270,6 +270,7 @@ function HealBot_globalVars()
     --HEALBOT_LIVING_SEED                     = 48500 --GetSpellInfo(48500) or "--Living Seed";
     HEALBOT_MARK_OF_THE_WILD                = 1126 --GetSpellInfo(1126) or "--Mark of the Wild";
     HEALBOT_MOONKIN_AURA                    = 24907 --GetSpellInfo(24907) or "--Moonkin Aura";
+    HBC_NATURE_GRASP                        = 16689
     HEALBOT_NATURE_MOMENT_OF_CLARITY        = 236068 --GetSpellInfo(236068) or "--Moment of Clarity";
     HEALBOT_NATURE_REJUVENATION_GERMINATION = 155777 --GetSpellInfo(155777) or "--Rejuvenation (Germination)";
     HEALBOT_NATURE_RAMPANT_GROWTH           = 155834 --GetSpellInfo(155834) or "--Rampant Growth";
@@ -333,6 +334,7 @@ function HealBot_globalVars()
     HEALBOT_WILD_STRENGTH                   = 57386 --GetSpellInfo(57386) or "--Wild Strength"
     
 	--Mage
+    HBC_AMPLIFY_MAGIC                       = 1008
     HEALBOT_ARCANE_BRILLIANCE               = 1459 --GetSpellInfo(1459) or "--Arcane Brilliance";
     HBC_ARCANE_BRILLIANCE                   = 23028
     HEALBOT_ARCANE_POWER                    = 12042 --GetSpellInfo(12042) or "--Arcane Power"
@@ -342,12 +344,14 @@ function HealBot_globalVars()
     HEALBOT_EVOCATION                       = 12051 --GetSpellInfo(12051) or "--Evocation";
     HEALBOT_FOCUS_MAGIC                     = 54646 --GetSpellInfo(54646) or "--Focus Magic";
     HBC_FROST_ARMOR                         = 168
+    HBC_ICE_ARMOR                           = 7302
     HEALBOT_ICE_BARRIER                     = 11426 --GetSpellInfo(11426) or "--Ice Barrier"
     HEALBOT_ICE_BLOCK                       = 45438 --GetSpellInfo(45438) or "--Ice Block"
     HEALBOT_ICE_WARD                        = 111264 --GetSpellInfo(111264) or "--Ice Ward"
     HEALBOT_INCANTERS_WARD                  = 116267 --GetSpellInfo(1463) or "--Incanter's Ward"
     HBC_MAGE_ARMOR                          = 6117
     HEALBOT_MAGE_WARD                       = 543 --GetSpellInfo(543) or "--Mage Ward";
+    HBC_MANA_SHIELD                         = 1463
     HEALBOT_PRISMATIC_BARRIER               = 235450 --GetSpellInfo(235450) or "--Prismatic Barrier"
     HEALBOT_SLOW_FALL                       = 130 --GetSpellInfo(130) or "--Slow Fall"
 
@@ -368,6 +372,7 @@ function HealBot_globalVars()
 	HBC_BLESSING_OF_WISDOM                  = 19742
     HEALBOT_DAY_BREAK                       = 88821 --GetSpellInfo(88821) or "--Daybreak";
     HEALBOT_DEVOTION_AURA                   = 465 --GetSpellInfo(465) or "--Devotion Aura";
+    HBC_DIVINE_FAVOR                        = 20216
     HBC_DIVINE_INTERVENTION                 = 19752
     HEALBOT_DIVINE_PROTECTION               = 498 --GetSpellInfo(498) or "--Divine Protection";
     HEALBOT_DIVINE_PURPOSE                  = 223817 --GetSpellInfo(86172) or "--Divine Purpose";
@@ -375,6 +380,12 @@ function HealBot_globalVars()
     HEALBOT_DIVINE_SHIELD                   = 642 --GetSpellInfo(642) or "--Divine Shield";
     --HEALBOT_ETERNAL_FLAME                   = 114163 --GetSpellInfo(114163) or "--Eternal Flame";
     HEALBOT_EXECUTION_SENTENCE              = 114157 --GetSpellInfo(114157) or "--Execution Sentence";
+    HBC_GREATER_BLESSING_OF_KINGS           = 25898
+    HBC_GREATER_BLESSING_OF_LIGHT           = 25890
+    HBC_GREATER_BLESSING_OF_MIGHT           = 25782
+    HBC_GREATER_BLESSING_OF_SALVATION       = 25895
+    HBC_GREATER_BLESSING_OF_SANCTUARY       = 25899
+    HBC_GREATER_BLESSING_OF_WISDOM          = 25894
     --HEALBOT_GUARDED_BY_THE_LIGHT            = 53592 --GetSpellInfo(53592) or "--Guarded by the Light";
     HEALBOT_GUARDIAN_ANCIENT_KINGS          = 86659 --GetSpellInfo(86659) or "--Guardian of Ancient Kings";
     HEALBOT_HAND_OF_FREEDOM                 = 1044 --GetSpellInfo(1044) or "--Hand of Freedom";
@@ -458,7 +469,6 @@ function HealBot_globalVars()
     HEALBOT_POWER_WORD_FORTITUDE            = 21562 --GetSpellInfo(21562) or "--Power Word:Fortitude";
     HBC_POWER_WORD_FORTITUDE                = 1243
     HEALBOT_POWER_WORD_SHIELD               = 17 --GetSpellInfo(17) or "--Power Word:Shield";
-    HBC_PRAYER_OF_FORTITUDE                 = 21568
     HBC_PRAYER_OF_SHADOW_PROTECTION         = 27683
     HBC_PRAYER_OF_SPIRIT                    = 27681
 	HEALBOT_RAMMALS_ULTERIOR_MOTIVE         = 234711 --GetSpellInfo(234711) or "--Rammal's Ulterior Motive";
@@ -555,6 +565,7 @@ function HealBot_globalVars()
     HEALBOT_UNENDING_BREATH                 = 5697 --GetSpellInfo(5697) or "--Unending Breath"
     HEALBOT_UNENDING_RESOLVE                = 104773 --GetSpellInfo(104773) or "--Unending Resolve"
     HEALBOT_SOUL_LEECH                      = 108366 --GetSpellInfo(108370) or "--Soul Leech"
+    HBC_PHASE_SHIFT                         = GetSpellInfo(4511) or "Phase Shift"
     
     --Warrior
     HEALBOT_BATTLE_SHOUT                    = 6673 --GetSpellInfo(6673) or "--Battle Shout";

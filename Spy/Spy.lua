@@ -6,7 +6,7 @@ local L = AceLocale:GetLocale("Spy")
 local _
 
 Spy = LibStub("AceAddon-3.0"):NewAddon("Spy", "AceConsole-3.0", "AceEvent-3.0", "AceComm-3.0", "AceTimer-3.0")
-Spy.Version = "3.6.14"
+Spy.Version = "3.6.16"
 Spy.DatabaseVersion = "1.1"
 Spy.Signature = "[Spy]"
 Spy.ButtonLimit = 15
@@ -262,12 +262,42 @@ Spy.options = {
 							Spy:RefreshCurrentList() 
 						end	
 					end,
-				},			
+				},	
+				DisplayTooltipNearSpyWindow = {
+					name = L["DisplayTooltipNearSpyWindow"],
+					desc = L["DisplayTooltipNearSpyWindowDescription"],
+					type = "toggle",
+					order = 10,
+					width = "full",
+					get = function(info)
+						return Spy.db.profile.DisplayTooltipNearSpyWindow
+					end,
+					set = function(info, value)
+						Spy.db.profile.DisplayTooltipNearSpyWindow = value
+					end,
+				},	
+				SelectTooltipAnchor = {
+					type = "select",
+					order = 11,
+					name = L["SelectTooltipAnchor"],
+					desc = L["SelectTooltipAnchorDescription"],
+					values = { 
+						["ANCHOR_CURSOR"] = L["ANCHOR_CURSOR"],
+						["ANCHOR_TOP"] = L["ANCHOR_TOP"],
+						["ANCHOR_BOTTOM"] = L["ANCHOR_BOTTOM"],
+						["ANCHOR_LEFT"] = L["ANCHOR_LEFT"],						
+						["ANCHOR_RIGHT"] = L["ANCHOR_RIGHT"], 
+					},
+					get = function() return Spy.db.profile.TooltipAnchor end,
+					set = function(info, value)
+						Spy.db.profile.TooltipAnchor = value
+					end,
+				},				
 				DisplayWinLossStatistics = {
 					name = L["TooltipDisplayWinLoss"],
 					desc = L["TooltipDisplayWinLossDescription"],
 					type = "toggle",
-					order = 10,
+					order = 12,
 					width = "full",
 					get = function(info)
 						return Spy.db.profile.DisplayWinLossStatistics
@@ -280,7 +310,7 @@ Spy.options = {
 					name = L["TooltipDisplayKOSReason"],
 					desc = L["TooltipDisplayKOSReasonDescription"],
 					type = "toggle",
-					order = 11,
+					order = 13,
 					width = "full",
 					get = function(info)
 						return Spy.db.profile.DisplayKOSReason
@@ -293,7 +323,7 @@ Spy.options = {
 					name = L["TooltipDisplayLastSeen"],
 					desc = L["TooltipDisplayLastSeenDescription"],
 					type = "toggle",
-					order = 12,
+					order = 14,
 					width = "full",
 					get = function(info)
 						return Spy.db.profile.DisplayLastSeen
@@ -304,7 +334,7 @@ Spy.options = {
 				},
 				SelectFont = {
 					type = "select",
-					order = 13,
+					order = 15,
 					name = L["SelectFont"],
 					desc = L["SelectFontDescription"],
 					values = { 
@@ -312,7 +342,8 @@ Spy.options = {
 						["2002 Bold"] = L["2002 BOLD"],
 						["Arial Narrow"] = L["ARIAL NARROW"],
 						["AR ZhongkaiGBK Medium"] = L["AR ZhongkaiGBK Medium"],						
-						["Big Noodle Titling"] = L["BIG NOODLE TITLING"], 
+						["Big Noodle Titling"] = L["BIG NOODLE TITLING"],
+						["Expressway"] = L["EXPRESSWAY"],						
 						["Friz Quadrata TT"] = L["FRIZ QUADRATA TT"],
 						["FrizQuadrataCTT"] = L["FRIZQUADRATACTT"],
 						["MoK"] = L["MOK"],
@@ -328,7 +359,7 @@ Spy.options = {
 				},
 				RowHeight = {
 					type = "range",
-					order = 14,
+					order = 16,
 					name = L["RowHeight"], 
 					desc = L["RowHeightDescription"], 
 					min = 8, max = 20, step = 1,
@@ -1171,7 +1202,9 @@ local Default_Profile = {
 		MinimapDetails=true,
 		DisplayOnMap=true,
 		SwitchToZone=true,
-		MapDisplayLimit="None",
+		MapDisplayLimit="SameZone",
+		DisplayTooltipNearSpyWindow=false,
+		TooltipAnchor="ANCHOR_CURSOR",
 		DisplayWinLossStatistics=true,
 		DisplayKOSReason=true,
 		DisplayLastSeen=true,
@@ -1316,6 +1349,8 @@ function Spy:CheckDatabase()
 	if Spy.db.profile.DisplayOnMap == nil then Spy.db.profile.DisplayOnMap = Default_Profile.profile.DisplayOnMap end
 	if Spy.db.profile.SwitchToZone == nil then Spy.db.profile.SwitchToZone = Default_Profile.profile.SwitchToZone end	
 	if Spy.db.profile.MapDisplayLimit == nil then Spy.db.profile.MapDisplayLimit = Default_Profile.profile.MapDisplayLimit end
+	if Spy.db.profile.DisplayTooltipNearSpyWindow == nil then Spy.db.profile.DisplayTooltipNearSpyWindow = Default_Profile.profile.DisplayTooltipNearSpyWindow end	
+	if Spy.db.profile.TooltipAnchor == nil then Spy.db.profile.TooltipAnchor = Default_Profile.profile.TooltipAnchor end	
 	if Spy.db.profile.DisplayWinLossStatistics == nil then Spy.db.profile.DisplayWinLossStatistics = Default_Profile.profile.DisplayWinLossStatistics end
 	if Spy.db.profile.DisplayKOSReason == nil then Spy.db.profile.DisplayKOSReason = Default_Profile.profile.DisplayKOSReason end
 	if Spy.db.profile.DisplayLastSeen == nil then Spy.db.profile.DisplayLastSeen = Default_Profile.profile.DisplayLastSeen end
@@ -1478,6 +1513,15 @@ function Spy:EnableSpy(value, changeDisplay, hideEnabledMessage)
 		if changeDisplay and not InCombatLockdown() then Spy.MainWindow:Hide() end
 		Spy:OnDisable()
 		DEFAULT_CHAT_FRAME:AddMessage(L["SpyDisabled"])
+	end
+end
+
+function Spy:EnableSound(value)
+	Spy.db.profile.EnableSound = value
+	if value then
+		DEFAULT_CHAT_FRAME:AddMessage(L["SoundEnabled"]) 
+	else
+		DEFAULT_CHAT_FRAME:AddMessage(L["SoundDisabled"])
 	end
 end
 
@@ -1758,14 +1802,23 @@ timestamp, event, hideCaster, srcGUID, srcName, srcFlags, sourceRaidFlags, dstGU
 		if bit.band(srcFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE and srcGUID and srcName and not SpyPerCharDB.IgnoreData[srcName] then
 			local srcType = strsub(srcGUID, 1,6)
 			if srcType == "Player" then
+				local _, class, _, race, _, name = GetPlayerInfoByGUID(srcGUID)
+				if not Spy.ValidClasses[class] then
+					class = nil
+				end	
+				if not Spy.ValidRaces[race] then
+					race = nil
+				end				
 				local learnt = false
 				local detected = true
 				local playerData = SpyPerCharDB.PlayerData[srcName]
 				if not playerData or playerData.isGuess then
-					learnt, playerData = Spy:ParseUnitAbility(true, event, srcName, srcFlags, arg12, arg13)		 -- P8.0 chg			
+--					learnt, playerData = Spy:ParseUnitAbility(true, event, srcName, srcFlags, arg12, arg13)		 -- P8.0 chg	
+					learnt, playerData = Spy:ParseUnitAbility(true, event, srcName, class, race, arg12, arg13)		 -- P8.0 chg						
 				end
 				if not learnt then
-					detected = Spy:UpdatePlayerData(srcName, nil, nil, nil, nil, true, nil)
+--					detected = Spy:UpdatePlayerData(srcName, nil, nil, nil, nil, true, nil)
+					detected = Spy:UpdatePlayerData(srcName, class, nil, race, nil, true, nil)					
 				end
 
 				if detected then
@@ -1788,14 +1841,23 @@ timestamp, event, hideCaster, srcGUID, srcName, srcFlags, sourceRaidFlags, dstGU
 		if bit.band(dstFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE and dstGUID and dstName and not SpyPerCharDB.IgnoreData[dstName] then
 			local dstType = strsub(dstGUID, 1,6)
 			if dstType == "player" then
+				local _, class, _, race, _, name = GetPlayerInfoByGUID(dstGUID)
+				if not Spy.ValidClasses[class] then
+					class = nil
+				end	
+				if not Spy.ValidRaces[race] then
+					race = nil
+				end				
 				local learnt = false
 				local detected = true
 				local playerData = SpyPerCharDB.PlayerData[dstName]
 				if not playerData or playerData.isGuess then
-					learnt, playerData = Spy:ParseUnitAbility(false, event, dstName, dstFlags, arg12, arg13) -- P8.0 chg
+--					learnt, playerData = Spy:ParseUnitAbility(false, event, dstName, dstFlags, arg12, arg13) -- P8.0 chg
+					learnt, playerData = Spy:ParseUnitAbility(false, event, dstName, class, race, arg12, arg13)		 -- P8.0 chg		
 				end
 				if not learnt then
-					detected = Spy:UpdatePlayerData(dstName, nil, nil, nil, nil, true, nil)
+--					detected = Spy:UpdatePlayerData(dstName, nil, nil, nil, nil, true, nil)
+					detected = Spy:UpdatePlayerData(dstName, class, nil, race, nil, true, nil)					
 				end
 
 				if detected then

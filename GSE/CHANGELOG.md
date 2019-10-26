@@ -1,9 +1,12 @@
 # GSE2: Gnome Sequencer Enhanced
 
-## [2.4.21](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/tree/2.4.21) (2019-10-01)
-[Full Changelog](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/compare/2.4.20...2.4.21)
+## [2.4.23](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/tree/2.4.23) (2019-10-17)
+[Full Changelog](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/compare/2.4.22...2.4.23)
 
-- #580 Dev Version Update  
-- #580 VersionNumber reference fixed  
-- #601 Unit test failure fix  
-- #601 Allow for trinkets to be placed into a /castsequence  
+- Patron and TOC updates  
+- #606 Clear KeyBindings  
+- #605 Under 10 macro  
+- #605 MotW Druid Buff Macro  
+- #603 Classic Starter Lock Macro update  
+- #587 Rank string formatting  
+- #587 Localisation of "Rank" to allow "Rang" for German clients etc  

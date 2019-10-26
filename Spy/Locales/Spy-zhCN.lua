@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Spy", "zhCN")
+local L = LibStub("AceLocale-3.0"):NewLocale("Spy", "zhCN") -- Simplified Chinese
 if not L then return end
 -- TOC Note: "检测并提醒您附近有敌方玩家。"
  
@@ -75,6 +75,15 @@ L["ResizeSpy"] = "自动调整Spy窗口大小"
 L["ResizeSpyDescription"] = "新增或删除敌对玩家时自动调整窗口大小。"
 L["ResizeSpyLimit"] = "列表限制"
 L["ResizeSpyLimitDescription"] = "限制窗口中显示的敌对玩家数量。"
+L["DisplayTooltipNearSpyWindow"] = "在Spy窗口附近显示工具提示"
+L["DisplayTooltipNearSpyWindowDescription"] = "进行设置以在“间谍”窗口附近显示工具提示。"
+L["SelectTooltipAnchor"] = "工具提示锚"
+L["SelectTooltipAnchorDescription"] = "如果选择了以上选项，请选择工具提示的锚点"
+L["ANCHOR_CURSOR"] = "光标"
+L["ANCHOR_TOP"] = "上面的"
+L["ANCHOR_BOTTOM"] = "下"
+L["ANCHOR_LEFT"] = "左"			
+L["ANCHOR_RIGHT"] = "右"
 L["TooltipDisplayWinLoss"] = "鼠标提示中显示胜率统计"
 L["TooltipDisplayWinLossDescription"] = "设置鼠标提示中显示胜率统计。"
 L["TooltipDisplayKOSReason"] = "在鼠标提示中显示KOS原因"
@@ -261,7 +270,9 @@ L["CloseDescription"] = "|cffffffff隐藏Spy窗口。默认在下次侦测到敌
 L["Left/Right"] = "左/右"
 L["Left/RightDescription"] = "|cffffffff在附近，最近，忽略和KOS列表切换。"
 L["Clear"] = "清除"
-L["ClearDescription"] = "|cffffffff清楚已就侦测敌对玩家列表。显示时按住Ctrl点击可以启用或禁用Spy。"
+L["ClearDescription"] = "|cffffffff清楚已就侦测敌对玩家列表。Ctrl+左键单击以启动或停止 Spy。按住Shift并单击可打开/关闭声音。"
+L["SoundEnabled"] = "启用音频警报"
+L["SoundDisabled"] = "音频警报已禁用"
 L["NearbyCount"] = "附近数量统计"
 L["NearbyCountDescription"] = "|cffffffff统计附近敌对玩家数量。"
 L["Statistics"] = "数据统计"
@@ -426,6 +437,7 @@ L["2002 BOLD"] = "2002 Bold"
 L["ARIAL NARROW"] = "Arial Narrow" -- default chat font
 L["AR ZhongkaiGBK Medium"] = "AR ZhongkaiGBK Medium"
 L["BIG NOODLE TITLING"] = "Big Noodle Titling"
+L["EXPRESSWAY"] = "Expressway"
 L["FRIZ QUADRATA TT"] = "Friz Quadrata TT" -- default main UI font
 L["FRIZQUADRATACTT"] = "Friz Quadrata CTT"
 L["MOK"] = "MoK"

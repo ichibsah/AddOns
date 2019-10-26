@@ -2271,7 +2271,7 @@
             <Frames>
               <Frame name="HealBot_Options_GenFrame">
                 <Size>
-                  <AbsDimension y="275"/>
+                  <AbsDimension y="325"/>
                 </Size>
                 <Anchors>
                   <Anchor point="TOPLEFT">
@@ -2437,6 +2437,23 @@
                       <OnLeave>HealBot_Options_Show_Help("ADJUSTMAXHLTH",false)</OnLeave>
                     </Scripts>
                   </CheckButton>
+                  <Slider name="HealBot_Options_MaxBarCache" inherits="HealBot_Options_SliderTemplate">
+                    <Size>
+                      <AbsDimension x="345" y="16" />
+                    </Size>
+                    <Anchors>
+                      <Anchor point="BOTTOM">
+                        <Offset>
+                          <AbsDimension x="-0" y="84" />
+                        </Offset>
+                      </Anchor>
+                    </Anchors>
+                    <Scripts>
+                      <OnValueChanged>HealBot_Options_MaxBarCache_OnValueChanged(self)</OnValueChanged>
+                      <OnEnter>HealBot_Options_Show_Help("MAXBARCACHE",true)</OnEnter>
+                      <OnLeave>HealBot_Options_Show_Help("MAXBARCACHE",false)</OnLeave>
+                    </Scripts>
+                  </Slider>
                   <Slider name="HealBot_Options_RangeCheckFreq" inherits="HealBot_Options_SliderTemplate">
                     <Size>
                       <AbsDimension x="345" y="16" />
@@ -2461,7 +2478,7 @@
                 <Anchors>
                   <Anchor point="TOPLEFT">
                     <Offset>
-                      <AbsDimension x="170" y="-340" />
+                      <AbsDimension x="170" y="-360" />
                     </Offset>
                   </Anchor>
                 </Anchors>
@@ -2507,7 +2524,7 @@
                 <Anchors>
                   <Anchor point="TOPLEFT">
                     <Offset>
-                      <AbsDimension x="170" y="-400" />
+                      <AbsDimension x="170" y="-410" />
                     </Offset>
                   </Anchor>
                 </Anchors>
@@ -2824,9 +2841,30 @@
           </Frame>
           <Frame name="HealBot_Options_Panel2" hidden="true" setAllPoints="true">
             <Frames>
-              <Frame name="HealBot_Options_KeysFrame">
+              <Frame name="HealBot_Options_KeysFrame">                <Layers>
+                  <Layer level="BACKGROUND">
+                    <FontString name="HealBot_Options_ShiftCntlAltClickHeader" text="HEALBOT_OPTIONS_SKINTEXT" inherits="GameFontNormal">
+                      <Anchors>
+                        <Anchor point="BOTTOM">
+                          <Offset>
+                            <AbsDimension x="-44" y="20"/>
+                          </Offset>
+                        </Anchor>
+                      </Anchors>
+                    </FontString>
+                    <FontString name="HealBot_Options_ShiftCntlAltClickDetail" text="HEALBOT_MENU" inherits="GameFontNormal">
+                      <Anchors>
+                        <Anchor point="LEFT" relativeTo="HealBot_Options_ShiftCntlAltClickHeader" relativePoint="RIGHT">
+                          <Offset>
+                            <AbsDimension x="10" y="0" />
+                          </Offset>
+                        </Anchor>
+                      </Anchors>
+                    </FontString>
+                  </Layer>
+                </Layers>
                 <Size>
-                  <AbsDimension y="505"/>
+                  <AbsDimension y="525"/>
                 </Size>
                 <Anchors>
                   <Anchor point="TOPLEFT">
@@ -3936,12 +3974,12 @@
               
               <Frame name="HealBot_Options_DisabledBarPanel">
                 <Size>
-                  <AbsDimension y="110"/>
+                  <AbsDimension y="100"/>
                 </Size>
                 <Anchors>
                   <Anchor point="TOPLEFT">
                     <Offset>
-                      <AbsDimension x="20" y="-535"/>
+                      <AbsDimension x="20" y="-555"/>
                     </Offset>
                   </Anchor>
                   <Anchor point="TOPRIGHT">
@@ -9593,7 +9631,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="35" y="-52" />
+                              <AbsDimension x="35" y="-40" />
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9624,7 +9662,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="210" y="-52" />
+                              <AbsDimension x="210" y="-40" />
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9655,7 +9693,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="370" y="-52" />
+                              <AbsDimension x="370" y="-40" />
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9683,7 +9721,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="370" y="-108" />
+                              <AbsDimension x="370" y="-94" />
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9697,7 +9735,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="230" y="-162" />
+                              <AbsDimension x="230" y="-142" />
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9711,7 +9749,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="112" y="-205"/>
+                              <AbsDimension x="112" y="-185"/>
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9767,7 +9805,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="112" y="-190"/>
+                              <AbsDimension x="112" y="-170"/>
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9823,7 +9861,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="128" y="-250"/>
+                              <AbsDimension x="128" y="-225"/>
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9924,7 +9962,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="90" y="-330"/>
+                              <AbsDimension x="90" y="-295"/>
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9941,7 +9979,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="90" y="-380"/>
+                              <AbsDimension x="90" y="-340"/>
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9955,7 +9993,7 @@
                         <Anchors>
                           <Anchor point="TOPLEFT" relativeTo="HealBot_BarButtonDebuffIconScale" relativePoint="TOPLEFT">
                             <Offset>
-                              <AbsDimension x="108" y="-40"/>
+                              <AbsDimension x="108" y="-35"/>
                             </Offset>
                           </Anchor>
                         </Anchors>
@@ -9979,6 +10017,23 @@
                           <OnLeave>HealBot_Options_Show_Help("ICONFADE",false)</OnLeave>
                         </Scripts>
                       </CheckButton>
+                      <Slider name="HealBot_BarButtonIconFadeStartTime" inherits="HealBot_Options_SliderTemplate">
+                        <Size>
+                          <AbsDimension x="425" y="18" />
+                        </Size>
+                        <Anchors>
+                          <Anchor point="BOTTOM">
+                            <Offset>
+                              <AbsDimension x="0" y="20"/>
+                            </Offset>
+                          </Anchor>
+                        </Anchors>
+                        <Scripts>
+                          <OnValueChanged>HealBot_BarButtonIconFadeStartTime_OnValueChanged(self)</OnValueChanged>
+                          <OnEnter>HealBot_Options_Show_Help("ICONFADESTART",true)</OnEnter>
+                          <OnLeave>HealBot_Options_Show_Help("ICONFADESTART",false)</OnLeave>
+                        </Scripts>
+                      </Slider>
                     </Frames>
                   </Frame>
 
@@ -11964,6 +12019,20 @@
                     </Anchors>
                     <Scripts>
                       <OnClick>HealBot_Options_MonitorBuffsWhenGrouped_OnClick(self)</OnClick>
+                      <OnEnter>HealBot_Options_Show_Help("MONITORBUFFSGROUPED",true)</OnEnter>
+                      <OnLeave>HealBot_Options_Show_Help("MONITORBUFFSGROUPED",false)</OnLeave>
+                    </Scripts>
+                  </CheckButton>
+                  <CheckButton name="HealBot_Options_MonitorBuffsPalaBlessing" inherits="SendMailRadioButtonTemplate">
+                    <Anchors>
+                      <Anchor point="TOPLEFT" relativeTo="HealBot_Options_MonitorBuffsInCombat" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                          <AbsDimension x="0" y="-5"/>
+                        </Offset>
+                      </Anchor>
+                    </Anchors>
+                    <Scripts>
+                      <OnClick>HealBot_Options_MonitorBuffsPalaBlessing_OnClick(self)</OnClick>
                       <OnEnter>HealBot_Options_Show_Help("MONITORBUFFSGROUPED",true)</OnEnter>
                       <OnLeave>HealBot_Options_Show_Help("MONITORBUFFSGROUPED",false)</OnLeave>
                     </Scripts>

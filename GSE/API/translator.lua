@@ -590,29 +590,28 @@ local function ClassicGetSpellInfo(spellID)
   local name,rank,icon,castTime,minRange,maxRange, sid=GetSpellInfo( spellID );
   -- only check rank if classic.
   if GSE.GameMode == 1 then
-
     if GSE.isEmpty(rank) then
-      if not GSE.GetCurrentClassID() == 1 and not GSE.GetCurrentClassID() == 4 then
+      if GSE.GetCurrentClassID() ~= 1 and GSE.GetCurrentClassID() ~= 4 then
         -- check if the rank is the same as the highest.
         --print("no rank found for " .. spellID)
         rank = GetSpellRank(spellID)
         if pcall(function () tonumber(spellID) end) then
-          --GSE.PrintDebugMessage("pcall passed")
+          --print("pcall passed")
           rank = GetSpellRank(tonumber(spellID))
           local testName,_,_,_,_,_, testid=GetSpellInfo( name );
-          --GSE.PrintDebugMessage(testName, testid, spellID, rank)
+          --print(testName, testid, spellID, rank)
           local testRank = GetSpellRank(tonumber(testid))
           if testRank == rank then
             rank = nil
           end
-        else
-
-          print("pcall failed:", err)
+        --else
+          --print("pcall failed:", err)
         end
+      else
+        -- dont set a rank for warriors and rogues
+        --print("Warrior or Rogue")
+        rank = nil
       end
-    else
-      -- dont set a rank for warriors and rogues
-      rank = nil
     end
     --print("Did rank check found: " .. (rank or "No Rank"))
   end
@@ -623,6 +622,7 @@ local function ClassicGetSpellInfo(spellID)
   end
   return name,rank,icon,castTime,minRange,maxRange, sid;
 end
+
 
 
 --- Test override of GetSpellInfo
@@ -639,7 +639,7 @@ function GSE.GetSpellId(spellstring, mode)
   local name, rank, icon, castTime, minRange, maxRange, spellId = ClassicGetSpellInfo(spellstring)
   if mode == "STRING" then
     if not GSE.isEmpty(rank) then
-      returnval = name .. "(Rank " .. rank .. ")"
+      returnval = name .. "(" .. L["Rank"] .." " .. rank .. ")"
     else
       returnval = name
     end

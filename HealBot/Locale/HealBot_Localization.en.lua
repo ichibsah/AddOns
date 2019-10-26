@@ -132,6 +132,7 @@ function HealBot_Lang_enALL()
     HEALBOT_OPTIONS_CTRL                    = "Ctrl";
     HEALBOT_OPTIONS_ENABLEHEALTHY           = "Always use enabled";
     HEALBOT_OPTIONS_FADEONEXPIRE            = "Fade on expire";
+    HEALBOT_OPTIONS_FADESTARTTIME           = "Fade start time";
 
     HEALBOT_OPTIONS_CASTNOTIFY1             = "No messages";
     HEALBOT_OPTIONS_CASTNOTIFY2             = "Notify self";
@@ -169,6 +170,7 @@ function HealBot_Lang_enALL()
     HEALBOT_OPTIONS_ENEMYSORT               = "Enemy Sort"
     HEALBOT_OPTIONS_SELFHEALS               = "Self"
     HEALBOT_OPTIONS_PETHEALS                = "Pets"
+    HEALBOT_WORD_PET                        = "Pet"
     HEALBOT_OPTIONS_GROUPHEALS              = "Group";
     HEALBOT_OPTIONS_TANKHEALS               = "Main tanks";
     HEALBOT_OPTIONS_SINGLETANK              = "Single tank";
@@ -302,6 +304,8 @@ function HealBot_Lang_enALL()
     HEALBOT_OPTIONS_IGNOREDEBUFFCOOLDOWN    = "When cure spell CoolDown > 1.5 secs (GCD)";
     HEALBOT_OPTIONS_IGNOREDEBUFFFRIEND      = "When caster is known as friend";
 
+
+    HEALBOT_OPTIONS_MAXBARCACHE             = "Maximum bars to pre cache";
     HEALBOT_OPTIONS_RANGECHECKFREQ          = "Internal Timers and Updates";
 
     HEALBOT_OPTIONS_HIDEPARTYFRAMES         = "Hide party frames";
@@ -366,10 +370,13 @@ function HealBot_Lang_enALL()
     HEALBOT_WORDS_REMOVEFROM                = "Remove from";
     HEALBOT_WORDS_ADDTO                     = "Add to";
     HEALBOT_WORDS_INCLUDE                   = "Include";
+    HEALBOT_WORDS_UNSET                     = "Unset";
+    HEALBOT_WORDS_SETAS                     = "Set as";
 
     HEALBOT_OPTIONS_TTALPHA                 = "Opacity"
     HEALBOT_TOOLTIP_TARGETBAR               = "Target Bar"
     HEALBOT_OPTIONS_MYTARGET                = "My Targets"
+    HEALBOT_OPTIONS_MYFRIEND                = "My Friend"
 
     HEALBOT_DISCONNECTED_LABEL              = "Disconnected"
     HEALBOT_DISCONNECTED_TAG                = "[ DC ] "
@@ -585,7 +592,8 @@ function HealBot_Lang_enALL()
     HEALBOT_VISIBLE_RANGE                   = "Within 100 yards"
     HEALBOT_SPELL_RANGE                     = "Within spell range"
     HEALBOT_WORD_RESET                      = "Reset"
-    HEALBOT_HBMENU                          = "HBmenu"
+    HEALBOT_WOWMENU                         = "Blizzard Menu";
+    HEALBOT_HBMENU                          = "HealBot Menu"
     HEALBOT_ACTION_HBFOCUS                  = "Left click to set\nfocus on target"
     HEALBOT_WORD_CLEAR                      = "Clear"
     HEALBOT_WORD_SET                        = "Set"
@@ -1025,6 +1033,7 @@ function HealBot_Lang_enALL()
     HEALBOT_OPTIONS_ADDON_FAIL              = "Failed to load headbot addon"
     
     HEALBOT_OPTIONS_IN_A_GROUP              = "Only when in a Group or Raid"
+    HEALBOT_OPTIONS_PALADIN_BLESSINGS       = "View all my blessings as same"
     
     HEALBOT_OPTIONS_CONTENT_SKINS_GENERAL   = "    " .. HEALBOT_OPTIONS_TAB_GENERAL
     HEALBOT_OPTIONS_CONTENT_SKINSF_GENERAL  = "        " .. HEALBOT_OPTIONS_TAB_GENERAL
@@ -1142,19 +1151,20 @@ function HealBot_Lang_enALL()
                                    [03] = "Slayybelle",
                                    [04] = "SUNET",
                                    [05] = "Daskills",
-                                   [06] = "XitMaG",
-                                   [07] = "killerdavy",
-                                   [08] = "zathrain",
-                                   [09] = "Saelem",
-                                   [10] = "pyshkash",
-                                   [11] = "warhead0",
-                                   [12] = "Droodibaby",
-                                   [13] = "Byset",
-                                   [14] = "Redemption",
-                                   [15] = "Jaiseck",
-                                   [16] = "xtacie",
-                                   [17] = "bkwildlifecntrl",
-                                   [18] = "mlharg",
+                                   [06] = "killerdavy",
+                                   [07] = "zathrain",
+                                   [08] = "warhead0",
+                                   [09] = "Droodibaby",
+                                   [10] = "Byset",
+                                   [11] = "Redemption",
+                                   [12] = "Jaiseck",
+                                   [13] = "xtacie",
+                                   [14] = "bkwildlifecntrl",
+                                   [15] = "mlharg",
+                                   [16] = "Yuriusha",
+                                   [17] = "spicy_squid",
+                                   [18] = "Ameralanna_675",
+                                   [19] = "ninjoism",
                                 }
                                
 end
@@ -1212,6 +1222,7 @@ function HealBot_Lang_Options_enALL()
                                  ["DISABLEHEALBOT"]=HEALBOT_OPTIONS_DISABLEHEALBOT,
                                  ["DISABLEHEALBOTSOLO"]=HEALBOT_OPTIONS_DISABLEHEALBOT,
                                  ["ADJUSTMAXHLTH"]=HEALBOT_OPTION_ADJUST_MAX_HEALTH,
+                                 ["MAXBARCACHE"]=HEALBOT_OPTIONS_MAXBARCACHE,
                                  ["INTERNALTIMERS"]=HEALBOT_OPTIONS_RANGECHECKFREQ,
                                  ["LANG"]=HEALBOT_OPTIONS_LANG,
                                  ["SETLANG"]=HEALBOT_OPTIONS_LANG,
@@ -1455,6 +1466,7 @@ function HealBot_Lang_Options_enALL()
                                  ["ICONSCALEDEBUFF"]=HEALBOT_OPTIONS_DEBUFFICONSCALE,
                                  ["ICONALWAYSEN"]=HEALBOT_OPTIONS_TTALPHA.." "..HEALBOT_OPTIONS_ENABLEHEALTHY,
                                  ["ICONFADE"]=HEALBOT_OPTIONS_FADEONEXPIRE,
+                                 ["ICONFADESTART"]=HEALBOT_OPTIONS_FADESTARTTIME,
                         -- Skins Frames Icons Text tab
                                  ["ICONSTEXT"]="Icons Text",
                                  ["ICONTXTSHOWCOUNT"]=HEALBOT_OPTIONS_HOTSHOWTEXT.." "..HEALBOT_OPTIONS_HOTTEXTCOUNT,
@@ -1602,6 +1614,7 @@ function HealBot_Lang_Options_enALL()
                                ["DISABLEHEALBOT"]="Put Healbot into a deep sleep.",
                                ["DISABLEHEALBOTSOLO"]="Healbot is only sleeping when\nnot in a group or raid.",
                                ["ADJUSTMAXHLTH"]="Check for boss debuffs that alters healing\neffects and adjust max health to reflect.",
+                               ["MAXBARCACHE"]="Bars within frames can be initialized and cached before joining a group or raid.\n--\nRecommended settings:\n- [5] - You never raid.\n- [10] - You only join 10 man raids.\n- [20-25] - You regularly join 25 man raids.\n- [25-40] - You regularly join 40 man raids.\n--\nNOTE: This is a pre-cache and once a bar is initialized, it is never destroyed\nIf you pre-cache 5 bars and join a 25 man raid, you will end up with a pool of 25+ reusable bars\nHaving a large pool of bars is far more valuable than saving a tiny amount of memory.",
                                ["INTERNALTIMERS"]="This combined with your FPS sets how\nquickly the following are updated:\n- Range checking\n- Buff checking\n- Debuff checking\n- fastHealth updates\n- Aggro updates\n- Enemy bar updates\n- Fluid bars update frequency\n- Aggro bars flash frequency\n- General checks and out of combat updates",
                                ["LANG"]="Select the language used by healbot options.\nThis can be independent to the UI.",
                                ["SETLANG"]="Set the language selected.",
@@ -1845,6 +1858,7 @@ function HealBot_Lang_Options_enALL()
                                ["ICONSCALEDEBUFF"]="The debuff icon scale relative to the bar.\nNote: The scale is halved when using Double row.",
                                ["ICONALWAYSEN"]="Always use enabled bar opacity setting even\nwhen the bar is using a different setting.",
                                ["ICONFADE"]="Fade the icon as it begins to expire.",
+                               ["ICONFADESTART"]="The number of seconds before expiry when the icon fades.\n--\nNOTE: The fade is gradual and generally not noticeable for the first few seconds.",
                         -- Skins Frames Icons Text tab
                                ["ICONSTEXT"]="Show the Skins Frames Icons Text tab.",
                                ["ICONTXTSHOWCOUNT"]="Set the type of text and conditions met to show text on the icon.\nCount - Show the number of stacks, for all casters or own casts if Self casts only is on.",

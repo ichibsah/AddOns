@@ -226,21 +226,25 @@ function Spy:RemovePlayerFromList(player)
 end
 
 function Spy:ClearList()
-	Spy.NearbyList = {}
-	Spy.ActiveList = {}
-	Spy.InactiveList = {}
-	Spy.PlayerCommList = {}
-	Spy.ListAmountDisplayed = 0
-	for i = 1, Spy.MapNoteLimit do
-		Spy.MapNoteList[i].displayed = false
-		Spy.MapNoteList[i].worldIcon:Hide()
-		HBDP:RemoveMinimapIcon(self, Spy.MapNoteList[i].miniIcon)
-	end
-	Spy:SetCurrentList(1)
-	if IsControlKeyDown() then
-		Spy:EnableSpy(not Spy.db.profile.Enabled, false)
-	end
-	Spy:UpdateActiveCount()
+	if IsShiftKeyDown () then
+		Spy:EnableSound(not Spy.db.profile.EnableSound, false)		
+	else	
+		Spy.NearbyList = {}
+		Spy.ActiveList = {}
+		Spy.InactiveList = {}
+		Spy.PlayerCommList = {}
+		Spy.ListAmountDisplayed = 0
+		for i = 1, Spy.MapNoteLimit do
+			Spy.MapNoteList[i].displayed = false
+			Spy.MapNoteList[i].worldIcon:Hide()
+			HBDP:RemoveMinimapIcon(self, Spy.MapNoteList[i].miniIcon)
+		end
+		Spy:SetCurrentList(1)
+		if IsControlKeyDown() then
+			Spy:EnableSpy(not Spy.db.profile.Enabled, false)
+		end
+		Spy:UpdateActiveCount()
+	end	
 end
 
 function Spy:AddPlayerData(name, class, level, race, guild, isEnemy, isGuess)
@@ -826,12 +830,13 @@ function Spy:ParseMinimapTooltip(tooltip)
 	return newTooltip
 end
 
-function Spy:ParseUnitAbility(analyseSpell, event, player, flags, spellId, spellName)
+--function Spy:ParseUnitAbility(analyseSpell, event, player, flags, spellId, spellName)
+function Spy:ParseUnitAbility(analyseSpell, event, player, class, race, spellId, spellName)
 	local learnt = false
 	if player then
-		local class = nil
+--		local class = nil
 		local level = nil
-		local race = nil
+--		local race = nil
 		local isEnemy = true
 		local isGuess = true
 
@@ -846,10 +851,12 @@ function Spy:ParseUnitAbility(analyseSpell, event, player, flags, spellId, spell
 --				local ability = Spy_AbilityList[spellName]
 				local ability = Spy_AbilityList[spellId]
 				if ability then
-					if ability.class and not (playerData and playerData.class) then
-						class = ability.class
-						learnt = true
-					end
+					if class == nil then
+						if ability.class and not (playerData and playerData.class) then
+							class = ability.class
+							learnt = true
+						end
+					end		
 					if ability.level then
 						local playerLevelNumber = nil
 						if playerData and playerData.level then playerLevelNumber = tonumber(playerData.level) end
@@ -858,10 +865,12 @@ function Spy:ParseUnitAbility(analyseSpell, event, player, flags, spellId, spell
 							learnt = true
 						end
 					end
-					if ability.race and not (playerData and playerData.race) then
-						race = ability.race
-						learnt = true
-					end
+					if race == nil then					
+						if ability.race and not (playerData and playerData.race) then
+							race = ability.race
+							learnt = true
+						end
+					end	
 				else	
 --					print(spellId, " - ", spellName)
 				end

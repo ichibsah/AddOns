@@ -61,7 +61,7 @@ local function HealBot_Tooltip_SpellPattern(button, click)
     local sPattern=nil
     if IsShiftKeyDown() and IsAltKeyDown() and IsControlKeyDown() then
         if click=="Left" then
-            sPattern=HEALBOT_MENU
+            sPattern=HEALBOT_WOWMENU
         elseif click=="Right" then
             sPattern=HEALBOT_HBMENU
             --HealBot_Panel_ToggelHealTarget(self.unit)
@@ -570,17 +570,22 @@ local function HealBot_Action_DoRefreshTooltip()
             elseif not uLvl then
                 uLvl=""
             end
-            if UnitClass(xUnit) and UnitIsPlayer(xUnit) then
-                local inRange=true
-                if HEALBOT_GAME_VERSION<4 then inRange=CheckInteractDistance(xUnit,1) end
-                if xButton.spec==" " and inRange and HealBot_Globals.QueryTalents and not HealBot_Data["INSPECT"] then
-                    HealBot_Data["INSPECT"]=true
-                    HealBot_TalentQuery(xUnit)
+            local uClass=UnitCreatureFamily(xUnit) or UnitClass(xUnit) or UnitCreatureType(xUnit)
+            if uClass==uName then uClass=UnitCreatureType(xUnit) or "" end
+            if not uClass or uClass=="" then
+                if strfind(xUnit,"pet") then
+                    uClass=HEALBOT_WORD_PET 
+                else
+                    uClass=HEALBOT_WORDS_UNKNOWN 
                 end
-                HealBot_Tooltip_SetLine(linenum,uName,r,g,b,1,uLvl.." "..xButton.spec..UnitClass(xUnit),r,g,b,1)                
-            else
-                HealBot_Tooltip_SetLine(linenum,uName,r,g,b,1,uLvl,r,g,b,1)      
-            end      
+            end
+            local inRange=true
+            if HEALBOT_GAME_VERSION<4 then inRange=CheckInteractDistance(xUnit,1) end
+            if xButton.spec==" " and UnitIsPlayer(xUnit) and inRange and HealBot_Globals.QueryTalents and not HealBot_Data["INSPECT"] then
+                HealBot_Data["INSPECT"]=true
+                HealBot_TalentQuery(xUnit)
+            end
+            HealBot_Tooltip_SetLine(linenum,uName,r,g,b,1,uLvl..xButton.spec..uClass,r,g,b,1)                     
       
             local zone=nil;
             if HealBot_Data["PGUID"]==xGUID or UnitIsVisible(xUnit) then
@@ -611,6 +616,8 @@ local function HealBot_Action_DoRefreshTooltip()
                 elseif zone and not strfind(zone,"Level") then
                     --if zone==HB_TOOLTIP_OFFLINE then xButton.status.offline = GetTime() end
                     HealBot_Tooltip_SetLine(linenum,zone,1,1,1,1,hlth.."/"..maxhlth.." ("..hPct.."%)",r,g,b,1)
+                else
+                    HealBot_Tooltip_SetLine(linenum," ",1,1,1,1,hlth.."/"..maxhlth.." ("..hPct.."%)",r,g,b,1)
                 end
                 local vUnit=HealBot_retIsInVehicle(xUnit)
                 if vUnit then
@@ -635,14 +642,16 @@ local function HealBot_Action_DoRefreshTooltip()
                 HealBot_Tooltip_luVars["uGroup"]=HealBot_RetUnitGroups(xUnit)
             end
             if tp>0 or mana or (HealBot_Tooltip_luVars["uGroup"] and HealBot_Tooltip_luVars["uGroup"]>0) then
-                linenum=linenum+1
-                if not mana then
+                if not mana or (maxmana and maxmana==0) then
                     if tp>0 then
+                        linenum=linenum+1
                         HealBot_Tooltip_SetLine(linenum,HEALBOT_WORD_THREAT.." "..tp.."%",1,0.1,0.1,1," ",0,0,0,0)
-                    else
+                    elseif HealBot_Tooltip_luVars["uGroup"] then
+                        linenum=linenum+1
                         HealBot_Tooltip_SetLine(linenum,HEALBOT_OPTIONS_GROUPHEALS.." "..HealBot_Tooltip_luVars["uGroup"],1,1,1,1," ",0,0,0,0)
                     end
                 else
+                    linenum=linenum+1
                     local mPct=100
                     if maxmana>0 then
                         mPct=floor((mana/maxmana)*100)
@@ -919,9 +928,12 @@ local function HealBot_Tooltip_Options_Show(noLines)
     HealBot_Tooltip:Show();
 end
 
+local tLine={}
 function HealBot_Tooltip_OptionsHelp(title,text)
     HealBot_Tooltip_ClearLines();
-    local tLine={}
+    for x,_ in pairs(tLine) do
+        tLine[x]=nil;
+    end
     local i=0
     for l in string.gmatch(text, "[^\n]+") do
         local t=(string.gsub(l, "^%s*(.-)%s*$", "%1"))
