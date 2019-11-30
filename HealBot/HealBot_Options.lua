@@ -90,6 +90,7 @@ local hbOptionsTooltip = CreateFrame("GameTooltip", "hbOptionsTooltip", nil, "Ga
 HealBot_Options_StorePrev["FramesSelFrame"]=1
 HealBot_Options_StorePrev["customDebuffPriority"]=10
 HealBot_Options_StorePrev["customBuffPriority"]=10
+HealBot_Options_StorePrev["maxRangeCheckFreq"]=8
 
 local HealBot_Debuff_Types = {}
 local HealBot_Buff_Items_List = {}
@@ -1660,7 +1661,6 @@ function HealBot_Options_ShowHeaders_OnClick(self)
         Healbot_Config_Skins.HeadBar[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["SHOW"] = false
     end
     HealBot_Options_BarNumColsSText:SetText(HealBot_Options_SetNoColsText() .. ": " .. Healbot_Config_Skins.HealBar[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["NUMCOLS"]);
-    HealBot_Panel_ClearBarArrays()
     HealBot_setOptions_Timer(150)
 end
  
@@ -1844,6 +1844,7 @@ function HealBot_BarButtonIconFadeStartTime_OnValueChanged(self)
         HealBot_setLuVars("FadeTimeDiv", (val*1.125))
         local g=_G[self:GetName().."Text"]
         g:SetText(self.text .. ": " .. val .. " " .. HEALBOT_WORDS_SEC);
+        HealBot_setOptions_Timer(35)
     end
 end
 
@@ -1868,6 +1869,7 @@ function HealBot_BarButtonIconTextDurationTime_OnValueChanged(self)
         Healbot_Config_Skins.IconText[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["DURTHRH"]=val;
         local g=_G[self:GetName().."Text"]
         g:SetText(self.text .. ": " .. Healbot_Config_Skins.IconText[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["DURTHRH"]);
+        HealBot_setOptions_Timer(35)
     end
 end
 
@@ -2584,10 +2586,22 @@ function HealBot_Options_MaxBarCache_OnValueChanged(self)
     if val~=self:GetValue() then
         self:SetValue(val) 
     else
-        HealBot_Globals.MaxBarsCache = val
-        local g=_G[self:GetName().."Text"]
-        g:SetText(self.text .. ": " .. val)
+        HealBot_Globals.CacheSize = val
+        HealBot_setLuVars("CacheSize", val*7)
     end
+end
+
+function HealBot_Options_RangeCheckFreq_setSession()
+    local val=((HealBot_Options_StorePrev["maxRangeCheckFreq"]-1)-HealBot_Globals.RangeCheckFreq)/10
+    HealBot_AddDebug("val="..val.." RangeCheckFreq="..HealBot_Globals.RangeCheckFreq)
+    if val<0.1 then
+        val=0.1
+        HealBot_setLuVars("enTurbo", true)
+    else
+        HealBot_setLuVars("enTurbo", false)
+    end
+    HealBot_setLuVars("RangeCheckFreq", val)
+    HealBot_setOptions_Timer(9999)
 end
 
 function HealBot_Options_RangeCheckFreq_OnValueChanged(self)
@@ -2595,11 +2609,8 @@ function HealBot_Options_RangeCheckFreq_OnValueChanged(self)
     if val~=self:GetValue() then
         self:SetValue(val) 
     else
-        val=val/10;
-        HealBot_Globals.RangeCheckFreq = val;
-        --local g=_G[self:GetName().."Text"]
-        --g:SetText(self.text .. ": " .. val);
-        HealBot_setOptions_Timer(9999)
+        HealBot_Globals.RangeCheckFreq=val
+        HealBot_Options_RangeCheckFreq_setSession()
     end
 end
 
@@ -2624,7 +2635,7 @@ function HealBot_Options_BuffTimer_OnValueChanged(self,bufftype)
             g=_G[self:GetName().."Text"]
             g:SetText(self.text .. ": " .. mins ..":".. secs .." mins");
         end
-        HealBot_setOptions_Timer(10)
+        HealBot_setOptions_Timer(30)
     end
 end
 
@@ -2813,7 +2824,6 @@ function HealBot_Options_BarNumGroupPerCol_OnClick(self)
         Healbot_Config_Skins.HealBar[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["GRPCOLS"] = false
     end
     HealBot_Options_BarNumColsSText:SetText(HealBot_Options_SetNoColsText() .. ": " .. Healbot_Config_Skins.HealBar[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["NUMCOLS"]);
-    HealBot_Panel_ClearBarArrays()
     HealBot_setOptions_Timer(150)
     HealBot_Options_framesChanged(HealBot_Options_StorePrev["FramesSelFrame"])
 end
@@ -3065,7 +3075,7 @@ function HealBot_Options_MonitorBuffs_OnClick(self)
 end
 
 function HealBot_Options_MonitorBuffs_Toggle()
-    HealBot_setOptions_Timer(40)
+    HealBot_setOptions_Timer(11)
 end
 
 function HealBot_Options_MonitorDebuffs_OnClick(self)
@@ -3087,7 +3097,7 @@ function HealBot_Options_MonitorBuffsInCombat_OnClick(self)
     else
         HealBot_Config_Buffs.BuffWatchInCombat = false
     end
-    HealBot_setOptions_Timer(40)
+    HealBot_setOptions_Timer(11)
 end
 
 function HealBot_Options_MonitorBuffsWhenGrouped_OnClick(self)
@@ -3096,7 +3106,7 @@ function HealBot_Options_MonitorBuffsWhenGrouped_OnClick(self)
     else
         HealBot_Config_Buffs.BuffWatchWhenGrouped = false
     end
-    HealBot_setOptions_Timer(40)
+    HealBot_setOptions_Timer(11)
 end
 
 function HealBot_Options_MonitorBuffsPalaBlessing_OnClick(self)
@@ -3105,7 +3115,7 @@ function HealBot_Options_MonitorBuffsPalaBlessing_OnClick(self)
     else
         HealBot_Config_Buffs.PalaBlessingsAsOne = false
     end
-    HealBot_setOptions_Timer(40)
+    HealBot_setOptions_Timer(11)
 end
 
 function HealBot_Options_SkinDefault_OnClick(self, gType)
@@ -3135,7 +3145,7 @@ function HealBot_Options_MonitorDebuffsInCombat_OnClick(self)
     else
         HealBot_Config_Cures.DebuffWatchInCombat = false
     end
-    HealBot_setOptions_Timer(50)
+    HealBot_setOptions_Timer(12)
 end
 
 function HealBot_Options_MonitorDebuffsWhenGrouped_OnClick(self)
@@ -3144,7 +3154,7 @@ function HealBot_Options_MonitorDebuffsWhenGrouped_OnClick(self)
     else
         HealBot_Config_Cures.DebuffWatchWhenGrouped = false
     end
-    HealBot_setOptions_Timer(50)
+    HealBot_setOptions_Timer(12)
 end
 
 function HealBot_Options_CDCCol_ShowOnHealthBar_OnClick(self)
@@ -3189,20 +3199,17 @@ function HealBot_Options_CustomBuffCol_OnOff_OnClick(self)
         else
             HealBot_Globals.HealBot_Custom_Buffs_ShowBarCol[sId] = false
         end
-        for xUnit,xButton in pairs(HealBot_Unit_Button) do
-            if xButton.aura.buff and xButton.aura.buff.name then
-                xButton.aura.buff.check=true
-            end
-        end
+        HealBot_setOptions_Timer(30)
     end
 end
 
 function HealBot_Options_CDCCol_ShowOnAggroBar_OnClick(self)
     if self:GetChecked() then
         HealBot_Config_Cures.CDCshownAB = true
+        HealBot_ClearAllDebuffs()
+        HealBot_setOptions_Timer(20)
     else
         HealBot_Config_Cures.CDCshownAB = false
-        HealBot_ClearAllDebuffs()
         HealBot_SetResetFlag("SOFT")
     end
 end
@@ -3210,12 +3217,12 @@ end
 function HealBot_Options_BuffCol_ShowOnAggroBar_OnClick(self)
     if self:GetChecked() then
         HealBot_Config_Buffs.CBshownAB = true
+        HealBot_ClearAllBuffs()
+        HealBot_setOptions_Timer(30)
     else
         HealBot_Config_Buffs.CBshownAB = false
         HealBot_SetResetFlag("SOFT")
     end
-    HealBot_ClearAllBuffs()
-    HealBot_setOptions_Timer(30)
 end
 
 function HealBot_Options_PanelSounds_OnClick(self)
@@ -3246,7 +3253,8 @@ function HealBot_Options_NoAuraWhenRested_OnClick(self)
     else
         HealBot_Config_Buffs.NoAuraWhenRested=false
     end
-    HealBot_SetResetFlag("SOFT")
+    HealBot_setOptions_Timer(30)
+    HealBot_setOptions_Timer(20)
 end
 
 function HealBot_Options_AdjustMaxHealth_OnClick(self)
@@ -3255,7 +3263,6 @@ function HealBot_Options_AdjustMaxHealth_OnClick(self)
     else
         HealBot_Config.AdjustMaxHealth=false
     end
-    HealBot_SetResetFlag("SOFT")
 end
 
 function HealBot_Options_DisableHealBot(checkval)
@@ -3759,7 +3766,7 @@ function HealBot_Options_LoadTips()
     if loaded then
         HealBot_Data["TIPUSE"]=true
         if HealBot_Config_Buffs.BuffWatch then
-            HealBot_setOptions_Timer(40)
+            HealBot_setOptions_Timer(11)
         end
     else
         HealBot_Data["TIPUSE"]=false
@@ -3818,14 +3825,6 @@ function HealBot_Options_ShowTooltipMouseWheel_OnClick(self)
         HealBot_Globals.Tooltip_MouseWheel = true
     else
         HealBot_Globals.Tooltip_MouseWheel = false
-    end
-end
-
-function HealBot_Options_ShowTooltipInstant_OnClick(self)
-    if self:GetChecked() then
-        HealBot_Globals.Tooltip_Recommend = true
-    else
-        HealBot_Globals.Tooltip_Recommend = false
     end
 end
 
@@ -3902,7 +3901,7 @@ function HealBot_Options_BarTextInClassColour_OnClick(self)
     else
         Healbot_Config_Skins.BarText[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["CLASSCOL"] = false
     end
-    HealBot_setLuVars("ResetAllUnitStatus", GetTime()+2)
+    HealBot_ResetAllUnitStatus()
     HealBot_Options_SetBarsTextColour()
     HealBot_Panel_resetTestCols(true)
     HealBot_Options_framesChanged(HealBot_Options_StorePrev["FramesSelFrame"])
@@ -4021,7 +4020,6 @@ function HealBot_Options_ShowDirection_OnClick(self)
     else
         Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["SHOWDIR"] = false
     end
-    HealBot_setLuVars("ResetAllUnitStatus", GetTime()+2)
 end
 
 function HealBot_Options_ShowDirectionMouseOver_OnClick(self)
@@ -4030,7 +4028,6 @@ function HealBot_Options_ShowDirectionMouseOver_OnClick(self)
     else
         Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["SHOWDIRMOUSE"] = false
     end
-    HealBot_setLuVars("ResetAllUnitStatus", GetTime()+2)
 end
 
 function HealBot_Options_CheckReadyCheckEvent()
@@ -6009,6 +6006,7 @@ local HealBot_Options_SCAC = { [1] = HEALBOT_WOWMENU,
 function HealBot_Options_ComboClass_Text()
     local combo=nil
     local button = HealBot_Options_ComboClass_Button(HealBot_Options_ComboButtons_Button)
+    HealBot_Action_ClearSpellCache()
     if HealBot_Options_StorePrev["ActionBarsCombo"]==1 then
         combo="ENABLED"
     elseif HealBot_Options_StorePrev["ActionBarsCombo"]==2 then
@@ -6753,7 +6751,7 @@ function HealBot_Options_ActionAnchor_DropDown()
                         UIDropDownMenu_SetText(HealBot_Options_ActionAnchor,HealBot_Options_ActionAnchor_List[Healbot_Config_Skins.Anchors[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["FRAME"]]) 
                         local g=_G["f"..HealBot_Options_StorePrev["FramesSelFrame"].."_HealBot_Action"]
                         HealBot_Action_setPoint(HealBot_Options_StorePrev["FramesSelFrame"])
-                        HealBot_Panel_ClearBarArrays()
+                        HealBot_setOptions_Timer(595)
                     end
         info.checked = false;
         if Healbot_Config_Skins.Anchors[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["FRAME"]==j then info.checked = true end
@@ -6770,7 +6768,7 @@ function HealBot_Options_ActionBarsAnchor_DropDown()
                         UIDropDownMenu_SetText(HealBot_Options_ActionBarsAnchor,HealBot_Options_ActionAnchor_List[Healbot_Config_Skins.Anchors[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["BARS"]]) 
                         local g=_G["f"..HealBot_Options_StorePrev["FramesSelFrame"].."_HealBot_Action"]
                         HealBot_Action_setPoint(HealBot_Options_StorePrev["FramesSelFrame"])
-                        HealBot_Panel_ClearBarArrays()
+                        HealBot_setOptions_Timer(595)
                     end
         info.checked = false;
         if Healbot_Config_Skins.Anchors[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["BARS"]==j then info.checked = true end
@@ -6785,7 +6783,7 @@ function HealBot_Options_BarsGrowDirection_DropDown()
         info.func = function(self)
                         Healbot_Config_Skins.Anchors[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["GROW"] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BarsGrowDirection,HealBot_Options_BarsGrowDirection_List[Healbot_Config_Skins.Anchors[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["GROW"]]) 
-                        HealBot_Panel_ClearBarArrays()
+                        HealBot_setOptions_Timer(595)
                         HealBot_Options_framesChanged(HealBot_Options_StorePrev["FramesSelFrame"])
                     end
         info.checked = false;
@@ -6801,7 +6799,6 @@ function HealBot_Options_BarsOrientation_DropDown()
         info.func = function(self)
                         Healbot_Config_Skins.HealBar[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["OFIX"] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BarsOrientation,HealBot_Options_BarsOrientation_List[Healbot_Config_Skins.HealBar[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["OFIX"]]) 
-                        HealBot_Panel_ClearBarArrays()
                         HealBot_setOptions_Timer(150)
                     end
         info.checked = false;
@@ -7688,7 +7685,6 @@ function HealBot_Options_Set_Current_Skin(newSkin, ddRefresh, noCallback)
                 Healbot_Config_Skins.Skin_ID = j
                 Healbot_Config_Skins.Current_Skin = Healbot_Config_Skins.Skins[j]
                 HealBot_RaidTargetToggle(nil) 
-                HealBot_Panel_ClearBarArrays()
                 HealBot_Action_ResetSkin("init")
                 HealBot_Options_Frame_initCurFrame()
                 local doRaidTargetToggle=false
@@ -7969,6 +7965,7 @@ function HealBot_Options_LoadSpellsb_OnClick()
     local sStr=HealBot_Options_ShareSpellsExternalEditBox:GetText()
     local ssTab={}
     local i=0
+    HealBot_Action_ClearSpellCache()
     for l in string.gmatch(sStr, "[^\n]+") do
         local t=(string.gsub(l, "^%s*(.-)%s*$", "%1"))
         if string.len(t)>1 then
@@ -8574,7 +8571,7 @@ local function HealBot_Options_BuffTxt1_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(1)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt1,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(1)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8586,7 +8583,7 @@ local function HealBot_Options_BuffTxt1_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(1)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt1,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(1)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8601,7 +8598,7 @@ local function HealBot_Options_BuffTxt2_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(2)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt2,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(2)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8613,7 +8610,7 @@ local function HealBot_Options_BuffTxt2_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(2)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt2,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(2)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8628,7 +8625,7 @@ local function HealBot_Options_BuffTxt3_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(3)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt3,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(3)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8640,7 +8637,7 @@ local function HealBot_Options_BuffTxt3_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(3)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt3,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(3)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8655,7 +8652,7 @@ local function HealBot_Options_BuffTxt4_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(4)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt4,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(4)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8667,7 +8664,7 @@ local function HealBot_Options_BuffTxt4_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(4)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt4,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(4)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8682,7 +8679,7 @@ local function HealBot_Options_BuffTxt5_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(5)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt5,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(5)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8694,7 +8691,7 @@ local function HealBot_Options_BuffTxt5_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(5)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt5,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(5)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8709,7 +8706,7 @@ local function HealBot_Options_BuffTxt6_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(6)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt6,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(6)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8721,7 +8718,7 @@ local function HealBot_Options_BuffTxt6_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(6)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt6,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(6)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8736,7 +8733,7 @@ local function HealBot_Options_BuffTxt7_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(7)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt7,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(7)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8748,7 +8745,7 @@ local function HealBot_Options_BuffTxt7_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(7)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt7,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(7)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8763,7 +8760,7 @@ local function HealBot_Options_BuffTxt8_DropDown()
                     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                     BuffTextClass[HealBot_Options_getDropDownId_bySpec(8)] = self:GetText()
                     UIDropDownMenu_SetText(HealBot_Options_BuffTxt8,HEALBOT_WORDS_NONE)
-                    HealBot_setOptions_Timer(40)
+                    HealBot_setOptions_Timer(11)
                 end
     info.checked = false;
     if BuffTextClass[HealBot_Options_getDropDownId_bySpec(8)]==HEALBOT_WORDS_NONE then info.checked = true end
@@ -8775,7 +8772,7 @@ local function HealBot_Options_BuffTxt8_DropDown()
                         BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
                         BuffTextClass[HealBot_Options_getDropDownId_bySpec(8)] = self:GetText()
                         UIDropDownMenu_SetText(HealBot_Options_BuffTxt8,sName)
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffTextClass[HealBot_Options_getDropDownId_bySpec(8)]==HealBot_Buff_Spells_List[j] then info.checked = true end
@@ -8793,7 +8790,7 @@ local function HealBot_Options_BuffGroups1_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(1)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups1,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(1)]]) 
                         ClickedBuffGroupDD=1
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(1)]==j then info.checked = true end
@@ -8811,7 +8808,7 @@ local function HealBot_Options_BuffGroups2_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(2)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups2,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(2)]]) 
                         ClickedBuffGroupDD=2
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(2)]==j then info.checked = true end
@@ -8829,7 +8826,7 @@ local function HealBot_Options_BuffGroups3_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(3)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups3,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(3)]]) 
                         ClickedBuffGroupDD=3
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(3)]==j then info.checked = true end
@@ -8847,7 +8844,7 @@ local function HealBot_Options_BuffGroups4_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(4)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups4,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(4)]]) 
                         ClickedBuffGroupDD=4
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(4)]==j then info.checked = true end
@@ -8865,7 +8862,7 @@ local function HealBot_Options_BuffGroups5_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(5)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups5,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(5)]]) 
                         ClickedBuffGroupDD=5
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(5)]==j then info.checked = true end
@@ -8883,7 +8880,7 @@ local function HealBot_Options_BuffGroups6_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(6)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups6,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(6)]]) 
                         ClickedBuffGroupDD=6
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(6)]==j then info.checked = true end
@@ -8901,7 +8898,7 @@ local function HealBot_Options_BuffGroups7_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(7)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups7,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(7)]]) 
                         ClickedBuffGroupDD=7
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(7)]==j then info.checked = true end
@@ -8919,7 +8916,7 @@ local function HealBot_Options_BuffGroups8_DropDown()
                         BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(8)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_BuffGroups8,HealBot_Options_BuffTxt_List[BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(8)]]) 
                         ClickedBuffGroupDD=8
-                        HealBot_setOptions_Timer(40)
+                        HealBot_setOptions_Timer(11)
                     end
         info.checked = false;
         if BuffDropDownClass[HealBot_Options_getDropDownId_bySpec(8)]==j then info.checked = true end
@@ -8993,7 +8990,7 @@ function HealBot_Options_CDCTxt1_DropDown()
     info.text = HEALBOT_WORDS_NONE;
     info.func = function(self)
                     HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(1)] = self:GetText()
-                    HealBot_setOptions_Timer(50)
+                    HealBot_setOptions_Timer(12)
                     UIDropDownMenu_SetText(HealBot_Options_CDCTxt1,HEALBOT_WORDS_NONE)
                 end
     info.checked = false;
@@ -9005,7 +9002,7 @@ function HealBot_Options_CDCTxt1_DropDown()
             info.text = sName;
             info.func = function(self)
                             HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(1)] = self:GetText()
-                            HealBot_setOptions_Timer(50)
+                            HealBot_setOptions_Timer(12)
                             UIDropDownMenu_SetText(HealBot_Options_CDCTxt1,sName)
                         end
             info.checked = false;
@@ -9018,7 +9015,7 @@ function HealBot_Options_CDCTxt1_DropDown()
         info.text = rName
         info.func = function(self)
                         HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(1)] = self:GetText()
-                        HealBot_setOptions_Timer(50)
+                        HealBot_setOptions_Timer(12)
                         UIDropDownMenu_SetText(HealBot_Options_CDCTxt1,rName)
                     end
         info.checked = false;
@@ -9031,7 +9028,7 @@ function HealBot_Options_CDCTxt1_DropDown()
             info.text = iName
             info.func = function(self)
                             HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(1)] = self:GetText()
-                            HealBot_setOptions_Timer(50)
+                            HealBot_setOptions_Timer(12)
                             UIDropDownMenu_SetText(HealBot_Options_CDCTxt1,iName)
                         end
             info.checked = false;
@@ -9048,7 +9045,7 @@ function HealBot_Options_CDCTxt2_DropDown()
     info.text = HEALBOT_WORDS_NONE;
     info.func = function(self)
                     HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(2)] = self:GetText()
-                    HealBot_setOptions_Timer(50)
+                    HealBot_setOptions_Timer(12)
                     UIDropDownMenu_SetText(HealBot_Options_CDCTxt2,HEALBOT_WORDS_NONE)
                 end
     info.checked = false;
@@ -9060,7 +9057,7 @@ function HealBot_Options_CDCTxt2_DropDown()
             info.text = sName;
             info.func = function(self)
                             HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(2)] = self:GetText()
-                            HealBot_setOptions_Timer(50)
+                            HealBot_setOptions_Timer(12)
                             UIDropDownMenu_SetText(HealBot_Options_CDCTxt2,sName)
                         end
             info.checked = false;
@@ -9073,7 +9070,7 @@ function HealBot_Options_CDCTxt2_DropDown()
         info.text = rName
         info.func = function(self)
                         HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(2)] = self:GetText()
-                        HealBot_setOptions_Timer(50)
+                        HealBot_setOptions_Timer(12)
                         UIDropDownMenu_SetText(HealBot_Options_CDCTxt2,rName)
                     end
         info.checked = false;
@@ -9086,7 +9083,7 @@ function HealBot_Options_CDCTxt2_DropDown()
             info.text = iName
             info.func = function(self)
                             HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(2)] = self:GetText()
-                            HealBot_setOptions_Timer(50)
+                            HealBot_setOptions_Timer(12)
                             UIDropDownMenu_SetText(HealBot_Options_CDCTxt2,iName)
                         end
             info.checked = false;
@@ -9103,7 +9100,7 @@ function HealBot_Options_CDCTxt3_DropDown()
     info.text = HEALBOT_WORDS_NONE;
     info.func = function(self)
                     HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(3)] = self:GetText()
-                    HealBot_setOptions_Timer(50)
+                    HealBot_setOptions_Timer(12)
                     UIDropDownMenu_SetText(HealBot_Options_CDCTxt3,HEALBOT_WORDS_NONE)
                 end
     info.checked = false;
@@ -9115,7 +9112,7 @@ function HealBot_Options_CDCTxt3_DropDown()
             info.text = sName;
             info.func = function(self)
                             HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(3)] = self:GetText()
-                            HealBot_setOptions_Timer(50)
+                            HealBot_setOptions_Timer(12)
                             UIDropDownMenu_SetText(HealBot_Options_CDCTxt3,sName)
                         end
             info.checked = false;
@@ -9128,7 +9125,7 @@ function HealBot_Options_CDCTxt3_DropDown()
         info.text = rName
         info.func = function(self)
                         HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(3)] = self:GetText()
-                        HealBot_setOptions_Timer(50)
+                        HealBot_setOptions_Timer(12)
                         UIDropDownMenu_SetText(HealBot_Options_CDCTxt3,rName)
                     end
         info.checked = false;
@@ -9141,7 +9138,7 @@ function HealBot_Options_CDCTxt3_DropDown()
             info.text = iName
             info.func = function(self)
                             HealBot_Config_Cures.HealBotDebuffText[HealBot_Options_getDropDownId_bySpec(3)] = self:GetText()
-                            HealBot_setOptions_Timer(50)
+                            HealBot_setOptions_Timer(12)
                             UIDropDownMenu_SetText(HealBot_Options_CDCTxt3,iName)
                         end
             info.checked = false;
@@ -9159,7 +9156,7 @@ function HealBot_Options_CDCGroups1_DropDown()
                         HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(1)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_CDCGroups1,HealBot_Options_BuffTxt_List[HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(1)]]) 
                         ClickedBuffGroupDD=1
-                        HealBot_setOptions_Timer(50)
+                        HealBot_setOptions_Timer(12)
                     end
         info.checked = false;
         if HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(1)]==j then info.checked = true end
@@ -9175,7 +9172,7 @@ function HealBot_Options_CDCGroups2_DropDown()
                         HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(2)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_CDCGroups2,HealBot_Options_BuffTxt_List[HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(2)]]) 
                         ClickedBuffGroupDD=2
-                        HealBot_setOptions_Timer(50)
+                        HealBot_setOptions_Timer(12)
                     end
         info.checked = false;
         if HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(2)]==j then info.checked = true end
@@ -9191,7 +9188,7 @@ function HealBot_Options_CDCGroups3_DropDown()
                         HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(3)] = self:GetID()
                         UIDropDownMenu_SetText(HealBot_Options_CDCGroups3,HealBot_Options_BuffTxt_List[HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(3)]]) 
                         ClickedBuffGroupDD=3
-                        HealBot_setOptions_Timer(50)
+                        HealBot_setOptions_Timer(12)
                     end
         info.checked = false;
         if HealBot_Config_Cures.HealBotDebuffDropDown[HealBot_Options_getDropDownId_bySpec(3)]==j then info.checked = true end
@@ -9273,7 +9270,6 @@ function HealBot_Options_CDCPriorityC_DropDown()
                             cName=HealBot_Options_StorePrev["CDebuffcustomName"]
                             HealBot_Globals.HealBot_Custom_Debuffs[cName] = x
                             HealBot_Options_CDC_checkStatus(cName)
-                            HealBot_ClearDebuffCache(cName)
                             HealBot_CheckAllActiveDebuffs()
                         end
                         UIDropDownMenu_SetSelectedID(HealBot_Options_CDCPriorityC,x) 
@@ -9672,6 +9668,7 @@ function HealBot_Options_NewHoTBuffBtn_OnClick(NewHoTBuffTxt)
     local useId=NewHoTBuffTxt
     if spellId then useId=spellId end
     if not name then name=NewHoTBuffTxt end
+    HealBot_DeleteExcludeBuffInCache(name)
     local unique=true;
     local hbClassHoTwatch=HealBot_Globals.WatchHoT
     for xClass,_  in pairs(hbClassHoTwatch) do
@@ -9761,12 +9758,12 @@ function HealBot_Options_DeleteCDebuff(dId)
     HealBot_Globals.HealBot_Custom_Debuffs_ShowBarCol[dId]=nil
     if HealBot_Globals.FilterCustomDebuff[dId] then HealBot_Globals.FilterCustomDebuff[dId]=nil end
     HealBot_Globals.IgnoreCustomDebuff[dId]=nil
+    HealBot_DelDebuffCache(dId)
     HealBot_Options_InitSub(402)
     HealBot_Options_InitSub(403)
     HealBot_Options_InitSub(404)
     HealBot_SetCDCBarColours();
     HealBot_Options_CDebuffResetList()
-    HealBot_ClearDebuffCache(dId)
     HealBot_CheckAllActiveDebuffs()
 end
 
@@ -9782,6 +9779,7 @@ function HealBot_Options_DeleteBuffHoT(classTr, sId)
     HealBot_Globals.HealBot_Custom_Buffs[sId]=nil
     HealBot_Globals.CustomBuffBarColour[sId]=nil
     HealBot_Globals.HealBot_Custom_Buffs_ShowBarCol[sId]=nil
+    HealBot_DelBuffCache(sId)
     HealBot_setOptions_Timer(169)
     HealBot_setOptions_Timer(170)
 end
@@ -9802,7 +9800,6 @@ function HealBot_Options_EnableDisableCDBtn_OnClick(self)
         HealBot_Globals.IgnoreCustomDebuff[HealBot_Options_StorePrev["CDebuffcustomName"]][InstName]=true
     end
     HealBot_Options_SetEnableDisableCDBtn()
-    HealBot_ClearDebuffCache(HealBot_Options_StorePrev["CDebuffcustomName"])
     HealBot_setOptions_Timer(20)
 end
 
@@ -10318,7 +10315,6 @@ end
 
 
 local spells={}
-local FirstBuffLoad=true
 local function HealBot_Options_DoBuff_Reset()
     HealBot_Options_setDebuffTypes()
     BuffTextClass = HealBot_Config_Buffs.HealBotBuffText
@@ -10560,8 +10556,8 @@ local function HealBot_Options_DoBuff_Reset()
             end
         end
     end
+    HealBot_Register_AuraEvent()
     HealBot_setOptions_Timer(30)
-    FirstBuffLoad=nil
 end
 
 function HealBot_Options_BuffDebuff_Reset(aType)
@@ -10732,7 +10728,7 @@ local function HealBot_Returned_Colours(R, G, B, A, preset)
         Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["HR"],
         Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["HG"],
         Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["HB"] = R, G, B;
-        HealBot_setLuVars("ResetAllUnitStatus", GetTime()+2)
+        HealBot_ResetAllUnitStatus()
     elseif HealBot_ColourObjWaiting=="CustomBackBar" then
         Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["BR"],
         Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["BG"],
@@ -10986,7 +10982,7 @@ function HealBot_SetBuffBarColours()
                                   Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][HealBot_Options_StorePrev["FramesSelFrame"]]["HA"]);
         end
     end
-    HealBot_setOptions_Timer(40)
+    HealBot_setOptions_Timer(11)
 end
 --------------------------------------------------------------------------------
 
@@ -11117,7 +11113,7 @@ function HealBot_Options_EnableHealthy_OnClick(self)
     else
         HealBot_Config.EnableHealthy = false
     end
-    HealBot_setLuVars("ResetAllUnitStatus", GetTime()+2)
+    HealBot_ResetAllUnitStatus()
 end
 
 function HealBot_Options_EnableMouseWheel_OnClick(self)
@@ -11971,12 +11967,12 @@ function HealBot_Options_InitSub1(subNo)
             HealBot_Options_SetText(HealBot_Options_EnableLibQuickHealth,HEALBOT_OPTIONS_ENABLELIBQH)
             HealBot_Options_EnableAutoCombat:SetChecked(HealBot_Globals.EnAutoCombat)
             HealBot_Options_SetText(HealBot_Options_EnableAutoCombat,HEALBOT_OPTIONS_ENABLEAUTOCOMBAT)
-            HealBot_Options_val_OnLoad(HealBot_Options_MaxBarCache,HEALBOT_OPTIONS_MAXBARCACHE,5,40,1,5)
-            HealBot_Options_MaxBarCache:SetValue(HealBot_Globals.MaxBarsCache or 20)
-            HealBot_Options_MaxBarCacheText:SetText(HEALBOT_OPTIONS_MAXBARCACHE .. ": " .. HealBot_Globals.MaxBarsCache)
-            HealBot_Options_sliderlabels_Init(HealBot_Options_RangeCheckFreq,HEALBOT_OPTIONS_RANGECHECKFREQ,1.0,10.0,0.5,2,HEALBOT_WORDS_MORECPU,HEALBOT_WORDS_LESSCPU)
-            HealBot_Options_RangeCheckFreq:SetValue((HealBot_Globals.RangeCheckFreq or 0.5)*10)
-            HealBot_Options_RangeCheckFreqText:SetText(HEALBOT_OPTIONS_RANGECHECKFREQ)-- .. ": " .. HealBot_Globals.RangeCheckFreq)
+            HealBot_Options_sliderlabels_Init(HealBot_Options_MaxBarCache,HEALBOT_OPTIONS_MAXBARCACHE,1,7,1,2,HEALBOT_WORDS_LESSMEM,HEALBOT_WORDS_MOREMEM)
+            HealBot_Options_MaxBarCache:SetValue(HealBot_Globals.CacheSize or 4)
+            HealBot_Options_MaxBarCacheText:SetText(HEALBOT_OPTIONS_MAXBARCACHE)
+            HealBot_Options_sliderlabels_Init(HealBot_Options_RangeCheckFreq,HEALBOT_OPTIONS_RANGECHECKFREQ,1.0,HealBot_Options_StorePrev["maxRangeCheckFreq"]-1,1,2,HEALBOT_WORDS_LESSCPU,HEALBOT_WORDS_MORECPU)
+            HealBot_Options_RangeCheckFreq:SetValue(HealBot_Globals.RangeCheckFreq or 4)
+            HealBot_Options_RangeCheckFreqText:SetText(HEALBOT_OPTIONS_RANGECHECKFREQ)
             HealBot_Options_SetText(HealBot_Options_DisableHealBotOpt,HEALBOT_OPTIONS_DISABLEHEALBOT)
             HealBot_Options_SetText(HealBot_Options_DisableHealBotSolo,HEALBOT_OPTIONS_DISABLEHEALBOTSOLO)
             g=_G["healbotcmdfontstr"]
@@ -13167,8 +13163,6 @@ function HealBot_Options_InitSub2(subNo)
             HealBot_Options_SetText(HealBot_Options_ShowTooltipSpellCoolDown,HEALBOT_OPTIONS_SHOWCDTOOLTIP)
             HealBot_Options_ShowTooltipMouseWheel:SetChecked(HealBot_Globals.Tooltip_MouseWheel)
             HealBot_Options_SetText(HealBot_Options_ShowTooltipMouseWheel,HEALBOT_OPTIONS_SHOWMOUSEWHEELTOOLTIP)
-            HealBot_Options_ShowTooltipInstant:SetChecked(HealBot_Globals.Tooltip_Recommend)
-            HealBot_Options_SetText(HealBot_Options_ShowTooltipInstant,HEALBOT_OPTIONS_SHOWRECTOOLTIP)
             HealBot_Options_ShowTooltipUseGameTip:SetChecked(HealBot_Globals.UseGameTooltip)
             HealBot_Options_SetText(HealBot_Options_ShowTooltipUseGameTip,HEALBOT_OPTIONS_USEGAMETOOLTIP)
             HealBot_Options_ShowTooltipShowHoT:SetChecked(HealBot_Globals.Tooltip_ShowHoT)

@@ -1,10 +1,13 @@
-lightweight tag 9e97edb7c5c78294d07c10b8457f3f21a04bf1f8 v8.2.5.7224.140
+lightweight tag e1cc1bc1773dc917d4d17a7db082327ee031c1c8 v8.2.5.7227.140
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Sun Oct 20 20:06:32 2019 -0300
+Date:	Sat Nov 9 19:15:28 2019 -0300
 
-commit 9e97edb7c5c78294d07c10b8457f3f21a04bf1f8
+commit e1cc1bc1773dc917d4d17a7db082327ee031c1c8
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sun Oct 20 20:06:32 2019 -0300
+Date:   Sat Nov 9 19:15:28 2019 -0300
 
-    Fixing
+    Colection of small fixes
+    
+    - Fixed plugins showing Out od Date.
+    - Framework update to .161 version.
 

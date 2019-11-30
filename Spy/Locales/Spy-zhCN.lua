@@ -25,10 +25,8 @@ L["SpyDescription2"] = [[
 |cffffd000附近列表|cffffffff
 附近列表会显示已经被侦测到的任何敌方玩家。 在非战斗状态下，点击列表姓名可快速选定目标。 如果在一定时间内未再次侦测到的玩家会被从列表中移除。
  
-标题栏中的清除按钮可以立即清空附近列表，按住Ctrl来清空列表时可同时快速启动或暂停Spy插件。
- 
 |cffffd000近一小时内清单|cffffffff
-显示最近1小时内出现的所有敌方玩家。
+显示在一小时内检测到的所有敌人。
  
 |cffffd000忽略列表|cffffffff
 被加入忽略列表的敌对玩家将不会在列表中显示。你可以通过鼠标右键菜单或按住Ctrl点击从列表中添加或删除敌对玩家。
@@ -38,12 +36,11 @@ L["SpyDescription2"] = [[
  
 右键菜单也可以添加将某人加入此列表的原因。如果你希望添加不在列表中的说明，可以通过其他列表“自行输入原因...”。
  
- 
 |cffffd000作者: Slipjack|cffffffff
- 
 ]]
+
 L["EnableSpy"] = "开启Spy"
-L["EnableSpyDescription"] = "现在和登陆时启用或禁用Spy。"
+L["EnableSpyDescription"] = "启用或禁用Spy。"
 L["EnabledInBattlegrounds"] = "战场中启用Spy"
 L["EnabledInBattlegroundsDescription"] = "在战场中启用或禁用Spy。"
 L["EnabledInArenas"] = "竞技场中启用Spy"
@@ -55,7 +52,7 @@ L["DisableWhenPVPUnflaggedDescription"] = "根据PVP状态启用或禁用Spy。"
  
 L["DisplayOptions"] = "显示"
 L["DisplayOptionsDescription"] = [[
-自动显示或隐藏Spy。
+Spy 窗口的选项和工具提示。
 ]]
 L["ShowOnDetection"] = "侦测到敌对玩家时显示Spy"
 L["ShowOnDetectionDescription"] = "当侦测到敌对玩家时，自动显示隐藏的Spy菜单和附近列表。"
@@ -94,12 +91,19 @@ L["SelectFont"] = "选择字体"
 L["SelectFontDescription"] = "为Spy选择字体。"
 L["RowHeight"] = "选择列高"
 L["RowHeightDescription"] = "为Spy设置列高度。"
+L["Texture"] = "质地"
+L["TextureDescription"] = "选择Spy窗口的纹理"
  
 L["AlertOptions"] = "警告设置"
 L["AlertOptionsDescription"] = [[
-您可以在遭遇敌对玩家时发送详细情况到聊天频道，同时设置如何发送警告信息。
+当检测到敌方玩家时的警报，公告和警告选项。
 ]]
-L["Announce"] = "通报到:"
+L["SoundChannel"] = "选择声音通道"
+L["Master"] = "主音量"
+L["SFX"] = "音效音量"
+L["Music"] = "音乐音量"
+L["Ambience"] = "环境音量"
+L["Announce"] = "发送公告至："
 L["None"] = "无"
 L["NoneDescription"] = "侦测到敌对玩家时不通报。"
 L["Self"] = "自己"
@@ -131,10 +135,12 @@ L["EnableSound"] = "启用声音警告"
 L["EnableSoundDescription"] = "设置当检测到敌对玩家时声音警告。 潜行或者KOS列表中的敌对玩家会有不同的声音提示。"
 L["OnlySoundKoS"] = "仅开启KOS列表中敌对玩家的声音警告"
 L["OnlySoundKoSDescription"] = "设置仅开启KOS列表中敌对玩家的声音警告。"
+L["StopAlertsOnTaxi"] = "在飞行路线上关闭警报"
+L["StopAlertsOnTaxiDescription"] = "在飛行路線上停止所有新的警報和警告."
  
 L["ListOptions"] = "附近列表选项"
 L["ListOptionsDescription"] = [[
-您可以设置Spy如何从附近列表中添加或删除敌对玩家。
+关于如何添加和删除敌方玩家的选项。
 ]]
 L["RemoveUndetected"] = "多久后删除附近列表中的敌对玩家："
 L["1Min"] = "1 分钟"
@@ -154,18 +160,19 @@ L["ShowNearbyListDescription"] = "设置侦测到敌对玩家时显示附近列�
 L["PrioritiseKoS"] = "在附近列表中优先显示KOS列表中的敌对玩家"
 L["PrioritiseKoSDescription"] = "设置总在附近列表中优先显示KOS列表中的敌对玩家。"
  
-L["MinimapOptions"] = "小地图选项"
-L["MinimapOptionsDescription"] = [[
-给能够追踪人型生物的玩家提供额外的功能。
+L["MapOptions"] = "小地图选项"
+L["MapOptionsDescription"] = [[
+世界地图和小地图的选项，包括图标和工具提示。
 ]]
-L["MinimapTracking"] = "启用小地图追踪"
-L["MinimapTrackingDescription"] = "设置启用小地图中对敌对玩家的追踪和侦测. 在小地图中检测的已知敌对玩家添加到附近列表。"
+L["MinimapDetection"] = "启用小地图检测"
+L["MinimapDetectionDescription"] = "将光标移到在小地图上检测到的已知敌方玩家上，会将他们添加到“附近”列表中。"
+L["MinimapNote"] = "          注意：仅适用于可以追踪人形生物的玩家。"
 L["MinimapDetails"] = "在鼠标提示中显示等级/职业信息"
 L["MinimapDetailsDescription"] = "设置更新小地图的提示信息，显示敌对玩家名字时显示等级/职业信息。"
-L["DisplayOnMap"] = "在地图上显示敌人位置信息"
-L["DisplayOnMapDescription"] = "设置在世界地图和小地图上显示由公会、队伍或团队其他Spy玩家侦测到的敌对玩家位置信息。"
+L["DisplayOnMap"] = "在地图上显示图标"
+L["DisplayOnMapDescription"] = "Display map icons for the location of other Spy users in your party, raid and guild when they detect enemies."
 L["SwitchToZone"] = "侦测到敌对玩家时切换到当前区域地图"
-L["SwitchToZoneDescription"] = "当侦测到敌对玩家且世界地图打开时，将自动切换至玩家当前区域地图。"
+L["SwitchToZoneDescription"] = "当检测到敌人时，将地图更改为玩家当前区域地图。"
 L["MapDisplayLimit"] = "限制地图标记显示:"
 L["LimitNone"] = "任何地方"
 L["LimitNoneDescription"] = "无视自己当前位置，在地图上显示所有侦测到的敌对玩家。"
@@ -176,7 +183,7 @@ L["LimitSameContinentDescription"] = "只显示和自己在相同大陆中的侦
  
 L["DataOptions"] = "数据管理选项"
 L["DataOptionsDescription"] = [[
-您可以设置Spy如何收集和维护数据。
+关于 Spy 如何维护和收集数据的选项。
 ]]
 L["PurgeData"] = "多久后删除未被侦测的敌对玩家信息:"
 L["OneDay"] = "1 天"
@@ -198,10 +205,7 @@ L["PurgeWinLossDataDescription"] = "设置相同时间未被侦测时，删除�
 L["ShareData"] = "与其他Spy用户分享数据"
 L["ShareDataDescription"] = "设置与队伍、团队或公会中的其他Spy用户分享数据。"
 L["UseData"] = "使用其他Spy用户的数据"
-L["UseDataDescription"] = [[使用队伍、团队或公会中的其他Spy用户的数据。
- 
-如果列表还有空间，其他Spy用户侦测到的敌对玩家信息也会添加进您的附近列表中。
-]]
+L["UseDataDescription"] = "使用队伍、团队或公会中的其他Spy用户的数据。"
 L["ShareKOSBetweenCharacters"] = "在您的角色中共享KOS敌对玩家列表"
 L["ShareKOSBetweenCharactersDescription"] = "设置在相同服务器和阵营的角色共享KOS敌对玩家列表。"
  
@@ -292,7 +296,7 @@ L["Player"] = " （玩家）"
 L["KOSReason"] = "KOS即视击杀"
 L["KOSReasonIndent"] = "    "
 L["KOSReasonOther"] = "自行输入原因..."
-L["KOSReasonClear"] = "清除"
+L["KOSReasonClear"] = "清除入原因"
 L["StatsWins"] = "|cff40ff00获胜："
 L["StatsSeparator"] = "  "
 L["StatsLoses"] = "|cff0070dd失败："
@@ -431,20 +435,6 @@ L["KUL TIRAN"] = "库尔提拉斯人"
 L["DARK IRON DWARF"] = "黑铁矮人"
 L["MAG'HAR ORC"] = "玛格汉兽人"
 
---++ Font descriptions
-L["2002"] = "2002"
-L["2002 BOLD"] = "2002 Bold"
-L["ARIAL NARROW"] = "Arial Narrow" -- default chat font
-L["AR ZhongkaiGBK Medium"] = "AR ZhongkaiGBK Medium"
-L["BIG NOODLE TITLING"] = "Big Noodle Titling"
-L["EXPRESSWAY"] = "Expressway"
-L["FRIZ QUADRATA TT"] = "Friz Quadrata TT" -- default main UI font
-L["FRIZQUADRATACTT"] = "Friz Quadrata CTT"
-L["MOK"] = "MoK"
-L["MORPHEUS"] = "Morpheus" -- default in game mail font
-L["NIMROD MT"] = "Nimrod MT"
-L["SKURRI"] = "Skurri" -- default unit frame combat font
-						
 -- Stealth abilities
 L["Stealth"] = "隱形"
 L["Prowl"] = "潛行"

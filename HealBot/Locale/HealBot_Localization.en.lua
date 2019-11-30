@@ -305,7 +305,7 @@ function HealBot_Lang_enALL()
     HEALBOT_OPTIONS_IGNOREDEBUFFFRIEND      = "When caster is known as friend";
 
 
-    HEALBOT_OPTIONS_MAXBARCACHE             = "Maximum bars to pre cache";
+    HEALBOT_OPTIONS_MAXBARCACHE             = "Internal cache";
     HEALBOT_OPTIONS_RANGECHECKFREQ          = "Internal Timers and Updates";
 
     HEALBOT_OPTIONS_HIDEPARTYFRAMES         = "Hide party frames";
@@ -397,6 +397,8 @@ function HealBot_Lang_enALL()
     HEALBOT_OPTIONS_NOTIFY_MSG              = "Message"
     HEALBOT_OPTIONS_CASTNOTIFYTAGS          = " #s=spell name  -  #n=players name "
     HEALBOT_WORDS_YOU                       = "you";
+    HEALBOT_WORDS_MOREMEM                   = "More Memory";
+    HEALBOT_WORDS_LESSMEM                   = "Less Memory";
     HEALBOT_WORDS_MORECPU                   = "More CPU";
     HEALBOT_WORDS_LESSCPU                   = "Less CPU";
     HEALBOT_NOTIFYOTHERMSG                  = "Casting #s on #n";
@@ -1520,6 +1522,7 @@ function HealBot_Lang_Options_enALL()
                                  ["MONITORBUFFS"]=HEALBOT_OPTIONS_MONITORBUFFS,
                                  ["MONITORBUFFSIC"]=HEALBOT_OPTIONS_MONITORBUFFSC,
                                  ["MONITORBUFFSGROUPED"]=HEALBOT_OPTIONS_IN_A_GROUP,
+                                 ["MONITORBUFFSPALABLESSING"]=HEALBOT_OPTIONS_PALADIN_BLESSINGS,
                                  ["BUFFSSPELL"]=HEALBOT_OPTIONS_BUFFSTEXT1,
                                  ["BUFFSMEMBERS"]=HEALBOT_OPTIONS_BUFFSTEXT2,
                                  ["BUFFSBARS"]=HEALBOT_OPTIONS_CDCBARS,
@@ -1614,7 +1617,7 @@ function HealBot_Lang_Options_enALL()
                                ["DISABLEHEALBOT"]="Put Healbot into a deep sleep.",
                                ["DISABLEHEALBOTSOLO"]="Healbot is only sleeping when\nnot in a group or raid.",
                                ["ADJUSTMAXHLTH"]="Check for boss debuffs that alters healing\neffects and adjust max health to reflect.",
-                               ["MAXBARCACHE"]="Bars within frames can be initialized and cached before joining a group or raid.\n--\nRecommended settings:\n- [5] - You never raid.\n- [10] - You only join 10 man raids.\n- [20-25] - You regularly join 25 man raids.\n- [25-40] - You regularly join 40 man raids.\n--\nNOTE: This is a pre-cache and once a bar is initialized, it is never destroyed\nIf you pre-cache 5 bars and join a 25 man raid, you will end up with a pool of 25+ reusable bars\nHaving a large pool of bars is far more valuable than saving a tiny amount of memory.",
+                               ["MAXBARCACHE"]="Aura Cache\n=========\nThis setting determines how quickly expired unit auras are purged.\n--\nNOTE:Expired aura data can be reused, keeping frequent auras in the cache reduces CPU usage.\n__________________________________________________________________________________________\n--\nBars Cache\n=========\nBars within frames can be initialized and cached before joining a group or raid.\nThe number of bars is determined by the cache size.\n--\nNOTE: This is a pre-cache and once a bar is initialized, it is never destroyed.",
                                ["INTERNALTIMERS"]="This combined with your FPS sets how\nquickly the following are updated:\n- Range checking\n- Buff checking\n- Debuff checking\n- fastHealth updates\n- Aggro updates\n- Enemy bar updates\n- Fluid bars update frequency\n- Aggro bars flash frequency\n- General checks and out of combat updates",
                                ["LANG"]="Select the language used by healbot options.\nThis can be independent to the UI.",
                                ["SETLANG"]="Set the language selected.",
@@ -1912,6 +1915,7 @@ function HealBot_Lang_Options_enALL()
                                ["MONITORBUFFS"]="Turn on/off buff monitoring.",
                                ["MONITORBUFFSIC"]="Turn on/off monitoring for buffs in combat.",
                                ["MONITORBUFFSGROUPED"]="Do not monitor buffs when solo.",
+                               ["MONITORBUFFSPALABLESSING"]="Ignore if player has any blessing cast by you.",
                                ["BUFFSSPELL"]="Select the spell to monitor and cast.",
                                ["BUFFSMEMBERS"]="The members to monitor.",
                                ["BUFFSBARS"]="Bars are changed to defined col"..HEALBOT_enWORD_COLOUR_SUFFIX..". Click to change.\nWhen the player is missing a buff and settings on the Buff Warning tab apply.",

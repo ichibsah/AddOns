@@ -24,7 +24,7 @@ local function HealBot_Init_FindSpellRangeCast(id, spellName, spellBookId)
 
     if ( not id ) then return nil; end
 
-    local spell, _, _, msCast, _, _ = GetSpellInfo(id);
+    local spell, _, texture, msCast, _, _ = GetSpellInfo(id);
     if HEALBOT_GAME_VERSION<4 then 
         cRank = GetSpellSubtext(id)
     end
@@ -50,7 +50,7 @@ local function HealBot_Init_FindSpellRangeCast(id, spellName, spellBookId)
     HealBot_Spell_IDs[id]={}
     HealBot_Spell_IDs[id].CastTime=hbCastTime;
     HealBot_Spell_IDs[id].Mana=hbMana or 0
-
+    HealBot_Spell_IDs[id].texture=texture
     return true
 end
 
@@ -115,8 +115,8 @@ function HealBot_Init_Spells_Defaults()
     end  
     HealBot_setOptions_Timer(5)
     HealBot_setOptions_Timer(15)
-    HealBot_setOptions_Timer(50)
-    HealBot_setOptions_Timer(40)  
+    HealBot_setOptions_Timer(12)
+    HealBot_setOptions_Timer(11)  
 end
 
 function HealBot_Init_SmartCast()

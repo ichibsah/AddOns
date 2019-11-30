@@ -266,7 +266,7 @@ function Spy:UpdatePlayerData(name, class, level, race, guild, isEnemy, isGuess)
 	if not playerData then
 		playerData = Spy:AddPlayerData(name, class, level, race, guild, isEnemy, isGuess)
 	else
-		if name ~= nil then playerData.name = name end  --++ added to merge addons
+		if name ~= nil then playerData.name = name end  
 		if class ~= nil then playerData.class = class end
 		if type(level) == "number" then playerData.level = level end
 		if race ~= nil then playerData.race = race end
@@ -392,9 +392,9 @@ function Spy:AlertPlayer(player, source)
 		end
 		if Spy.db.profile.EnableSound then
 			if source ~= nil and source ~= Spy.CharacterName then
-				PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kosaway.mp3")
+				PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kosaway.mp3", Spy.db.profile.SoundChannel)
 			else
-				PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kos.mp3")
+				PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kos.mp3", Spy.db.profile.SoundChannel)
 			end
 		end
 		if Spy.db.profile.ShareKOSBetweenCharacters then Spy:RegenerateKOSCentralList(player) end
@@ -413,25 +413,25 @@ function Spy:AlertPlayer(player, source)
 			end
 			if Spy.db.profile.EnableSound then
 				if source ~= nil and source ~= Spy.CharacterName then
-					PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kosaway.mp3")
+					PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kosaway.mp3", Spy.db.profile.SoundChannel)
 				else
-					PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kosguild.mp3")
+					PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-kosguild.mp3", Spy.db.profile.SoundChannel)
 				end
 			end
 		else
 			if Spy.db.profile.EnableSound and not Spy.db.profile.OnlySoundKoS then 
 				if source == nil or source == Spy.CharacterName then
 					if playerData and Spy.db.profile.WarnOnRace and playerData.race == Spy.db.profile.SelectWarnRace then --++
-						PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-race.mp3") 
+						PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-race.mp3", Spy.db.profile.SoundChannel) 
 					else
-						PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-nearby.mp3")
+						PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-nearby.mp3", Spy.db.profile.SoundChannel)
 					end
 				end
 			end
 		end
 	elseif Spy.db.profile.EnableSound and not Spy.db.profile.OnlySoundKoS then 	--++
 		if source == nil or source == Spy.CharacterName then
-			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-nearby.mp3")
+			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-nearby.mp3", Spy.db.profile.SoundChannel)
 		end
 	end
 end
@@ -446,7 +446,7 @@ function Spy:AlertStealthPlayer(player)
 			Spy:ShowAlert("stealth", player)
 		end
 		if Spy.db.profile.EnableSound then
-			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-stealth.mp3")
+			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-stealth.mp3", Spy.db.profile.SoundChannel)
 		end
 	end
 end
@@ -461,7 +461,7 @@ function Spy:AlertProwlPlayer(player)
 			Spy:ShowAlert("prowl", player)
 		end
 		if Spy.db.profile.EnableSound then
-			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-stealth.mp3")
+			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-stealth.mp3", Spy.db.profile.SoundChannel)
 		end
 	end
 end
@@ -558,18 +558,38 @@ function Spy:AnnouncePlayer(player, channel)
 	end	
 end
 
+function Spy:SendKoStoGuild(player)
+	local playerData = SpyPerCharDB.PlayerData[player]
+	local class, level, race, zone, subZone, mapX, mapY, guild, mapID = "", "", "", "", "", "", "", "", ""	 			
+	if playerData then
+		if playerData.class then class = playerData.class end
+		if playerData.level and playerData.isGuess == false then level = playerData.level end
+		if playerData.race then race = playerData.race end
+		if playerData.zone then zone = playerData.zone end
+		if playerData.mapID then mapID = playerData.mapID end					
+		if playerData.subZone then subZone = playerData.subZone end
+		if playerData.mapX then mapX = playerData.mapX end
+		if playerData.mapY then mapY = playerData.mapY end
+		if playerData.guild then guild = playerData.guild end
+	end
+	local details = Spy.Version.."|"..player.."|"..class.."|"..level.."|"..race.."|"..zone.."|"..subZone.."|"..mapX.."|"..mapY.."|"..guild.."|"..mapID	
+	if strlen(details) < 240 then
+		if Spy.InInstance == false and GetGuildInfo("player") ~= nil then Spy:SendCommMessage(Spy.Signature, details, "GUILD") end
+	end
+end
+
 function Spy:ToggleIgnorePlayer(ignore, player)
 	if ignore then
 		Spy:AddIgnoreData(player)
 		Spy:RemoveKOSData(player)
 		if Spy.db.profile.EnableSound then
-			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-add.mp3")
+			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-add.mp3", Spy.db.profile.SoundChannel)
 		end
 		DEFAULT_CHAT_FRAME:AddMessage(L["SpySignatureColored"]..L["PlayerAddedToIgnoreColored"]..player)
 	else
 		Spy:RemoveIgnoreData(player)
 		if Spy.db.profile.EnableSound then
-			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-remove.mp3")
+			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-remove.mp3", Spy.db.profile.SoundChannel)
 		end
 		DEFAULT_CHAT_FRAME:AddMessage(L["SpySignatureColored"]..L["PlayerRemovedFromIgnoreColored"]..player)
 	end
@@ -587,13 +607,13 @@ function Spy:ToggleKOSPlayer(kos, player)
 			SpyPerCharDB.PlayerData[player].kos = 1 
 		end	
 		if Spy.db.profile.EnableSound then
-			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-add.mp3")
+			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-add.mp3", Spy.db.profile.SoundChannel)
 		end
 		DEFAULT_CHAT_FRAME:AddMessage(L["SpySignatureColored"]..L["PlayerAddedToKOSColored"]..player)
 	else
 		Spy:RemoveKOSData(player)
 		if Spy.db.profile.EnableSound then
-			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-remove.mp3")
+			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\list-remove.mp3", Spy.db.profile.SoundChannel)
 		end
 		DEFAULT_CHAT_FRAME:AddMessage(L["SpySignatureColored"]..L["PlayerRemovedFromKOSColored"]..player)
 	end
@@ -830,7 +850,6 @@ function Spy:ParseMinimapTooltip(tooltip)
 	return newTooltip
 end
 
---function Spy:ParseUnitAbility(analyseSpell, event, player, flags, spellId, spellName)
 function Spy:ParseUnitAbility(analyseSpell, event, player, class, race, spellId, spellName)
 	local learnt = false
 	if player then
@@ -920,22 +939,25 @@ function Spy:ParseUnitDetails(player, class, level, race, zone, subZone, mapX, m
 	end
 	return true, nil
 end
---[[
+
 function Spy:AddDetected(player, timestamp, learnt, source)
-	if Spy.db.profile.ShowOnlyPvPFlagged then
-		if UnitIsPVP("player") then
---		if UnitIsPVP(player) then	
---		if UnitIsPVP("target") then		
+	if Spy.db.profile.StopAlertsOnTaxi then
+		if not UnitOnTaxi("player") then 
 			Spy:AddDetectedToLists(player, timestamp, learnt, source)
-		else
+		end
+	else
+		Spy:AddDetectedToLists(player, timestamp, learnt, source)
+	end		
+--[[if Spy.db.profile.ShowOnlyPvPFlagged then
+		if UnitIsPVP("target") then		
+			Spy:AddDetectedToLists(player, timestamp, learnt, source)
 		end	
 	else
 		Spy:AddDetectedToLists(player, timestamp, learnt, source)
-	end	
-end]]--
+	end ]]--
+end
 
---function Spy:AddDetectedToLists(player, timestamp, learnt, source)
-function Spy:AddDetected(player, timestamp, learnt, source)
+function Spy:AddDetectedToLists(player, timestamp, learnt, source)
 	if not Spy.NearbyList[player] then
 		if Spy.db.profile.ShowOnDetection and not Spy.db.profile.MainWindowVis then
 			Spy:SetCurrentList(1)

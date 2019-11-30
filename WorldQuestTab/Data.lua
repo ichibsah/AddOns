@@ -60,16 +60,20 @@ function WQT:AddDebugToTooltip(tooltip, questInfo, level)
 	if (not addon.debug) then return end;
 	level = level or 0;
 	local color = LIGHTBLUE_FONT_COLOR;
+	if(level == 0) then
+		AddIndentedDoubleLine(tooltip, "WQT debug info:", "", 0, color);
+	end
+	
 	-- First all non table values;
 	for key, value in pairs(questInfo) do
 		if ((type(value) ~= "table" or value.GetRGBA) and type(value) ~= "function") then
-			AddIndentedDoubleLine(tooltip, key, value, level, color);
+			AddIndentedDoubleLine(tooltip, key, value, level+1, color);
 		end
 	end
 	-- Actual tables
 	for key, value in pairs(questInfo) do
 		if (type(value) == "table" and not value.GetRGBA and key ~= "debug") then
-			AddIndentedDoubleLine(tooltip, key, "", level, color);
+			AddIndentedDoubleLine(tooltip, key, "", level+1, color);
 			self:AddDebugToTooltip(tooltip, value, level + 1)
 		end
 	end
@@ -77,11 +81,11 @@ function WQT:AddDebugToTooltip(tooltip, questInfo, level)
 	if(level == 0 and questInfo.questId) then
 		color = GRAY_FONT_COLOR;
 		
-		AddIndentedDoubleLine(tooltip, "debug only", "", 0, color);
+		AddIndentedDoubleLine(tooltip, "Through functions:", "", 0, color);
 		local title, factionId = C_TaskQuest.GetQuestInfoByQuestID(questInfo.questId);
 		AddIndentedDoubleLine(tooltip, "title", title, 1, color);
-		local _, tagName, worldQuestType, rarity, isElite, tradeskillLineIndex = GetQuestTagInfo(questInfo.questId);
-		AddIndentedDoubleLine(tooltip, "tagName", tagName, 1, color);
+		local tagID, tagName, worldQuestType, rarity, isElite, tradeskillLineIndex = GetQuestTagInfo(questInfo.questId);
+		AddIndentedDoubleLine(tooltip, "tag", tagName.." ("..tagID..")", 1, color);
 		AddIndentedDoubleLine(tooltip, "worldQuestType", worldQuestType, 1, color);
 		AddIndentedDoubleLine(tooltip, "rarity", rarity, 1, color);
 		AddIndentedDoubleLine(tooltip, "isElite", isElite, 1, color);
@@ -93,6 +97,7 @@ function WQT:AddDebugToTooltip(tooltip, questInfo, level)
 		AddIndentedDoubleLine(tooltip, "timeString", timeString, 2, color);
 		AddIndentedDoubleLine(tooltip, "color", timeColor, 2, color);
 		AddIndentedDoubleLine(tooltip, "timeStringShort", timeStringShort, 2, color);
+		AddIndentedDoubleLine(tooltip, "isExpired", WQT_Utils:QuestIsExpired(questInfo), 2, color);
 		-- Faction
 		local factionInfo = WQT_Utils:GetFactionDataInternal(factionId);
 		AddIndentedDoubleLine(tooltip, "faction", "", 1, color);
@@ -109,7 +114,6 @@ function WQT:AddDebugToTooltip(tooltip, questInfo, level)
 		AddIndentedDoubleLine(tooltip, "parentMapID", mapInfo.parentMapID, 2, color);
 		AddIndentedDoubleLine(tooltip, "mapType", mapInfo.mapType, 2, color);
 	end
-	
 end
 
 local FORMAT_VERSION_MINOR = "%s|cFF888888.%s|r"
@@ -221,6 +225,7 @@ local WQT_KALIMDOR = {
 	[81] 	= {["x"] = 0.42, ["y"] = 0.82} -- Silithus
 	,[64]	= {["x"] = 0.5, ["y"] = 0.72} -- Thousand Needles
 	,[249]	= {["x"] = 0.47, ["y"] = 0.91} -- Uldum
+	,[1527]	= {["x"] = 0.47, ["y"] = 0.91} -- Uldum BfA
 	,[71]	= {["x"] = 0.55, ["y"] = 0.84} -- Tanaris
 	,[78]	= {["x"] = 0.5, ["y"] = 0.81} -- Ungoro
 	,[69]	= {["x"] = 0.43, ["y"] = 0.7} -- Feralas
@@ -301,6 +306,7 @@ local WQT_PANDARIA = {
 	,[507]	= {["x"] = 0.48, ["y"] = 0.05} -- Isle of Giants
 	,[388]	= {["x"] = 0.32, ["y"] = 0.45} -- Townlong Steppes
 	,[504]	= {["x"] = 0.2, ["y"] = 0.11} -- Isle of Thunder
+	,[1530]	= {["x"] = 0.51, ["y"] = 0.53} -- Vale Of Eternal Blossom BfA
 }
 local WQT_DRAENOR = {
 	[550]	= {["x"] = 0.24, ["y"] = 0.49} -- Nagrand
@@ -323,6 +329,7 @@ _V["RINGTYPE_NONE"] = 1;
 _V["RINGTYPE_REWARD"] = 2;
 _V["RINGTYPE_TIMY"] = 3;
 
+_V["WQT_COLOR_NONE"] =  CreateColor(0.45, 0.45, .45) ;
 _V["WQT_COLOR_ARMOR"] =  CreateColor(0.85, 0.6, 1) ;
 _V["WQT_COLOR_WEAPON"] =  CreateColor(1, 0.40, 1) ;
 _V["WQT_COLOR_ARTIFACT"] = CreateColor(0, 0.75, 0);
@@ -342,6 +349,22 @@ _V["WQT_BOUNDYBOARD_OVERLAYID"] = 3;
 _V["WQT_TYPE_BONUSOBJECTIVE"] = 99;
 _V["WQT_LISTITTEM_HEIGHT"] = 32;
 
+_V["NUMBER_ABBREVIATIONS_ASIAN"] = {
+		{["value"] = 1000000000, ["format"] = _L["NUMBERS_THIRD"]}
+		,{["value"] = 100000000, ["format"] = _L["NUMBERS_SECOND"], ["decimal"] = true}
+		,{["value"] = 100000, ["format"] = _L["NUMBERS_FIRST"]}
+		,{["value"] = 1000, ["format"] = _L["NUMBERS_FIRST"], ["decimal"] = true}
+	}
+
+_V["NUMBER_ABBREVIATIONS"] = {
+		{["value"] = 10000000000, ["format"] = _L["NUMBERS_THIRD"]}
+		,{["value"] = 1000000000, ["format"] = _L["NUMBERS_THIRD"], ["decimal"] = true}
+		,{["value"] = 10000000, ["format"] = _L["NUMBERS_SECOND"]}
+		,{["value"] = 1000000, ["format"] = _L["NUMBERS_SECOND"], ["decimal"] = true}
+		,{["value"] = 10000, ["format"] = _L["NUMBERS_FIRST"]}
+		,{["value"] = 1000, ["format"] = _L["NUMBERS_FIRST"], ["decimal"] = true}
+	}
+
 _V["WARMODE_BONUS_REWARD_TYPES"] = {
 		[WQT_REWARDTYPE.artifact] = true;
 		[WQT_REWARDTYPE.gold] = true;
@@ -357,7 +380,8 @@ _V["WQT_CVAR_LIST"] = {
 	}
 	
 _V["WQT_TYPEFLAG_LABELS"] = {
-		[2] = {["Default"] = DEFAULT, ["Elite"] = ELITE, ["PvP"] = PVP, ["Petbattle"] = PET_BATTLE_PVP_QUEUE, ["Dungeon"] = TRACKER_HEADER_DUNGEON, ["Raid"] = RAID, ["Profession"] = BATTLE_PET_SOURCE_4, ["Invasion"] = _L["TYPE_INVASION"], ["Assault"] = SPLASH_BATTLEFORAZEROTH_8_1_FEATURE2_TITLE, ["Daily"] = DAILY}
+		[2] = {["Default"] = DEFAULT, ["Elite"] = ELITE, ["PvP"] = PVP, ["Petbattle"] = PET_BATTLE_PVP_QUEUE, ["Dungeon"] = TRACKER_HEADER_DUNGEON, ["Raid"] = RAID, ["Profession"] = BATTLE_PET_SOURCE_4, ["Invasion"] = _L["TYPE_INVASION"], ["Assault"] = SPLASH_BATTLEFORAZEROTH_8_1_FEATURE2_TITLE
+			, ["Daily"] = DAILY, ["Threat"] = REPORT_THREAT}
 		,[3] = {["Item"] = ITEMS, ["Armor"] = WORLD_QUEST_REWARD_FILTERS_EQUIPMENT, ["Gold"] = WORLD_QUEST_REWARD_FILTERS_GOLD, ["Currency"] = WORLD_QUEST_REWARD_FILTERS_RESOURCES, ["Artifact"] = ITEM_QUALITY6_DESC
 			, ["Relic"] = RELICSLOT, ["None"] = NONE, ["Experience"] = POWER_TYPE_EXPERIENCE, ["Honor"] = HONOR, ["Reputation"] = REPUTATION}
 	};
@@ -373,7 +397,15 @@ _V["SORT_OPTION_ORDER"] = {
 	,[7] = {"rewardQuality", "rewardType", "rewardAmount", "canUpgrade", "rewardId", "seconds", "title"}
 }
 _V["SORT_FUNCTIONS"] = {
-	["rewardType"] = function(a, b) if (a.reward.type ~= b.reward.type) then return a.reward.type < b.reward.type; end end
+	["rewardType"] = function(a, b) 
+			if (a.reward.type and b.reward.type and a.reward.type ~= b.reward.type) then 
+				if (a.reward.type == WQT_REWARDTYPE.none or b.reward.type == WQT_REWARDTYPE.none) then
+					return a.reward.type > b.reward.type; 
+				end
+			
+				return a.reward.type < b.reward.type; 
+			end 
+		end
 	,["rewardQuality"] = function(a, b) if (a.reward.quality and b.reward.quality and a.reward.quality ~= b.reward.quality) then return a.reward.quality > b.reward.quality; end end
 	,["canUpgrade"] = function(a, b) if (a.reward.canUpgrade and b.reward.canUpgrade and a.reward.canUpgrade ~= b.reward.canUpgrade) then return a.reward.canUpgrade and not b.reward.canUpgrade; end end
 	,["seconds"] = function(a, b) if (a.time.seconds ~= b.time.seconds) then return a.time.seconds < b.time.seconds; end end
@@ -483,9 +515,10 @@ _V["FILTER_FUNCTIONS"] = {
 			,["Profession"] 	= function(questInfo, questType) return questType == LE_QUEST_TAG_TYPE_PROFESSION; end 
 			,["Invasion"] 	= function(questInfo, questType) return questType == LE_QUEST_TAG_TYPE_INVASION; end 
 			,["Assault"]	= function(questInfo, questType) return questType == LE_QUEST_TAG_TYPE_FACTION_ASSAULT; end 
-			,["Elite"]		= function(questInfo, questType) return select(5, GetQuestTagInfo(questInfo.questId)); end
-			,["Default"]	= function(questInfo, questType) return questType == LE_QUEST_TAG_TYPE_NORMAL; end 
+			,["Elite"]		= function(questInfo, questType) return select(5, GetQuestTagInfo(questInfo.questId)) and questType ~= LE_QUEST_TAG_TYPE_DUNGEON; end
+			,["Default"]	= function(questInfo, questType) return questType == LE_QUEST_TAG_TYPE_NORMAL and not select(5, GetQuestTagInfo(questInfo.questId)); end 
 			,["Daily"]		= function(questInfo, questType) return questInfo.isDaily; end 
+			--,["Threat"]		= function(questInfo, questType) return  C_QuestLog.IsThreatQuest(questInfo.questId); end 
 			}
 		,[3] = { -- Reward filters
 			["Armor"]		= function(questInfo, questType) return bit.band(questInfo.reward.typeBits, WQT_REWARDTYPE.equipment + WQT_REWARDTYPE.weapon) > 0; end
@@ -526,6 +559,8 @@ _V["WQT_ZONE_EXPANSIONS"] = {
 		-- Classic zones with BfA WQ
 		,[14] = LE_EXPANSION_BATTLE_FOR_AZEROTH -- Arathi Highlands
 		,[62] = LE_EXPANSION_BATTLE_FOR_AZEROTH -- Darkshore
+		,[1527] = LE_EXPANSION_BATTLE_FOR_AZEROTH -- Uldum
+		,[1530] = LE_EXPANSION_BATTLE_FOR_AZEROTH -- Vale of Eternam Blossom
 
 		,[619] = LE_EXPANSION_LEGION -- Broken Isles
 		,[630] = LE_EXPANSION_LEGION -- Azsuna
@@ -604,6 +639,7 @@ _V["WQT_FACTION_DATA"] = {
 	,[2373] = 	{ ["expansion"] = LE_EXPANSION_BATTLE_FOR_AZEROTH ,["playerFaction"] = "Horde" ,["texture"] = 2909044 } -- Unshackled
 	,[2391] = 	{ ["expansion"] = LE_EXPANSION_BATTLE_FOR_AZEROTH ,["playerFaction"] = nil ,["texture"] = 2909316 } -- Rustbolt
 	,[2400] = 	{ ["expansion"] = LE_EXPANSION_BATTLE_FOR_AZEROTH ,["playerFaction"] = "Alliance" ,["texture"] = 2909043 } -- Waveblade Ankoan
+	--,[2417] = 	{ ["expansion"] = LE_EXPANSION_BATTLE_FOR_AZEROTH ,["playerFaction"] = nil ,["texture"] = 3068678 } -- Uldum Accord
 }
 -- Add localized faction names
 for k, v in pairs(_V["WQT_FACTION_DATA"]) do
@@ -612,7 +648,43 @@ end
 
 -- This is just easier to maintain than changing the entire string every time
 local _patchNotes = {
-		{["version"] = "8.2.03"
+		{["version"] = "8.2.05"
+			,["new"] = {
+				"The map pins have been reworked to be completely custom by the add-on, resulting in some new changes:"
+				,"- New settings: Pins On Continents (default off). Allows pins to be placed on continent maps."
+				,"- New settings: Fade On Highlight (default on). When a quest is highlighted, all other quests are faded for better visibility."
+				,"- Using the 'Always All Quests' setting will now show quests in neighbouring zones. I.e. you can see Drustvar quests while looking at Tiragarde Sound."
+				,"- Flight maps will show additional pins such as Nazjatar daily quests."
+				,"- General improvements to existing pin functionality."
+			}
+			,["changes"] = {
+					"When sorting by reward, quests with no rewards will now be at the bottom of the list."
+				}
+			,["fixes"] = {
+				"Fixed the party sync block from showing through the world quest list."
+				,"Fixed dressing room previewing for quests offering weapons."
+				,"Fixed issues between the dungeon, elite, and default type filters."
+				,"Fixed disabling 'Save Filters/Sort' turning all filters off instead of on."
+			}
+		}
+		,{["version"] = "8.2.04"
+			,["new"] = {
+				"The entire add-on now works during combat (With the exception of LFG buttons). It's crazy, I know. This became possible after fixing an error someone reported. The cause of this error was also what was preventing changes to the list during combat."
+			}
+			,["fixes"] = {
+				"Fixed errors, and the prevention of closing the map during combat using the Esc key, while using other add-ons such as Mapster."
+				,"Map pins for 'hard watched' quests, which show up on the continent maps, will now correctly get a make-over as well."
+				,"Fixed some combat error related to LFG buttons."
+				,"Fixed being able to track bonus objectives, which would result in not being able to untrack them again."
+			}
+		},{["version"] = "8.2.03"
+			,["minor"] = "6"
+			,["fixes"] = {
+				"Fixed the quest log dissapearing when opening a full screen map by clicking on a quest in the objectives tracker."
+				,"Fixed and error caused by the Stranglethorn Fishing Extravaganza."
+			}
+		}
+		,{["version"] = "8.2.03"
 			,["minor"] = "5"
 			,["changes"] = {
 				"Having reward icons disabled in combination with ring type \"Default\" will now show the default brown ring with other enabled features, rather than disappear completely."
