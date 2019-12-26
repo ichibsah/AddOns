@@ -51,8 +51,19 @@ function Spy:RefreshCurrentList(player, source)
 
 	if Spy.db.profile.ResizeSpy then
 		Spy:AutomaticallyResize()
-	else if not InCombatLockdown() and Spy.MainWindow:GetHeight()< 34 then 
-		Spy:RestoreMainWindowPosition(Spy.MainWindow:GetLeft(), Spy.MainWindow:GetTop(), Spy.MainWindow:GetWidth(), 34) end	 			
+--	else if not InCombatLockdown() and Spy.MainWindow:GetHeight()< 34 then 
+--		Spy:RestoreMainWindowPosition(Spy.MainWindow:GetLeft(), Spy.MainWindow:GetTop(), Spy.MainWindow:GetWidth(), 34) end 
+--	end
+	else
+		if not Spy.db.profile.InvertSpy then 		
+			if not InCombatLockdown() and Spy.MainWindow:GetHeight()< 34 then
+				Spy:RestoreMainWindowPosition(Spy.MainWindow:GetLeft(), Spy.MainWindow:GetTop(), Spy.MainWindow:GetWidth(), 34)
+			end
+		else
+			if not InCombatLockdown() and Spy.MainWindow:GetHeight()< 34 then 
+				Spy:RestoreMainWindowPosition(Spy.MainWindow:GetLeft(), Spy.MainWindow:GetBottom(), Spy.MainWindow:GetWidth(), 34)
+			end
+		end	
 	end
 	Spy:ManageBarsDisplayed()
 end
@@ -875,7 +886,7 @@ function Spy:ParseUnitAbility(analyseSpell, event, player, class, race, spellId,
 							class = ability.class
 							learnt = true
 						end
-					end		
+					end
 					if ability.level then
 						local playerLevelNumber = nil
 						if playerData and playerData.level then playerLevelNumber = tonumber(playerData.level) end
@@ -884,7 +895,7 @@ function Spy:ParseUnitAbility(analyseSpell, event, player, class, race, spellId,
 							learnt = true
 						end
 					end
-					if race == nil then					
+					if race == nil then
 						if ability.race and not (playerData and playerData.race) then
 							race = ability.race
 							learnt = true
@@ -947,7 +958,7 @@ function Spy:AddDetected(player, timestamp, learnt, source)
 		end
 	else
 		Spy:AddDetectedToLists(player, timestamp, learnt, source)
-	end		
+	end
 --[[if Spy.db.profile.ShowOnlyPvPFlagged then
 		if UnitIsPVP("target") then		
 			Spy:AddDetectedToLists(player, timestamp, learnt, source)

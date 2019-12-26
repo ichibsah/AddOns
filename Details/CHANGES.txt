@@ -1,13 +1,14 @@
-lightweight tag e1cc1bc1773dc917d4d17a7db082327ee031c1c8 v8.2.5.7227.140
+lightweight tag c0ee4a7f9e38ff5ade61165d752833cd3678731d v8.2.5.7229.140
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Sat Nov 9 19:15:28 2019 -0300
+Date:	Sun Dec 15 11:02:12 2019 -0300
 
-commit e1cc1bc1773dc917d4d17a7db082327ee031c1c8
+commit c0ee4a7f9e38ff5ade61165d752833cd3678731d
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Nov 9 19:15:28 2019 -0300
+Date:   Sun Dec 15 11:02:12 2019 -0300
 
-    Colection of small fixes
+    Removed the chat message Details! sent everytime after a logon
     
-    - Fixed plugins showing Out od Date.
-    - Framework update to .161 version.
+    - Removed the chat message Details! sent everytime after a logon
+    - Using Ace3 lib from Aug 12, 2019.
+    - Using Details! Framework v161 for Retail.
 

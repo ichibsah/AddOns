@@ -1,6 +1,5 @@
-## v4.8.20 Changes
+## v4.8.24 Changes
 
-* Fixed bug with saving of Accounting data.
-* Fixed bug with AH not properly hiding.
+* Fixed issue with TSM blocking various game functions
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

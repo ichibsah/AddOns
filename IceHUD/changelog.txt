@@ -1,3 +1,18 @@
+v1.12.10:
+- (Classic) Temporarily(?) disabled the Totems module as the GetTotemInfo() API was removed.
+
+v1.12.9:
+- (Classic) Fixed error in player cast bar if the user didn't have LibCasterCasterino installed.
+
+v1.12.8:
+- (Classic) Fixed TargetCast bar to work for users with the LibCasterCasterino library installed. (thanks, Fulzamoth!)
+
+v1.12.7:
+- (Classic) Fixed fallout from disabling GCD module (errors in castbar).
+
+v1.12.6:
+- (Classic) Disabled Combo modules for non-Rogues/-Druids. They were sometimes showing for other class abilities for some reason.
+
 v1.12.5:
 - (Classic) Disabled GCD module as the Classic client doesn't support tracking GCD.
 - (Classic) Packaged new LibDogTag-Unit to pick up Happiness tag fixes.

@@ -1,10 +1,10 @@
-lightweight tag aa9cd39e8ceb4be47985de42808f7a8ccb0230f0 v80205-1.0.8
+lightweight tag 86c413c9452fe0382df7489c02558ecd69e316a5 v80205-1.0.9
 Author:	Ludovicus <ludovicus.maior@gmail.com>
-Date:	Sun Nov 3 15:47:51 2019 -0500
+Date:	Fri Dec 13 10:57:08 2019 -0500
 
-commit aa9cd39e8ceb4be47985de42808f7a8ccb0230f0
+commit 86c413c9452fe0382df7489c02558ecd69e316a5
 Author: Ludovicus <ludovicus.maior@gmail.com>
-Date:   Sun Nov 3 15:47:51 2019 -0500
+Date:   Fri Dec 13 10:57:08 2019 -0500
 
-    Retail Cut.
+    Set Retail Interface
 

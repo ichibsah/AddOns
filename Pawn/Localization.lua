@@ -364,6 +364,7 @@ For more information on customizing Pawn, please see the help file (Readme.htm) 
 		["Sword"] = "^Sword$",
 		["TemporaryBuffMinutes"] = "^.+%(%d+ min%)$",
 		["TemporaryBuffSeconds"] = "^.+%(%d+ sec%)$",
+		["Thrown"] = "^Thrown$",
 		["Thunderforged"] = "^Thunderforged$",
 		["Timeless"] = "^Timeless$",
 		["Titanforged"] = "^Titanforged$",
@@ -571,7 +572,7 @@ If you'd rather manage things on your own, just click Manual below.]=],
 		["ScaleCopy"] = "Copy",
 		["ScaleCopyTooltip"] = "Create a new scale by making a copy of this one.",
 		["ScaleDefaults"] = "Template",
-		["ScaleDefaultsTooltip"] = "Create a new scale from a template for your spec.",
+		["ScaleDefaultsTooltip"] = "Create a new scale from a template for your class or spec.",
 		["ScaleDeleteTooltip"] = [=[Delete this scale.
 
 This command cannot be undone!]=],
