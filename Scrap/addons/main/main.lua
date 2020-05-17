@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2019 João Cardoso
+Copyright 2008-2020 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -92,7 +92,7 @@ end
 
 function Scrap:IsJunk(id, ...)
 	if id and self.junk and self.junk[id] ~= false then
-		return self.junk[id] or (self.sets.learn and self.sets.ml[id] and self.sets.ml[id] >= 1) or self:IsFiltered(id, ...)
+		return self.junk[id] or (self.sets.learn and self.charsets.ml[id] and self.charsets.ml[id] >= 1) or self:IsFiltered(id, ...)
 	end
 end
 

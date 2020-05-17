@@ -17,53 +17,36 @@ local L = WeakAuras.L
 	L["Always show the aura, turns grey if the debuff not active."] = "Всегда показывает индикацию; становится серой, если на цели нет дебаффа."
 	L["Always shows the aura, grey if buff not active."] = "Всегда показывает индикацию; становится серой, если на цели нет баффа."
 	L["Always shows the aura, highlight it if buffed."] = "Всегда показывает индикацию; выделяет ее, если на цели есть бафф."
-	--[[Translation missing --]]
-	L["Always shows the aura, highlight when active, turns blue on insufficient resources."] = "Always shows the aura, highlight when active, turns blue on insufficient resources."
-	--[[Translation missing --]]
-	L["Always shows the aura, highlight while proc is active, blue on insufficient resources."] = "Always shows the aura, highlight while proc is active, blue on insufficient resources."
-	--[[Translation missing --]]
-	L["Always shows the aura, highlight while proc is active, blue when not usable."] = "Always shows the aura, highlight while proc is active, blue when not usable."
-	--[[Translation missing --]]
-	L["Always shows the aura, highlight while proc is active, turns red when out of range, blue on insufficient resources."] = "Always shows the aura, highlight while proc is active, turns red when out of range, blue on insufficient resources."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns blue on insufficient resources."] = "Always shows the aura, turns blue on insufficient resources."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns blue when not usable."] = "Always shows the aura, turns blue when not usable."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns grey if on cooldown."] = "Always shows the aura, turns grey if on cooldown."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns grey if the ability is not usable and red when out of range."] = "Always shows the aura, turns grey if the ability is not usable and red when out of range."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns grey if the ability is not usable."] = "Always shows the aura, turns grey if the ability is not usable."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns red when out of range, blue on insufficient resources."] = "Always shows the aura, turns red when out of range, blue on insufficient resources."
+	L["Always shows the aura, highlight when active, turns blue on insufficient resources."] = "Всегда показывает ауру, подсвечивать, когда активна, становится синим при нехватке ресурсов."
+	L["Always shows the aura, highlight while proc is active, blue on insufficient resources."] = "Всегда показывает ауру, подсвечивать, когда \"прок\" активен, синий при нехватке ресурсов."
+	L["Always shows the aura, highlight while proc is active, blue when not usable."] = "Всегда показывает ауру, подсвечивать, когда \"прок\" активен, синий, когда нельзя использовать."
+	L["Always shows the aura, highlight while proc is active, turns red when out of range, blue on insufficient resources."] = "Всегда показывает ауру, подсвечивать, когда \"прок\" активен, становится красным, когда вне зоны досягаемости, синий при нехватке ресурсов."
+	L["Always shows the aura, turns blue on insufficient resources."] = "Всегда показывает ауру, становится сними при недостаточных ресурсах."
+	L["Always shows the aura, turns blue when not usable."] = "Всегда показывает ауру, становится синим, когда нельзя использовать."
+	L["Always shows the aura, turns grey if on cooldown."] = "Всегда показывает ауру, становится серым, если на перезарядке."
+	L["Always shows the aura, turns grey if the ability is not usable and red when out of range."] = "Всегда показывает ауру, становится серым, если способность нельзя использовать, и красным, когда находится вне зоны действия."
+	L["Always shows the aura, turns grey if the ability is not usable."] = "Всегда показывает ауру, становится серым, если способность нельзя использовать."
+	L["Always shows the aura, turns red when out of range, blue on insufficient resources."] = "Всегда показывает ауру, становится красным вне зоны действия, синим при недостаточных ресурсах."
 	L["Always shows the aura, turns red when out of range."] = "Всегда показывает индикацию; становится красной, если цель вне зоны действия."
 	L["Back"] = "Назад"
 	L["Basic Show On Cooldown"] = "Показать восстановление"
+	--[[Translation missing --]]
+	L["Basic Show On Ready"] = "Basic Show On Ready"
 	L["Bloodlust/Heroism"] = "Жажда крови / Героизм"
 	L["buff"] = "(бафф)"
 	L["Buffs"] = "Баффы"
 	L["Cancel"] = "Отмена"
 	L["Cast"] = "Применение заклинания (каст)"
-	--[[Translation missing --]]
-	L["Charge and Buff Tracking"] = "Charge and Buff Tracking"
-	--[[Translation missing --]]
-	L["Charge and Debuff Tracking"] = "Charge and Debuff Tracking"
-	--[[Translation missing --]]
-	L["Charge and Duration Tracking"] = "Charge and Duration Tracking"
-	--[[Translation missing --]]
-	L["Charge Tracking"] = "Charge Tracking"
+	L["Charge and Buff Tracking"] = "Отслеживание заряда и баффов"
+	L["Charge and Debuff Tracking"] = "Отслеживание зарядов и дебаффов"
+	L["Charge and Duration Tracking"] = "Отслеживание заряда и продолжительности"
+	L["Charge Tracking"] = "Отслеживание заряда"
 	L["cooldown"] = "(восстановление)"
-	--[[Translation missing --]]
-	L["Cooldown"] = "Cooldown"
+	L["Cooldown"] = "Перезарядка"
 	L["Cooldown Tracking"] = "Отслеживание восстановления"
-	--[[Translation missing --]]
-	L["Create Auras"] = "Create Auras"
-	--[[Translation missing --]]
-	L["debuff"] = "debuff"
+	L["Create Auras"] = "Создать"
+	L["debuff"] = "дебафф"
 	L["Debuffs"] = "Дебаффы"
-	--[[Translation missing --]]
-	L["debuiff"] = "debuiff"
 	L["Enchants"] = "Чары"
 	L["General"] = "Общие"
 	L["General Azerite Traits"] = "Общие азеритовые таланты"
@@ -78,8 +61,7 @@ local L = WeakAuras.L
 	L["Highlight while debuffed."] = "Выделяет индикацию, когда на цели есть дебафф."
 	--[[Translation missing --]]
 	L["Highlight while spell is active."] = "Highlight while spell is active."
-	--[[Translation missing --]]
-	L["Hold CTRL to create multiple auras at once"] = "Hold CTRL to create multiple auras at once"
+	L["Hold CTRL to create multiple auras at once"] = "Удерживайте Ctrl для создания нескольких индикаций"
 	L["Keeps existing triggers intact"] = "Сохраняет существующие триггеры нетронутыми"
 	L["Next"] = "Далее"
 	--[[Translation missing --]]
@@ -91,6 +73,8 @@ local L = WeakAuras.L
 	L["Only show the aura when the item is on cooldown."] = "Показывает индикацию, только когда предмет восстанавливается."
 	L["Only shows the aura if the target has the buff."] = "Показывает индикацию, только когда на цели есть бафф."
 	L["Only shows the aura when the ability is on cooldown."] = "Показывает индикацию, только когда способность восстанавливается."
+	--[[Translation missing --]]
+	L["Only shows the aura when the ability is ready to use."] = "Only shows the aura when the ability is ready to use."
 	L["Pet alive"] = "Питомец жив"
 	L["Pet Behavior"] = "Поведение питомца"
 	L["PvP Azerite Traits"] = "Азеритовые PvP таланты"
@@ -139,6 +123,8 @@ local L = WeakAuras.L
 	L["Show Cooldown and Proc Tracking"] = "Show Cooldown and Proc Tracking"
 	--[[Translation missing --]]
 	L["Show Cooldown and Totem Information"] = "Show Cooldown and Totem Information"
+	--[[Translation missing --]]
+	L["Show on Ready"] = "Show on Ready"
 	L["Show Only if Buffed"] = "Показать бафф"
 	L["Show Only if Debuffed"] = "Показать дебафф"
 	L["Show Only if on Cooldown"] = "Показать восстановление"

@@ -1,7 +1,7 @@
-## Interface: 80200
+## Interface: 80300
 ## Title: |cffffffffOrder|r|cffffff00Hall|r|cffffffffFollower|r|cffffff00Gear|r|cff00ffffOptimizer|r
 ## Author: Sanex
-## Version: 1.16
+## Version: 1.17
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_GarrisonUI
 ## SavedVariables: OHFGODB

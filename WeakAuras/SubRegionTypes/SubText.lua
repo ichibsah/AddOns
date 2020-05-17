@@ -3,14 +3,17 @@ if not WeakAuras.IsCorrectVersion() then return end
 local SharedMedia = LibStub("LibSharedMedia-3.0");
 local L = WeakAuras.L;
 
+local defaultFont = WeakAuras.defaultFont
+local defaultFontSize = WeakAuras.defaultFontSize
+
 local default = function(parentType)
   if parentType == "icon" then
     -- No Shadow, but Outline
     return {
       text_text = "%p",
       text_color = {1, 1, 1, 1},
-      text_font = "Friz Quadrata TT",
-      text_fontSize = 12,
+      text_font = defaultFont,
+      text_fontSize = defaultFontSize,
       text_fontType = "OUTLINE",
       text_visible = true,
       text_justify = "CENTER",
@@ -24,14 +27,18 @@ local default = function(parentType)
       text_shadowXOffset = 0,
       text_shadowYOffset = 0,
       rotateText = "NONE",
+
+      text_automaticWidth = "Auto",
+      text_fixedWidth = 64,
+      text_wordWrap = "WordWrap",
     }
   else
     -- With Shadow, without Outline
     return {
       text_text = "%n",
       text_color = {1, 1, 1, 1},
-      text_font = "Friz Quadrata TT",
-      text_fontSize = 12,
+      text_font = defaultFont,
+      text_fontSize = defaultFontSize,
       text_fontType = "None",
       text_visible = true,
       text_justify = "CENTER",
@@ -45,6 +52,10 @@ local default = function(parentType)
       text_shadowXOffset = 1,
       text_shadowYOffset = -1,
       rotateText = "NONE",
+
+      text_automaticWidth = "Auto",
+      text_fixedWidth = 64,
+      text_wordWrap = "WordWrap",
     }
   end
 end
@@ -71,6 +82,7 @@ local properties = {
     default = 12
   }
 }
+
 
 -- Rotate object around its origin
 local function animRotate(object, degrees, anchor)
@@ -135,6 +147,17 @@ local function create()
   local text = region:CreateFontString(nil, "OVERLAY");
   region.text = text;
 
+  -- WOW's layout system works best if frames and all their parents are anchored
+  -- In this case, it appears that a text doesn't get the right size on the initial
+  -- load with a custom font. (Though it works if the font is non-custom or after
+  -- a reloadui). Just moving the normal AnchorSubRegion to the start of modify was not enough
+  -- But anchoring the text to UIParent before reanchoring it correctly does seem to fix
+  -- the issue. Also see #1778
+  text:SetPoint("CENTER", UIParent, "CENTER")
+
+  text:SetWordWrap(true)
+  text:SetNonSpaceWrap(true)
+
   return region;
 end
 
@@ -174,7 +197,7 @@ local function modify(parent, region, parentData, data, first)
     text:SetFont(STANDARD_TEXT_FONT, data.text_fontSize, data.text_fontType);
   end
   if text:GetFont() then
-    text:SetText(data.text_text);
+    text:SetText(WeakAuras.ReplaceRaidMarkerSymbols(data.text_text));
   end
 
   text:SetTextHeight(data.text_fontSize);
@@ -182,6 +205,24 @@ local function modify(parent, region, parentData, data, first)
   text:SetShadowColor(unpack(data.text_shadowColor))
   text:SetShadowOffset(data.text_shadowXOffset, data.text_shadowYOffset)
   text:SetJustifyH(data.text_justify or "CENTER")
+
+  if (data.text_automaticWidth == "Fixed") then
+    if (data.text_wordWrap == "WordWrap") then
+      text:SetWordWrap(true);
+      text:SetNonSpaceWrap(true);
+    else
+      text:SetWordWrap(false);
+      text:SetNonSpaceWrap(false);
+    end
+
+    text:SetWidth(data.text_fixedWidth);
+    region:SetWidth(data.text_fixedWidth);
+    region.width = data.text_fixedWidth;
+  else
+    text:SetWidth(0);
+    text:SetWordWrap(true);
+    text:SetNonSpaceWrap(true);
+  end
 
   if first then
     -- Certain data is stored directly on the parent, because it's shared between multiple texts
@@ -203,6 +244,7 @@ local function modify(parent, region, parentData, data, first)
     else
       parent.customTextFunc = nil
     end
+    parent.values.custom = nil
   end
 
   local UpdateText
@@ -212,7 +254,7 @@ local function modify(parent, region, parentData, data, first)
       textStr = WeakAuras.ReplacePlaceHolders(textStr, parent, nil)
 
       if text:GetFont() then
-        WeakAuras.regionPrototype.SetTextOnText(text, textStr)
+        text:SetText(WeakAuras.ReplaceRaidMarkerSymbols(textStr))
       end
       region:UpdateAnchor()
     end
@@ -231,7 +273,7 @@ local function modify(parent, region, parentData, data, first)
       end
     end
   else
-    Update = UpdateText or function() end
+    Update = UpdateText
   end
 
   local TimerTick
@@ -263,9 +305,21 @@ local function modify(parent, region, parentData, data, first)
   region.FrameTick = FrameTick
   region.TimerTick = TimerTick
 
+  if Update then
+    parent.subRegionEvents:AddSubscriber("Update", region)
+  end
+
+  if FrameTick then
+    parent.subRegionEvents:AddSubscriber("FrameTick", region)
+  end
+
+  if TimerTick then
+    parent.subRegionEvents:AddSubscriber("TimerTick", region)
+  end
+
   if not UpdateText then
     if text:GetFont() then
-      WeakAuras.regionPrototype.SetTextOnText(text, data.text_text);
+      text:SetText(WeakAuras.ReplaceRaidMarkerSymbols(data.text_text))
     end
   end
 
@@ -345,8 +399,8 @@ local function addDefaultsForNewAura(data)
       ["type"] = "subtext",
       text_text = "%p",
       text_color = {1, 1, 1, 1},
-      text_font = "Friz Quadrata TT",
-      text_fontSize = 12,
+      text_font = defaultFont,
+      text_fontSize = defaultFontSize,
       text_fontType = "None",
       text_justify = "CENTER",
       text_visible = true,
@@ -367,8 +421,8 @@ local function addDefaultsForNewAura(data)
       ["type"] = "subtext",
       text_text = "%n",
       text_color = {1, 1, 1, 1},
-      text_font = "Friz Quadrata TT",
-      text_fontSize = 12,
+      text_font = defaultFont,
+      text_fontSize = defaultFontSize,
       text_fontType = "None",
       text_justify = "CENTER",
       text_visible = true,
@@ -389,8 +443,8 @@ local function addDefaultsForNewAura(data)
       ["type"] = "subtext",
       text_text = "%s",
       text_color = {1, 1, 1, 1},
-      text_font = "Friz Quadrata TT",
-      text_fontSize = 12,
+      text_font = defaultFont,
+      text_fontSize = defaultFontSize,
       text_fontType = "OUTLINE",
       text_justify = "CENTER",
       text_visible = true,

@@ -11,14 +11,14 @@ L["Profiles"] = "Profiles 配置文件"
 -- About
 L["About"] = "信息"
 L["SpyDescription1"] = [[
-Spy 侦测敌方玩家 插件可以提醒您附近有敌对玩家出现。这些是一些主要功能。
+Spy 侦测敌方玩家 插件可以提醒您附近有敌对玩家出现。
 ]]
 L["SpyDescription2"] = [[
 |cffffd000附近列表|cffffffff
 附近列表会显示已经被侦测到的任何敌方玩家。 在非战斗状态下，点击列表姓名可快速选定目标。 如果在一定时间内未再次侦测到的玩家会被从列表中移除。
  
 |cffffd000近一小时内清单|cffffffff
-显示在一小时内检测到的所有敌人。
+显示最近1小时内出现的所有敌方玩家。
  
 |cffffd000忽略列表|cffffffff
 被加入忽略列表的敌对玩家将不会在列表中显示。你可以通过鼠标右键菜单或按住Ctrl点击从列表中添加或删除敌对玩家。
@@ -27,14 +27,13 @@ L["SpyDescription2"] = [[
 在该列表中的敌对玩家一旦被侦测会出警报。您可以通过鼠标右键菜单或按住Shift点击从列表中添加或删除敌对玩家。
  
 右键菜单也可以添加将某人加入此列表的原因。如果你希望添加不在列表中的说明，可以通过其他列表“自行输入原因...”。
- 
- 
+
 |cffffd000Statistics Window|cffffffff
 The Statistics Window contains a list of all enemy encounters which can be sorted by name, level, guild, wins, losses and the last time an enemy was detected. It also provides the ability to search for a specific enemy by name or guild and has filters to show only enemies that are marked as Kill on Sight, with a Win/Loss or entered Reasons. 
 
 |cffffd000Kill On Sight Button|cffffffff
 If enabled, this button will be located on the enemy players target frame. Clicking on this button will add/remove the enemy target to/from the Kill On Sight list. Right clicking on the button will allow you to enter Kill on Sight reasons.
- 
+
 |cffffd000作者: Slipjack|cffffffff
 ]]
 
@@ -63,8 +62,16 @@ L["The Salty Sailor Tavern"] = "水手之家旅店"
 L["Shattrath City"] = "沙塔斯城"
 L["Area 52"] = "52区"
 L["Dalaran"] = "达拉然"
+L["Dalaran (Northrend)"] = "达拉然（诺森德）"
 L["Bogpaddle"] = "沼桨镇"
 L["The Vindicaar"] = "维迪卡尔"
+L["Krasus' Landing"] = "克拉苏斯平台"
+L["The Violet Gate"] = "紫罗兰之门"
+L["Magni's Encampment"] = "麦格尼的营地"
+L["Silithus"] = "希利苏斯"
+L["Chamber of Heart"] = "心之秘室"
+L["Hall of Ancient Paths"] = "远古通路大厅"
+L["Sanctum of the Sages"] = "贤者圣殿"
  
 -- Display
 L["DisplayOptions"] = "显示"
@@ -123,7 +130,7 @@ L["Master"] = "主音量"
 L["SFX"] = "音效音量"
 L["Music"] = "音乐音量"
 L["Ambience"] = "环境音量"
-L["Announce"] = "发送公告至："
+L["Announce"] = "通报到:"
 L["None"] = "无"
 L["NoneDescription"] = "侦测到敌对玩家时不通报。"
 L["Self"] = "自己"
@@ -252,6 +259,8 @@ L["KOSDescription"] = "从KOS敌对玩家列表中添加或删除敌对玩家"
 L["InvalidInput"] = "输入错误"
 L["Ignore"] = "忽略"
 L["IgnoreDescription"] = "从忽略列表中添加或删除敌对玩家"
+L["Test"] = "Test"
+L["TestDescription"] = "显示警告，以便您可以重新放置它。"
  
 -- Lists
 L["Nearby"] = "附近"
@@ -260,6 +269,8 @@ L["Ignore"] = "忽略"
 L["KillOnSight"] = "KOS即视击杀"
  
 --Stats
+L["Won"] = "胜"
+L["Lost"] = "负"
 L["Time"] = "时间"   
 L["List"] = "列表"
 L["Filter"] = "过滤"
@@ -326,7 +337,7 @@ L["Player"] = " （玩家）"
 L["KOSReason"] = "KOS即视击杀"
 L["KOSReasonIndent"] = "    "
 L["KOSReasonOther"] = "自行输入原因..."
-L["KOSReasonClear"] = "清除入原因"
+L["KOSReasonClear"] = "清除"
 L["StatsWins"] = "|cff40ff00获胜："
 L["StatsSeparator"] = "  "
 L["StatsLoses"] = "|cff0070dd失败："
@@ -426,7 +437,7 @@ StaticPopupDialogs["Spy_SetKOSReasonOther"] = {
         local reason = self.editBox:GetText()
         Spy:SetKOSReason(self.playerName, "自行输入原因...", reason)
     end,
-    };
+};
 
 --++ Class descriptions
 L["DEATHKNIGHT"] = "死亡騎士"

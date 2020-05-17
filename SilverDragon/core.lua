@@ -6,15 +6,16 @@ local addon = LibStub("AceAddon-3.0"):NewAddon("SilverDragon", "AceEvent-3.0", "
 SilverDragon = addon
 addon.events = LibStub("CallbackHandler-1.0"):New(addon)
 
+local Debug
 do
 	local TextDump = LibStub("LibTextDump-1.0")
-	local debuggable = GetAddOnMetadata(myname, "Version") == 'v4.0.17'
-	local window
+	local debuggable = GetAddOnMetadata(myname, "Version") == 'v80300.1.1'
+	local _window
 	local function GetDebugWindow()
-		if not window then
-			window = TextDump:New(myname)
+		if not _window then
+			_window = TextDump:New(myname)
 		end
-		return window
+		return _window
 	end
 	addon.GetDebugWindow = GetDebugWindow
 	addon.Debug = function(...)
@@ -37,9 +38,8 @@ do
 		window:Display()
 	end
 	addon.debuggable = debuggable
+	Debug = addon.Debug
 end
-
-Debug = addon.Debug
 
 local mfloor, mpow, mabs = math.floor, math.pow, math.abs
 local tinsert, tremove = table.insert, table.remove
@@ -303,15 +303,48 @@ function addon:IsMobInZone(id, zone)
 		return mobsByZone[zone][id]
 	end
 end
-function addon:IsMobInPhase(id, zone)
-	if mobdb[id] then
-		if not mobdb[id].phase then
-			return true
+do
+	local poi_expirations = {}
+	local poi_zone_expirations = {}
+	local pois_byzone = {}
+	local function refreshPois(zone)
+		local now = time()
+		if not poi_zone_expirations[zone] or now > poi_zone_expirations[zone] then
+			Debug("Refreshing zone POIs", zone)
+			pois_byzone[zone] = wipe(pois_byzone[zone] or {})
+			for _, poi in ipairs(C_AreaPoiInfo.GetAreaPOIForMap(zone)) do
+				pois_byzone[zone][poi] = true
+				poi_expirations[poi] = now + (C_AreaPoiInfo.GetAreaPOISecondsLeft(poi) or 60)
+			end
+			poi_zone_expirations[zone] = now + 1
 		end
+	end
+	local function checkPois(...)
+		for i=1, select("#", ...), 2 do
+			local zone, poi = select(i, ...)
+			local now = time()
+			if now > (poi_expirations[poi] or 0) then
+				refreshPois(zone)
+				poi_expirations[poi] = poi_expirations[poi] or (now + 60)
+			end
+			if pois_byzone[zone][poi] then
+				return true
+			end
+		end
+	end
+	function addon:IsMobInPhase(id, zone)
+		local phased, poi = true, true
+		if not mobdb[id] then return end
 		if not mobdb[id].locations[zone] then
 			return false
 		end
-		return mobdb[id].phase == C_Map.GetMapArtID(zone)
+		if mobdb[id].phase then
+			phased = mobdb[id].phase == C_Map.GetMapArtID(zone)
+		end
+		if mobdb[id].poi then
+			poi = checkPois(unpack(mobdb[id].poi))
+		end
+		return phased and poi
 	end
 end
 -- Returns id, addon:GetMobInfo(id)
@@ -355,7 +388,7 @@ do
 			return
 		end
 		if (not self.db.profile.taxi) and UnitOnTaxi('player') then
-			Debug("Skipping notification: taxi", id, name, source)
+			Debug("Skipping notification: taxi", id, source)
 			return
 		end
 		globaldb.mob_count[id] = globaldb.mob_count[id] + 1

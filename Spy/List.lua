@@ -11,7 +11,9 @@ function Spy:RefreshCurrentList(player, source)
 
 	local mode = Spy.db.profile.CurrentList
 	local manageFunction = Spy.ListTypes[mode][2]
-	if manageFunction then manageFunction() end
+	if manageFunction then
+		manageFunction()
+	end
 
 	local button = 1
 	for index, data in pairs(Spy.CurrentList) do
@@ -24,9 +26,13 @@ function Spy:RefreshCurrentList(player, source)
 			if playerData then
 				if playerData.level then
 					level = playerData.level
-					if playerData.isGuess == true and tonumber(playerData.level) < Spy.MaximumPlayerLevel then level = level.."+" end
+					if playerData.isGuess == true and tonumber(playerData.level) < Spy.MaximumPlayerLevel then
+						level = level.."+"
+					end
 				end
-				if playerData.class then class = playerData.class end
+				if playerData.class then
+					class = playerData.class
+				end
 			end
 
 			local description = level.." "
@@ -51,9 +57,6 @@ function Spy:RefreshCurrentList(player, source)
 
 	if Spy.db.profile.ResizeSpy then
 		Spy:AutomaticallyResize()
---	else if not InCombatLockdown() and Spy.MainWindow:GetHeight()< 34 then 
---		Spy:RestoreMainWindowPosition(Spy.MainWindow:GetLeft(), Spy.MainWindow:GetTop(), Spy.MainWindow:GetWidth(), 34) end 
---	end
 	else
 		if not Spy.db.profile.InvertSpy then 		
 			if not InCombatLockdown() and Spy.MainWindow:GetHeight()< 34 then
@@ -167,7 +170,9 @@ end
 function Spy:ManageExpirations()
 	local mode = Spy.db.profile.CurrentList
 	local expirationFunction = Spy.ListTypes[mode][3]
-	if expirationFunction then expirationFunction() end
+	if expirationFunction then
+		expirationFunction()
+	end
 end
 
 function Spy:ManageNearbyListExpirations()
@@ -291,21 +296,21 @@ function Spy:UpdatePlayerData(name, class, level, race, guild, isEnemy, isGuess)
 			if (WorldMapFrame:IsVisible() and Spy.db.profile.SwitchToZone) then
 				WorldMapFrame:SetMapID(C_Map.GetBestMapForUnit("player"))
 			end
-			if (nil == C_Map.GetBestMapForUnit("player")) or (nil == C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player")) then -- 8.0 Changes
-			local x,y = 0,0
+			if (nil == C_Map.GetBestMapForUnit("player")) or (nil == C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player")) then
+				local x,y = 0,0
 				local InsName = GetInstanceInfo()
 				playerData.zone = InsName
 				playerData.subZone = ""
 			else
-				local mapX, mapY = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player"):GetXY() -- 8.0 Change			
+				local mapX, mapY = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player"):GetXY()			
 					if mapX ~= 0 and mapY ~= 0 then
-					mapX = math.floor(tonumber(mapX) * 100) / 100
-					mapY = math.floor(tonumber(mapY) * 100) / 100
-					playerData.mapX = mapX
-					playerData.mapY = mapY
-					playerData.zone = GetZoneText()
-					playerData.mapID = C_Map.GetBestMapForUnit("player") --++8.0
-					playerData.subZone = GetSubZoneText()
+						mapX = math.floor(tonumber(mapX) * 100) / 100
+						mapY = math.floor(tonumber(mapY) * 100) / 100
+						playerData.mapX = mapX
+						playerData.mapY = mapY
+						playerData.zone = GetZoneText()
+						playerData.mapID = C_Map.GetBestMapForUnit("player") --++8.0
+						playerData.subZone = GetSubZoneText()
 				else
 					detected = false
 				end
@@ -313,6 +318,24 @@ function Spy:UpdatePlayerData(name, class, level, race, guild, isEnemy, isGuess)
 		end	
 	end
 	return detected
+end
+
+function Spy:UpdatePlayerStatus(name, class, level, race, guild, isEnemy, isGuess)
+	local playerData = SpyPerCharDB.PlayerData[name]
+	if not playerData then
+		playerData = Spy:AddPlayerData(name, class, level, race, guild, isEnemy, isGuess)
+	else
+		if name ~= nil then playerData.name = name end  
+		if class ~= nil then playerData.class = class end
+		if type(level) == "number" then playerData.level = level end
+		if race ~= nil then playerData.race = race end
+		if guild ~= nil then playerData.guild = guild end
+		if isEnemy ~= nil then playerData.isEnemy = isEnemy end
+		if isGuess ~= nil then playerData.isGuess = isGuess end
+	end
+	if playerData.time == nil then
+		playerData.time = time()
+	end	
 end
 
 function Spy:RemovePlayerData(name)
@@ -332,16 +355,22 @@ end
 function Spy:AddKOSData(name)
 	SpyPerCharDB.KOSData[name] = time()
 --	SpyPerCharDB.PlayerData[name].kos = 1 
-	if Spy.db.profile.ShareKOSBetweenCharacters then SpyDB.removeKOSData[Spy.RealmName][Spy.FactionName][name] = nil end
+	if Spy.db.profile.ShareKOSBetweenCharacters then
+		SpyDB.removeKOSData[Spy.RealmName][Spy.FactionName][name] = nil
+	end
 end
 
 function Spy:RemoveKOSData(name)
 	if SpyPerCharDB.KOSData[name] then
 		local playerData = SpyPerCharDB.PlayerData[name]
-		if playerData and playerData.reason then playerData.reason = nil end
+		if playerData and playerData.reason then
+			playerData.reason = nil
+		end
 		SpyPerCharDB.KOSData[name] = nil
 		SpyPerCharDB.PlayerData[name].kos = nil		
-		if Spy.db.profile.ShareKOSBetweenCharacters then SpyDB.removeKOSData[Spy.RealmName][Spy.FactionName][name] = time() end
+		if Spy.db.profile.ShareKOSBetweenCharacters then
+			SpyDB.removeKOSData[Spy.RealmName][Spy.FactionName][name] = time()
+		end
 	end
 end
 
@@ -355,7 +384,9 @@ function Spy:SetKOSReason(name, reason, other)
 			if reason == L["KOSReasonOther"] then
 				if not other then 
 					local dialog = StaticPopup_Show("Spy_SetKOSReasonOther", name)
-					if dialog then dialog.playerName = name end
+					if dialog then
+						dialog.playerName = name
+					end
 				else
 					if other == "" then
 						playerData.reason[L["KOSReasonOther"]] = nil
@@ -440,7 +471,7 @@ function Spy:AlertPlayer(player, source)
 				end
 			end
 		end
-	elseif Spy.db.profile.EnableSound and not Spy.db.profile.OnlySoundKoS then 	--++
+	elseif Spy.db.profile.EnableSound and not Spy.db.profile.OnlySoundKoS then
 		if source == nil or source == Spy.CharacterName then
 			PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-nearby.mp3", Spy.db.profile.SoundChannel)
 		end
@@ -452,7 +483,7 @@ function Spy:AlertStealthPlayer(player)
 		if Spy.db.profile.DisplayWarningsInErrorsFrame then
 			local text = Spy.db.profile.Colors.Warning["Warning Text"]
 			local msg = L["StealthWarning"]..player
-			UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)						
+			UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)
 		else
 			Spy:ShowAlert("stealth", player)
 		end
@@ -467,7 +498,7 @@ function Spy:AlertProwlPlayer(player)
 		if Spy.db.profile.DisplayWarningsInErrorsFrame then
 			local text = Spy.db.profile.Colors.Warning["Warning Text"]
 			local msg = L["StealthWarning"]..player
-			UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)						
+			UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)
 		else
 			Spy:ShowAlert("prowl", player)
 		end
@@ -504,9 +535,15 @@ function Spy:AnnouncePlayer(player, channel)
 				end
 				if playerData.level or playerData.race or (playerData.class and playerData.class ~= "") then
 					msg = msg.."- "
-					if playerData.level and playerData.isGuess == false then msg = msg..L["Level"].." "..playerData.level.." " end
-					if playerData.race and playerData.race ~= "" then msg = msg..playerData.race.." " end
-					if playerData.class and playerData.class ~= "" then msg = msg..L[playerData.class].." " end
+					if playerData.level and playerData.isGuess == false then
+						msg = msg..L["Level"].." "..playerData.level.." "
+					end
+					if playerData.race and playerData.race ~= "" then
+						msg = msg..playerData.race.." "
+					end
+					if playerData.class and playerData.class ~= "" then
+						msg = msg..L[playerData.class].." "
+					end
 				end
 				if playerData.zone then
 					if playerData.subZone and playerData.subZone ~= "" and playerData.subZone ~= playerData.zone then
@@ -515,12 +552,14 @@ function Spy:AnnouncePlayer(player, channel)
 						msg = msg.."- "..playerData.zone
 					end
 				end
-				if playerData.mapX and playerData.mapY then msg = msg.." ("..math.floor(tonumber(playerData.mapX) * 100)..","..math.floor(tonumber(playerData.mapY) * 100)..")" end
+				if playerData.mapX and playerData.mapY then
+					msg = msg.." ("..math.floor(tonumber(playerData.mapX) * 100)..","..math.floor(tonumber(playerData.mapY) * 100)..")"
+				end
 			end
 
 			if channel then
 				-- announce to selected channel
-				if (channel == "PARTY" and GetNumGroupMembers() > 0) or (channel == "RAID" and UnitInRaid("player")) or (channel == "GUILD" and GetGuildInfo("player") ~= nil) then --++
+				if (channel == "PARTY" and GetNumGroupMembers() > 0) or (channel == "RAID" and UnitInRaid("player")) or (channel == "GUILD" and GetGuildInfo("player") ~= nil) then
 					SendChatMessage(msg, channel)
 				elseif channel == "LOCAL" then
 					SendChatMessage(msg, "CHANNEL", nil, GetChannelName(L["LocalDefenseChannelName"].." - "..GetZoneText()))
@@ -541,28 +580,34 @@ function Spy:AnnouncePlayer(player, channel)
 
 		-- announce to other Spy users
 		if Spy.db.profile.ShareData then
-			local class, level, race, zone, subZone, mapX, mapY, guild, mapID = "", "", "", "", "", "", "", "", ""	 --++8.0			
+			local class, level, race, zone, subZone, mapX, mapY, guild, mapID = "", "", "", "", "", "", "", "", ""
 			if playerData then
 				if playerData.class then class = playerData.class end
 				if playerData.level and playerData.isGuess == false then level = playerData.level end
 				if playerData.race then race = playerData.race end
 				if playerData.zone then zone = playerData.zone end
-				if playerData.mapID then mapID = playerData.mapID end		--++8.0				
+				if playerData.mapID then mapID = playerData.mapID end
 				if playerData.subZone then subZone = playerData.subZone end
 				if playerData.mapX then mapX = playerData.mapX end
 				if playerData.mapY then mapY = playerData.mapY end
 				if playerData.guild then guild = playerData.guild end
 			end
-			local details = Spy.Version.."|"..player.."|"..class.."|"..level.."|"..race.."|"..zone.."|"..subZone.."|"..mapX.."|"..mapY.."|"..guild.."|"..mapID	 --++8.0
+			local details = Spy.Version.."|"..player.."|"..class.."|"..level.."|"..race.."|"..zone.."|"..subZone.."|"..mapX.."|"..mapY.."|"..guild.."|"..mapID
 			if strlen(details) < 240 then
 				if channel then
-					if (channel == "PARTY" and GetNumGroupMembers() > 0) or (channel == "RAID" and UnitInRaid("player")) or (channel == "GUILD" and GetGuildInfo("player") ~= nil) then --++
+					if (channel == "PARTY" and GetNumGroupMembers() > 0) or (channel == "RAID" and UnitInRaid("player")) or (channel == "GUILD" and GetGuildInfo("player") ~= nil) then
 						Spy:SendCommMessage(Spy.Signature, details, channel)
 					end
 				else
-					if GetNumGroupMembers() > 0 then Spy:SendCommMessage(Spy.Signature, details, "PARTY") end --++
-					if UnitInRaid("player") then Spy:SendCommMessage(Spy.Signature, details, "RAID") end
-					if Spy.InInstance == false and GetGuildInfo("player") ~= nil then Spy:SendCommMessage(Spy.Signature, details, "GUILD") end
+					if GetNumGroupMembers() > 0 then
+						Spy:SendCommMessage(Spy.Signature, details, "PARTY")
+					end 
+					if UnitInRaid("player") then
+						Spy:SendCommMessage(Spy.Signature, details, "RAID")
+					end
+					if Spy.InInstance == false and GetGuildInfo("player") ~= nil then
+						Spy:SendCommMessage(Spy.Signature, details, "GUILD")
+					end
 				end
 			end
 		end
@@ -585,7 +630,9 @@ function Spy:SendKoStoGuild(player)
 	end
 	local details = Spy.Version.."|"..player.."|"..class.."|"..level.."|"..race.."|"..zone.."|"..subZone.."|"..mapX.."|"..mapY.."|"..guild.."|"..mapID	
 	if strlen(details) < 240 then
-		if Spy.InInstance == false and GetGuildInfo("player") ~= nil then Spy:SendCommMessage(Spy.Signature, details, "GUILD") end
+		if Spy.InInstance == false and GetGuildInfo("player") ~= nil then
+			Spy:SendCommMessage(Spy.Signature, details, "GUILD")
+		end
 	end
 end
 
@@ -605,7 +652,9 @@ function Spy:ToggleIgnorePlayer(ignore, player)
 		DEFAULT_CHAT_FRAME:AddMessage(L["SpySignatureColored"]..L["PlayerRemovedFromIgnoreColored"]..player)
 	end
 	Spy:RegenerateKOSGuildList()
-	if Spy.db.profile.ShareKOSBetweenCharacters then Spy:RegenerateKOSCentralList() end
+	if Spy.db.profile.ShareKOSBetweenCharacters then
+		Spy:RegenerateKOSCentralList()
+	end
 	Spy:RefreshCurrentList()
 end
 
@@ -613,8 +662,9 @@ function Spy:ToggleKOSPlayer(kos, player)
 	if kos then
 		Spy:AddKOSData(player)
 		Spy:RemoveIgnoreData(player)
-		if player ~= SpyPerCharDB.PlayerData[name] then --++
-			Spy:UpdatePlayerData(player, nil, nil, nil, nil, true, nil) --++
+		if player ~= SpyPerCharDB.PlayerData[name] then
+--			Spy:UpdatePlayerData(player, nil, nil, nil, nil, true, nil)
+			Spy:UpdatePlayerStatus(player, nil, nil, nil, nil, true, nil)
 			SpyPerCharDB.PlayerData[player].kos = 1 
 		end	
 		if Spy.db.profile.EnableSound then
@@ -629,7 +679,9 @@ function Spy:ToggleKOSPlayer(kos, player)
 		DEFAULT_CHAT_FRAME:AddMessage(L["SpySignatureColored"]..L["PlayerRemovedFromKOSColored"]..player)
 	end
 	Spy:RegenerateKOSGuildList()
-	if Spy.db.profile.ShareKOSBetweenCharacters then Spy:RegenerateKOSCentralList() end
+	if Spy.db.profile.ShareKOSBetweenCharacters then
+		Spy:RegenerateKOSCentralList()
+	end
 	Spy:RefreshCurrentList()
 end
 
@@ -654,22 +706,22 @@ function Spy:PurgeUndetectedData()
 	local currentTime = time()
 	for player in pairs(SpyPerCharDB.PlayerData) do
 		local playerData = SpyPerCharDB.PlayerData[player]
-		if Spy.db.profile.PurgeWinLossData then -- Added v3.2.9
+		if Spy.db.profile.PurgeWinLossData then
 			if not playerData.time or (currentTime - playerData.time) > timeout or not playerData.isEnemy then
 				Spy:RemoveIgnoreData(player)
 				Spy:RemoveKOSData(player)
 				SpyPerCharDB.PlayerData[player] = nil
 			end
 		else
-			if ((playerData.loses == nil) and (playerData.wins == nil)) then -- Added v3.2.9
+			if ((playerData.loses == nil) and (playerData.wins == nil)) then
 				if not playerData.time or (currentTime - playerData.time) > timeout or not playerData.isEnemy then
 					Spy:RemoveIgnoreData(player)
-					if Spy.db.profile.PurgeKoS then -- Added v3.2.9	
+					if Spy.db.profile.PurgeKoS then
 						Spy:RemoveKOSData(player)
 						SpyPerCharDB.PlayerData[player] = nil
 					else
 						if (playerData.kos == nil) then
-							SpyPerCharDB.PlayerData[player] = nil  -- Added v3.4.0
+							SpyPerCharDB.PlayerData[player] = nil
 						end	
 					end	
 				end
@@ -683,7 +735,7 @@ function Spy:PurgeUndetectedData()
 		local characterKosData = kosData[characterName]
 		for player in pairs(characterKosData) do
 			local kosPlayerData = characterKosData[player]
-			if Spy.db.profile.PurgeKoS then -- Added v3.2.9
+			if Spy.db.profile.PurgeKoS then
 				if not kosPlayerData.time or (currentTime - kosPlayerData.time) > timeout or not kosPlayerData.isEnemy then
 					SpyDB.kosData[Spy.RealmName][Spy.FactionName][characterName][player] = nil
 					SpyDB.removeKOSData[Spy.RealmName][Spy.FactionName][player] = nil
@@ -719,13 +771,17 @@ function Spy:RegenerateKOSCentralList(player)
 	if player then
 		local playerData = SpyPerCharDB.PlayerData[player]
 		SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player] = {}
-		if playerData then SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player] = playerData end
+		if playerData then
+			SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player] = playerData
+		end
 		SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player].added = SpyPerCharDB.KOSData[player]
 	else
 		for player in pairs(SpyPerCharDB.KOSData) do
 			local playerData = SpyPerCharDB.PlayerData[player]
 			SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player] = {}
-			if playerData then SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player] = playerData end
+			if playerData then
+				SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player] = playerData
+			end
 			SpyDB.kosData[Spy.RealmName][Spy.FactionName][Spy.CharacterName][player].added = SpyPerCharDB.KOSData[player]
 		end
 	end
@@ -745,19 +801,45 @@ function Spy:RegenerateKOSListFromCentral()
 					local kosPlayerData = characterKosData[player]
 					if kosPlayerData.time and (not playerData.time or (playerData.time and playerData.time < kosPlayerData.time)) then
 						playerData.time = kosPlayerData.time
-						if kosPlayerData.class then playerData.class = kosPlayerData.class end
-						if type(kosPlayerData.level) == "number" and (type(playerData.level) ~= "number" or playerData.level < kosPlayerData.level) then playerData.level = kosPlayerData.level end
-						if kosPlayerData.race then playerData.race = kosPlayerData.race end
-						if kosPlayerData.guild then playerData.guild = kosPlayerData.guild end
-						if kosPlayerData.isEnemy then playerData.isEnemy = kosPlayerData.isEnemy end
-						if kosPlayerData.isGuess then playerData.isGuess = kosPlayerData.isGuess end
-						if type(kosPlayerData.wins) == "number" and (type(playerData.wins) ~= "number" or playerData.wins < kosPlayerData.wins) then playerData.wins = kosPlayerData.wins end
-						if type(kosPlayerData.loses) == "number" and (type(playerData.loses) ~= "number" or playerData.loses < kosPlayerData.loses) then playerData.loses = kosPlayerData.loses end
-						if kosPlayerData.mapX then playerData.mapX = kosPlayerData.mapX end
-						if kosPlayerData.mapY then playerData.mapY = kosPlayerData.mapY end
-						if kosPlayerData.zone then playerData.zone = kosPlayerData.zone end
-						if kosPlayerData.mapID then playerData.mapID = kosPlayerData.mapID end			 --++8.0						
-						if kosPlayerData.subZone then playerData.subZone = kosPlayerData.subZone end
+						if kosPlayerData.class then
+							playerData.class = kosPlayerData.class
+						end
+						if type(kosPlayerData.level) == "number" and (type(playerData.level) ~= "number" or playerData.level < kosPlayerData.level) then
+							playerData.level = kosPlayerData.level
+						end
+						if kosPlayerData.race then
+							playerData.race = kosPlayerData.race
+						end
+						if kosPlayerData.guild then
+							playerData.guild = kosPlayerData.guild
+						end
+						if kosPlayerData.isEnemy then
+							playerData.isEnemy = kosPlayerData.isEnemy
+						end
+						if kosPlayerData.isGuess then
+							playerData.isGuess = kosPlayerData.isGuess
+						end
+						if type(kosPlayerData.wins) == "number" and (type(playerData.wins) ~= "number" or playerData.wins < kosPlayerData.wins) then
+							playerData.wins = kosPlayerData.wins
+						end
+						if type(kosPlayerData.loses) == "number" and (type(playerData.loses) ~= "number" or playerData.loses < kosPlayerData.loses) then
+							playerData.loses = kosPlayerData.loses
+						end
+						if kosPlayerData.mapX then
+							playerData.mapX = kosPlayerData.mapX
+						end
+						if kosPlayerData.mapY then
+							playerData.mapY = kosPlayerData.mapY
+						end
+						if kosPlayerData.zone then
+							playerData.zone = kosPlayerData.zone
+						end
+						if kosPlayerData.mapID then
+							playerData.mapID = kosPlayerData.mapID
+						end
+						if kosPlayerData.subZone then
+							playerData.subZone = kosPlayerData.subZone
+						end
 						if kosPlayerData.reason then
 							playerData.reason = {}
 							for reason in pairs(kosPlayerData.reason) do
@@ -841,7 +923,7 @@ function Spy:ParseMinimapTooltip(tooltip)
 				end	
 				if not SpyPerCharDB.IgnoreData[name] and not Spy.InInstance then
 					local detected = Spy:UpdatePlayerData(name, nil, nil, nil, nil, true, nil)
-					if detected and Spy.db.profile.MinimapTracking then
+					if detected and Spy.db.profile.MinimapDetection then
 						Spy:AddDetected(name, time(), false)
 					end
 				end
@@ -889,7 +971,9 @@ function Spy:ParseUnitAbility(analyseSpell, event, player, class, race, spellId,
 					end
 					if ability.level then
 						local playerLevelNumber = nil
-						if playerData and playerData.level then playerLevelNumber = tonumber(playerData.level) end
+						if playerData and playerData.level then
+							playerLevelNumber = tonumber(playerData.level)
+						end
 						if type(playerLevelNumber) ~= "number" or playerLevelNumber < ability.level then
 							level = ability.level
 							learnt = true
@@ -917,7 +1001,7 @@ function Spy:ParseUnitAbility(analyseSpell, event, player, class, race, spellId,
 	return learnt, nil
 end
 
-function Spy:ParseUnitDetails(player, class, level, race, zone, subZone, mapX, mapY, guild, mapID) --++ P8.0
+function Spy:ParseUnitDetails(player, class, level, race, zone, subZone, mapX, mapY, guild, mapID)
 	if player then
 		local playerData = SpyPerCharDB.PlayerData[player]
 		if not playerData then
@@ -935,13 +1019,17 @@ function Spy:ParseUnitDetails(player, class, level, race, zone, subZone, mapX, m
 					end
 				end
 			end
-			if not playerData.race then playerData.race = race end
-			if not playerData.guild then playerData.guild = guild end
+			if not playerData.race then
+				playerData.race = race
+			end
+			if not playerData.guild then
+				playerData.guild = guild
+			end
 		end
 		playerData.isEnemy = true
 		playerData.time = time()
 		playerData.zone = zone
-		playerData.mapID = mapID --++ P8.0		
+		playerData.mapID = mapID
 		playerData.subZone = subZone
 		playerData.mapX = mapX
 		playerData.mapY = mapY
@@ -1047,7 +1135,8 @@ function Spy:AppendUnitNames()
 			end		
 		end
     end
-	Spy.db.profile.AppendUnitNameCheck=true --sets profile so it only runs once
+	-- set profile so it only runs once
+	Spy.db.profile.AppendUnitNameCheck=true
 end
 
 function Spy:AppendUnitKoS()
@@ -1061,7 +1150,8 @@ function Spy:AppendUnitKoS()
 			end		
 		end
     end
-	Spy.db.profile.AppendUnitKoSCheck=true --sets profile so it only runs once
+	-- set profile so it only runs once
+	Spy.db.profile.AppendUnitKoSCheck=true
 end
 
 Spy.ListTypes = {
@@ -1126,6 +1216,7 @@ Spy_AbilityList = {
 	[20593]={ race = "Gnome", level = 1, },
 	[255669]={ race = "Void Elf", level = 1, },
 	[256374]={ race = "Void Elf", level = 1, },
+	[259756]={ race = "Void Elf", level = 1, },
 	[20589]={ race = "Gnome", level = 1, },
 	[255667]={ race = "Void Elf", level = 1, },
 	[59752]={ race = "Human", level = 1, },
@@ -1288,6 +1379,7 @@ Spy_AbilityList = {
 	[47632]={ class = "DEATHKNIGHT", level = 55, },
 	[85948]={ class = "DEATHKNIGHT", level = 55, },
 	[197147]={ class = "DEATHKNIGHT", level = 55, },
+	[194310]={ class = "DEATHKNIGHT", level = 55, },
 	[194311]={ class = "DEATHKNIGHT", level = 55, },
 	[195757]={ class = "DEATHKNIGHT", level = 55, },
 	[195621]={ class = "DEATHKNIGHT", level = 55, },
@@ -1297,6 +1389,8 @@ Spy_AbilityList = {
 	[195182]={ class = "DEATHKNIGHT", level = 55, },
 	[49020]={ class = "DEATHKNIGHT", level = 55, },
 	[77575]={ class = "DEATHKNIGHT", level = 55, },
+	[196782]={ class = "DEATHKNIGHT", level = 55, },
+	[191587]={ class = "DEATHKNIGHT", level = 55, },
 	[46584]={ class = "DEATHKNIGHT", level = 55, },
 	[51462]={ class = "DEATHKNIGHT", level = 55, },
 	[51460]={ class = "DEATHKNIGHT", level = 55, },
@@ -1506,6 +1600,8 @@ Spy_AbilityList = {
 	[187827]={ class = "DEMONHUNTER", level = 99, },
 	[191427]={ class = "DEMONHUNTER", level = 99, },
 	[162264]={ class = "DEMONHUNTER", level = 99, },
+	[200166]={ class = "DEMONHUNTER", level = 99, },
+	[247121]={ class = "DEMONHUNTER", level = 99, },
 	[227518]={ class = "DEMONHUNTER", level = 99, },
 	[201427]={ class = "DEMONHUNTER", level = 99, },
 	[201428]={ class = "DEMONHUNTER", level = 99, },
@@ -1553,6 +1649,7 @@ Spy_AbilityList = {
 	[192939]={ class = "DEMONHUNTER", level = 102, },
 	[227322]={ class = "DEMONHUNTER", level = 102, },
 	[258881]={ class = "DEMONHUNTER", level = 102, },
+	[258883]={ class = "DEMONHUNTER", level = 102, },
 	[205411]={ class = "DEMONHUNTER", level = 104, },
 	[218612]={ class = "DEMONHUNTER", level = 104, },
 	[263642]={ class = "DEMONHUNTER", level = 104, },
@@ -1569,6 +1666,7 @@ Spy_AbilityList = {
 	[211881]={ class = "DEMONHUNTER", level = 108, },
 	[264004]={ class = "DEMONHUNTER", level = 108, },
 	[203556]={ class = "DEMONHUNTER", level = 108, },
+	[213405]={ class = "DEMONHUNTER", level = 108, },
 	[247454]={ class = "DEMONHUNTER", level = 108, },
 	[206477]={ class = "DEMONHUNTER", level = 108, },
 	[213410]={ class = "DEMONHUNTER", level = 110, },
@@ -1577,6 +1675,7 @@ Spy_AbilityList = {
 	[206491]={ class = "DEMONHUNTER", level = 110, },
 	[263648]={ class = "DEMONHUNTER", level = 110, },
 	[268175]={ class = "DEMONHUNTER", level = 110, },
+	[268178]={ class = "DEMONHUNTER", level = 110, },
 --++ Demon Hunter PvP Talents ++	
 	[205625]={ class = "DEMONHUNTER", level = 101, },
 	[227635]={ class = "DEMONHUNTER", level = 101, },
@@ -1599,6 +1698,7 @@ Spy_AbilityList = {
 --++ Druid Abilities ++	
 	[5225]={ class = "DRUID", level = 1, },
 	[8921]={ class = "DRUID", level = 3, },
+	[164812]={ class = "DRUID", level = 3, },
 	[8936]={ class = "DRUID", level = 5, },
 	[125972]={ class = "DRUID", level = 6, },
 	[768]={ class = "DRUID", level = 8, },
@@ -1710,7 +1810,9 @@ Spy_AbilityList = {
 	[279708]={ class = "DRUID", level = 12, },
 	[194153]={ class = "DRUID", level = 12, },
 	[1822]={ class = "DRUID", level = 12, },
+	[155722]={ class = "DRUID", level = 12, },
 	[18562]={ class = "DRUID", level = 12, },
+	[114108]={ class = "DRUID", level = 12, },
 	[114113]={ class = "DRUID", level = 12, },
 	[106832]={ class = "DRUID", level = 12, },
 	[5217]={ class = "DRUID", level = 13, },
@@ -1754,10 +1856,12 @@ Spy_AbilityList = {
 	[113043]={ class = "DRUID", level = 48, },
 	[29166]={ class = "DRUID", level = 50, },
 	[106898]={ class = "DRUID", level = 50, },
+	[77764]={ class = "DRUID", level = 50, },
 	[270100]={ class = "DRUID", level = 52, },
 	[231040]={ class = "DRUID", level = 52, },
 	[231055]={ class = "DRUID", level = 52, },
 	[48484]={ class = "DRUID", level = 54, },
+	[58180]={ class = "DRUID", level = 54, },
 	[102342]={ class = "DRUID", level = 54, },
 	[231042]={ class = "DRUID", level = 54, },
 	[231070]={ class = "DRUID", level = 55, },
@@ -1773,6 +1877,7 @@ Spy_AbilityList = {
 	[231021]={ class = "DRUID", level = 70, },
 	[77495]={ class = "DRUID", level = 78, },
 	[155783]={ class = "DRUID", level = 78, },
+	[227034]={ class = "DRUID", level = 78, },
 	[77493]={ class = "DRUID", level = 78, },
 	[77492]={ class = "DRUID", level = 78, },
 	[16974]={ class = "DRUID", level = 80, },
@@ -1785,6 +1890,7 @@ Spy_AbilityList = {
 	[207383]={ class = "DRUID", level = 15, },
 	[203962]={ class = "DRUID", level = 15, },
 	[203953]={ class = "DRUID", level = 15, },
+	[203958]={ class = "DRUID", level = 15, },
 	[155835]={ class = "DRUID", level = 15, },
 	[102351]={ class = "DRUID", level = 15, },
 	[205636]={ class = "DRUID", level = 15, },
@@ -1810,8 +1916,10 @@ Spy_AbilityList = {
 	[102359]={ class = "DRUID", level = 60, },
 	[5211]={ class = "DRUID", level = 60, },
 	[132469]={ class = "DRUID", level = 60, },
+	[61391]={ class = "DRUID", level = 60, },
 	[200390]={ class = "DRUID", level = 75, },
 	[203964]={ class = "DRUID", level = 75, },
+	[213708]={ class = "DRUID", level = 75, },
 	[102560]={ class = "DRUID", level = 75, },
 	[102558]={ class = "DRUID", level = 75, },
 	[102543]={ class = "DRUID", level = 75, },
@@ -1825,6 +1933,7 @@ Spy_AbilityList = {
 	[279709]={ class = "DRUID", level = 75, },
 	[202028]={ class = "DRUID", level = 90, },
 	[203974]={ class = "DRUID", level = 90, },
+	[203975]={ class = "DRUID", level = 90, },
 	[155578]={ class = "DRUID", level = 90, },
 	[197073]={ class = "DRUID", level = 90, },
 	[285381]={ class = "DRUID", level = 90, },
@@ -1838,6 +1947,7 @@ Spy_AbilityList = {
 	[279620]={ class = "DRUID", level = 90, },
 	[155672]={ class = "DRUID", level = 100, },
 	[274837]={ class = "DRUID", level = 100, },
+	[274838]={ class = "DRUID", level = 100, },
 	[197721]={ class = "DRUID", level = 100, },
 	[202770]={ class = "DRUID", level = 100, },
 	[155675]={ class = "DRUID", level = 100, },
@@ -1906,6 +2016,8 @@ Spy_AbilityList = {
 	[883]={ class = "HUNTER", level = 1, },
 	[157443]={ class = "HUNTER", level = 1, },
 	[982]={ class = "HUNTER", level = 1, },
+	[257045]={ class = "HUNTER", level = 3, },
+	[263585]={ class = "HUNTER", level = 3, },
 	[1494]={ class = "HUNTER", level = 4, },
 	[19878]={ class = "HUNTER", level = 4, },
 	[19879]={ class = "HUNTER", level = 4, },
@@ -1963,7 +2075,9 @@ Spy_AbilityList = {
 	[279637]={ class = "HUNTER", level = 110, },
 	[273262]={ class = "HUNTER", level = 110, },
 	[273263]={ class = "HUNTER", level = 110, },
+	[273264]={ class = "HUNTER", level = 110, },
 	[264198]={ class = "HUNTER", level = 110, },
+	[272733]={ class = "HUNTER", level = 110, },
 	[273283]={ class = "HUNTER", level = 110, },
 	[273284]={ class = "HUNTER", level = 110, },
 	[287938]={ class = "HUNTER", level = 110, },
@@ -2000,6 +2114,7 @@ Spy_AbilityList = {
 	[193455]={ class = "HUNTER", level = 1, },
 	[186270]={ class = "HUNTER", level = 1, },
 	[56641]={ class = "HUNTER", level = 1, },
+	[77443]={ class = "HUNTER", level = 1, },
 	[262837]={ class = "HUNTER", level = 3, },
 	[5116]={ class = "HUNTER", level = 4, },
 	[195645]={ class = "HUNTER", level = 4, },
@@ -2013,6 +2128,7 @@ Spy_AbilityList = {
 	[19434]={ class = "HUNTER", level = 12, },
 	[217200]={ class = "HUNTER", level = 12, },
 	[246152]={ class = "HUNTER", level = 12, },
+	[246851]={ class = "HUNTER", level = 12, },
 	[272790]={ class = "HUNTER", level = 12, },
 	[259491]={ class = "HUNTER", level = 12, },
 	[190925]={ class = "HUNTER", level = 14, },
@@ -2031,6 +2147,7 @@ Spy_AbilityList = {
 	[147362]={ class = "HUNTER", level = 32, },
 	[187707]={ class = "HUNTER", level = 32, },
 	[260240]={ class = "HUNTER", level = 34, },
+	[260242]={ class = "HUNTER", level = 34, },
 	[187698]={ class = "HUNTER", level = 36, },
 	[193530]={ class = "HUNTER", level = 40, },
 	[266779]={ class = "HUNTER", level = 40, },
@@ -2058,6 +2175,7 @@ Spy_AbilityList = {
 	[120679]={ class = "HUNTER", level = 15, },
 	[273887]={ class = "HUNTER", level = 15, },
 	[260309]={ class = "HUNTER", level = 15, },
+	[269576]={ class = "HUNTER", level = 15, },
 	[271788]={ class = "HUNTER", level = 15, },
 	[265895]={ class = "HUNTER", level = 15, },
 	[268501]={ class = "HUNTER", level = 15, },
@@ -2071,6 +2189,7 @@ Spy_AbilityList = {
 	[199528]={ class = "HUNTER", level = 30, },
 	[193532]={ class = "HUNTER", level = 30, },
 	[260243]={ class = "HUNTER", level = 30, },
+	[260247]={ class = "HUNER", level = 30, },
 	[199483]={ class = "HUNTER", level = 45, },
 	[270581]={ class = "HUNTER", level = 45, },
 	[199921]={ class = "HUNTER", level = 45, },
@@ -2282,6 +2401,7 @@ Spy_AbilityList = {
 	[112965]={ class = "MAGE", level = 24, },
 	[44544]={ class = "MAGE", level = 24, },
 	[235313]={ class = "MAGE", level = 26, },
+	[235314]={ class = "MAGE", level = 26, },
 	[11426]={ class = "MAGE", level = 26, },
 	[235450]={ class = "MAGE", level = 26, },
 	[190447]={ class = "MAGE", level = 28, },
@@ -2306,6 +2426,7 @@ Spy_AbilityList = {
 	[231565]={ class = "MAGE", level = 56, },
 	[84714]={ class = "MAGE", level = 57, },
 	[198149]={ class = "MAGE", level = 57, },
+	[84721]={ class = "MAGE", level = 57, },
 	[236662]={ class = "MAGE", level = 63, },
 	[231630]={ class = "MAGE", level = 65, },
 	[110959]={ class = "MAGE", level = 65, },
@@ -2354,7 +2475,9 @@ Spy_AbilityList = {
 	[205023]={ class = "MAGE", level = 90, },
 	[205037]={ class = "MAGE", level = 90, },
 	[270233]={ class = "MAGE", level = 90, },
+	[270232]={ class = "MAGE", level = 90, },
 	[44457]={ class = "MAGE", level = 90, },
+	[44461]={ class = "MAGE", level = 90, },
 	[114923]={ class = "MAGE", level = 90, },
 	[281482]={ class = "MAGE", level = 90, },
 	[210725]={ class = "MAGE", level = 90, },
@@ -2363,6 +2486,7 @@ Spy_AbilityList = {
 	[199844]={ class = "MAGE", level = 100, },
 	[155148]={ class = "MAGE", level = 100, },
 	[153561]={ class = "MAGE", level = 100, },
+	[153564]={ class = "MAGE", level = 100, },
 	[155147]={ class = "MAGE", level = 100, },
 	[269650]={ class = "MAGE", level = 100, },
 	[205021]={ class = "MAGE", level = 100, },
@@ -2481,6 +2605,7 @@ Spy_AbilityList = {
 	[287063]={ class = "MONK", level = 20, },
 	[115308]={ class = "MONK", level = 20, },
 	[115151]={ class = "MONK", level = 20, },
+	[119611]={ class = "MONK", level = 20, },
 	[261917]={ class = "MONK", level = 22, },
 	[115450]={ class = "MONK", level = 22, },
 	[218164]={ class = "MONK", level = 22, },
@@ -2696,6 +2821,7 @@ Spy_AbilityList = {
 	[105805]={ class = "PALADIN", level = 10, },
 	[85256]={ class = "PALADIN", level = 10, },
 	[224266]={ class = "PALADIN", level = 10, },
+	[26573]={ class = "PALADIN", level = 14, },
 	[81297]={ class = "PALADIN", level = 14, },
 	[188370]={ class = "PALADIN", level = 14, },
 	[53563]={ class = "PALADIN", level = 20, },
@@ -2775,6 +2901,7 @@ Spy_AbilityList = {
 	[204018]={ class = "PALADIN", level = 60, },
 	[205228]={ class = "PALADIN", level = 60, },
 	[183425]={ class = "PALADIN", level = 60, },
+	[210320]={ class = "PALADIN", level = 60, },
 	[271580]={ class = "PALADIN", level = 60, },
 	[203797]={ class = "PALADIN", level = 60, },
 	[255937]={ class = "PALADIN", level = 60, },
@@ -2903,6 +3030,7 @@ Spy_AbilityList = {
 	[148859]={ class = "PRIEST", level = 3, },
 	[2061]={ class = "PRIEST", level = 5, },
 	[17]={ class = "PRIEST", level = 8, },
+	[6788]={ class = "PRIEST", level = 8, },
 	[14914]={ class = "PRIEST", level = 10, },
 	[2050]={ class = "PRIEST", level = 10, },
 	[8092]={ class = "PRIEST", level = 10, },
@@ -2912,6 +3040,7 @@ Spy_AbilityList = {
 	[232698]={ class = "PRIEST", level = 12, },
 	[2096]={ class = "PRIEST", level = 13, },
 	[88625]={ class = "PRIEST", level = 16, },
+	[200196]={ class = "PRIEST", level = 16, },
 	[262861]={ class = "PRIEST", level = 16, },
 	[8122]={ class = "PRIEST", level = 18, },
 	[81749]={ class = "PRIEST", level = 20, },
@@ -2930,6 +3059,7 @@ Spy_AbilityList = {
 	[34914]={ class = "PRIEST", level = 24, },
 	[19236]={ class = "PRIEST", level = 26, },
 	[48045]={ class = "PRIEST", level = 26, },
+	[49821]={ class = "PRIEST", level = 26, },
 	[208232]={ class = "PRIEST", level = 26, },
 	[47585]={ class = "PRIEST", level = 28, },
 	[596]={ class = "PRIEST", level = 28, },
@@ -3067,6 +3197,8 @@ Spy_AbilityList = {
 --++ Rogue Abilities ++	
 	[157442]={ class = "ROGUE", level = 1, },
 	[82245]={ class = "ROGUE", level = 1, },
+	[86392]={ class = "ROGUE", level = 1, },
+	[195627]={ class = "ROGUE", level = 1, },
 	[185311]={ class = "ROGUE", level = 16, },
 	[1766]={ class = "ROGUE", level = 18, },
 	[1804]={ class = "ROGUE", level = 24, },
@@ -3136,6 +3268,7 @@ Spy_AbilityList = {
 	[53]={ class = "ROGUE", level = 10, },
 	[61329]={ class = "ROGUE", level = 10, },
 	[2823]={ class = "ROGUE", level = 10, },
+	[2818]={ class = "ROGUE", level = 10, },
 	[113780]={ class = "ROGUE", level = 10, },
 	[2098]={ class = "ROGUE", level = 10, },
 	[79152]={ class = "ROGUE", level = 10, },
@@ -3144,6 +3277,7 @@ Spy_AbilityList = {
 	[185565]={ class = "ROGUE", level = 10, },
 	[114014]={ class = "ROGUE", level = 10, },
 	[193315]={ class = "ROGUE", level = 10, },
+	[197834]={ class = "ROGUE", level = 10, },
 	[703]={ class = "ROGUE", level = 12, },
 	[185438]={ class = "ROGUE", level = 12, },
 	[279876]={ class = "ROGUE", level = 12, },
@@ -3169,13 +3303,19 @@ Spy_AbilityList = {
 	[32645]={ class = "ROGUE", level = 36, },
 	[212283]={ class = "ROGUE", level = 36, },
 	[3408]={ class = "ROGUE", level = 38, },
+	[3409]={ class = "ROGUE", level = 38, },
 	[1725]={ class = "ROGUE", level = 38, },
 	[1329]={ class = "ROGUE", level = 40, },
 	[27576]={ class = "ROGUE", level = 40, },
 	[5374]={ class = "ROGUE", level = 40, },
 	[273009]={ class = "ROGUE", level = 40, },
 	[193316]={ class = "ROGUE", level = 40, },
+	[193356]={ class = "ROGUE", level = 40, },
+	[193357]={ class = "ROGUE", level = 40, },
 	[193358]={ class = "ROGUE", level = 40, },
+	[193359]={ class = "ROGUE", level = 40, },
+	[199600]={ class = "ROGUE", level = 40, },
+	[199603]={ class = "ROGUE", level = 40, },
 	[185313]={ class = "ROGUE", level = 40, },
 	[277950]={ class = "ROGUE", level = 40, },
 	[235484]={ class = "ROGUE", level = 42, },
@@ -3183,6 +3323,7 @@ Spy_AbilityList = {
 	[231718]={ class = "ROGUE", level = 42, },
 	[1856]={ class = "ROGUE", level = 48, },
 	[35551]={ class = "ROGUE", level = 50, },
+	[35546]={ class = "ROGUE", level = 50, },
 	[58423]={ class = "ROGUE", level = 50, },
 	[79096]={ class = "ROGUE", level = 50, },
 	[79134]={ class = "ROGUE", level = 50, },
@@ -3190,6 +3331,7 @@ Spy_AbilityList = {
 	[231716]={ class = "ROGUE", level = 52, },
 	[185314]={ class = "ROGUE", level = 54, },
 	[8679]={ class = "ROGUE", level = 54, },
+	[8680]={ class = "ROGUE", level = 54, },
 	[13750]={ class = "ROGUE", level = 56, },
 	[121471]={ class = "ROGUE", level = 56, },
 	[79140]={ class = "ROGUE", level = 56, },
@@ -3236,6 +3378,7 @@ Spy_AbilityList = {
 	[131511]={ class = "ROGUE", level = 75, },
 	[257505]={ class = "ROGUE", level = 75, },
 	[193539]={ class = "ROGUE", level = 90, },
+	[193538]={ class = "ROGUE", level = 90, },
 	[245687]={ class = "ROGUE", level = 90, },
 	[238104]={ class = "ROGUE", level = 90, },
 	[200806]={ class = "ROGUE", level = 90, },
@@ -3244,6 +3387,8 @@ Spy_AbilityList = {
 	[245388]={ class = "ROGUE", level = 90, },
 	[152152]={ class = "ROGUE", level = 90, },
 	[271877]={ class = "ROGUE", level = 100, },
+	[271881]={ class = "ROGUE", level = 100, },
+	[271896]={ class = "ROGUE", level = 100, },
 	[121411]={ class = "ROGUE", level = 100, },
 	[272026]={ class = "ROGUE", level = 100, },
 	[270061]={ class = "ROGUE", level = 100, },
@@ -3508,6 +3653,7 @@ Spy_AbilityList = {
 	[204336]={ class = "SHAMAN", level = 40, },
 	[204437]={ class = "SHAMAN", level = 40, },
 	[305483]={ class = "SHAMAN", level = 40, },
+	[305485]={ class = "SHAMAN", level = 40, },
 	[204247]={ class = "SHAMAN", level = 40, },
 	[289874]={ class = "SHAMAN", level = 40, },
 	[193876]={ class = "SHAMAN", level = 40, },
@@ -3528,6 +3674,7 @@ Spy_AbilityList = {
 	[117198]={ class = "WARLOCK", level = 10, },
 	[246985]={ class = "WARLOCK", level = 10, },
 	[5782]={ class = "WARLOCK", level = 16, },
+	[118699]={ class = "WARLOCK", level = 16, },
 	[6201]={ class = "WARLOCK", level = 18, },
 	[5784]={ class = "WARLOCK", level = 20, },
 	[697]={ class = "WARLOCK", level = 20, },
@@ -3597,6 +3744,7 @@ Spy_AbilityList = {
 	[104317]={ class = "WARLOCK", level = 10, },
 	[279910]={ class = "WARLOCK", level = 10, },
 	[348]={ class = "WARLOCK", level = 10, },
+	[157736]={ class = "WARLOCK", level = 10, },
 	[116858]={ class = "WARLOCK", level = 12, },
 	[30146]={ class = "WARLOCK", level = 12, },
 	[234153]={ class = "WARLOCK", level = 13, },
@@ -3665,6 +3813,7 @@ Spy_AbilityList = {
 	[196099]={ class = "WARLOCK", level = 90, },
 	[196100]={ class = "WARLOCK", level = 90, },
 	[266086]={ class = "WARLOCK", level = 90, },
+	[266091]={ class = "WARLOCK", level = 91, },
 	[111898]={ class = "WARLOCK", level = 90, },
 	[48181]={ class = "WARLOCK", level = 90, },
 	[267216]={ class = "WARLOCK", level = 90, },
@@ -3775,7 +3924,9 @@ Spy_AbilityList = {
 	[32216]={ class = "WARRIOR", level = 5, },
 	[5308]={ class = "WARRIOR", level = 8, },
 	[163201]={ class = "WARRIOR", level = 8, },
+	[280849]={ class = "WARRIOR", level = 8, },
 	[23881]={ class = "WARRIOR", level = 10, },
+	[117313]={ class = "WARRIOR", level = 10, },
 	[273428]={ class = "WARRIOR", level = 10, },
 	[20243]={ class = "WARRIOR", level = 10, },
 	[12294]={ class = "WARRIOR", level = 10, },
@@ -3818,6 +3969,7 @@ Spy_AbilityList = {
 	[1719]={ class = "WARRIOR", level = 50, },
 	[46968]={ class = "WARRIOR", level = 50, },
 	[262304]={ class = "WARRIOR", level = 55, },
+	[262115]={ class = "WARRIOR", level = 55, },
 	[871]={ class = "WARRIOR", level = 55, },
 	[12950]={ class = "WARRIOR", level = 55, },
 	[227847]={ class = "WARRIOR", level = 65, },
@@ -3974,6 +4126,7 @@ Spy_AbilityList = {
 	[280410]={ level = 110, },
 	[280412]={ level = 110, },
 	[273790]={ level = 110, },
+	[273794]={ level = 110, },
 	[273823]={ level = 110, },
 	[273150]={ level = 110, },
 	[280204]={ level = 110, },
@@ -3981,13 +4134,17 @@ Spy_AbilityList = {
 	[273825]={ level = 110, },
 	[280429]={ level = 110, },
 	[280383]={ level = 110, },
+	[280385]={ level = 110, },
 	[280402]={ level = 110, },
 	[280403]={ level = 110, },
+	[280404]={ level = 110, },
 	[273829]={ level = 110, },
 	[273842]={ level = 110, },
 	[273682]={ level = 110, },
 	[280284]={ level = 110, },
+	[280286]={ level = 110, },
 	[281841]={ level = 110, },
+	[281843]={ level = 110, },
 	[281514]={ level = 120, },
 	[281515]={ level = 120, },
 	[280713]={ level = 110, },
@@ -3996,6 +4153,7 @@ Spy_AbilityList = {
 	[287631]={ level = 120, },
 	[287662]={ level = 120, },
 	[288839]={ level = 120, },
+	[288841]={ level = 120, },
 	[288802]={ level = 120, },
 	[288804]={ level = 120, },
 	[289190]={ level = 120, },
@@ -4005,7 +4163,9 @@ Spy_AbilityList = {
 	[288981]={ level = 120, },
 	[303007]={ level = 120, },
 	[303008]={ level = 120, },
+	[303388]={ level = 120, },
 	[303389]={ level = 120, },
+	[303390]={ level = 120, },
 	[303006]={ level = 120, },
 	[303211]={ level = 120, },
 	[300168]={ level = 120, },
@@ -4016,9 +4176,11 @@ Spy_AbilityList = {
 	[287825]={ level = 110, },
 	[280628]={ level = 110, },
 	[280627]={ level = 110, },
+	[280855]={ level = 110, },
 	[282720]={ level = 110, },
 	[280626]={ level = 120, },
 	[280851]={ level = 110, },
+	[280852]={ level = 110, },
 	[280624]={ level = 110, },
 	[280625]={ level = 110, },
 	[280598]={ level = 110, },
@@ -4037,8 +4199,10 @@ Spy_AbilityList = {
 	[300002]={ level = 120, },
 	[300003]={ level = 120, },
 	[294964]={ level = 120, },
+	[294966]={ level = 120, },
 	[300004]={ level = 120, },
 	[300005]={ level = 120, },
+	[302847]={ level = 120, },
 	[296094]={ level = 120, },
 	[299882]={ level = 120, },
 	[299883]={ level = 120, },
@@ -4056,6 +4220,7 @@ Spy_AbilityList = {
 	[298273]={ level = 120, },
 	[298277]={ level = 120, },
 	[297147]={ level = 120, },
+	[297162]={ level = 120, },
 	[298274]={ level = 120, },
 	[298275]={ level = 120, },
 	[295840]={ level = 120, },
@@ -4124,14 +4289,17 @@ Spy_AbilityList = {
 	[294910]={ level = 120, },
 	[300012]={ level = 120, },
 	[300013]={ level = 120, },
+	[295368]={ level = 120, },
 	[295373]={ level = 120, },
 	[295374]={ level = 120, },
+	[295375]={ level = 120, },
 	[295378]={ level = 120, },
 	[299349]={ level = 120, },
 	[299353]={ level = 120, },
 	[295365]={ level = 120, },
 	[299348]={ level = 120, },
 	[299350]={ level = 120, },
+	[295367]={ level = 120, },
 	[303380]={ level = 120, },
 	[296072]={ level = 120, },
 	[299875]={ level = 120, },
@@ -4172,6 +4340,81 @@ Spy_AbilityList = {
 	[295078]={ level = 120, },
 	[298627]={ level = 120, },
 	[299333]={ level = 120, },
+	[312725]={ level = 120, },
+	[313921]={ level = 120, },
+	[313922]={ level = 120, },
+	[312771]={ level = 120, },
+	[313919]={ level = 120, },
+	[313920]={ level = 120, },
+	[310690]={ level = 120, },
+	[311194]={ level = 120, },
+	[311195]={ level = 120, },
+	[310712]={ level = 120, },
+	[311192]={ level = 120, },
+	[311197]={ level = 120, },
+	[311198]={ level = 120, },
+	[311203]={ level = 120, },
+	[311302]={ level = 120, },
+	[311303]={ level = 120, },
+	[311210]={ level = 120, },
+	[311304]={ level = 120, },
+	[311306]={ level = 120, },
+	[313643]={ level = 120, },
+	[295046]={ level = 120, },
+	[299984]={ level = 120, },
+	[299988]={ level = 120, },
+	[295164]={ level = 120, },
+	[299989]={ level = 120, },
+	[299991]={ level = 120, },
+	[310592]={ level = 120, },
+	[310601]={ level = 120, },
+	[310602]={ level = 120, },
+	[310603]={ level = 120, },
+	[310607]={ level = 120, },
+	[310608]={ level = 120, },
+	[297375]={ level = 120, },
+	[298309]={ level = 120, },
+	[298312]={ level = 120, },
+	[297411]={ level = 120, },
+	[298302]={ level = 120, },
+	[298304]={ level = 120, },
+	[319919]={ level = 120, },
+	[296036]={ level = 120, },
+	[310425]={ level = 120, },
+	[310442]={ level = 120, },
+	[293030]={ level = 120, },
+	[310422]={ level = 120, },
+	[310426]={ level = 120, },
+--++ Corruption Affixes ++	
+	[317014]={ level = 120, },
+	[317020]={ level = 120, },
+	[318280]={ level = 120, },
+	[318485]={ level = 120, },
+	[318486]={ level = 120, },
+	[318487]={ level = 120, },
+	[318488]={ level = 120, },
+	[318489]={ level = 120, },
+	[318484]={ level = 120, },
+	[318276]={ level = 120, },
+	[318477]={ level = 120, },
+	[318478]={ level = 120, },
+	[318481]={ level = 120, },
+	[318482]={ level = 120, },
+	[318483]={ level = 120, },
+	[316814]={ level = 120, },
+	[316823]={ level = 120, },
+	[318286]={ level = 120, },
+	[318479]={ level = 120, },
+	[318480]={ level = 120, },
+	[318179]={ level = 120, },
+	[315175]={ level = 120, },
+	[315176]={ level = 120, },
+	[315154]={ level = 120, },
+	[315161]={ level = 120, },
+	[315169]={ level = 120, },
+	[315184]={ level = 120, },
+	[315857]={ level = 120, },
+	[315179]={ level = 120, },
 --++++++++++	
 	[2580]={ level = 1, },
 	[8388]={ level = 1, },
@@ -4181,7 +4424,13 @@ Spy_AbilityList = {
 	[167898]={ level = 1, },
 	[265831]={ level = 1, },
 	[8690]={ level = 1, },
+	[203812]={ level = 1, },
+	[203846]={ level = 1, },
+	[203847]={ level = 1, },
+	[203848]={ level = 1, },
 	[281215]={ level = 1, },
+	[59914]={ level = 1, },
+	[308742]={ level = 1, },
 	[2379]={ level = 5, },
 	[16595]={ level = 5, },
 	[73313]={ level = 20, },
@@ -4190,37 +4439,48 @@ Spy_AbilityList = {
 	[196029]={ level = 20, },
 	[126755]={ level = 78, },
 	[72968]={ level = 80, },
+	[120173]={ level = 82, },
 	[127230]={ level = 85, },
+	[156071]={ level = 90, },
+	[171253]={ level = 90, },
 	[176151]={ level = 90, },
 	[193456]={ level = 90, },
+	[222695]={ level = 90, },
 	[242551]={ level = 101, },
 	[251837]={ level = 100, },
-	[251839]={ level = 100, },
 	[251836]={ level = 100, },
 	[251838]={ level = 100, },
-	[298841]={ level = 100, },
+	[251839]={ level = 100, },
+	[298836]={ level = 100, },
 	[298839]={ level = 100, },
+	[298841]={ level = 100, },
+	[224001]={ level = 110, },
 	[227723]={ level = 110, },
 	[257410]={ level = 110, },
 	[257422]={ level = 110, },
 	[295689]={ level = 110, },
 	[297034]={ level = 110, },
 	[270058]={ level = 120, },
+	[290121]={ level = 120, },
 	[304603]={ level = 120, },
 	[304606]={ level = 120, },
 	[304611]={ level = 120, },
 	[304612]={ level = 120, },
 	[304619]={ level = 120, },
 	[304660]={ level = 120, },
+	[268194]={ level = 120, },
 	[268534]={ level = 110, },
 	[268536]={ level = 110, },
 	[277179]={ level = 110, },
 	[277181]={ level = 110, },
 	[277185]={ level = 110, },
+	[268756]={ level = 120, },
+	[268769]={ level = 120, },
 	[268998]={ level = 120, },
 	[273988]={ level = 120, },
 	[278253]={ level = 120, },
 	[278267]={ level = 120, },
+	[278377]={ level = 120, },
 	[285496]={ level = 120, },
 	[293142]={ level = 120, },
 	[293491]={ level = 120, },
@@ -4249,6 +4509,7 @@ Spy_AbilityList = {
 	[303580]={ level = 120, },
 	[303583]={ level = 120, },
 	[303621]={ level = 120, },
+	[303943]={ level = 120, },
 	[304113]={ level = 120, },
 	[284275]={ level = 120, },
 	[299661]={ level = 120, },

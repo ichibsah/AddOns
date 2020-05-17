@@ -62,8 +62,16 @@ L["The Salty Sailor Tavern"] = "The Salty Sailor Tavern"
 L["Shattrath City"] = "Shattrath City"
 L["Area 52"] = "Area 52"
 L["Dalaran"] = "Dalaran"
+L["Dalaran (Northrend)"] = "Dalaran (Northrend)"
 L["Bogpaddle"] = "Bogpaddle"
 L["The Vindicaar"] = "The Vindicaar"
+L["Krasus' Landing"] = "Krasus' Landing"
+L["The Violet Gate"] = "The Violet Gate"
+L["Magni's Encampment"] = "Magni's Encampment"
+L["Silithus"] = "Silithus"
+L["Chamber of Heart"] = "Chamber of Heart"
+L["Hall of Ancient Paths"] = "Hall of Ancient Paths"
+L["Sanctum of the Sages"] = "Sanctum of the Sages"
 
 -- Display
 L["DisplayOptions"] = "Display"
@@ -251,6 +259,8 @@ L["KOSDescription"] = "Add/remove a player to/from the Kill On Sight list."
 L["InvalidInput"] = "Invalid Input"
 L["Ignore"] = "Ignore"
 L["IgnoreDescription"] = "Add/remove a player to/from the Ignore list."
+L["Test"] = "Test"
+L["TestDescription"] = "Shows a warning so it can be repositioned."
 
 -- Lists
 L["Nearby"] = "Nearby"
@@ -259,6 +269,8 @@ L["Ignore"] = "Ignore"
 L["KillOnSight"] = "Kill On Sight"
 
 --Stats
+L["Won"] = "Won"
+L["Lost"] = "Lost"
 L["Time"] = "Time"	
 L["List"] = "List"
 L["Filter"] = "Filter"
@@ -421,7 +433,7 @@ StaticPopupDialogs["Spy_SetKOSReasonOther"] = {
 	OnShow = function(self)
 		self.editBox:SetText("");
 	end,
-    	OnAccept = function(self)
+    OnAccept = function(self)
 		local reason = self.editBox:GetText()
 		Spy:SetKOSReason(self.playerName, "Enter your own reason...", reason)
 	end,

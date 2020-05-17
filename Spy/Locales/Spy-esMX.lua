@@ -62,8 +62,16 @@ L["The Salty Sailor Tavern"] = "Taberna del Grumete Frito"
 L["Shattrath City"] = "Ciudad de Shattrath"
 L["Area 52"] = "Area 52"
 L["Dalaran"] = "Dalaran"
+L["Dalaran (Northrend)"] = "Dalaran (Rasganorte)"
 L["Bogpaddle"] = "Chapaleos"
 L["The Vindicaar"] = "El Vindicaar"
+L["Krasus' Landing"] = "Alto de Krasus"
+L["The Violet Gate"] = "La Puerta Violeta"
+L["Magni's Encampment"] = "Campamento de Magni"
+L["Silithus"] = "Silithus"
+L["Chamber of Heart"] = "Cámara del Corazón"
+L["Hall of Ancient Paths"] = "Cámara de Sendas Ancestrales"
+L["Sanctum of the Sages"] = "Sagrario de los Sabios"
 
 -- Display
 L["DisplayOptions"] = "Display"
@@ -251,6 +259,8 @@ L["KOSDescription"] = "Add/remove a player to/from the Kill On Sight list."
 L["InvalidInput"] = "Invalid Input"
 L["Ignore"] = "Ignore"
 L["IgnoreDescription"] = "Add/remove a player to/from the Ignore list."
+L["Test"] = "Test"
+L["TestDescription"] = "Muestra una advertencia para que pueda reposicionarla."
 
 -- Lists
 L["Nearby"] = "Nearby"
@@ -259,6 +269,8 @@ L["Ignore"] = "Ignore"
 L["KillOnSight"] = "Kill On Sight"
 
 --Stats
+L["Won"] = "Won"
+L["Lost"] = "Lost"
 L["Time"] = "Time"	
 L["List"] = "List"
 L["Filter"] = "Filter"
@@ -466,8 +478,8 @@ L["DARK IRON DWARF"] = "Enano Hierro Negro"
 L["MAG'HAR ORC"] = "Orco Mag'har"
  
 -- Stealth abilities
-L ["Stealth"] = "Sigilo"
-L ["Acechar"] = "Acechar"
+L["Stealth"] = "Sigilo"
+L["Acechar"] = "Acechar"
  
 --++ Minimap color codes
 L["MinimapClassTextDEATHKNIGHT"] = "|cffc41e3a"

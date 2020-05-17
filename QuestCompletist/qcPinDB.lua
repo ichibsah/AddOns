@@ -926,6 +926,7 @@ qcPinDB = {
 		{0,1,34251,"Vear Darksnout",38.0,30.0,{13876}},
 		{0,1,17106,"Vindicator Palanaar",35.0,49.9,{26453}},
 		{0,1,17303,"Vindicator Vedaar",84.1,62.7,{26444,26445}},
+		{0,1,0,nil,56.39,49.1,{38090}},
 	},
 	[64] = { --[[ Thousand Needles ]]--
 		{0,1,39895,"Kanati Greycloud",11.2,11.2,{27062}},
@@ -1565,6 +1566,8 @@ qcPinDB = {
 		{0,1,4593,"Christoph Walker",47.2,15.2,{27281,28290}},
 		{0,1,39116,"Apolos",49.6,29.0,{28297,27278}},
 		{0,5,37675,"Public Relations Agent",66.0,38.6,{24629,24635,24636}},
+	},
+	[91] = { --[[ Alterac Valley ]]--
 	},
 	[94] = { --[[ Eversong Woods ]]--
 		{0,1,15278,"Magistrix Erona",38.0,21.0,{8325,8326,8327}},
@@ -2278,7 +2281,8 @@ qcPinDB = {
 		{0,1,0,"Abner Fizzletorque",57,20,{11713,11715,11718,11723}},
 		{0,1,0,"Archmage Evanor",46.4,32.4,{11682}},
 		{0,1,0,"Iggy \"Tailspin\" Cogtoggle",61.6,35.8,{11726,11728,11795,11796,11873}},
-		{0,1,0,"Arch Druid Lathorius",57,44.2,{11864,11866,11876,11878,11892}},
+		{0,1,25809,"Archdruid Lathorius",57,44.2,{11864,11866,11876,11878,11892}},
+		{0,2,25809,"Archdruid Lathorius",57,44.2,{11867}},
 		{0,1,0,"Hierophant Cenius",57.2,44,{11869,11870}},
 		{0,1,0,"Zaza",56.8,44,{11865,11868}},
 		{0,1,0,"Killinger the Den Watcher",57,44.2,{11884}},
@@ -2296,15 +2300,15 @@ qcPinDB = {
 		{0,1,0,"Mark Hanes",56.6,69.4,{11927}},
 		{0,1,0,"Ataika",63.8,46,{11949,11950,12086}},
 		{0,1,0,"Thassarian",84.8,41.6,{11938,11942,11956,12019}},
-		{0,1,0,"Private Casey",82,46.4,{12157}},
+		{0,1,26186,"Private Casey",82,46.4,{12157}},
 		{0,1,0,"Corporal Venn",82,46.4,{11944,12088}},
 		{0,1,0,"Keristrasza",33.2,34.2,{11946,11951,11957,11967}},
 		{0,1,0,"Utaik",63.8,45.8,{11945}},
 		{0,1,0,"Elder Muahit",67.2,54.8,{11961,11968}},
 		{0,1,0,"Tomas Riverwell",58.8,68.2,{29608}},
-		{0,1,0,"Rollick MacKreel",57.8,71.4,{13088}},
+		{0,1,26989,"Rollick MacKreel",57.8,71.4,{13088}},
 		{0,1,0,"Glrglrglr",37.8,23,{11569}},
-		{0,1,0,"Hotawa",67.2,54.8,{12117}},
+		{0,1,28382,"Hotawa",67.2,54.8,{12117}},
 		{0,1,0,"Magister Dath\'omere",58.6,68.2,{12794}},
 		{0,1,0,"Corastrasza",29.4,24.8,{13413,13414}},
 		{0,1,0,"Tarecgosa",34.4,25.2,{29194}},
@@ -2362,9 +2366,11 @@ qcPinDB = {
 		{0,1,0,"Crashed Recon Pilot",64,35.8,{11887}},
 		{0,1,0,"Iron Eyes",77,37.6,{11906}},
 		{0,1,0,"Mother Tauranook",78.2,38,{11930}},
-		{0,1,0,"Orn Tenderhoof",42,54.2,{13090}},
+		{0,1,13090,"Orn Tenderhoof",42,54.2,{13090}},
 		{0,1,0,"Magistrix Kaelana",41.4,53.6,{12791}},
-		{0,1,0,"Elder Atkanok",54.6,35.9,{11724}},
+		{0,1,187565,"Elder Atkanok",54.6,35.9,{11605,11607,11609,11610}},
+		{0,1,0,"Massive Glowing Egg",48.5,59.1,{11724}},
+		{0,1,0,"Plagued Grain",56.8,55.6,{11902}},
 	},
 	[115] = { --[[ Dragonblight ]] --
 		{0,1,0,"Ambo Cash",86,50.8,{12455,12457,12463,12466}},
@@ -4994,14 +5000,14 @@ qcPinDB = {
 		{0,1,0,"Shadow Hunter Denjai",61.6,45.6,{39509,39511,39512,39513,39514,39526}},
 	},
 	[535] = { --[[ Talador ]] --
-		{0,1,0,"Exarch Maladaar",49.8,48.6,{35683,35685}},
-		{0,1,0,"Exarch Maladaar",55.6,67.6,{34407,34452}},
-		{0,1,0,"Exarch Maladaar",57.2,77,{34240}},
-		{0,1,0,"Soulbinder Nyami",57.2,76.8,{33958,33970}},
-		{0,1,0,"Shadow-Sage Iskar",70.4,56.8,{33580}},
-		{0,1,0,"Raksi",77.6,44,{33578,33579}},
-		{0,1,0,"Darkscryer Raastok",70.4,57.2,{33581}},
-		{0,1,0,"Kura the Blind",70.6,56.8,{33582}},
+		{535,1,0,"Exarch Maladaar",49.8,48.6,{35683,35685}},
+		{535,1,0,"Exarch Maladaar",55.6,67.6,{34407,34452}},
+		{535,1,0,"Exarch Maladaar",57.2,77,{34240}},
+		{535,1,0,"Soulbinder Nyami",57.2,76.8,{33958,33970}},
+		{535,1,0,"Shadow-Sage Iskar",70.4,56.8,{33580}},
+		{535,1,0,"Raksi",77.6,44,{33578,33579}},
+		{535,1,0,"Darkscryer Raastok",70.4,57.2,{33581}},
+		{535,1,0,"Kura the Blind",70.6,56.8,{33582}},
 		{0,1,0,"Exarch Maladaar",43,76,{34157,35227,35254}},
 		{0,1,0,"Vindicator Maraad",63,25.8,{34087,34088,34959,34963}},
 		{0,1,0,"Yrel",63,25.8,{34089,34095}},
@@ -5039,7 +5045,7 @@ qcPinDB = {
 		{0,1,0,"Torben Zapblast",62.8,50.2,{34761}},
 		{0,1,0,"Quartermaster O\'Riley",69.6,21.4,{34773,34804}},
 		{0,1,0,"Defender Illona",57.4,51.2,{34777,36519}},
-		{0,1,0,"Nadur",61.4,54.4,{34801,34802}},
+		{0,1,80028,"Nadur",61.4,54.4,{34801,34802}},
 		{0,1,0,"Archmage Khadgar",75,31,{34814,34815}},
 		{0,1,0,"Magister Serena",62.2,68.2,{34913}},
 		{0,1,0,"Magister Serena",69.8,69.4,{34909,34910,34911}},
@@ -6604,6 +6610,8 @@ qcPinDB = {
 	},
 	[1018] = {--[[ Waycrest Manor ]]--
 	},
+	[1021] = {--[[ Chamber of Heart ]]--
+	},
 	[1029] = {--[[ Waycrest Manor ]]--
 	},
 	[1037] = {--[[ Whispering Reef ]]--
@@ -6821,6 +6829,39 @@ qcPinDB = {
 	},
 	[1524] = {--[[ Deepsea Slave Pen ]]--
 	},
+	[1527] = {--[[ Uldum 8.3 ]]--
+	{1,3,162765,"Friendly Alpaca",15, 62,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",24, 9,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",28, 49,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",30, 29,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",39, 10,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",42, 70,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",46, 48,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",53, 19,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",55, 69,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",63, 53,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",63, 14,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",70, 39,{58887,58879}},
+	{1,3,162765,"Friendly Alpaca",76, 68,{58887,58879}},
+	},	
+	[1530] = {--[[ Vale of Eternal Blossom 8.3 ]]--
+	},
 	[1535] = {--[[ Durotar The Dranosh`ar Blockade ]]--
+	},
+	[1540] = {--[[ Halls of Origination (The Vault of Light) 8.3 Scenario ]]--
+	},
+	[1542] = {--[[ Halls of Origination (The Maker`s Rise) 8.3 Scenario ]]--
+	},
+	[1544] = {--[[ Mogu`Shan Palace (The Gilded Foyer) 8.3 Scenario ]]--
+	},
+	[1545] = {--[[ Mogu`Shan Palace ( Forgotten Passageway) 8.3 Scenario ]]--
+	},
+	[1548] = {--[[ Mogu`Shan Vaults (The Reository) 8.3 Scenario]]--
+	},
+	[1549] = {--[[ Mogu`Shan Vaults (Hall of Shapers) 8.3 Scenario]]--
+	},
+	[1573] = {--[[ Mechagon City 8.3 ]]--
+	},
+	[1574] = {--[[ Mechagon City Under Junk 8.3]]--
 	},
 	}

@@ -1,3 +1,6 @@
+local addonName, ns = ...
+local NugComboBar = _G.NugComboBar
+
 --[[
 local fileIDtoPathMap = {
     [166255] = "spells\\gouge_precast_state_hand.m2",
@@ -317,7 +320,7 @@ local pointtex = {
 
     [8] = {
         texture = "Interface\\Addons\\NugComboBar\\tex\\ncbc_bg5",
-        coords = {221/256, 1, 0, 1},
+        coords = {221/256, 256/258, 0, 1},
         role = "RIGHT",
         width = 35, height = 32,
         psize = 50,
@@ -411,7 +414,7 @@ end
 
 
 local IsVertical = function()
-    return NugComboBarDB.vertical
+    return NugComboBar.db.vertical
 end
 
 
@@ -464,15 +467,15 @@ function NugComboBar.SetMaxPoints(self, n, special, n2)
 
     local totalpoints = n + (n2 or 0)
 
-    if NugComboBarDB.overrideLayout then
-        local layout = NugComboBarDB.overrideLayout
+    if NugComboBar.db.overrideLayout then
+        local layout = NugComboBar.db.overrideLayout
         layout = tonumber(layout) or layout
         local customLayout = mappings[layout]
         if customLayout and #customLayout >= totalpoints then
             special = layout
         end
         -- if not customLayout then
-            -- NugComboBarDB.overrideLayout = false -- remove override if it was deleted from skin settings
+            -- NugComboBar.db.overrideLayout = false -- remove override if it was deleted from skin settings
         -- end
     end
 
@@ -489,12 +492,12 @@ function NugComboBar.SetMaxPoints(self, n, special, n2)
         point:Show()
         point.bg:Show()
         if i <= n then
-            framesize = framesize + popts.width
+            framesize = framesize + popts.width + toffset_x
         end
         if popts.chainreset then
             prevt = nil
-            toffset_x = NugComboBarDB.bar2_x or toffset_x
-            toffset_y = NugComboBarDB.bar2_y or toffset_y
+            toffset_x = NugComboBar.db.bar2_x or toffset_x
+            toffset_y = NugComboBar.db.bar2_y or toffset_y
         end
         if IsVertical() then
             point.bg:SetPoint("BOTTOMLEFT", prevt or self, prevt and "TOPLEFT" or "BOTTOMLEFT", -(toffset_y or 0), toffset_x or 0)
@@ -505,16 +508,16 @@ function NugComboBar.SetMaxPoints(self, n, special, n2)
 
 
         if i > n then
-            point:SetColor(unpack(NugComboBarDB.colors.bar2))
-            if not (point:SetPreset(NugComboBarDB.preset3dpointbar2)) then
-                NugComboBarDB.preset3dpointbar2 = NugComboBar.defaults.preset3dpointbar2
-                point:SetPreset(NugComboBarDB.preset3dpointbar2)
+            point:SetColor(unpack(NugComboBar.db.colors.bar2))
+            if not (point:SetPreset(NugComboBar.db.preset3dpointbar2)) then
+                NugComboBar.db.preset3dpointbar2 = NugComboBar.defaults.preset3dpointbar2
+                point:SetPreset(NugComboBar.db.preset3dpointbar2)
             end
         else
-            point:SetColor(unpack(NugComboBarDB.colors[i]))
-            if not (point:SetPreset(NugComboBarDB.preset3d)) then
-                NugComboBarDB.preset3d = NugComboBar.defaults.preset3d
-                point:SetPreset(NugComboBarDB.preset3d)
+            point:SetColor(unpack(NugComboBar.db.colors[i]))
+            if not (point:SetPreset(NugComboBar.db.preset3d)) then
+                NugComboBar.db.preset3d = NugComboBar.defaults.preset3d
+                point:SetPreset(NugComboBar.db.preset3d)
             end
         end
     end
@@ -590,7 +593,7 @@ local SetColorFunc = function(self,r,g,b)
     local h2 = h - 0.15
     if h2 < 0 then h2 = h2 + 1 end
     local r2,g2,b2 = hsv2rgb(h2, s, v)
-    local m1 = NugComboBarDB.glowIntensity
+    local m1 = NugComboBar.db.glowIntensity
     local m2 = 1
 
     self.t:SetVertexColor(r2*m1,g2*m1,b2*m1)
@@ -787,7 +790,7 @@ NugComboBar.ResetTransformations = ResetTransformations
 
 local SetColor3DFunc = function(self, r,g,b, force)
     local enabled, omni, dirX, dirY, dirZ, ambIntensity, ambR, ambG, ambB, dirIntensity, dirR, dirG, dirB
-    if NugComboBarDB.colors3d or force then
+    if NugComboBar.db.colors3d or force then
         enabled, omni, dirX, dirY, dirZ, ambIntensity, ambR, ambG, ambB, dirIntensity, dirR, dirG, dirB = true, false, 0, 1, 0, 1, r,g,b, 1, r,g,b
     else
         enabled, omni, dirX, dirY, dirZ, ambIntensity, ambR, ambG, ambB, dirIntensity, dirR, dirG, dirB = true, false, 0, 1, 0, 1, 0.69999, 0.69999, 0.69999, 1, 0.8, 0.8, 0.63999
@@ -1015,7 +1018,7 @@ NugComboBar.Create = function(self)
 
     local initial = not _G["NugComboBarBackgroundTexture1"]
 
-    local is3D = NugComboBarDB.enable3d
+    local is3D = NugComboBar.db.enable3d
 
     if initial then
         self.point = self.point or {}
@@ -1215,109 +1218,181 @@ end
 
 NugComboBar.themes = {}
 NugComboBar.themes["WARLOCK"] = {
-    [0] = {
-        preset3d = "glowPurple2",
-        colors = {
-            normal = { 0.5, 0.5 , 1 },
-            ["bar1"] = { 0.6, 0, 1 },
+    mode2d = {
+        [0] = {
+            colors = {
+                normal = { 1, 0.33, 0.74 },
+                ["bar1"] = { 0.6, 0, 1 },
+            },
+        },
+    },
+    mode3d = {
+        [0] = {
+            preset3d = "glowPurple2",
+            colors = {
+                normal = { 0.5, 0.5 , 1 },
+                ["bar1"] = { 0.6, 0, 1 },
+            },
         },
     },
 }
 
 NugComboBar.themes["DEMONHUNTER"] = {
-    [0] = {
-        preset3d = "glowPurple2",
-        colors = {
-            normal = { 0.5, 0.5 , 1 },
-            ["bar1"] = { 0.6, 0, 1 },
+    mode3d = {
+        [0] = {
+            preset3d = "glowPurple2",
+            colors = {
+                normal = { 0.5, 0.5 , 1 },
+            },
         },
     },
 }
 
 NugComboBar.themes["PALADIN"] = {
-    [0] = {
-        preset3d = "glowFreedom",
-        colors = {
-            normal = {0.77,0.26,0.29},
-            ["bar1"] = { 196/255, 66/255, 138/255 },
-        },
-    }
+    mode3d = {
+        [0] = {
+            preset3d = "glowFreedom",
+            colors = {
+                normal = {0.77,0.26,0.29},
+                ["bar1"] = { 196/255, 66/255, 138/255 },
+            },
+        }
+    },
 }
 
 NugComboBar.themes["SHAMAN"] = {
-    [0] = {
-        preset3d = "glowBlue",
-        colors = {
-            normal = {1,0.7,0.7},
+    mode2d = {
+        [0] = {
+            colors = {
+                normal = { 0, 0.18, 0.58 },
+            },
         },
-    }
+    },
+    mode3d = {
+        [0] = {
+            preset3d = "glowBlue",
+            colors = {
+                normal = {1,0.7,0.7},
+            },
+        }
+    },
 }
 
 NugComboBar.themes["MONK"] = {
-    [0] = {
-        preset3d = "glowBlue",
-        colors = {
-            normal = { 0, 0.73, 0.27 },
-            ["bar1"] = { 0, 0.66, 0.43 },
+    mode2d = {
+        [0] = {
+            colors = {
+                normal = { 0, 0.525, 0.5 },
+            },
+        },
+    },
+    mode3d = {
+        [0] = {
+            preset3d = "glowBlue",
+            colors = {
+                normal = { 0, 0.73, 0.27 },
+                ["bar1"] = { 0, 0.66, 0.43 },
+            },
         },
     },
 }
 
 NugComboBar.themes["ROGUE"] = {
-    [0] = {
-        preset3d = "glowPurple2",
-        colors = {
-            normal = {0.77,0.26,0.29},
-            ["bar1"] = { 0.6, 0, 1 },
+    mode2d = {
+        [3] = {
+            colors = {
+                normal = { 1, 0.33, 0.74 },
+                ["bar2"] = { 0.56, 0.02, 0.71 },
+            },
         },
     },
-    [3] ={
-        preset3d = "glowPurple2",
-        preset3dpointbar2 = "void",
-        colors = {
-            normal = {0.77,0.26,0.29},
-            ["bar1"] = { 0.6, 0, 1 },
+    mode3d = {
+        [0] = {
+            preset3d = "glowPurple2",
+            colors = {
+                normal = {0.77,0.26,0.29},
+                ["bar1"] = { 0.6, 0, 1 },
+            },
         },
-    }
+        [3] ={
+            preset3d = "glowPurple2",
+            preset3dpointbar2 = "void",
+            colors = {
+                normal = {0.77,0.26,0.29},
+                ["bar1"] = { 0.6, 0, 1 },
+            },
+        }
+    },
 }
 
 NugComboBar.themes["MAGE"] = {
-    [0] = {
-        preset3d = "glowPurple",
-    },
-    [1] ={
-        preset3d = "arcanePink",
-    },
-    [2] ={
-        preset3d = "glowOrange",
-        preset3dpointbar2 = "glowOrange",
-        colors = {
-            bar1 = { 1,0.15,0}
+    mode2d = {
+        [1] ={
+            colors = {
+                normal = { 1, 0.33, 0.74 },
+            },
+        },
+        [2] ={
+            colors = {
+                normal = { 0.87, 0.63, 0.015 },
+                bar2 = { 0.71, 0.16, 0 }
+            }
+        },
+        [3] = {
+            colors = {
+                normal = { 0.23, 0.10, 1 },
+            },
         }
     },
-    [3] = {
-        preset3d = "glowBlue",
-        colors = {
-            normal = { 0.36, 0.69, 0.76 },
+    mode3d = {
+        [0] = {
+            preset3d = "glowPurple",
         },
-    }
+        [1] ={
+            preset3d = "arcanePink",
+        },
+        [2] ={
+            preset3d = "glowOrange",
+            preset3dpointbar2 = "glowOrange",
+            colors = {
+                bar1 = { 1,0.15,0}
+            }
+        },
+        [3] = {
+            preset3d = "glowBlue",
+            colors = {
+                normal = { 0.36, 0.69, 0.76 },
+            },
+        }
+    },
 }
 
 
 NugComboBar.themes["WARRIOR"] = {
-    [0] = {
-        preset3d = "glowOrange",
+    mode2d = {
+        [0] = {
+            colors = {
+                normal = { 0.87, 0.63, 0.015 },
+            },
+        },
+    },
+    mode3d = {
+        [0] = {
+            preset3d = "glowOrange",
+        },
     },
 }
 
 NugComboBar.themes["DEATHKNIGHT"] = {
-    [0] = {
-        preset3d = "glowFreedom",
-        colors = {
-            normal = {0.77,0.26,0.29},
-            -- normal = {0.15,0.80,0.48},
-            [3] = {1, 0, 0},
-            bar1 = {1, 0.07, 0.65},
-        }
+    mode3d = {
+        [0] = {
+            preset3d = "glowFreedom",
+            colors = {
+                normal = {0.77,0.26,0.29},
+                -- normal = {0.15,0.80,0.48},
+                [3] = {1, 0, 0},
+                bar1 = {1, 0.07, 0.65},
+            }
+        },
     },
 }

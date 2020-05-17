@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 --
 -- User interface code
@@ -246,7 +246,7 @@ end
 function PawnUIFrame_ScaleSelector_UpdateAuto()
 	local Scale = PawnCommon.Scales[PawnUICurrentScale]
 	if Scale and Scale.ClassID and Scale.SpecID then
-		local _, LocalizedSpecName, _, IconTexturePath = GetSpecializationInfoForClassID(Scale.ClassID, Scale.SpecID)
+		local _, LocalizedSpecName, _, IconTexturePath = PawnGetSpecializationInfoForClassID(Scale.ClassID, Scale.SpecID)
 		PawnUIFrame_ScaleSelector_SpecLabel:SetText(LocalizedSpecName)
 		PawnUIFrame_ScaleSelector_SpecIcon:SetTexture(IconTexturePath)
 	else
@@ -760,12 +760,15 @@ function PawnUIFrame_StatsList_SelectStat(Index)
 			end
 		end
 		PawnUIFrame_IgnoreStatCheck:SetChecked(ThisStatIsIgnored)
-		if (not ThisScaleIsReadOnly) and (not PawnStats[Index][4]) then
+		local TypeOfStat = PawnStats[Index][4]
+		if (not ThisScaleIsReadOnly) and (TypeOfStat ~= PawnStatUnignorable) then
 			-- Shown and editable: scale is editable and stat is not unignorable
+			PawnUIFrame_IgnoreStatCheck_Label:SetText(TypeOfStat == PawnStatItemType and PawnLocal.UI.ValuesIgnoreItemType or PawnLocal.UI.ValuesIgnoreStat)
 			PawnUIFrame_IgnoreStatCheck:Show()
 			PawnUIFrame_IgnoreStatCheck:Enable()
 		elseif ThisScaleIsReadOnly and (ThisStatIsIgnored) then
 			-- Shown but not editable: scale is not editable and stat is currently ignored
+			PawnUIFrame_IgnoreStatCheck_Label:SetText(TypeOfStat == PawnStatItemType and PawnLocal.UI.ValuesIgnoreItemType or PawnLocal.UI.ValuesIgnoreStat)
 			PawnUIFrame_IgnoreStatCheck:Show()
 			PawnUIFrame_IgnoreStatCheck:Disable()
 		else
@@ -786,7 +789,7 @@ function PawnUIFrame_StatsList_SelectStat(Index)
 		else
 			PawnUIFrame_NoUpgradesCheck:Show()
 		end
-		if (not VgerCore.IsClassic) and ThisStat == "IsCloth" or ThisStat == "IsLeather" or ThisStat == "IsMail" or ThisStat == "IsPlate" then
+		if (not VgerCore.IsClassic) and (ThisStat == "IsCloth" or ThisStat == "IsLeather" or ThisStat == "IsMail" or ThisStat == "IsPlate") then
 			PawnUIFrame_FollowSpecializationCheck:Show()
 		else
 			PawnUIFrame_FollowSpecializationCheck:Hide()
@@ -1962,7 +1965,8 @@ function PawnUIAboutTabPage_OnShow()
 	if VgerCore.IsClassic then
 		-- WoW Classic doesn't use the Mr. Robot scales, so hide that logo and information.
 		PawnUIFrame_MrRobotLogo:Hide()
-		PawnUIFrame_MrRobotLabel:Hide()
+		PawnUIFrame_MrRobotLabel:SetPoint("TOPLEFT", 25, -210)
+		PawnUIFrame_MrRobotLabel:SetText("Special thanks to HawsJon for collecting the stat weights used in the starter scales.")
 	end
 end
 

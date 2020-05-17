@@ -4,7 +4,8 @@
 	local Loc = LibStub ("AceLocale-3.0"):GetLocale ( "Details" )
 	local _tempo = time()
 	local _
-	
+	local DetailsFramework = DetailsFramework
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> local pointers
 
@@ -22,6 +23,7 @@
 	local _GetTime = GetTime
 	local _select = select
 	local _UnitBuff = UnitBuff
+	local _tonumber = tonumber
 	
 	local _CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
 
@@ -97,6 +99,8 @@
 		local bitfield_swap_cache = {}
 	--> damage and heal last events
 		local last_events_cache = {} --> initialize table (placeholder)
+	--> npcId cache
+		local npcid_cache = {}
 	--> pets
 		local container_pets = {} --> initialize table (placeholder)
 	--> ignore deaths
@@ -105,6 +109,8 @@
 		local ignore_actors = {}
 	--> spell containers for special cases
 		local monk_guard_talent = {} --guard talent for bm monks
+	--> holds transitory information about reflected spells
+		local reflected = {}
 		
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> constants
@@ -178,6 +184,9 @@
 		[233499] = 233490, --warlock Unstable Affliction
 		
 		[261947] = 261977, --monk fist of the white tiger talent
+
+		[32175] = 17364, -- shaman Stormstrike (from Turkar on github)
+		[32176] = 17364, -- shaman Stormstrike
 		
 	}
 	
@@ -194,6 +203,9 @@
 	
 	--expose the override spells table to external scripts
 	_detalhes.OverridedSpellIds = override_spellId
+
+	--> list of ignored npcs by the user
+	local ignored_npcids = {}
 	
 	--> ignore soul link (damage from the warlock on his pet - current to demonology only)
 	local SPELLID_WARLOCK_SOULLINK = 108446
@@ -222,6 +234,8 @@
 		[SPELLID_SHAMAN_SLT] = true, --> Spirit Link Toten
 		[SPELLID_PALADIN_LIGHTMARTYR] = true, --> Light of the Martyr
 		[SPELLID_MONK_STAGGER] = true, --> Stagger
+		[315161] = true, --> Eye of Corruption --REMOVE ON 9.0
+		[315197] = true, --> Thing From Beyond --REMOVE ON 9.0
 	}
 	
 	--> damage spells to ignore
@@ -247,6 +261,7 @@
 		local _in_combat = false
 		local _current_encounter_id
 		local _is_storing_cleu = false
+		local _in_resting_zone = false
 		
 	--> deathlog
 		local _death_event_amt = 16
@@ -449,6 +464,25 @@
 		--if (ignore_actors [alvo_serial]) then
 		--	return
 		--end
+
+		--> this cast may have been spell reflected
+		if (who_serial == alvo_serial) then
+			local idx = who_serial
+			if (reflected[idx] and reflected[idx].serial and DetailsFramework:IsNearlyEqual(reflected[idx].time, time, 3.0)) then
+				--> the 'SPELL_MISSED' with type 'REFLECT' appeared first -> log the reflection
+				who_serial = reflected[idx].serial
+				who_name = reflected[idx].name
+				who_flags = reflected[idx].who_flags
+				reflected[idx] = nil
+				return parser:spell_dmg (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, -1, nil, nil, nil, nil, false, false, false, false)
+			else
+				--> otherwise log the amount for the 'SPELL_MISSED' event
+				reflected[idx] = {
+					amount = amount,
+					time = time
+				}
+			end
+		end
 		
 		--rules of specific encounters
 		
@@ -485,7 +519,7 @@
 				end
 			end
 			
-			if (who_serial) then
+			if (who_serial) then --which exp was this?
 				local npcid = _select (6, _strsplit ("-", who_serial))
 				if (npcid == "125828") then --soulrend add
 					who_name = "Soulrend Add"
@@ -524,7 +558,32 @@
 		if (is_using_spellId_override) then
 			spellid = override_spellId [spellid] or spellid
 		end
+
+		--Thing From Beyond 8.3 REMOVE ON 9.0
+		if(alvo_serial:match("161895%-%w+$")) then
+			alvo_flags = 0xa48
+		end
 		
+		--> npcId check for ignored npcs
+			--target
+			local npcId = npcid_cache[alvo_serial]
+			if (not npcId) then
+				npcId = _tonumber(_select (6, _strsplit ("-", alvo_serial)) or 0)
+				npcid_cache[alvo_serial] = npcId
+			end
+			if (ignored_npcids[npcId]) then
+				return
+			end
+			--source
+			npcId = npcid_cache[who_serial]
+			if (not npcId) then
+				npcId = _tonumber(_select (6, _strsplit ("-", who_serial)) or 0)
+				npcid_cache[who_serial] = npcId
+			end
+			if (ignored_npcids[npcId]) then
+				return
+			end
+
 		--> avoid doing spellID checks on each iteration
 		if (special_damage_spells [spellid]) then
 			--> stagger
@@ -539,6 +598,14 @@
 			elseif (spellid == SPELLID_PALADIN_LIGHTMARTYR) then -- or spellid == 183998 < healing part
 				return parser:LOTM_damage (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing, isoffhand)
 				
+			--Eye of Corruption 8.3 REMOVE ON 9.0
+			elseif (spellid == 315161) then
+				local enemyName = GetSpellInfo(315161)
+				who_serial, who_name, who_flags = "", enemyName, 0xa48
+				
+			--Thing From Beyond 8.3 REMOVE ON 9.0
+			elseif (spellid == 315197) then
+				who_flags = 0xa48
 			end
 		end
 		
@@ -1287,7 +1354,7 @@
 	end
 
 	-- ~miss
-	function parser:missed (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, isOffHand, amountMissed, arg1)
+	function parser:missed (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, isOffHand, amountMissed, arg1, arg2, arg3)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -1387,6 +1454,27 @@
 				
 			end
 		
+        --> It is non deterministic whether the 'SPELL_DAMAGE' or the 'SPELL_MISSED' log appears first. We handle both cases.
+		elseif (missType == "REFLECT") then
+				
+				if (reflected[who_serial] and reflected[who_serial].amount > 0 and DetailsFramework:IsNearlyEqual(reflected[who_serial].time, time, 3.0)) then
+					--> 'SPELL_DAMAGE' was logged first -> log the reflect here
+					--> We cannot rely on amountMissed which is empty in the reflection case
+					local amount = reflected[who_serial].amount
+					reflected[who_serial] = nil
+					return parser:spell_dmg (token, time, alvo_serial, alvo_name, alvo_flags, who_serial, who_name, who_flags, nil, spellid, spellname, spelltype, amount, -1, nil, nil, nil, nil, false, false, false, false)
+
+				else
+					--> otherwise write out information used in the 'SPELL_DAMAGE' event
+					reflected[who_serial] = {
+						serial = alvo_serial,
+						name = alvo_name,
+						who_flags = alvo_flags,
+						time = time,
+						amount = 0
+					}
+				end
+
 		else
 			--colocando aqui apenas pois ele confere o override dentro do damage
 			if (is_using_spellId_override) then
@@ -1575,7 +1663,7 @@
 		
 		--[[statistics]]-- _detalhes.statistics.absorbs_calls = _detalhes.statistics.absorbs_calls + 1
 		
-		if (not shieldname) then
+		if (_type(shieldname) == "boolean") then
 			owner_serial, owner_name, owner_flags, owner_flags2, shieldid, shieldname, shieldtype, amount = spellid, spellname, spellschool, owner_serial, owner_name, owner_flags, owner_flags2, shieldid
 		end
 	
@@ -1620,7 +1708,9 @@
 	
 		--> only capture heal if is in combat
 		if (not _in_combat) then
-			return
+			if (not _in_resting_zone) then
+				return
+			end
 		end
 	
 		--> check invalid serial against pets
@@ -1792,11 +1882,11 @@
 			--> pet
 			if (meu_dono) then
 				meu_dono.total = meu_dono.total + cura_efetiva --> heal do pet
-				meu_dono.targets [alvo_name] = (meu_dono.targets [alvo_name] or 0) + amount
+				meu_dono.targets [alvo_name] = (meu_dono.targets [alvo_name] or 0) + cura_efetiva
 			end
 			
 			--> target amount
-			este_jogador.targets [alvo_name] = (este_jogador.targets [alvo_name] or 0) + amount
+			este_jogador.targets [alvo_name] = (este_jogador.targets [alvo_name] or 0) + cura_efetiva
 		end
 		
 		if (meu_dono) then
@@ -1960,6 +2050,12 @@
 	--> recording debuffs applied by player
 
 		elseif (tipo == "DEBUFF") then
+
+			--Eye of Corruption 8.3 REMOVE ON 9.0
+			if (spellid == 315161) then
+				local enemyName = GetSpellInfo(315161)
+				who_serial, who_name, who_flags = "", enemyName, 0xa48
+			end
 			
 			if (_in_combat) then
 			
@@ -2207,6 +2303,13 @@
 
 		elseif (tipo == "DEBUFF") then
 		--print ("debuff - ", token, spellname)
+
+			--Eye of Corruption 8.3 REMOVE ON 9.0
+			if (spellid == 315161) then
+				local enemyName = GetSpellInfo(315161)
+				who_serial, who_name, who_flags = "", enemyName, 0xa48
+			end
+
 			if (_in_combat) then
 			------------------------------------------------------------------------------------------------
 			--> buff uptime
@@ -2338,6 +2441,12 @@
 	--> recording debuffs applied by player
 		elseif (tipo == "DEBUFF") then
 		
+			--Eye of Corruption 8.3 REMOVE ON 9.0
+			if (spellid == 315161) then
+				local enemyName = GetSpellInfo(315161)
+				who_serial, who_name, who_flags = "", enemyName, 0xa48
+			end
+
 			if (_in_combat) then
 			------------------------------------------------------------------------------------------------
 			--> buff uptime
@@ -4080,6 +4189,8 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		_detalhes.zone_type = zoneType
 		_detalhes.zone_id = zoneMapID
 		_detalhes.zone_name = zoneName
+
+		_in_resting_zone = IsResting()
 		
 		parser:WipeSourceCache()
 		
@@ -5093,8 +5204,10 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		_table_wipe (misc_cache)
 		_table_wipe (misc_cache_pets)
 		_table_wipe (misc_cache_petsOwners)
+		_table_wipe (npcid_cache)
 		
 		_table_wipe (ignore_death)
+		_table_wipe (reflected)
 	
 		damage_cache = setmetatable ({}, _detalhes.weaktable)
 		damage_cache_pets = setmetatable ({}, _detalhes.weaktable)
@@ -5258,7 +5371,10 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		--_recording_took_damage = _detalhes.RecordRealTimeTookDamage
 		_recording_ability_with_buffs = _detalhes.RecordPlayerAbilityWithBuffs
 		_in_combat = _detalhes.in_combat
-		
+
+		--> grab the ignored npcid directly from the user profile
+		ignored_npcids = _detalhes.npcid_ignored
+
 		if (_in_combat) then
 			if (not _auto_regen_thread or _auto_regen_thread._cancelled) then
 				_auto_regen_thread = C_Timer.NewTicker (AUTO_REGEN_PRECISION / 10, regen_power_overflow_check)

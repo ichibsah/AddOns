@@ -253,6 +253,8 @@ function GSE.GetActiveSequenceVersion(sequenceName)
     vers = GSELibrary[classid][sequenceName].Timewalking
   elseif not GSE.isEmpty(GSELibrary[classid][sequenceName].MythicPlus) and GSE.inMythicPlus then
     vers = GSELibrary[classid][sequenceName].MythicPlus
+  elseif not GSE.isEmpty(GSELibrary[classid][sequenceName].Scenario) and GSE.inScenario then
+    vers = GSELibrary[classid][sequenceName].Scenario
   end
   return vers
 end
@@ -267,9 +269,9 @@ function GSE.CreateMacroIcon(sequenceName, icon, forceglobalstub)
     GSE.PrintDebugMessage("Moving on - macro for " .. sequenceName .. " already exists.", GNOME)
   else
     -- Create Sequence as a player sequence
-    if numCharacterMacros >= MAX_CHARACTER_MACROS - 1 and not GSEOptions.overflowPersonalMacros and not forceglobalstub then
+    if numCharacterMacros >= MAX_CHARACTER_MACROS and not GSEOptions.overflowPersonalMacros and not forceglobalstub then
       GSE.Print(GSEOptions.AuthorColour .. L["Close to Maximum Personal Macros.|r  You can have a maximum of "].. MAX_CHARACTER_MACROS .. L[" macros per character.  You currently have "] .. GSEOptions.EmphasisColour .. numCharacterMacros .. L["|r.  As a result this macro was not created.  Please delete some macros and reenter "] .. GSEOptions.CommandColour .. L["/gs|r again."], GNOME)
-    elseif numAccountMacros >= MAX_ACCOUNT_MACROS - 1 and GSEOptions.overflowPersonalMacros then
+    elseif numAccountMacros >= MAX_ACCOUNT_MACROS and GSEOptions.overflowPersonalMacros then
       GSE.Print(L["Close to Maximum Macros.|r  You can have a maximum of "].. MAX_CHARACTER_MACROS .. L[" macros per character.  You currently have "] .. GSEOptions.EmphasisColour .. numCharacterMacros .. L["|r.  You can also have a  maximum of "] .. MAX_ACCOUNT_MACROS .. L[" macros per Account.  You currently have "] .. GSEOptions.EmphasisColour .. numAccountMacros .. L["|r. As a result this macro was not created.  Please delete some macros and reenter "] .. GSEOptions.CommandColour .. L["/gs|r again."], GNOME)
     else
       sequenceid = CreateMacro(sequenceName, (GSEOptions.setDefaultIconQuestionMark and "INV_MISC_QUESTIONMARK" or icon), GSE.CreateMacroString(sequenceName), (forceglobalstub and false or GSE.SetMacroLocation()) )
@@ -613,6 +615,12 @@ function GSE.ResetButtons()
     local gsebutton = _G[k]
     if gsebutton:GetAttribute("combatreset") == true then
       gsebutton:SetAttribute("step",1)
+      gsebutton:SetAttribute("clicks",1)
+      if GSEOptions.useExternalMSTimings then
+        gsebutton:SetAttribute("ms", GSEOptions.msClickRate)
+      else
+        gsebutton:SetAttribute("ms", 1)
+      end
       GSE.UpdateIcon(gsebutton, true)
       GSE.UsedSequences[k] = nil
     end
@@ -680,6 +688,12 @@ function GSE.OOCUpdateSequence(name,sequence)
 
     gsebutton:Execute('name, macros = self:GetName(), newtable([=======[' .. strjoin(']=======],[=======[', unpack(executionseq)) .. ']=======])')
     gsebutton:SetAttribute("step",1)
+    gsebutton:SetAttribute("clicks",1)
+    if GSEOptions.useExternalMSTimings then
+      gsebutton:SetAttribute("ms", GSEOptions.msClickRate)
+    else
+      gsebutton:SetAttribute("ms", 100)
+    end
     gsebutton:SetAttribute('KeyPress',table.concat(GSE.PrepareKeyPress(tempseq), "\n") or '' .. '\n')
     GSE.PrintDebugMessage("GSUpdateSequence KeyPress updated to: " .. gsebutton:GetAttribute('KeyPress'))
     gsebutton:SetAttribute('KeyRelease',table.concat(GSE.PrepareKeyRelease(tempseq), "\n") or '' .. '\n')
@@ -697,6 +711,7 @@ function GSE.OOCUpdateSequence(name,sequence)
     if not GSE.isEmpty(sequence.LoopLimit) then
       gsebutton:SetAttribute('looplimit', sequence.LoopLimit)
     end
+    GSE.UpdateIcon(gsebutton, true)
   else
     GSE.Print(string.format(L["There is an issue with sequence %s.  It has not been loaded to prevent the mod from failing."], name))
   end
@@ -738,10 +753,19 @@ function GSE.DebugDumpButton(SequenceName)
   GSE.Print("Button name: "  .. SequenceName)
   GSE.Print("KeyPress" .. _G[SequenceName]:GetAttribute('KeyPress'))
   GSE.Print("KeyRelease" .. _G[SequenceName]:GetAttribute('KeyRelease'))
+  GSE.Print("Clicks" .. _G[SequenceName]:GetAttribute('clicks'))
+  GSE.Print("ms" .. _G[SequenceName]:GetAttribute('ms'))
   GSE.Print("LoopMacro?" .. tostring(looper))
   GSE.Print("====================================\nStepFunction\n====================================")
   GSE.Print(GSE.PrepareOnClickImplementation(GSELibrary[GSE.GetCurrentClassID()][SequenceName].MacroVersions[GSE.GetActiveSequenceVersion(SequenceName)]))
   GSE.Print("====================================\nEnd GSE Button Dump\n====================================")
+end
+
+function GSE.enforceMinimumVersion(sequence, line)
+  if string.sub(line, 1, 12) == "/click pause" then
+    sequence.EnforceCompatability = true
+    sequence.GSEVersion = "2.5.0"
+  end
 end
 
 
@@ -1363,7 +1387,7 @@ end
 function GSE.ExportSequenceWLMFormat(sequence, sequencename)
     local returnstring = "<br/><strong>".. sequencename .."</strong>\n<em>Talents</em> " .. (GSE.isEmpty(sequence.Talents) and "?,?,?,?,?,?,?" or sequence.Talents) .. "<br/><br/>"
     if not GSE.isEmpty(sequence.Help) then
-      returnstring = "<em>Usage Information</em>\n" .. sequence.Help .. "<br/><br/>"
+      returnstring = "\n\n<em>Usage Information</em>\n" .. sequence.Help .. "<br/><br/>"
     end
     returnstring = returnstring .. "This macro contains " .. (table.getn(sequence.MacroVersions) > 1 and table.getn(sequence.MacroVersions) .. "macro versions. " or "1 macro version. ") .. string.format(L["This Sequence was exported from GSE %s."], GSE.VersionString) .. "\n\n"
     if (table.getn(sequence.MacroVersions) > 1) then

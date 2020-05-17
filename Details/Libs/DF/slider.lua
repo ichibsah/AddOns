@@ -22,7 +22,10 @@ do
 	local metaPrototype = {
 		WidgetType = "slider",
 		SetHook = DF.SetHook,
+		HasHook = DF.HasHook,
+		ClearHooks = DF.ClearHooks,
 		RunHooksForWidget = DF.RunHooksForWidget,
+
 	}
 
 	_G [DF.GlobalWidgetControlNames ["slider"]] = _G [DF.GlobalWidgetControlNames ["slider"]] or metaPrototype
@@ -286,6 +289,17 @@ local DFSliderMetaFunctions = _G [DF.GlobalWidgetControlNames ["slider"]]
 		end
 	end
 	
+-- clear focus
+	function DFSliderMetaFunctions:ClearFocus()
+		local editbox = DFSliderMetaFunctions.editbox_typevalue
+		if editbox and self.typing_value then
+			editbox:ClearFocus()
+			editbox:Hide()
+			editbox:GetParent().MyObject.typing_value = false
+			editbox:GetParent().MyObject.value = self.typing_value_started
+		end
+	end
+	
 -- enabled
 	function DFSliderMetaFunctions:IsEnabled()
 		return not _rawget (self, "lockdown")
@@ -312,6 +326,7 @@ local DFSliderMetaFunctions = _G [DF.GlobalWidgetControlNames ["slider"]]
 	
 	function DFSliderMetaFunctions:Disable()
 	
+		self:ClearFocus()
 		self.slider:Disable()
 		self.slider.amt:Hide()
 		self:SetAlpha (.4)
@@ -1165,6 +1180,8 @@ function DF:NewSlider (parent, container, name, member, w, h, min, max, step, de
 	SliderObject.thumb = SliderObject.slider:CreateTexture (nil, "artwork")
 	SliderObject.thumb:SetTexture ("Interface\\Buttons\\UI-ScrollBar-Knob")
 	SliderObject.thumb:SetSize (30+(h*0.2), h*1.2)
+	SliderObject.thumb.originalWidth = SliderObject.thumb:GetWidth()
+	SliderObject.thumb.originalHeight =SliderObject.thumb:GetHeight()
 	SliderObject.thumb:SetAlpha (0.7)
 	SliderObject.slider:SetThumbTexture (SliderObject.thumb)
 	SliderObject.slider.thumb = SliderObject.thumb

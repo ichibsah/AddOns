@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Elephant", "frFR")
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("Elephant", "frFR")
 if not L then return end
 
 --[[ Common messages ]]

@@ -441,6 +441,9 @@ qcLocalize = {
 	PLAYERVSPLAYER = "Player Vs Player",
 	HERITAGE = "Heritage",
 	RATEDPVP = "Rated Pvp",
+	HIDEWORLDQUEST = "Hide Daily and World Quests",
+	HIDECOMPLETEDQUESTS = "Hide Completed Quests",
+	WORLDQUEST = "World Quests",
 }
 
 end

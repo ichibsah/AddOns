@@ -1,6 +1,10 @@
 # GSE2: Gnome Sequencer Enhanced
 
-## [2.4.25](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/tree/2.4.25) (2019-12-22)
-[Full Changelog](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/compare/2.4.24...2.4.25)
+## [2.5.5](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/tree/2.5.5) (2020-03-11)
+[Full Changelog](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/compare/2.5.4...2.5.5)
 
-- #604 Feral Fix.  Not sure if otehr spells have this issue.  If they do will refactor this.  
+- #638 Allow GSE to use all 18 character macro slots.  
+- Merge pull request #635 from lcestou/patch-41  
+    Adding new padding lines to separate from string  
+- Adding new padding lines to separate from string  
+    When exporting and paste in the forums, the "Usage Information" line it almost looks like part of the string.  

@@ -1,6 +1,6 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Spy", "ptBR")
 if not L then return end
-
+-- TOC Note: Detecta e alerta você da presença de jogadores inimigos.
 
 -- Configuration
 L["Spy"] = "Spy"
@@ -62,8 +62,16 @@ L["The Salty Sailor Tavern"] = "Taberna do Lobo do Mar"
 L["Shattrath City"] = "Shattrath"
 L["Area 52"] = "Área 52"
 L["Dalaran"] = "Dalaran"
+L["Dalaran (Northrend)"] = "Dalaran (Nortúndria)"
 L["Bogpaddle"] = "Brejo do Goblin"
 L["The Vindicaar"] = "A Vindicaar"
+L["Krasus' Landing"] = "Plataforma de Krasus"
+L["The Violet Gate"] = "Portão Violeta"
+L["Magni's Encampment"] = "Acampamento de Magni"
+L["Silithus"] = "Silithus"
+L["Chamber of Heart"] = "Câmara do Coração"
+L["Hall of Ancient Paths"] = "Salão dos Antigos Caminhos"
+L["Sanctum of the Sages"] = "Sacrário dos Sábios"
 
 -- Display
 L["DisplayOptions"] = "Exibição"
@@ -251,6 +259,8 @@ L["KOSDescription"] = "Adicionar/remover jogadores na Lista Negra."
 L["InvalidInput"] = "Entrada Inválida"
 L["Ignore"] = "Ignore"
 L["IgnoreDescription"] = "Adicionar/remover um jogador de/para a lista de ignorados."
+L["Test"] = "Test"
+L["TestDescription"] = "Exibe um aviso para que você possa reposicioná-lo."
 
 -- Lists
 L["Nearby"] = "Proximidades"
@@ -259,6 +269,8 @@ L["Ignore"] = "Ignorados"
 L["KillOnSight"] = "Lista Negra"
 
 --Stats
+L["Won"] = "Ganhou"
+L["Lost"] = "Perdeu"
 L["Time"] = "Tempo"	
 L["List"] = "Lista"	
 L["Filter"] = "Filtro"

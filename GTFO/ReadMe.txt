@@ -1468,3 +1468,39 @@ Change Log:
 * Merged Classic and Retail versions since Twitch Client will sometimes wrongfully install the wrong addon
 * Added Battle for Azeroth spells (world)
 
+4.52
+* Updated for patch 8.3, WoW Classic 1.13.3
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Mechagon
+
+4.52.1
+* Added Battle for Azeroth spells (world)
+
+4.52.2
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Ny'alotha, the Waking City
+
+4.53
+* Fixed a bug with "ignoreApplication" not respecting multiple dose and refresh events
+* Added Battle for Azeroth spells (world)
+* Added BFA spells for Ny'alotha, the Waking City
+* Updated spells for Love is in the Air
+
+4.54
+* Added support to ignore application alerts based on trivial level
+* Added Vanilla spells for Blackfathom Deep
+* Added WoD spells for Blackrock Foundry
+* Updated WoD spells for Highmaul (trival alert classifications)
+* Updated WoD spells for Blackrock Foundry (trival alert classifications)
+* Updated WoD spells for Hellfire Citadel (trival alert classifications)
+
+4.55
+* Added split update notifications between Classic & Retail
+* Added Battle for Azeroth spells (world)
+
+4.55.1
+* Added BFA spells for Ny'alotha, the Waking City
+* Added BFA spells for Operation: Mechagon
+
+4.55.2
+* Trying to fix Twitch/Curse from perpetually marking this out-of-date

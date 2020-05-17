@@ -1,10 +1,10 @@
-lightweight tag 23617518174f2c5c918a5507f33f02ce17049008 1.16
+lightweight tag 30188af011e1f8b2b1aa5fa8f1b68b615afd8f88 1.17
 Author:	Unknown <40722602+ahakola@users.noreply.github.com>
-Date:	Thu Jun 27 16:33:57 2019 +0300
+Date:	Thu Jan 16 22:43:09 2020 +0200
 
-commit 23617518174f2c5c918a5507f33f02ce17049008
+commit 30188af011e1f8b2b1aa5fa8f1b68b615afd8f88
 Author: Unknown <40722602+ahakola@users.noreply.github.com>
-Date:   Thu Jun 27 16:33:57 2019 +0300
+Date:   Thu Jan 16 22:43:09 2020 +0200
 
-    TOC-update for 8.2
+    TOC bump for 8.3
 

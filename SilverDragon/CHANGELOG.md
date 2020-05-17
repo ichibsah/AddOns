@@ -1,5 +1,20 @@
 # Changelog
 
+## Changed in v80300.1
+
+* Made it so the 8.3 assault rares only appear while their assault is happening
+* ...also, the assault rares for the older faction assaults
+* Added many questids for new rares
+* Remove ability to automatically announce rares to chat, as Blizzard protected this functionality in 8.2.5 and it was just causing errors
+
+## Changed in v80300.0
+
+* Updated for 8.3
+* Added new rares for Uldum and Vale of Eternal Blossoms (missing many questids)
+* Added Honey Smasher to Stormsong Valley
+* Fixed the creation of the macro
+* Changed to a new version number scheme that makes more sense now Classic is a thing
+
 ## Changed in v4.0.17
 * Added questids for most Mechagon and Nazjatar rares
 * Added some missing Nazjatar rares

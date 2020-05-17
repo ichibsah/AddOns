@@ -15,6 +15,12 @@ WeakAuras.glow_action_types = {
   hide = L["Hide"]
 }
 
+WeakAuras.glow_frame_types = {
+  UNITFRAME = L["Unit Frame"],
+  NAMEPLATE = L["Nameplate"],
+  FRAMESELECTOR = L["Frame Selector"]
+}
+
 WeakAuras.circular_group_constant_factor_types = {
   RADIUS = L["Radius"],
   SPACING = L["Spacing"]
@@ -137,7 +143,9 @@ WeakAuras.unit_types_bufftrigger_2 = {
   player = L["Player"],
   target = L["Target"],
   focus = L["Focus"],
-  group = L["Group"],
+  group = L["Smart Group"],
+  raid = L["Raid"],
+  party = L["Party"],
   boss = L["Boss"],
   arena = L["Arena"],
   nameplate = L["Nameplate"],
@@ -158,7 +166,9 @@ WeakAuras.actual_unit_types_cast = {
   player = L["Player"],
   target = L["Target"],
   focus = L["Focus"],
-  group = L["Group"],
+  group = L["Smart Group"],
+  party = L["Party"],
+  raid = L["Raid"],
   boss = L["Boss"],
   arena = L["Arena"],
   nameplate = L["Nameplate"],
@@ -178,6 +188,13 @@ WeakAuras.threat_unit_types = {
   focus = L["Focus"],
   member = L["Specific Unit"],
   none = L["At Least One Enemy"]
+}
+
+WeakAuras.unit_types_range_check = {
+  target = L["Target"],
+  focus = L["Focus"],
+  pet = L["Pet"],
+  member = L["Specific Unit"]
 }
 
 WeakAuras.unit_threat_situation_types = {
@@ -217,8 +234,7 @@ do
     [20] = true,
     [21] = true,
     [23] = true,
-    [33] = true,
-    [35] = true
+    [33] = true
   }
   local raceID = 1
   local raceInfo = C_CreatureInfo.GetRaceInfo(raceID)
@@ -307,6 +323,13 @@ WeakAuras.default_types_for_anchor["ALL"] = {
   type = "area"
 }
 
+WeakAuras.aurabar_anchor_areas = {
+  icon = L["Icon"],
+  fg = L["Foreground"],
+  bg = L["Background"],
+  bar = L["Bar"],
+}
+
 WeakAuras.inverse_point_types = {
   BOTTOMLEFT = "TOPRIGHT",
   BOTTOM = "TOP",
@@ -324,16 +347,16 @@ WeakAuras.anchor_frame_types = {
   PRD = L["Personal Resource Display"],
   MOUSE = L["Mouse Cursor"],
   SELECTFRAME = L["Select Frame"],
+  NAMEPLATE = WeakAuras.newFeatureString..L["Nameplates"],
+  UNITFRAME = WeakAuras.newFeatureString..L["Unit Frames"],
   CUSTOM = WeakAuras.newFeatureString..L["Custom"]
 }
 
-WeakAuras.anchor_frame_types_dynamicgroup = {
+WeakAuras.anchor_frame_types_group = {
   SCREEN = L["Screen/Parent Group"],
   PRD = L["Personal Resource Display"],
   MOUSE = L["Mouse Cursor"],
   SELECTFRAME = L["Select Frame"],
-  NAMEPLATE = WeakAuras.newFeatureString..L["Nameplates"],
-  UNITFRAME = WeakAuras.newFeatureString..L["Unit Frames"],
   CUSTOM = WeakAuras.newFeatureString..L["Custom"]
 }
 
@@ -504,6 +527,20 @@ WeakAuras.environmental_types = {
 WeakAuras.combatlog_flags_check_type = {
   InGroup = L["In Group"],
   NotInGroup = L["Not in Group"]
+}
+
+WeakAuras.combatlog_flags_check_reaction = {
+  Hostile = L["Hostile"],
+  Neutral = L["Neutral"],
+  Friendly = L["Friendly"]
+}
+
+WeakAuras.combatlog_flags_check_object_type = {
+  Object = L["Object"],
+  Guardian = L["Guardian"],
+  Pet = L["Pet"],
+  NPC = L["NPC"],
+  Player = L["Player"]
 }
 
 WeakAuras.combatlog_raid_mark_check_type = {
@@ -929,6 +966,7 @@ WeakAuras.texture_types = {
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Square_White_Border"] = "Square with Border",
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Square_FullWhite"] = "Full White Square",
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Triangle45"] = "45° Triangle",
+    ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Trapezoid"] = "Trapezoid",
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\triangle-border.tga"] = "Triangle with Border",
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\triangle.tga"] = "Triangle",
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Circle_Smooth2.tga"] = "Smoohth Circle Small",
@@ -947,6 +985,16 @@ WeakAuras.texture_types = {
     ["Legionfall_BarSpark"]= "Blizzard Legionfall Spark",
     ["honorsystem-bar-spark"] = "Blizzard Honor System Spark",
     ["bonusobjectives-bar-spark"] = "Bonus Objectives Spark"
+  },
+  [BINDING_HEADER_RAID_TARGET] = {
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_1"] = RAID_TARGET_1,
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_2"] = RAID_TARGET_2,
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_3"] = RAID_TARGET_3,
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_4"] = RAID_TARGET_4,
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_5"] = RAID_TARGET_5,
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_6"] = RAID_TARGET_6,
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_7"] = RAID_TARGET_7,
+    ["Interface\\TargetingFrame\\UI-RaidTargetingIcon_8"] = RAID_TARGET_8,
   }
 }
 local BuildInfo = select(4, GetBuildInfo())
@@ -1271,6 +1319,29 @@ WeakAuras.anim_types = {
   custom = L["Custom"]
 }
 
+WeakAuras.anim_ease_types = {
+  none = L["None"],
+  easeIn = L["Ease In"],
+  easeOut = L["Ease Out"],
+  easeOutIn = L["Ease In and Out"]
+}
+
+WeakAuras.anim_ease_functions = {
+  none = function(percent) return percent end,
+  easeIn = function(percent, power)
+    return percent ^ power;
+  end,
+  easeOut = function(percent, power)
+    return 1.0 - (1.0 - percent) ^ power;
+  end,
+  easeOutIn = function(percent, power)
+    if percent < .5 then
+        return (percent * 2.0) ^ power * .5;
+    end
+    return 1.0 - ((1.0 - percent) * 2.0) ^ power * .5;
+  end
+}
+
 WeakAuras.anim_translate_types = {
   straightTranslate = L["Normal"],
   circle = L["Circle"],
@@ -1347,6 +1418,16 @@ WeakAuras.role_types = {
   HEALER = INLINE_HEALER_ICON.." "..HEALER
 }
 
+WeakAuras.classification_types = {
+  worldboss = L["World Boss"],
+  rareelite = L["Rare Elite"],
+  elite = L["Elite"],
+  rare = L["Rare"],
+  normal = L["Normal"],
+  trivial = L["Trivial (Low Level)"],
+  minus = L["Minus (Small Nameplate)"]
+}
+
 WeakAuras.anim_start_preset_types = {
   slidetop = L["Slide from Top"],
   slideleft = L["Slide from Left"],
@@ -1356,7 +1437,8 @@ WeakAuras.anim_start_preset_types = {
   shrink = L["Grow"],
   grow = L["Shrink"],
   spiral = L["Spiral"],
-  bounceDecay = L["Bounce"]
+  bounceDecay = L["Bounce"],
+  starShakeDecay = L["Star Shake"],
 }
 
 WeakAuras.anim_main_preset_types = {
@@ -1382,7 +1464,8 @@ WeakAuras.anim_finish_preset_types = {
   shrink = L["Shrink"],
   grow =L["Grow"],
   spiral = L["Spiral"],
-  bounceDecay = L["Bounce"]
+  bounceDecay = L["Bounce"],
+  starShakeDecay = L["Star Shake"],
 };
 
 WeakAuras.chat_message_types = {
@@ -1589,6 +1672,11 @@ WeakAuras.pet_behavior_types = {
   assist = PET_MODE_ASSIST
 }
 
+if WeakAuras.IsClassic() then
+  WeakAuras.pet_behavior_types.aggressive = PET_MODE_AGGRESSIVE
+  WeakAuras.pet_behavior_types.assist = nil
+end
+
 if not WeakAuras.IsClassic() then
   WeakAuras.pet_spec_types = {
     [1] = select(2, GetSpecializationInfoByID(74)), -- Ferocity
@@ -1630,25 +1718,10 @@ WeakAuras.bufftrigger_2_preferred_match_types =
   showHighest = L["Most remaining time"]
 }
 
-WeakAuras.bufftrigger_2_combine_types = {
-  showLowest = L["Show lowest time left"],
-  showHighest = L["Show longest time left"],
-  showClones = L["Show all Matches"]
-}
-
 WeakAuras.bufftrigger_2_per_unit_mode = {
   affected = L["Affected"],
   unaffected = L["Unaffected"],
   all = L["All"]
-}
-
-WeakAuras.bufftrigger_2_combine_group_types = {
-  showLowest = L["Show lowest time left over all units"],
-  showHighest = L["Show longest time left over all units"],
-  showClones = L["Show all Matches from all Units"],
-  showLowestPerUnit = L["Show lowest time left per unit"],
-  showHighestPerUnit = L["Show longest time left per unit"],
-  showCombineAll = L["Combine all matches"],
 }
 
 WeakAuras.item_slot_types = {
@@ -1666,6 +1739,8 @@ WeakAuras.item_slot_types = {
   [13] = TRINKET0SLOT_UNIQUE,
   [14] = TRINKET1SLOT_UNIQUE,
   [15] = BACKSLOT,
+  [16] = MAINHANDSLOT,
+  [17] = SECONDARYHANDSLOT,
   [19] = TABARDSLOT
 }
 
@@ -1695,27 +1770,19 @@ WeakAuras.absorb_modes = {
   OVERLAY_FROM_END = L["Attach to End"]
 }
 
-WeakAuras.mythic_plus_affixes = {
-  [2] = true,
-  [3] = true,
-  [4] = true,
-  [5] = true,
-  [6] = true,
-  [7] = true,
-  [8] = true,
-  [9] = true,
-  [10] = true,
-  [11] = true,
-  [12] = true,
-  [13] = true,
-  [14] = true,
-  [16] = true,
-  [117] = true -- Reaping
+WeakAuras.mythic_plus_affixes = {}
+
+local mythic_plus_blacklist = {
+  [1] = true,
+  [15] = true
 }
 
 if not WeakAuras.IsClassic() then
-  for k in pairs(WeakAuras.mythic_plus_affixes) do
-    WeakAuras.mythic_plus_affixes[k] = C_ChallengeMode.GetAffixInfo(k);
+  for i = 1, 255 do
+    local r = not mythic_plus_blacklist[i] and C_ChallengeMode.GetAffixInfo(i)
+    if r then
+      WeakAuras.mythic_plus_affixes[i] = r
+    end
   end
 end
 
@@ -1833,15 +1900,24 @@ WeakAuras.update_categories = {
   },
 }
 
+-- fields that are handled as special cases when importing
+-- mismatch of internal fields is not counted as a difference
 WeakAuras.internal_fields = {
   uid = true,
-  controlledChildren = true,
-  parent = true,
   internalVersion = true,
   sortHybridTable = true,
+}
+
+-- fields that are not included in exported data
+-- these represent information which is only meaningful inside the db,
+-- or are represented in other ways in exported
+WeakAuras.non_transmissable_fields = {
+  controlledChildren = true,
+  parent = true,
   authorMode = true,
   skipWagoUpdate = true,
-  ignoreWagoUpdate = true
+  ignoreWagoUpdate = true,
+  preferToUpdate = true,
 }
 
 WeakAuras.data_stub = {
@@ -1882,14 +1958,20 @@ WeakAuras.data_stub = {
     start = {
       type = "none",
       duration_type = "seconds",
+      easeType = "none",
+      easeStrength = 3,
     },
     main = {
       type = "none",
       duration_type = "seconds",
+      easeType = "none",
+      easeStrength = 3,
     },
     finish = {
       type = "none",
       duration_type = "seconds",
+      easeType = "none",
+      easeStrength = 3,
     },
   },
   conditions = {},
@@ -1978,6 +2060,7 @@ WeakAuras.author_option_fields = {
   header = {
     useName = false,
     text = "",
+    noMerge = false
   },
   group = {
     groupType = "simple",
@@ -1985,8 +2068,24 @@ WeakAuras.author_option_fields = {
     collapse = false,
     limitType = "none",
     size = 10,
+    nameSource = 0,
+    hideReorder = true,
+    entryNames = nil, -- handled as a special case in code
     subOptions = {},
   }
+}
+
+WeakAuras.array_entry_name_types = {
+  [-1] = L["Fixed Names"],
+  [0] = L["Entry Order"],
+  -- the rest is auto-populated with indices which are valid entry name sources
+}
+
+WeakAuras.name_source_option_types = {
+  -- option types which can be used to generate entry names on arrays
+  input = true,
+  number = true,
+  range = true,
 }
 
 WeakAuras.group_limit_types = {
@@ -2045,7 +2144,7 @@ WeakAuras.difficulty_info = {
     size = "scenario",
     difficulty = "normal",
   },
-  nil, -- 13 is unused
+  -- 13 is unused
   [14] = {
     size = "flexible",
     difficulty = "normal",
@@ -2073,6 +2172,10 @@ WeakAuras.difficulty_info = {
   [33] = {
     size = "flexible",
     difficulty = "timewalking",
+  },
+  [148] = {
+    size = "twenty",
+    difficulty = "normal",
   },
 }
 
@@ -2102,17 +2205,35 @@ WeakAuras.multiUnitId = {
   ["boss"] = true,
   ["arena"] = true,
   ["group"] = true,
+  ["party"] = true,
+  ["raid"] = true,
 }
+
+WeakAuras.multiUnitUnits = {
+  ["nameplate"] = {},
+  ["boss"] = {},
+  ["arena"] = {},
+  ["group"] = {},
+  ["party"] = {},
+  ["raid"] = {}
+}
+
+WeakAuras.multiUnitUnits.group["player"] = true
+WeakAuras.multiUnitUnits.party["player"] = true
 
 for i = 1, 4 do
   WeakAuras.baseUnitId["party"..i] = true
   WeakAuras.baseUnitId["partypet"..i] = true
+  WeakAuras.multiUnitUnits.group["party"..i] = true
+  WeakAuras.multiUnitUnits.party["party"..i] = true
 end
 
 if not WeakAuras.IsClassic() then
   for i = 1, 5 do
     WeakAuras.baseUnitId["arena"..i] = true
     WeakAuras.baseUnitId["boss"..i] = true
+    WeakAuras.multiUnitUnits.arena["arena"..i] = true
+    WeakAuras.multiUnitUnits.boss["boss"..i] = true
   end
 end
 
@@ -2120,6 +2241,9 @@ for i = 1, 40 do
   WeakAuras.baseUnitId["raid"..i] = true
   WeakAuras.baseUnitId["raidpet"..i] = true
   WeakAuras.baseUnitId["nameplate"..i] = true
+  WeakAuras.multiUnitUnits.nameplate["nameplate"..i] = true
+  WeakAuras.multiUnitUnits.group["raid"..i] = true
+  WeakAuras.multiUnitUnits.raid["raid"..i] = true
 end
 
 WeakAuras.dbm_types = {
@@ -2166,14 +2290,19 @@ WeakAuras.reset_ranged_swing_spells = {
 if WeakAuras.IsClassic() then
   WeakAuras.baseUnitId.focus = nil
   WeakAuras.baseUnitId.vehicle = nil
+  WeakAuras.multiUnitId.boss = nil
+  WeakAuras.multiUnitUnits.boss = nil
   WeakAuras.unit_types.focus = nil
   WeakAuras.unit_types_bufftrigger_2.focus = nil
+  WeakAuras.unit_types_bufftrigger_2.boss = nil
+  WeakAuras.unit_types_bufftrigger_2.arena = nil
   WeakAuras.actual_unit_types_with_specific.focus = nil
+  WeakAuras.actual_unit_types_cast.boss = nil
+  WeakAuras.actual_unit_types_cast.arena = nil
   WeakAuras.actual_unit_types_cast.focus = nil
   WeakAuras.actual_unit_types.focus = nil
+  WeakAuras.unit_types_range_check.focus = nil
   WeakAuras.item_slot_types[0] = AMMOSLOT
-  WeakAuras.item_slot_types[16] = MAINHANDSLOT
-  WeakAuras.item_slot_types[17] = SECONDARYHANDSLOT
   WeakAuras.item_slot_types[18] = RANGEDSLOT
 
   local reset_swing_spell_list = {

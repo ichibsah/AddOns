@@ -49,6 +49,8 @@ local L = WeakAuras.L
 	--[[Translation missing --]]
 	L["Basic Show On Cooldown"] = "Basic Show On Cooldown"
 	--[[Translation missing --]]
+	L["Basic Show On Ready"] = "Basic Show On Ready"
+	--[[Translation missing --]]
 	L["Bloodlust/Heroism"] = "Bloodlust/Heroism"
 	--[[Translation missing --]]
 	L["buff"] = "buff"
@@ -76,8 +78,6 @@ local L = WeakAuras.L
 	L["debuff"] = "debuff"
 	--[[Translation missing --]]
 	L["Debuffs"] = "Debuffs"
-	--[[Translation missing --]]
-	L["debuiff"] = "debuiff"
 	L["Enchants"] = "Encantamentos"
 	L["General"] = "Geral"
 	--[[Translation missing --]]
@@ -118,6 +118,8 @@ local L = WeakAuras.L
 	L["Only shows the aura if the target has the buff."] = "Only shows the aura if the target has the buff."
 	--[[Translation missing --]]
 	L["Only shows the aura when the ability is on cooldown."] = "Only shows the aura when the ability is on cooldown."
+	--[[Translation missing --]]
+	L["Only shows the aura when the ability is ready to use."] = "Only shows the aura when the ability is ready to use."
 	--[[Translation missing --]]
 	L["Pet alive"] = "Pet alive"
 	--[[Translation missing --]]
@@ -182,6 +184,8 @@ local L = WeakAuras.L
 	L["Show Cooldown and Proc Tracking"] = "Show Cooldown and Proc Tracking"
 	--[[Translation missing --]]
 	L["Show Cooldown and Totem Information"] = "Show Cooldown and Totem Information"
+	--[[Translation missing --]]
+	L["Show on Ready"] = "Show on Ready"
 	--[[Translation missing --]]
 	L["Show Only if Buffed"] = "Show Only if Buffed"
 	--[[Translation missing --]]

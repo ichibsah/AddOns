@@ -2,6 +2,10 @@ if not WeakAuras.IsCorrectVersion() then return end
 
 local L = WeakAuras.L;
 local GetAtlasInfo = WeakAuras.IsClassic() and GetAtlasInfo or C_Texture.GetAtlasInfo
+
+local defaultFont = WeakAuras.defaultFont
+local defaultFontSize = WeakAuras.defaultFontSize
+
 -- Credit to CommanderSirow for taking the time to properly craft the TransformPoint function
 -- to the enhance the abilities of Progress Textures.
 -- Also Credit to Semlar for explaining how circular progress can be shown
@@ -45,8 +49,8 @@ local default = {
   anchorFrameType = "SCREEN",
   xOffset = 0,
   yOffset = 0,
-  font = "Friz Quadrata TT",
-  fontSize = 12,
+  font = defaultFont,
+  fontSize = defaultFontSize,
   mirror = false,
   frameStrata = 1,
   slantMode = "INSIDE"
@@ -1016,9 +1020,9 @@ local function create(parent)
 end
 
 local function TimerTick(self)
-  local adjustMin = self.adjustedMin or 0;
+  local adjustMin = self.adjustedMin or self.adjustedMinRel or 0;
   local duration = self.state.duration
-  self:SetTime( (duration ~= 0 and self.adjustedMax or duration) - adjustMin, self.state.expirationTime - adjustMin, self.state.inverse);
+  self:SetTime( (duration ~= 0 and (self.adjustedMax or self.adjustedMaxRel) or duration) - adjustMin, self.state.expirationTime - adjustMin, self.state.inverse);
 end
 
 local function modify(parent, region, data)
@@ -1267,12 +1271,27 @@ local function modify(parent, region, data)
 
   function region:Update()
     local state = region.state
+
+    local max
     if state.progressType == "timed" then
       local expirationTime = state.expirationTime and state.expirationTime > 0 and state.expirationTime or math.huge;
       local duration = state.duration or 0
+      if region.adjustedMinRelPercent then
+        region.adjustedMinRel = region.adjustedMinRelPercent * duration
+      end
+      local adjustMin = region.adjustedMin or region.adjustedMinRel or 0;
+      if duration == 0 then
+        max = 0
+      elseif region.adjustedMax then
+        max = region.adjustedMax
+      elseif region.adjustedMaxRelPercent then
+        region.adjustedMaxRel = region.adjustedMaxRelPercent * duration
+        max = region.adjustedMaxRel
+      else
+        max = duration
+      end
 
-      local adjustMin = region.adjustedMin or 0;
-      region:SetTime((duration ~= 0 and region.adjustedMax or duration) - adjustMin, expirationTime - adjustMin, state.inverse);
+      region:SetTime(max - adjustMin, expirationTime - adjustMin, state.inverse);
       if not region.TimerTick then
         region.TimerTick = TimerTick
         region:UpdateRegionHasTimerTick()
@@ -1280,8 +1299,20 @@ local function modify(parent, region, data)
     elseif state.progressType == "static" then
       local value = state.value or 0;
       local total = state.total or 0;
-      local adjustMin = region.adjustedMin or 0;
-      local max = region.adjustedMax or total;
+      if region.adjustedMinRelPercent then
+        region.adjustedMinRel = region.adjustedMinRelPercent * total
+      end
+      local adjustMin = region.adjustedMin or region.adjustedMinRel or 0;
+
+      if region.adjustedMax then
+        max = region.adjustedMax
+      elseif region.adjustedMaxRelPercent then
+        region.adjustedMaxRel = region.adjustedMaxRelPercent * total
+        max = region.adjustedMaxRel
+      else
+        max = total
+      end
+
       region:SetValue(value - adjustMin, max - adjustMin);
       if region.TimerTick then
         region.TimerTick = nil
@@ -1295,7 +1326,9 @@ local function modify(parent, region, data)
       end
     end
 
-    region:SetAdditionalProgress(state.additionalProgress, region.adjustMin or 0, region.state.duration ~= 0 and region.adjustedMax or state.total or state.duration or 0, state.inverse)
+    max = max or 0
+
+    region:SetAdditionalProgress(state.additionalProgress, region.adjustMin or 0, region.state.duration ~= 0 and max or state.total or state.duration or 0, state.inverse)
 
     if state.texture then
       region:SetTexture(state.texture)

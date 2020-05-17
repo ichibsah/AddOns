@@ -62,8 +62,16 @@ L["The Salty Sailor Tavern"] = "Taberna del Grumete Frito"
 L["Shattrath City"] = "Ciudad de Shattrath"
 L["Area 52"] = "Area 52"
 L["Dalaran"] = "Dalaran"
+L["Dalaran (Northrend)"] = "Dalaran (Rasganorte)"
 L["Bogpaddle"] = "Chapaleos"
 L["The Vindicaar"] = "El Vindicaar"
+L["Krasus' Landing"] = "Alto de Krasus"
+L["The Violet Gate"] = "La Puerta Violeta"
+L["Magni's Encampment"] = "Campamento de Magni"
+L["Silithus"] = "Silithus"
+L["Chamber of Heart"] = "Cámara del Corazón"
+L["Hall of Ancient Paths"] = "Cámara de Sendas Ancestrales"
+L["Sanctum of the Sages"] = "Santuario de los Sabios"
 
 -- Display
 L["DisplayOptions"] = "Display"
@@ -251,6 +259,8 @@ L["KOSDescription"] = "Añadir/Eliminar un jugador de la lista de Matar a la Vis
 L["InvalidInput"] = "Invalid Input"
 L["Ignore"] = "Ignore"
 L["IgnoreDescription"] = "Añadir/Eliminar un jugador de la lista de Ignorados."
+L["Test"] = "Test"
+L["TestDescription"] = "Muestra una advertencia para que pueda reposicionarla."
 
 -- Lists
 L["Nearby"] = "Nearby"
@@ -259,6 +269,8 @@ L["Ignore"] = "Ignorar"
 L["KillOnSight"] = "Kill On Sight"
 
 --Stats
+L["Won"] = "Ganado"
+L["Lost"] = "Perdido"
 L["Time"] = "Time"	
 L["List"] = "Lista"
 L["Filter"] = "Filter"
@@ -270,7 +282,7 @@ L["HonorKills"] = "Honor Kills"
 L["PvPDeaths"] = "PvP Deaths"
 
 -- Output Messages
-L["VersionCheck"] = "|cffc41e3aWarnung! Die falsche Version von Spy ist installiert. Entfernen Sie diese Version und installieren Sie Spy Retail."
+L["VersionCheck"] = "|cffc41e3a¡Advertencia! La versión incorrecta de Spy está instalada. Elimine esta versión e instale Spy Retail."
 L["SpyEnabled"] = "|cff9933ffSpy-Addon aktiviert."
 L["SpyDisabled"] = "|cff9933ffSpy-Addon deaktiviert. Tippen Sie |cffffffff/spy show|cff9933ff um es zu aktivieren."
 L["UpgradeAvailable"] = "|cff9933ffEine neue Version von Spy ist verfügbar. Es kann von: \n| cffffffffhttps://www.curseforge.com/wow/addons/spy heruntergeladen werden."
@@ -466,8 +478,8 @@ L["DARK IRON DWARF"] = "Enano Hierro Negro"
 L["MAG'HAR ORC"] = "Orco Mag'har"
  
 -- Stealth abilities
-L ["Stealth"] = "Sigilo"
-L ["Acechar"] = "Acechar"
+L["Stealth"] = "Sigilo"
+L["Acechar"] = "Acechar"
  
 --++ Minimap color codes
 L["MinimapClassTextDEATHKNIGHT"] = "|cffc41e3a"

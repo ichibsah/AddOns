@@ -1,10 +1,12 @@
-lightweight tag 62ac776f9b4438ba151d63e1fb53044b360ebc04 v8.2.5.387
+lightweight tag bc3d4746c1b95272fbffa8a492c85223891c448c v8.3.0.394
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Mon Dec 23 08:16:55 2019 -0300
+Date:	Tue Apr 28 10:13:00 2020 -0300
 
-commit 62ac776f9b4438ba151d63e1fb53044b360ebc04
+commit bc3d4746c1b95272fbffa8a492c85223891c448c
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Dec 23 08:16:55 2019 -0300
+Date:   Tue Apr 28 10:13:00 2020 -0300
 
-    Fixed faction quest reward preview not hiding when disabling emissary quest info
+    Added support for factions in Legion and paragon quests
+    
+    Also framework and localization updates
 

@@ -62,8 +62,16 @@ L["The Salty Sailor Tavern"] = "뱃사공의 선술집"
 L["Shattrath City"] = "샤트라스"
 L["Area 52"] = "52번 구역"
 L["Dalaran"] = "달라란"
+L["Dalaran (Northrend)"] = "달라란 (노스렌드)"
 L["Bogpaddle"] = "수렁진흙탕"
 L["The Vindicaar"] = "구원호"
+L["Krasus' Landing"] = "크라서스 착륙장"
+L["The Violet Gate"] = "보랏빛 관문"
+L["Magni's Encampment"] = "마그니의 야영지"
+L["Silithus"] = "실리더스"
+L["Chamber of Heart"] = "심장의 방"
+L["Hall of Ancient Paths"] = "고대 길의 전당"
+L["Sanctum of the Sages"] = "현자의 성소"
 
 -- Display
 L["DisplayOptions"] = "디스플레이"
@@ -238,7 +246,6 @@ L["Enable"] = "활성화"
 L["EnableDescription"] = "Spy를 활성화 하고 Spy 창을 띄웁니다."
 L["Show"] = "표시"
 L["ShowDescription"] = "Spy 창을 띄웁니다."
-								 
 L["Hide"] = "숨는 장소"
 L["HideDescription"] = "메인 윈도우를 숨 깁니다."
 L["Reset"] = "초기화"
@@ -252,6 +259,8 @@ L["KOSDescription"] = "적 플레이어를 살생부에 추가/제거 합니다.
 L["InvalidInput"] = "잘못된 입력"
 L["Ignore"] = "제외"
 L["IgnoreDescription"] = "적 플레이어를 제외 목록에 추가/제거 합니다."
+L["Test"] = "Test"
+L["TestDescription"] = "위치를 조정할 수 있도록 경고를 표시합니다."
 
 -- Lists
 L["Nearby"] = "근접한 적"
@@ -260,6 +269,8 @@ L["Ignore"] = "제외"
 L["KillOnSight"] = "살생부"
 
 --Stats
+L["Won"] = "승"
+L["Lost"] = "패"
 L["Time"] = "시간"	
 L["List"] = "표식"
 L["Filter"] = "검색"

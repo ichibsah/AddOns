@@ -1,14 +1,31 @@
-lightweight tag c0ee4a7f9e38ff5ade61165d752833cd3678731d v8.2.5.7229.140
+lightweight tag 8350ea2054d861fd1299c903a9c333d6092b4123 DetailsRetail.8.3.0.7325.140
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Sun Dec 15 11:02:12 2019 -0300
+Date:	Sun May 10 19:39:44 2020 -0300
 
-commit c0ee4a7f9e38ff5ade61165d752833cd3678731d
+commit 8350ea2054d861fd1299c903a9c333d6092b4123
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sun Dec 15 11:02:12 2019 -0300
+Date:   Sun May 10 19:39:44 2020 -0300
 
-    Removed the chat message Details! sent everytime after a logon
+    Ingame change log
+
+commit 1142fbb13a328fb77cc5fde9f2223d0798fb2b39
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun May 10 19:33:19 2020 -0300
+
+    Lock damage reflection on a time windows of 3 seconds from reflected to target hit
+
+commit 8967c8845abebe8f00141212d8a52ea1eead7d19
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun May 10 17:31:43 2020 -0300
+
+    Framework update
+
+commit 2149413da3e8b6884bd7cde1cd95da11e34fbecb
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Apr 21 14:03:46 2020 -0300
+
+    Added ignore npc table
     
-    - Removed the chat message Details! sent everytime after a logon
-    - Using Ace3 lib from Aug 12, 2019.
-    - Using Details! Framework v161 for Retail.
+    - Can be added anywhere using /run Details.npcid_ignored[npcid] = true
+    - Framework and Localization update.
 

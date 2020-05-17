@@ -81,8 +81,7 @@ local select, tonumber = select, tonumber
 local mfloor = math.floor
 local getGroupId = DBM.GetGroupId
 
--- for Phanx' Class Colors
-local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS-- for Phanx' Class Colors
 
 ---------------------
 --  Dropdown Menu  --
@@ -205,9 +204,18 @@ local frameBackdrop = {
 	insets = { left = 2, right = 14, top = 2, bottom = 2 },
 }
 
+--BIG TODO. Using GameTooltip is improper and this frame needs rewriting to be a stand alone frame
+--Blizzard force closes any and ALL GameTooltip frames any time UI is hidden, including cinematics mid fight or user simply hitting alt-z.
+--Normal addon frames are not force closed when hidden, they are just hidden.
+--On top of this. infoframe features have been stuck limited for a while now because it's limited to what GameTooltip supports
 function createFrame()
 	local elapsed = 0
-	local frame = CreateFrame("GameTooltip", "DBMInfoFrame", UIParent, "GameTooltipTemplate")
+	local frame
+	if DBM:GetTOC() >= 90001 then
+		frame = CreateFrame("GameTooltip", "DBMInfoFrame", UIParent, "SharedTooltipTemplate")
+	else
+		frame = CreateFrame("GameTooltip", "DBMInfoFrame", UIParent, "GameTooltipTemplate")
+	end
 	dropdownFrame = CreateFrame("Frame", "DBMInfoFrameDropdown", frame, "UIDropDownMenuTemplate")
 	frame:SetFrameStrata("DIALOG")
 	frame:SetBackdrop(frameBackdrop)
@@ -339,6 +347,8 @@ local function updatePlayerPower()
 	local threshold = value[1]
 	local powerType = value[2]
 	local spellFilter = value[3]
+	--Value 4 is the noUpdate handler
+	--Value 5 is sorting method, handled in show handler
 	for uId in DBM:GetGroupMembers() do
 		if spellFilter and DBM:UnitDebuff(uId, spellFilter) then
 			--Do nothing

@@ -1,5 +1,5 @@
 --[[
-Copyright 2013-2019 João Cardoso
+Copyright 2013-2020 João Cardoso
 LibItemCache is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this library give you permission to embed it
 with independent modules to produce an addon, regardless of the license terms of these
@@ -18,13 +18,15 @@ along with the library. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of LibItemCache.
 --]]
 
-local Lib = LibStub:NewLibrary('LibItemCache-2.0', 25)
+local Lib = LibStub:NewLibrary('LibItemCache-2.0', 28)
 if not Lib then return end
 
-local PLAYER, GUILD, FACTION, REALM, REALMS
+local PLAYER, FACTION, REALM, REALMS
 local COMPLETE_LINK = '|c.+|H.+|h.+|h|r'
 local PET_LINK = '|c%s|Hbattlepet:%sx0|h[%s]|h|r'
-local PET_STRING = '^' .. strrep('%d+:', 6) .. '%d+$'
+local PET_STRING = '^' .. strrep('%d+:', 7) .. '%d+$'
+local KEYSTONE_LINK  = '|c%s|Hkeystone:%sx0|h[%s]|h|r'
+local KEYSTONE_STRING = '^' .. strrep('%d+:', 6) .. '%d+$'
 local EMPTY_FUNC = function() end
 
 local FindRealms = function()
@@ -32,7 +34,6 @@ local FindRealms = function()
 		PLAYER, REALM = UnitFullName('player')
 		FACTION = UnitFactionGroup('player')
 		REALMS = GetAutoCompleteRealms()
-		GUILD = GetGuildInfo('player')
 
 		if not REALMS or #REALMS == 0 then
 			REALMS = {REALM}
@@ -186,17 +187,17 @@ function Lib:GetBagInfo(owner, bag)
 		item.family = 0
 	elseif bag == 'vault' then
 		item.count = 160
-		item.family = 0
 	elseif bag == 'equip' then
 		item.count = INVSLOT_LAST_EQUIPPED
-		item.family = -4
 		item.owned = true
 	else
 		item.owned = item.owned or (bag >= KEYRING_CONTAINER and bag <= NUM_BAG_SLOTS) or item.id or item.link
 
-		if bag <= BACKPACK_CONTAINER then
-			item.count = item.count or (bag ~= KEYRING_CONTAINER and item.owned and GetContainerNumSlots(bag))
-			item.family = bag < BANK_CONTAINER and bag or 0
+		if bag == KEYRING_CONTAINER then
+			item.family = 9
+		elseif bag <= BACKPACK_CONTAINER then
+			item.count = item.count or item.owned and GetContainerNumSlots(bag)
+			item.family = bag ~= REAGENTBANK_CONTAINER and 0 or REAGENTBANK_CONTAINER
 		end
 	end
 
@@ -285,7 +286,7 @@ function Lib:GetOwnerAddress(owner)
 end
 
 function Lib:IsOwnerCached(realm, name, isguild)
-	return realm ~= REALM or name ~= (isguild and GUILD or PLAYER)
+	return realm ~= REALM or name ~= (isguild and GetGuildInfo('player') or PLAYER)
 end
 
 function Lib:IsBagCached(realm, name, isguild, bag)
@@ -325,24 +326,29 @@ function Lib:RestoreItemData(item)
 	return item
 end
 
-function Lib:RestoreLinkData(partial)
-	if type(partial) == 'string' and not partial:find(COMPLETE_LINK) then
-		if partial:sub(1,9) == 'battlepet' or partial:find(PET_STRING) then
-			local id, quality = partial:match('(%d+):%d+:(%d+)')
+function Lib:RestoreLinkData(input)
+	local isString = type(input) == 'string'
+	local complete = isString and input:find(COMPLETE_LINK)
+
+	if isString and not complete then
+		if input:sub(1,9) == 'battlepet' or input:find(PET_STRING) then
+			local id, quality = input:match('(%d+):%d+:(%d+)')
 			local id, quality = tonumber(id), tonumber(quality)
 			local name, icon = C_PetJournal.GetPetInfoBySpeciesID(id)
 			local color = select(4, GetItemQualityColor(quality))
 
-			return PET_LINK:format(color, partial, name), id, quality, icon
-		elseif partial:sub(1,5) ~= 'item:' then
-			partial = 'item:' .. partial
+			return PET_LINK:format(color, input, name), id, quality, icon
+		elseif input:sub(1,9) == 'keystone' or input:find(KEYSTONE_STRING) then
+			input = 138019
+		elseif input:sub(1,5) ~= 'item:' then
+			input = 'item:' .. input
 		end
 	end
 
-	if partial then
-		local id, _, _, equip, icon, class, subclass = GetItemInfoInstant(partial)
-		local name, link, quality, level, minLevel, _, _, stack, _,_, price, _,_, bind, expac, set, crafting = GetItemInfo(partial)
-		return link, id, quality, icon, equip, class, subclass, name, level, minLevel, stack, price, bind, expac, set, crafting
+	if input then
+		local id, _, _, equip, icon, class, subclass = GetItemInfoInstant(input)
+		local name, link, quality, level, minLevel, _, _, stack, _,_, price, _,_, bind, expac, set, crafting = GetItemInfo(input)
+		return complete and input or link, id, quality, icon, equip, class, subclass, name, level, minLevel, stack, price, bind, expac, set, crafting
 	end
 end
 
