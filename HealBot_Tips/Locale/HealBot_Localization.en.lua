@@ -389,6 +389,7 @@ function HealBot_Lang_Options_enALL()
                                  ["TOOLTIPMYBUFFS"]=HEALBOT_OPTIONS_SHOWUNITBUFFTIME,
                                  ["TOOLTIPSPELLDETAIL"]=HEALBOT_OPTIONS_SHOWDETTOOLTIP,
                                  ["TOOLTIPSPELLCD"]=HEALBOT_OPTIONS_SHOWCDTOOLTIP,
+                                 ["TOOLTIPIGNORESPELLGCD"]=HEALBOT_OPTIONS_IGNOREGCDTOOLTIP,
                                  ["TOOLTIPWHEELCMD"]=HEALBOT_OPTIONS_SHOWMOUSEWHEELTOOLTIP,
                                  ["TOOLTIPHOTREC"]=HEALBOT_OPTIONS_SHOWRECTOOLTIP,
                                  ["TOOLTIPGAMETIP"]=HEALBOT_OPTIONS_USEGAMETOOLTIP,
@@ -795,6 +796,7 @@ function HealBot_Lang_Options_enALL()
                                ["TOOLTIPMYBUFFS"]="Show buffs and duration cast by you.",
                                ["TOOLTIPSPELLDETAIL"]="Show the cast time of the spell.",
                                ["TOOLTIPSPELLCD"]="Show the cooldown remaining on the spell.",
+                               ["TOOLTIPIGNORESPELLGCD"]="Ignore the global cooldown on the spell.",
                                ["TOOLTIPWHEELCMD"]="Show the commands defined on the Mouse Wheel tab.",
                                ["TOOLTIPHOTREC"]="Show best HoT depending on current circumstances.",
                                ["TOOLTIPGAMETIP"]="Use the game tooltip, this includes tooltip addons.",
@@ -817,7 +819,7 @@ function HealBot_Lang_Options_enALL()
                                ["TESTNUMENEMY"]="Set the number of bars to represent the Enemy.",
                         -- Import/Export Skins tab
                                ["INOUTSELECTSKIN"]="Select the skin to be exported.",
-                               ["INEXTRASKIN"]="Select an extra skin to import.\n--\nNOTE: After importing extra skins, delete any that are not used.\nThis will reduce the addons main memory usage.",
+                               ["INEXTRASKIN"]="Select an extra skin to import.\n--\nNOTE: After importing extra skins, delete any that are not used.\nThis will reduce the addons main memory usage.\n--\nNOTE: Images can be viewed at "..HEALBOT_ABOUT_URL,
                                ["INOUTEXPORTSKIN"]="Export populates the large text box with data for the selected skin.\nThis can then be copied and saved outside the game.\n--\nTIP: To reduce the number of characters, first do the following:\nFor all tabs possible, in Skins>Frames, select the top frame and use Apply current tab settings to all Frames.",
                                ["INOUTIMPORTSKIN"]="Import reads the text from the large text box and sets the skin.\nNote: This will overwrite any existing skin with the same name.",
                         -- Import/Export Custom Debuffs tab

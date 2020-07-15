@@ -118,15 +118,14 @@ function HealBot_Skins_ResetSkin(barType,button,numcols)
                 if Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["ONBAR"]==2 then
                     if Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["SHOWDEBUFF"] then
                         maxDebuffIcons=Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["MAXDICONS"]
+                    elseif Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["SHOWRC"] then
+                        maxDebuffIcons=1
                     else
                         maxDebuffIcons=0
                     end
                     if Healbot_Config_Skins.RaidIcon[Healbot_Config_Skins.Current_Skin][button.frame]["SHOW"] then 
                         maxDebuffIcons=maxDebuffIcons+1 
                     end                           
-                    if Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["SHOWRC"] then 
-                        maxDebuffIcons=maxDebuffIcons+1 
-                    end
                     if Healbot_Config_Skins.BarText[Healbot_Config_Skins.Current_Skin][button.frame]["CLASSONBAR"] and
                        Healbot_Config_Skins.BarText[Healbot_Config_Skins.Current_Skin][button.frame]["CLASSTYPE"]<2 then
                         maxDebuffIcons=maxDebuffIcons+1 
@@ -731,7 +730,7 @@ function HealBot_Skins_ResetSkin(barType,button,numcols)
 
         HealBot_Text_setTextLen(b.frame)
         HealBot_Text_setNameText(b)
-        HealBot_Action_Refresh(b)
+        b.status.refresh=true
     elseif barType=="header" then
         h=button
         bar = _G[h:GetName().."Bar"]
@@ -835,11 +834,9 @@ function HealBot_Skins_ResetSkin(barType,button,numcols)
         bar:SetScale(barScale + 0.01);
         bar:SetScale(barScale);
     else
-        HealBot_Panel_clearResetHeaderSkinDone()
         HealBot_Action_clearResetBarSkinDone()
         HealBot_setOptions_Timer(80)
         HealBot_setOptions_Timer(50)
-        HealBot_setOptions_Timer(9970)
         --if vResetSkinPrevSkin~=Healbot_Config_Skins.Current_Skin then
         --    vResetSkinPrevSkin=Healbot_Config_Skins.Current_Skin
             --HealBot_setOptions_Timer(800)
@@ -1484,7 +1481,7 @@ function HealBot_Skins_Check_Skin(SkinName)
     if Healbot_Config_Skins.General[SkinName]["HIDEBOSSF"]==nil then Healbot_Config_Skins.General[SkinName]["HIDEBOSSF"]=false end
     if Healbot_Config_Skins.General[SkinName]["HIDERAIDF"]==nil then Healbot_Config_Skins.General[SkinName]["HIDERAIDF"]=true end
     if Healbot_Config_Skins.General[SkinName]["FLUIDBARS"]==nil then Healbot_Config_Skins.General[SkinName]["FLUIDBARS"]=false end
-    if Healbot_Config_Skins.General[SkinName]["FLUIDFREQ"]==nil then Healbot_Config_Skins.General[SkinName]["FLUIDFREQ"]=8 end
+    if Healbot_Config_Skins.General[SkinName]["FLUIDFREQ"]==nil then Healbot_Config_Skins.General[SkinName]["FLUIDFREQ"]=14 end
     if Healbot_Config_Skins.General[SkinName]["STICKYFRAME"]==nil then Healbot_Config_Skins.General[SkinName]["STICKYFRAME"]=false end
     if Healbot_Config_Skins.General[SkinName]["STICKYSENSITIVITY"]==nil then Healbot_Config_Skins.General[SkinName]["STICKYSENSITIVITY"]=30 end
     if Healbot_Config_Skins.Chat[SkinName]["NOTIFY"]==nil then Healbot_Config_Skins.Chat[SkinName]["NOTIFY"]=1 end

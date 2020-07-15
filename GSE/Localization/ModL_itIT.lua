@@ -594,6 +594,8 @@ L["Save the changes made to this macro"] = "Save the changes made to this macro"
 --[[Translation missing --]]
 L["Scenario"] = "Scenario"
 --[[Translation missing --]]
+L["Scenario setting changed to Default."] = "Scenario setting changed to Default."
+--[[Translation missing --]]
 L["Seed Initial Macro"] = "Seed Initial Macro"
 --[[Translation missing --]]
 L["Select Other Version"] = "Select Other Version"
@@ -718,6 +720,8 @@ L["The version of this macro to use in Mythic+ Dungeons."] = "The version of thi
 L["The version of this macro to use in normal dungeons."] = "The version of this macro to use in normal dungeons."
 --[[Translation missing --]]
 L["The version of this macro to use in PVP."] = "The version of this macro to use in PVP."
+--[[Translation missing --]]
+L["The version of this macro to use in Scenarios."] = "The version of this macro to use in Scenarios."
 --[[Translation missing --]]
 L["The version of this macro to use when in a party in the world."] = "The version of this macro to use when in a party in the world."
 --[[Translation missing --]]
@@ -847,6 +851,8 @@ L["Use Second Trinket in KeyRelease"] = "Use Second Trinket in KeyRelease"
 L["Use Verbose Export Sequence Format"] = "Use Verbose Export Sequence Format"
 --[[Translation missing --]]
 L["Use WLM Export Sequence Format"] = "Use WLM Export Sequence Format"
+--[[Translation missing --]]
+L["Version"] = "Version"
 --[[Translation missing --]]
 L["Version="] = "Version="
 --[[Translation missing --]]

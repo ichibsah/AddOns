@@ -18,8 +18,10 @@ function Spy:RefreshCurrentList(player, source)
 	local button = 1
 	for index, data in pairs(Spy.CurrentList) do
 		if button <= Spy.ButtonLimit then
+			local description = ""
 			local level = "??"
 			local class = "UNKNOWN"
+			local guild = "??"
 			local opacity = 1
 
 			local playerData = SpyPerCharDB.PlayerData[data.player]
@@ -33,18 +35,31 @@ function Spy:RefreshCurrentList(player, source)
 				if playerData.class then
 					class = playerData.class
 				end
+				if playerData.guild then
+					guild = playerData.guild
+				end
 			end
-
-			local description = level.." "
-			if L[class] and type(L[class]) == "string" then description = description..L[class] end
-
+			
+			if Spy.db.profile.DisplayListData == "NameLevelClass" then
+				description = level.." "
+				if L[class] and type(L[class]) == "string" then
+					description = description..L[class]
+				end
+			elseif Spy.db.profile.DisplayListData == "NameLevelOnly" then
+				description = level.." "
+			elseif Spy.db.profile.DisplayListData == "NameGuild" then
+					description = guild
+			end
+			
 			if mode == 1 and Spy.InactiveList[data.player] then
 				opacity = 0.5
 			end
 			if player == data.player then
 				if not source or source ~= Spy.CharacterName then
 					Spy:AlertPlayer(player, source)
-					if not source then Spy:AnnouncePlayer(player) end
+					if not source then
+						Spy:AnnouncePlayer(player)
+					end
 				end
 			end
 
@@ -303,14 +318,14 @@ function Spy:UpdatePlayerData(name, class, level, race, guild, isEnemy, isGuess)
 				playerData.subZone = ""
 			else
 				local mapX, mapY = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player"):GetXY()			
-					if mapX ~= 0 and mapY ~= 0 then
-						mapX = math.floor(tonumber(mapX) * 100) / 100
-						mapY = math.floor(tonumber(mapY) * 100) / 100
-						playerData.mapX = mapX
-						playerData.mapY = mapY
-						playerData.zone = GetZoneText()
-						playerData.mapID = C_Map.GetBestMapForUnit("player") --++8.0
-						playerData.subZone = GetSubZoneText()
+				if mapX ~= 0 and mapY ~= 0 then
+					mapX = math.floor(tonumber(mapX) * 100) / 100
+					mapY = math.floor(tonumber(mapY) * 100) / 100
+					playerData.mapX = mapX
+					playerData.mapY = mapY
+					playerData.zone = GetZoneText()
+					playerData.mapID = C_Map.GetBestMapForUnit("player") --++8.0
+					playerData.subZone = GetSubZoneText()
 				else
 					detected = false
 				end
@@ -410,7 +425,8 @@ end
 function Spy:AlertPlayer(player, source)
 	local playerData = SpyPerCharDB.PlayerData[player]
 	if SpyPerCharDB.KOSData[player] and Spy.db.profile.WarnOnKOS then
-		if Spy.db.profile.DisplayWarningsInErrorsFrame then
+--		if Spy.db.profile.DisplayWarningsInErrorsFrame then
+		if Spy.db.profile.DisplayWarnings == "ErrorFrame" then
 			local text = Spy.db.profile.Colors.Warning["Warning Text"]
 			local msg = L["KOSWarning"]..player
 			UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)
@@ -442,7 +458,8 @@ function Spy:AlertPlayer(player, source)
 		if Spy.db.profile.ShareKOSBetweenCharacters then Spy:RegenerateKOSCentralList(player) end
 	elseif Spy.db.profile.WarnOnKOSGuild then
 		if playerData and playerData.guild and Spy.KOSGuild[playerData.guild] then
-			if Spy.db.profile.DisplayWarningsInErrorsFrame then
+--			if Spy.db.profile.DisplayWarningsInErrorsFrame then
+			if Spy.db.profile.DisplayWarnings == "ErrorFrame" then
 				local text = Spy.db.profile.Colors.Warning["Warning Text"]
 				local msg = L["KOSGuildWarning"].."<"..playerData.guild..">"
 				UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)				
@@ -470,6 +487,14 @@ function Spy:AlertPlayer(player, source)
 					end
 				end
 			end
+		end 
+	elseif Spy.db.profile.EnableSound and not Spy.db.profile.OnlySoundKoS then 
+		if source == nil or source == Spy.CharacterName then
+			if playerData and Spy.db.profile.WarnOnRace and playerData.race == Spy.db.profile.SelectWarnRace then
+				PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-race.mp3", Spy.db.profile.SoundChannel) 
+			else
+				PlaySoundFile("Interface\\AddOns\\Spy\\Sounds\\detected-nearby.mp3", Spy.db.profile.SoundChannel)
+			end
 		end
 	elseif Spy.db.profile.EnableSound and not Spy.db.profile.OnlySoundKoS then
 		if source == nil or source == Spy.CharacterName then
@@ -480,7 +505,8 @@ end
 
 function Spy:AlertStealthPlayer(player)
 	if Spy.db.profile.WarnOnStealth then
-		if Spy.db.profile.DisplayWarningsInErrorsFrame then
+--		if Spy.db.profile.DisplayWarningsInErrorsFrame then
+		if Spy.db.profile.DisplayWarnings == "ErrorFrame" then
 			local text = Spy.db.profile.Colors.Warning["Warning Text"]
 			local msg = L["StealthWarning"]..player
 			UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)
@@ -495,7 +521,8 @@ end
 
 function Spy:AlertProwlPlayer(player)
 	if Spy.db.profile.WarnOnStealth then
-		if Spy.db.profile.DisplayWarningsInErrorsFrame then
+--		if Spy.db.profile.DisplayWarningsInErrorsFrame then
+		if Spy.db.profile.DisplayWarnings == "ErrorFrame" then
 			local text = Spy.db.profile.Colors.Warning["Warning Text"]
 			local msg = L["StealthWarning"]..player
 			UIErrorsFrame:AddMessage(msg, text.r, text.g, text.b, 1.0, UIERRORS_HOLD_TIME)
@@ -601,7 +628,7 @@ function Spy:AnnouncePlayer(player, channel)
 				else
 					if GetNumGroupMembers() > 0 then
 						Spy:SendCommMessage(Spy.Signature, details, "PARTY")
-					end 
+					end
 					if UnitInRaid("player") then
 						Spy:SendCommMessage(Spy.Signature, details, "RAID")
 					end

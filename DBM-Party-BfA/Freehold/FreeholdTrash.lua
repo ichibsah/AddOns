@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("FreeholdTrash", "DBM-Party-BfA", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200330141411")
+mod:SetRevision("20200620220858")
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -22,7 +22,7 @@ local warnRicochetingThrow				= mod:NewTargetAnnounce(272402, 2)
 local yellRicochetingThrow				= mod:NewYell(272402)
 local yellDuelistDash					= mod:NewYell(274400)
 local specWarnOiledBladeSelf			= mod:NewSpecialWarningDefensive(257908, nil, nil, nil, 1, 2)
-local specWarnBrutalBackhand			= mod:NewSpecialWarningDodge(257426, "Tank", nil, nil, 1, 2)
+local specWarnBrutalBackhand			= mod:NewSpecialWarningDodge(257426, nil, nil, nil, 1, 2)
 local specWarnShatteringToss			= mod:NewSpecialWarningSpell(274860, "Tank", nil, nil, 1, 2)
 local specWarnGoinBan					= mod:NewSpecialWarningRun(257756, "Melee", nil, nil, 4, 2)
 local specWarnBladeBarrage				= mod:NewSpecialWarningRun(257870, "Melee", nil, nil, 4, 2)
@@ -41,7 +41,7 @@ local specWarnInfectedWound				= mod:NewSpecialWarningDispel(258323, "RemoveDise
 local specWarnOiledBlade				= mod:NewSpecialWarningDispel(257908, "Healer", nil, nil, 1, 2)
 local specWarnGTFO						= mod:NewSpecialWarningGTFO(257274, nil, nil, nil, 1, 8)
 
-function mod:RicochetingTarget(targetname, uId)
+function mod:RicochetingTarget(targetname)
 	if not targetname then return end
 	warnRicochetingThrow:Show(targetname)
 	if targetname == UnitName("player") then
@@ -49,7 +49,7 @@ function mod:RicochetingTarget(targetname, uId)
 	end
 end
 
-function mod:DashTarget(targetname, uId)
+function mod:DashTarget(targetname)
 	if not targetname then return end
 	warnDuelistDash:Show(targetname)
 	if targetname == UnitName("player") then
@@ -140,13 +140,3 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnInfectedWound:Play("helpdispel")
 	end
 end
-
---[[
-function mod:SPELL_CAST_SUCCESS(args)
-	if not self.Options.Enabled then return end
-	local spellId = args.spellId
-	if spellId == 200343 then
-
-	end
-end
---]]

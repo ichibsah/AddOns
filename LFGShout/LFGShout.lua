@@ -209,6 +209,9 @@ function LFGShout.utils:InitSettings()
 	if (LFGShout_Global.CustomBlackList==nil) then LFGShout_Global.CustomBlackList="" end
 	
 	if (LFGShout_Global.MyAdverts==nil) then LFGShout_Global.MyAdverts={} end
+
+	if (LFGShout_Global.Coordinates==nil) then LFGShout_Global.Coordinates=true end
+	if (LFGShout_Global.CoordinatesTomTom==nil) then LFGShout_Global.CoordinatesTomTom=true end
 	
 	LFGShout.vars.StdFilterCount=#LFGShout.lang.Filters; -- store number of standard defined filters.
 	
@@ -310,7 +313,8 @@ function LFGShout.timer:Broadcast()
 				end
 				
 		end
-	
+		
+
 		--Double check its not a fuplicate in your main list
 		--for i=1, #LFGShout.vars.adverts do
 		--	if (LFGShout.vars.adverts[i].player==LFGShout.BroadcastQ[f].sender and LFGShout.vars.adverts[i].message==LFGShout.BroadcastQ[f].message and
@@ -711,7 +715,7 @@ function LFGShout.utils:AdvertAdd(pmessage,psender,pchannel)
 	LFGShout.utils:Debug(5,"Type:"..msgType);
 	LFGShout.utils:Debug(5,"Filter Level:"..LFGShout_Global.FilterLevel);
 	
-	if (rawScore>44 and LFGShout_Global.ForwardMessages and msgfwd==false and isLFGShoutChan==false) then
+	if (rawScore>44 and LFGShout_Global.ForwardMessages and msgfwd==false and isLFGShoutChan==false and msgType~=9) then
 		
 		
 		bcmsg={sender=psender, message=pmessage, time=mtime}
@@ -744,17 +748,57 @@ function LFGShout.utils:AdvertAdd(pmessage,psender,pchannel)
 	if (LFGShout_Global.ShowLFG==false and (msgType==3 or msgType==4)) then -- filter out - LFG and Quest
 		return
 	end
+
+	if (LFGShout_Global.Coordinates==false and msgType==9 ) then -- filter out - coords
+		return
+	end
+
 	LFGShout.utils:Debug(5,"Passed type filter.");
 	
 	
-	tAdvert={time=0; player="",shortmessage="",msgtype=0,score=0,message="",channel="",color="", class="", count=1, Changed=true};
+	tAdvert={time=0; player="",shortmessage="",msgtype=0,score=0,message="",channel="",color="", class="", count=1, Changed=true, coordX=0,coordY=0};
 
 	pmessage=string.gsub(pmessage,"<","[");
 	pmessage=string.gsub(pmessage,">","]");
 	pmessage=string.gsub(pmessage,"/","\\");
 	pmessage=string.gsub(pmessage,"&","+");
 
-	
+	if (msgType==9) then
+
+		 mapPosX,mapPosY = string.match(pmessage,"(%d+%.*%d*),%s+(%d+%.*%d*)")
+		 if mapPosX == nil then
+		 	mapPosX,mapPosY = string.match(pmessage,"(%d+%.*%d*),(%d+%.*%d*)")
+		 end
+		 if mapPosX == nil then
+		 	mapPosX,mapPosY = string.match(pmessage,"(%d+%.*%d*)%s+(%d+%.*%d*)")
+		 end
+
+		 if mapPosX == nil then --coords not found
+
+		 	LFGShout.utils:Debug(5,"Failed! Cold not find co-ordinates");
+
+		 else
+
+		 	mapcoords = ""..mapPosX.." "..mapPosY
+		 	LFGShout.utils:Debug(5,"Coords = "..mapcoords);
+
+		 	tAdvert.coordX=tonumber(mapPosX);
+		 	tAdvert.coordY=tonumber(mapPosY);
+
+
+		 	if (TomTom.AddWaypointToCurrentZone~=nil and LFGShout_Global.CoordinatesTomTom==true) then -- add to tomtom if it exists
+		 		TomTom:AddWaypointToCurrentZone(tAdvert.coordX, tAdvert.coordY, LFGShout.utils.TrimAdvert(pmessage,80))
+		 	end
+
+
+		 end
+
+
+
+
+		pmessage="("..GetZoneText()..") "..pmessage;
+	end
+
 	tAdvert.shortmessage=LFGShout.utils.TrimAdvert(pmessage,80)
 	tAdvert.time = mtime;
 	tAdvert.player=psender;
@@ -772,6 +816,9 @@ function LFGShout.utils:AdvertAdd(pmessage,psender,pchannel)
 		tAdvert.color="FFFF00";
 	elseif (msgType==5) then --- Guild
 		tAdvert.color="ff80ff";
+	elseif (msgType==9) then --- Co-ords
+		tAdvert.color="30c0ff";
+		tAdvert.blockBroadcast=true;
 	elseif (msgType==99) then --- Guild
 		tAdvert.color="E9323C";
 	else
@@ -828,8 +875,9 @@ function LFGShout.utils:AdvertAdd(pmessage,psender,pchannel)
 		UIErrorsFrame:AddMessage("|cFFFFFFFF["..psender.."]|cff"..pcolor..pmessage);
 	end
 	
-	
-	if msgType<99 then
+	if msgType==9 then
+	 	PlaySound(SOUNDKIT.UI_GARRISON_TOAST_INVASION_ALERT)
+	elseif msgType<99 then
 		PlaySound(SOUNDKIT.TELL_MESSAGE);
 	else
 		PlaySound(SOUNDKIT.UI_GARRISON_SHIPMENTS_WINDOW_OPEN);
@@ -865,18 +913,24 @@ local function LFGShout_ClickLine(line, setName, button)
 end
 
 local function LFGShout_ClickPlaya(line, setName, button)
-	if (button=="LeftButton") then
-	
-		ChatFrame_OpenChat("/w "..LFGShout.vars.adverts[setName].player.." ", DEFAULT_CHAT_FRAME);
-	else
-	
-	
-	
-		LFGShout.Dialogs.PST:Show(LFGShout.vars.adverts[setName].player, LFGShout.vars.adverts[setName].message,LFGShout.vars.adverts[setName].msgType)
+
+		if (button=="LeftButton") then
 		
-		LFGShout.broker.tooltip:Hide();
-	end
-	
+			ChatFrame_OpenChat("/w "..LFGShout.vars.adverts[setName].player.." ", DEFAULT_CHAT_FRAME);
+		else
+			if LFGShout.vars.adverts[setName].msgType==9 then 
+
+				if (TomTom.AddWaypointToCurrentZone~=nil and LFGShout_Global.CoordinatesTomTom==true) then -- add to tomtom if it exists
+					 TomTom:AddWaypointToCurrentZone(LFGShout.vars.adverts[setName].coordX, LFGShout.vars.adverts[setName].coordY, LFGShout.vars.adverts[setName].shortmessage)
+				end
+
+			else
+
+				LFGShout.Dialogs.PST:Show(LFGShout.vars.adverts[setName].player, LFGShout.vars.adverts[setName].message,LFGShout.vars.adverts[setName].msgType)
+				
+				LFGShout.broker.tooltip:Hide();
+			end
+		end
 end
 
 --------------------------MyAdvert Management--------------------------
@@ -975,6 +1029,9 @@ local function LFGShout_Tooltip_Show(frame)
 		if LFGShout.vars.adverts[i].msgType==5 then
 			TImage="|TInterface\\Icons\\INV_Misc_Bomb_04.blp:16|t";
 		end
+		if LFGShout.vars.adverts[i].msgType==9 then
+			TImage="|TInterface\\Icons\\inv_misc_map_01.blp:16|t";
+		end
 		if LFGShout.vars.adverts[i].msgType==99 then
 			TImage="|TInterface\\Icons\\Spell_Nature_StarFall.blp:16|t";
 		end
@@ -1019,7 +1076,7 @@ local function LFGShout_Tooltip_Show(frame)
 	LFGShout.broker.tooltip:AddLine(" ")
 	row, col= LFGShout.broker.tooltip:AddLine("|cffC0E0FFLeft Click item to whisper")
 	LFGShout.broker.tooltip:SetLineColor(row,0.047,0.188,.266,1)
-	row, col= LFGShout.broker.tooltip:AddLine("|cffC0E0FFRight Click item for advanced whisper")
+	row, col= LFGShout.broker.tooltip:AddLine("|cffC0E0FFRight Click item for advanced whisper/guide with TomTom")
 	LFGShout.broker.tooltip:SetLineColor(row,0.047,0.188,.266,1)
 	LFGShout.broker.tooltip:AddLine(" ")
 	-------------------------- adverts

@@ -31,6 +31,12 @@ L["CANNOT_AUCTION"] = "경매 불가"
 L["CONFIG_ADVANCED_CATEGORY"] = "Advanced"
 --[[Translation missing --]]
 L["CONFIG_ADVANCED_TEXT"] = "Only look here if you know what you're doing"
+--[[Translation missing --]]
+L["CONFIG_ALTERNATE_SCAN"] = "Use alternate slower scan mode by default"
+--[[Translation missing --]]
+L["CONFIG_ALTERNATE_SCAN_HEADER"] = "Alternate Scan Mode"
+--[[Translation missing --]]
+L["CONFIG_ALTERNATE_SCAN_TEXT"] = "The fast scan mode can cause disconnections on busy servers. This setting uses a slower and less likely to disconnect, scan method."
 L["CONFIG_AUCTION_TOOLTIP"] = "경매 툴팁 표시"
 L["CONFIG_AUTO_LIST_SEARCH"] = "자동으로 쇼핑 리스트 품목을 검색하기"
 L["CONFIG_AUTO_LIST_SEARCH_TOOLTIP_HEADER"] = "자동 리스트 검색"
@@ -56,7 +62,15 @@ L["CONFIG_NOT_LIFO_CATEGORY"] = "장비/애완동물"
 --[[Translation missing --]]
 L["CONFIG_PET_TOOLTIP"] = "Show pet tooltips"
 --[[Translation missing --]]
+L["CONFIG_PROFILE_CATEGORY"] = "Profile"
+--[[Translation missing --]]
+L["CONFIG_PROFILE_TEXT"] = "Setup per-character settings."
+--[[Translation missing --]]
+L["CONFIG_PROFILE_TOGGLE"] = "Only apply settings to this character"
+--[[Translation missing --]]
 L["CONFIG_SCAN_SETTINGS"] = "Scan Settings"
+--[[Translation missing --]]
+L["CONFIG_SCANNING"] = "Full Scan Settings"
 L["CONFIG_SELLING_LIFO_HEADER"] = "팔기"
 --[[Translation missing --]]
 L["CONFIG_SELLING_LIFO_TEXT"] = "Options to set undercutting percent or values and duration of most items. Without an undercut, these item categories group up with the last item added being the first to sell. Undercutting may not be necessary."
@@ -87,6 +101,20 @@ L["CREATE"] = "Create"
 L["CREATE_LIST_DIALOG"] = "Enter the name of the new shopping list:"
 --[[Translation missing --]]
 L["DATABASE_LOADED"] = "Database loaded with %s entries."
+--[[Translation missing --]]
+L["DAY_1"] = "Sunday"
+--[[Translation missing --]]
+L["DAY_2"] = "Monday"
+--[[Translation missing --]]
+L["DAY_3"] = "Tuesday"
+--[[Translation missing --]]
+L["DAY_4"] = "Wednesday"
+--[[Translation missing --]]
+L["DAY_5"] = "Thursday"
+--[[Translation missing --]]
+L["DAY_6"] = "Friday"
+--[[Translation missing --]]
+L["DAY_7"] = "Saturday"
 --[[Translation missing --]]
 L["DEFAULT_AUCTION_DURATION"] = "Default Auction Duration"
 --[[Translation missing --]]
@@ -153,6 +181,30 @@ L["MAX"] = "Max"
 --[[Translation missing --]]
 L["MIN"] = "Min"
 --[[Translation missing --]]
+L["MONTH_1"] = "January"
+--[[Translation missing --]]
+L["MONTH_10"] = "October"
+--[[Translation missing --]]
+L["MONTH_11"] = "November"
+--[[Translation missing --]]
+L["MONTH_12"] = "December"
+--[[Translation missing --]]
+L["MONTH_2"] = "February"
+--[[Translation missing --]]
+L["MONTH_3"] = "March"
+--[[Translation missing --]]
+L["MONTH_4"] = "April"
+--[[Translation missing --]]
+L["MONTH_5"] = "May"
+--[[Translation missing --]]
+L["MONTH_6"] = "June"
+--[[Translation missing --]]
+L["MONTH_7"] = "July"
+--[[Translation missing --]]
+L["MONTH_8"] = "August"
+--[[Translation missing --]]
+L["MONTH_9"] = "September"
+--[[Translation missing --]]
 L["NAME"] = "Name"
 --[[Translation missing --]]
 L["NEXT_SCAN_MESSAGE"] = "A full scan may be started in %s minutes and %s seconds."
@@ -174,6 +226,10 @@ L["PET_TOOLTIP_TOOLTIP_HEADER"] = "Pet Tooltips"
 L["PET_TOOLTIP_TOOLTIP_TEXT"] = "Shows Auctionator information for caged pets."
 --[[Translation missing --]]
 L["PRICE"] = "Price"
+--[[Translation missing --]]
+L["PROFILE_TOGGLE_TOOLTIP_HEADER"] = "Enable per character settings"
+--[[Translation missing --]]
+L["PROFILE_TOGGLE_TOOLTIP_TEXT"] = "Makes changes to the Auctionator settings only affect this character."
 --[[Translation missing --]]
 L["QUANTITY"] = "Quantity"
 --[[Translation missing --]]
@@ -238,6 +294,14 @@ L["SPLASH_830_NOT_DONE_2"] = "Price Histories"
 L["SPLASH_830_NOT_DONE_3"] = "Advanced Selling Functionality"
 --[[Translation missing --]]
 L["SPLASH_830_NOT_DONE_HEADER"] = "Not Yet Implemented (But Coming Soon!)"
+--[[Translation missing --]]
+L["SPLASH_831_CANCELLING"] = "New Cancelling Tab"
+--[[Translation missing --]]
+L["SPLASH_831_CANCELLING_1"] = "Click once on any auction to cancel it."
+--[[Translation missing --]]
+L["SPLASH_831_CANCELLING_2"] = "Scan for undercuts for all your auctions by clicking \"Undercut Scan\""
+--[[Translation missing --]]
+L["SPLASH_831_CANCELLING_3"] = "Click \"Cancel Undercut\" repeatedly to cancel all undercut auctions."
 --[[Translation missing --]]
 L["SPLASH_HIDE_MESSAGE"] = "Do not show until next update"
 --[[Translation missing --]]

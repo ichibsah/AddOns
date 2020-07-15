@@ -13,11 +13,15 @@ local Widget = Addon.Widgets:NewWidget("Stealth")
 local strsplit = strsplit
 
 -- WoW APIs
-local CreateFrame = CreateFrame
 local UnitReaction, UnitIsPlayer, UnitBuff = UnitReaction, UnitIsPlayer, UnitBuff
 
 -- ThreatPlates APIs
 local TidyPlatesThreat = TidyPlatesThreat
+
+local _G =_G
+-- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
+-- List them here for Mikk's FindGlobals script
+-- GLOBALS: CreateFrame
 
 local STEALTH_ICON_TEXTURE = "Interface\\AddOns\\TidyPlates_ThreatPlates\\Widgets\\StealthWidget\\stealthicon"
 
@@ -52,6 +56,9 @@ local DETECTION_AURAS = {
 }
 
 local DETECTION_UNITS = {
+  -- Legion
+  ["109229"] = true, -- Nightfallen Construct (Suramar)
+  -- Battle for Azeroth
   ["148483"] = true, -- Ancestral Avenger (Battle of Dazar'alor)
   ["148488"] = true, -- Unliving Augur (Battle of Dazar'alor)
   ["122984"] = true, -- Dazar'ai Colossus (Atal'Dazar)
@@ -67,7 +74,7 @@ local DETECTION_UNITS = {
 
 function Widget:Create(tp_frame)
   -- Required Widget Code
-  local widget_frame = CreateFrame("Frame", nil, tp_frame)
+  local widget_frame = _G.CreateFrame("Frame", nil, tp_frame)
   widget_frame:Hide()
 
   -- Custom Code

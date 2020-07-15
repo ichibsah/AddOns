@@ -217,6 +217,7 @@ function HealBot_Lang_enALL()
     HEALBOT_OPTIONS_SHOWTOOLTIP             = "Show tooltips";
     HEALBOT_OPTIONS_SHOWDETTOOLTIP          = "Show detailed spell information";
     HEALBOT_OPTIONS_SHOWCDTOOLTIP           = "Show spell cooldown";
+    HEALBOT_OPTIONS_IGNOREGCDTOOLTIP        = "Ignore spell global cooldown";
     HEALBOT_OPTIONS_SHOWMOUSEWHEELTOOLTIP   = "Show mouse wheel commands"
     HEALBOT_OPTIONS_SHOWUNITTOOLTIP         = "Show target information";
     HEALBOT_OPTIONS_SHOWRECTOOLTIP          = "Show heal over time recommendation";
@@ -852,7 +853,8 @@ function HealBot_Lang_enALL()
     HEALBOT_ZONE_VASHJIR3                   = "Abyssal Depths"
     HEALBOT_ZONE_VASHJIR                    = "Vashj'ir"
     HEALBOT_RESLAG_INDICATOR                = "Keep name green after res set to" 
-    HEALBOT_RESLAG_INDICATOR_ERROR          = "Keep name green after res must be between 1 and 30" 
+    HEALBOT_CLASSIC_HOT_IHDUR               = "Classic HoT incoming heal duration set to" 
+    HEALBOT_RESLAG_INDICATOR_ERROR          = "Invalid number - The number must be between 1 and 30" 
     HEALBOT_FRAMELOCK_BYPASS_OFF            = "Frame lock bypass turned Off"
     HEALBOT_FRAMELOCK_BYPASS_ON             = "Frame lock bypass (Ctl+Alt+Left) turned On"
     HEALBOT_RESTRICTTARGETBAR_ON            = "Restrict Target bar turned On"
@@ -1219,33 +1221,29 @@ function HealBot_Lang_enALL()
     HEALBOT_WORD_SUPPORTERS                 = "Supporters"
     HEALBOT_SUPPORTERS_PEOPLE = {  [01] = "Mythagos - Draenor",  -- Mythago
                                    [02] = "SUNET",
-                                   [03] = "Daskills",
-                                   [04] = "killerdavy",
-                                   [05] = "zathrain",
-                                   [06] = "Droodibaby",
-                                   [07] = "Redemption",
-                                   [08] = "Jaiseck",
-                                   [09] = "xtacie",
-                                   [10] = "bkwildlifecntrl",
-                                   [11] = "mlharg",
-                                   [12] = "Yuriusha",
-                                   [13] = "spicy_squid",
-                                   [14] = "Ameralanna_675",
-                                   [15] = "nydiah",
-                                   [16] = "Doomsdaze",
-                                   [17] = "Solution",
-                                   [18] = "selena817",
-                                   [19] = "SirArion",
-                                   [20] = "Xarava",
-                                   [21] = "jchap2k",
-                                   [22] = "Vayah",
-                                   [23] = "Madaleine",
-                                   [24] = "ADDYDARI",
-                                   [25] = "plastisch",
-                                   [26] = "MMOnster",
-                                   [27] = "dennywh",
+                                   [03] = "killerdavy",
+                                   [04] = "zathrain",
+                                   [05] = "Droodibaby",
+                                   [06] = "Redemption",
+                                   [07] = "Jaiseck",
+                                   [08] = "xtacie",
+                                   [09] = "bkwildlifecntrl",
+                                   [10] = "mlharg",
+                                   [11] = "Yuriusha",
+                                   [12] = "spicy_squid",
+                                   [13] = "Ameralanna_675",
+                                   [14] = "nydiah",
+                                   [15] = "Doomsdaze",
+                                   [16] = "Xarava",
+                                   [17] = "jchap2k",
+                                   [18] = "Vayah",
+                                   [19] = "Madaleine",
+                                   [20] = "ADDYDARI",
+                                   [21] = "plastisch",
+                                   [22] = "MMOnster",
+                                   [23] = "dennywh",
+                                   [24] = "Brokenwings82",
                                 }
-                               
 end
 
 function HealBot_Lang_InitVars()

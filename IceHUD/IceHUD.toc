@@ -1,9 +1,9 @@
-## Interface: 80200
+## Interface: 80300
 ## Author: Parnic, originally created by Iceroth
 ## Name: IceHUD
 ## Title: IceHUD |cff7fff7f-Ace3-|r
 ## Notes: Another HUD addon
-## Version: 1.12.10-1
+## Version: 1.12.14
 ## SavedVariables: IceCoreDB
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDogTag-3.0, LibDogTag-Unit-3.0, LibRangeCheck-2.0, LibDualSpec-1.0, LibDBIcon-1.0, AceGUI-3.0-SharedMediaWidgets
 ## X-Category: HUDs

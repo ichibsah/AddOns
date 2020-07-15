@@ -12,12 +12,27 @@ local L
 --})
 
 ---------------------------
+--  Altimor the Huntsman --
+---------------------------
+--L= DBM:GetModLocalization(2429)
+
+---------------------------
+--  Hungering Destroyer --
+---------------------------
+L= DBM:GetModLocalization(2428)
+
+L:SetOptionLocalization({
+	SortDesc 				= "Sort $spell:334755 Infoframe by highest debuff stack (instead of lowest).",
+	ShowTimeNotStacks		= "Show time remaining on $spell:334755 Infoframe instead of stack count."
+})
+
+---------------------------
 --  Artificer Xy'Mox --
 ---------------------------
 --L= DBM:GetModLocalization(2418)
 
 ---------------------------
---  Kael'thas --
+--  Sun King's Salvation/Kael'thas --
 ---------------------------
 --L= DBM:GetModLocalization(2422)
 

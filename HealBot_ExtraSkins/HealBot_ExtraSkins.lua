@@ -42,6 +42,21 @@ local HealBot_ExtraSkinNames={[1]="Aux Aggro",
                              [38]="Compact Raid 25",
                              [39]="Compact Raid 10",
                              [40]="Compact Party",
+                             [41]="Raid 40 Ravera",
+                             [42]="Group 5",
+                             [43]="cRaid25",
+                             [44]="cRaid40",
+                             [45]="B&W-Group",
+                             [46]="B&W-Raid25",
+                             [47]="B&W-Raid40",
+                             [48]="High-Vis",
+                             [49]="Retro-Raid",
+                             [50]="Blended-Group",
+                             [51]="Blended-Raid",
+                             [52]="Kalimdor-5",
+                             [53]="Kalimdor-25",
+                             [54]="Kalimdor-40",
+                             [55]="Kalimdor-10",
                              }
 local HealBot_ExtraSkinCats={[1]=HEALBOT_EXTRASKINS_GROUP,
                              [2]=HEALBOT_EXTRASKINS_SMALL_RAID,
@@ -83,6 +98,21 @@ local HealBot_ExtraSkinCats={[1]=HEALBOT_EXTRASKINS_GROUP,
                             [38]=HEALBOT_EXTRASKINS_LARGE_RAID,
                             [39]=HEALBOT_EXTRASKINS_SMALL_RAID,
                             [40]=HEALBOT_EXTRASKINS_GROUP,
+                            [41]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [42]=HEALBOT_EXTRASKINS_GROUP,
+                            [43]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [44]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [45]=HEALBOT_EXTRASKINS_GROUP,
+                            [46]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [47]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [48]=HEALBOT_EXTRASKINS_GROUP,
+                            [49]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [50]=HEALBOT_EXTRASKINS_GROUP,
+                            [51]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [52]=HEALBOT_EXTRASKINS_GROUP,
+                            [53]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [54]=HEALBOT_EXTRASKINS_LARGE_RAID,
+                            [55]=HEALBOT_EXTRASKINS_SMALL_RAID,
                              }
 local HealBot_ExtraSkinDesc={}
 local HealBot_ExtraSkinData={}
@@ -126,13 +156,13 @@ end
 -- Desc format:  Date added - Group or Raid n
 --               ============================
 --               About the skin
-HealBot_ExtraSkinDesc[1]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[1]=[[Group Skin
 ==================
 Aux Aggro is a 5 man skin using horizontal bars
 with threat above and power below the health bar
 then the whole wrapped in aggro bars.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[2]=[[APR 2020 - Small Raid Skin
+HealBot_ExtraSkinDesc[2]=[[Small Raid Skin
 =====================
 Raid10 is a raid skin using horizontal bars
 with buffs left of the health bar,
@@ -141,187 +171,187 @@ power below the health bar,
 threat above the health bar
 and aggro below and above threat and power.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[3]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[3]=[[Large Raid Skin
 =====================
 Verena is a raid skin using horizontal bars
 with power and aggro below the health bar.
 The skin is placed on the bottom of the screen.]]
-HealBot_ExtraSkinDesc[4]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[4]=[[Group Skin
 ==================
 Aux Group is a 5 man skin using horizontal bars
 with threat and aggro left of the health bar,
 incoming heals and overheals right of the health bar,
 power below the health bar and buff/debuff above the health bar.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[5]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[5]=[[Group Skin
 ==================
 Aux Group is a 5 man skin using horizontal bars
 with aggro above and below the health bar.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[6]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[6]=[[Large Raid Skin
 =====================
 Gridlike 40 is a raid 40 grid like skin
 with power below the health bar.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[7]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[7]=[[Large Raid Skin
 =====================
 Full 25 is a raid 25 skin using horizontal bars.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[8]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[8]=[[Large Raid Skin
 =====================
 Full 40 is a raid 40 skin using horizontal bars.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[9]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[9]=[[Group Skin
 ==================
 Aphrahat 2020/4 is a 5 man skin using horizontal bars
 with an interesting use of Aux bar and text.
 The skin is placed slightly to the right of the screen.]]
-HealBot_ExtraSkinDesc[10]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[10]=[[Large Raid Skin
 =====================
 Maddy's Large Raid Skin is a raid skin using 
 horizontal bars with aggro below the health bar.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[11]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[11]=[[Group Skin
 ==================
 Maddy Disc is a 5 man skin using horizontal 
 bars with aggro below the health bar.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[12]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[12]=[[Group Skin
 ==================
 Maddy's Classic Skin is a 5 man skin using horizontal 
 bars with aggro below the health bar.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[13]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[13]=[[Large Raid Skin
 =====================
 Vivid is a raid skin using horizontal bars
 with aggro below the health bar.
 This is a very old Healbot Skins, removed before 5.1.0.0, 
 slightly updated to use Frames and Sticky Frames.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[14]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[14]=[[Large Raid Skin
 =====================
 Square is a raid skin using horizontal bars.
 This is a very old Healbot Skins, removed in 5.1.0.2.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[15]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[15]=[[Large Raid Skin
 =====================
 Ranged is a raid skin using horizontal bars.
 This is a very old Healbot Skins, removed in 5.1.0.2.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[16]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[16]=[[Large Raid Skin
 =====================
 Magic is a raid skin using horizontal bars.
 This is a very old Healbot Skins, removed in 5.1.0.2.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[17]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[17]=[[Group Skin
 ==================
 Standard Original is a 5 man skin using horizontal bars
 with aggro above and below the health bar.
 This is the original standard skin that was replaced in 8.2.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[18]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[18]=[[Group Skin
 ==================
 Group Original is a 5 man skin using horizontal bars
 with aggro above the health bar and power below the health bar.
 This is the original group skin that was replaced in 8.2.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[19]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[19]=[[Large Raid Skin
 =====================
 Raid Original is a raid skin using horizontal bars
 with aggro above the health bar and power below the health bar.
 This is the original group skin that was replaced in 8.2.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[20]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[20]=[[Large Raid Skin
 =====================
 Alterac Valley is a raid skin using horizontal bars
 with aggro above and below the health bar.
 This is an original skin that was replaced in 8.2.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[21]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[21]=[[Large Raid Skin
 =====================
 Bottoms Up cRaid 25 is a raid skin using vertical bars
 with aggro above and below the health bar, Incoming heals 
 and absorbs on the left and right sides of the health bar.
 Bottoms Up cRaid 25 is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[22]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[22]=[[Large Raid Skin
 =====================
 Bottoms Up hRaid 25 is a raid skin using vertical bars
 with aggro surronding the health bar, Incoming heals 
 and a large power bar right sides of the health bar.
 Bottoms Up hRaid 25 is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[23]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[23]=[[Group Skin
 ==================
 Bottoms Up cGroup is a group skin using vertical bars
 with aggro above and below the health bar, Incoming heals 
 and absorbs on the left and right sides of the health bar.
 Bottoms Up cGroup is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[24]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[24]=[[Group Skin
 ==================
 Bottoms Up hGroup is a group skin using vertical bars
 with aggro surronding the health bar, Incoming heals 
 and a large power bar right sides of the health bar.
 Bottoms Up hGroup is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[25]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[25]=[[Large Raid Skin
 =====================
 Bottoms Up hRaid 40 is a raid skin using vertical bars
 with aggro surronding the health bar, Incoming heals 
 and a large power bar right sides of the health bar.
 Bottoms Up hRaid 40 is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[26]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[26]=[[Large Raid Skin
 =====================
 Bottoms Up cRaid 40 is a raid skin using vertical bars
 with aggro above and below the health bar, Incoming heals 
 and absorbs on the left and right sides of the health bar.
 Bottoms Up cRaid 40 is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[27]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[27]=[[Large Raid Skin
 =====================
 Bottoms Up cRaid 10 is a raid skin using vertical bars
 with aggro above and below the health bar, Incoming heals 
 and absorbs on the left and right sides of the health bar.
 Bottoms Up cRaid 10 is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[28]=[[APR 2020 - Small Raid Skin
+HealBot_ExtraSkinDesc[28]=[[Small Raid Skin
 =====================
 Bottoms Up hRaid 10 is a raid skin using vertical bars
 with aggro surronding the health bar, Incoming heals 
 and a large power bar right sides of the health bar.
 Bottoms Up hRaid 10 is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[29]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[29]=[[Group Skin
 ==================
 Bottoms Up Compact Group is a group skin using vertical bars
 with aggro surrounding the health bar, threat on the left 
 and power on the right sides of the health bar.
 Bottoms Up Compact Group is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[30]=[[APR 2020 - Small Raid Skin
+HealBot_ExtraSkinDesc[30]=[[Small Raid Skin
 =====================
 Bottoms Up Compact Small Raid is a raid skin using vertical bars
 with aggro surrounding the health bar, threat on the left 
 and power on the right sides of the health bar.
 Bottoms Up Compact Small Raid is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[31]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[31]=[[Large Raid Skin
 =====================
 Bottoms Up Compact Large Raid is a raid skin using vertical bars
 with aggro surrounding the health bar, threat on the left 
 and power on the right sides of the health bar.
 Bottoms Up Compact Large Raid is class colours themed.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[32]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[32]=[[Group Skin
 ==================
 Aux Party is a 5 man skin using horizontal bars
 with threat left of the health bar,  overheals right of the 
 health bar, aggro left and right of the health bar,
 power below the health bar and buff/debuff above the health bar.
 The skin is placed on the right of the screen.]]
-HealBot_ExtraSkinDesc[33]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[33]=[[Group Skin
 ==================
 Clarity Party is a 5 man skin using horizontal bars
 with threat left of the health bar, overheals right of the 
@@ -329,7 +359,7 @@ health bar, power below the health bar and buff/debuff/aggro
 above the health bar. This skin turns bars,text and icons
 transparent when the player doesn't needs a heal, buff, etc.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[34]=[[APR 2020 - Small Raid Skin
+HealBot_ExtraSkinDesc[34]=[[Small Raid Skin
 =====================
 Clarity Raid 10 is a 10 man skin using horizontal bars
 with threat left of the health bar, overheals right of the 
@@ -337,7 +367,7 @@ health bar, power below the health bar and buff/debuff/aggro
 above the health bar. This skin turns bars,text and icons
 transparent when the player doesn't needs a heal, buff, etc.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[35]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[35]=[[Large Raid Skin
 =====================
 Clarity Raid 25 is a 25 man skin using horizontal bars
 with threat left of the health bar, overheals right of the 
@@ -345,7 +375,7 @@ health bar, power below the health bar and buff/debuff/aggro
 above the health bar. This skin turns bars,text and icons
 transparent when the player doesn't needs a heal, buff, etc.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[36]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[36]=[[Large Raid Skin
 =====================
 Clarity Raid 40 is a 40 man skin using horizontal bars
 with threat left of the health bar, overheals right of the 
@@ -353,37 +383,111 @@ health bar, power below the health bar and buff/debuff/aggro
 above the health bar. This skin turns bars,text and icons
 transparent when the player doesn't needs a heal, buff, etc.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[37]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[37]=[[Large Raid Skin
 =====================
 Compact Raid 40 is a 40 man skin using horizontal bars
 with power below the health bar and buff/debuff/aggro 
 above the health bar. This is a compact skin.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[38]=[[APR 2020 - Large Raid Skin
+HealBot_ExtraSkinDesc[38]=[[Large Raid Skin
 =====================
 Compact Raid 25 is a 25 man skin using horizontal bars
 with power below the health bar and buff/debuff/aggro 
 above the health bar. This is a compact skin.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[39]=[[APR 2020 - Small Raid Skin
+HealBot_ExtraSkinDesc[39]=[[Small Raid Skin
 =====================
 Compact Raid 10 is a 10 man skin using horizontal bars
 with power below the health bar and buff/debuff/aggro 
 above the health bar. This is a compact skin.
 The skin is placed on the left of the screen.]]
-HealBot_ExtraSkinDesc[40]=[[APR 2020 - Group Skin
+HealBot_ExtraSkinDesc[40]=[[Group Skin
 ==================
 Compact Party is a 5 man skin using horizontal bars
 with power below the health bar and buff/debuff/aggro 
 above the health bar. This is a compact skin.
 The skin is placed on the left of the screen.]]
+HealBot_ExtraSkinDesc[41]=[[Large Raid Skin
+=====================
+Raid 40 Ravera is a 40 man skin using horizontal bars
+with power below the health bar. This is a compact skin.
+The skin is placed at the bottom of the screen.]]
+HealBot_ExtraSkinDesc[42]=[[Group Skin
+==================
+Group 5 is a 5 man skin using horizontal bars.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[43]=[[Large Raid Skin
+=====================
+cRaid25 is a 25 man skin using horizontal bars
+with power below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[44]=[[Large Raid Skin
+=====================
+cRaid40 is a 40 man skin using horizontal bars
+with power below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[45]=[[Group Skin
+=====================
+B&W-Group is a group skin using horizontal bars
+with aggro bars above and below the health bar.
+The skin is placed on the left of the screen.]]
+HealBot_ExtraSkinDesc[46]=[[Large Raid Skin
+=====================
+B&W-Raid25 is a 25 man raid skin using horizontal bars
+with aggro bars above and below the health bar.
+The skin is placed on the left of the screen.]]
+HealBot_ExtraSkinDesc[47]=[[Large Raid Skin
+=====================
+B&W-Raid40 is a 40 man raid skin using horizontal bars
+with aggro bars above and below the health bar.
+The skin is placed on the left of the screen.]]
+HealBot_ExtraSkinDesc[48]=[[Group Skin
+=====================
+High-Vis is a group skin using horizontal bars
+with aggro bars above and below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[49]=[[Large Raid Skin
+=====================
+Retro Raid is a 25 or 40 man raid skin using horizontal bars
+with a power bar below the health bar.
+The skin is placed on the left of the screen.]]
+HealBot_ExtraSkinDesc[50]=[[Group Skin
+==================
+Blended-Group is a group skin using horizontal bars
+with aggro above and below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[51]=[[Large Raid Skin
+==================
+Blended-Raid is a raid skin using horizontal bars
+with aggro above and below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[52]=[[Group Skin
+==================
+Kalimdor-5 is a group skin using horizontal bars
+with aggro below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[53]=[[Group Skin
+==================
+Kalimdor-25 is a 25 man raid skin using horizontal
+bars with aggro below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[54]=[[Group Skin
+==================
+Kalimdor-40 is a 40 man raid skin using horizontal
+bars with aggro below the health bar.
+The skin is placed on the right of the screen.]]
+HealBot_ExtraSkinDesc[55]=[[Group Skin
+==================
+Kalimdor-10 is a 10 man raid skin using horizontal
+bars with aggro below the health bar.
+The skin is placed on the right of the screen.]]
 
 HealBot_ExtraSkinData[1]=[[Skin
 Aux Aggro
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="true",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=2}
-General~t!{HIDEBOSSF="true",HIDEPTF="false",HIDEPARTYF="false",STICKYSENSITIVITY=25,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",FLUIDFREQ=6}
+General~t!{HIDEBOSSF="true",HIDEPTF="false",HIDEPARTYF="false",STICKYSENSITIVITY=25,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",FLUIDFREQ=12}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FALWAYSSHOW="false",FONLYFRIEND="true",FEXRAID="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCPET="false",TEXRAID="false",TINCRAID="true"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{ENEMYTARGET="true",INCTANKS="true",INCMYTAR="false",INCARENA="false",INCARENAPETS="false",ENEMYTARGETSIZE=58,INCSELF="false",NUMBOSS=4,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -513,7 +617,7 @@ Raid10
 Author~v!Doco of Mirage Raceway
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="true",HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=30,FLUIDBARS="false",FLUIDFREQ=4}
+General~t!{HIDEBOSSF="true",HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=30,FLUIDBARS="false",FLUIDFREQ=11}
 Healing~t!{TONLYFRIEND="false",TARGETINCOMBAT=1,FOCUSINCOMBAT=2,GROUPPETS="true",FEXRAID="false",FONLYFRIEND="false",TEXRAID="false",SELFPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",INCARENAPETS="false",ENEMYTARGETSIZE=70,INCSELF="false",NUMBOSS=1,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -670,7 +774,7 @@ Verena
 Author~v!Vayah von Lothar
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{FLUIDFREQ=4,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=30,HIDERAIDF="false",STICKYFRAME="false",FLUIDBARS="false",HIDEBOSSF="false"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=30,HIDERAIDF="false",STICKYFRAME="false",FLUIDBARS="false",HIDEBOSSF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,FALWAYSSHOW="false",FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCRAID="true",TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="false",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -779,7 +883,7 @@ Aux Group
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="true",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=2}
-General~t!{HIDEBOSSF="true",HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=22,FLUIDBARS="false",FLUIDFREQ=6}
+General~t!{HIDEBOSSF="true",HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=22,FLUIDBARS="false",FLUIDFREQ=12}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,TINCGROUP="true",FONLYFRIEND="true",FEXRAID="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCPET="false",TEXRAID="false",TINCRAID="true"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",ENEMYTARGETSIZE=58,INCARENAPETS="false",INCSELF="false",NUMBOSS=4,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -921,7 +1025,7 @@ Addydari
 Author~v!ADDYDARI of HealBot Website
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",NOTIFY=1}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=20,FLUIDBARS="false",FLUIDFREQ=3}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=20,FLUIDBARS="false",FLUIDFREQ=11}
 Healing~t!{TONLYFRIEND="false",TARGETINCOMBAT=2,FOCUSINCOMBAT=2,GROUPPETS="true",FEXRAID="false",FONLYFRIEND="false",TEXRAID="false",SELFPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1031,7 +1135,7 @@ Gridlike 40
 Author~v!jchap2k of HealBot Website
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",FLUIDFREQ=10,STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEPARTYF="true"}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",FLUIDFREQ=15,STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEPARTYF="true"}
 Healing~t!{TONLYFRIEND="false",FEXRAID="false",FOCUSINCOMBAT=2,GROUPPETS="true",SELFPET="false",TEXRAID="false",FONLYFRIEND="false",TARGETINCOMBAT=2}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="false",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",HIDE="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",ENEMYTARGET="false",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1176,7 +1280,7 @@ Full 25
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",NOTIFY=1}
-General~t!{FLUIDFREQ=3,HIDEPTF="false",HIDEBOSSF="true",STICKYFRAME="true",STICKYSENSITIVITY=40,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="false"}
+General~t!{FLUIDFREQ=11,HIDEPTF="false",HIDEBOSSF="true",STICKYFRAME="true",STICKYSENSITIVITY=40,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="false"}
 Healing~t!{TONLYFRIEND="false",SELFPET="false",FOCUSINCOMBAT=2,GROUPPETS="true",TARGETINCOMBAT=1,TEXRAID="false",FONLYFRIEND="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="false",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",INCARENAPETS="false",ENEMYTARGETSIZE=70,HIDE="true",NUMBOSS=4,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1359,7 +1463,7 @@ Full 40
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",NOTIFY=1}
-General~t!{FLUIDFREQ=3,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=40,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=40,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TONLYFRIEND="false",FEXRAID="false",FOCUSINCOMBAT=2,GROUPPETS="true",SELFPET="false",FONLYFRIEND="false",TEXRAID="false",TARGETINCOMBAT=2}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="false",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="false",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1526,7 +1630,7 @@ Aphrahat 2020_4²
 Author~v!Aphrahat von Kazzak
 DuplicateBars~v!false
 Chat~t!{EOCOOM="true",EOCOOMV=18,MSG="† #n lasse Dich vom Blute Christi erlöse",RESONLY="true",NOTIFY=1}
-General~t!{FLUIDFREQ=5,HIDEPTF="true",HIDEBOSSF="true",STICKYFRAME="true",STICKYSENSITIVITY=15,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="true"}
+General~t!{FLUIDFREQ=12,HIDEPTF="true",HIDEBOSSF="true",STICKYFRAME="true",STICKYSENSITIVITY=15,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="true"}
 Healing~t!{TONLYFRIEND="false",SELFPET="false",FOCUSINCOMBAT=2,GROUPPETS="true",TARGETINCOMBAT=2,TEXRAID="false",FONLYFRIEND="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="false",CRASH="true",COMBATRAID="false"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1654,7 +1758,7 @@ Maddy's Large Raid Skin
 Author~v!Madaleine of HealBot Website
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=3,HIDEPARTYF="false",HIDEPTF="false",STICKYFRAME="false",STICKYSENSITIVITY=30,HIDERAIDF="false",FLUIDBARS="false",HIDEBOSSF="false"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEPTF="false",STICKYFRAME="false",STICKYSENSITIVITY=30,HIDERAIDF="false",FLUIDBARS="false",HIDEBOSSF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID="true",FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",FALWAYSSHOW="false",TEXRAID="false",TINCPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",INCARENAPETS="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1764,7 +1868,7 @@ Maddy Disc
 Author~v!Madaleine of Runetotem
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{FLUIDFREQ=7,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=30,HIDERAIDF="false",STICKYFRAME="false",FLUIDBARS="false",HIDEBOSSF="false"}
+General~t!{FLUIDFREQ=12,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=30,HIDERAIDF="false",STICKYFRAME="false",FLUIDBARS="false",HIDEBOSSF="false"}
 Healing~t!{TINCRAID=1,GROUPPETS="true",TARGETINCOMBAT=2,FALWAYSSHOW="false",FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",TINCGROUP=1,FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET=1,TINCSELF="false",TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=0,CRASH="false",COMBATRAID=0}
 Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1868,7 +1972,7 @@ Maddy's Classic Skin
 Author~v!Madaleine of HealBot Website
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",STICKYFRAME="false",STICKYSENSITIVITY=20,HIDERAIDF="true",FLUIDBARS="false",FLUIDFREQ=3}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",STICKYFRAME="false",STICKYSENSITIVITY=20,HIDERAIDF="true",FLUIDBARS="false",FLUIDFREQ=11}
 Healing~t!{TONLYFRIEND="false",SELFPET="false",FOCUSINCOMBAT=2,GROUPPETS="true",TARGETINCOMBAT=2,FONLYFRIEND="false",TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -1978,7 +2082,7 @@ Vivid
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=7,HIDEPARTYF="true",HIDEPTF="false",STICKYFRAME="true",STICKYSENSITIVITY=30,HIDERAIDF="true",FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=12,HIDEPARTYF="true",HIDEPTF="false",STICKYFRAME="true",STICKYSENSITIVITY=30,HIDERAIDF="true",FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TINCRAID="true",TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,FALWAYSSHOW="false",FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",FEXRAID="false",TEXRAID="false",ALERT=1}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=0,CRASH="false",COMBATRAID=0}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2116,7 +2220,7 @@ Square
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=8,HIDEPTF="false",HIDEPARTYF="true",HIDERAIDF="true",HIDEBOSSF="true",STICKYSENSITIVITY=30,FLUIDBARS="false",STICKYFRAME="true"}
+General~t!{FLUIDFREQ=14,HIDEPTF="false",HIDEPARTYF="true",HIDERAIDF="true",HIDEBOSSF="true",STICKYSENSITIVITY=30,FLUIDBARS="false",STICKYFRAME="true"}
 Healing~t!{TINCSELF="false",TINCRAID="true",GROUPPETS="true",TARGETINCOMBAT=2,TINCPET="false",FONLYFRIEND="false",FALWAYSSHOW="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",SELFPET=0,TEXRAID="false",ALERT=0.87999999523163}
 Protection~t!{COMBATRAID=0,GENERALMACRO="false",COMBATPARTY=0,CRASH="false",COMBAT="false"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",INCARENAPETS="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2228,7 +2332,7 @@ Ranged
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="true",HIDEPTF="false",HIDEPARTYF="true",HIDERAIDF="true",FLUIDFREQ=7,STICKYSENSITIVITY=30,FLUIDBARS="false",STICKYFRAME="true"}
+General~t!{HIDEBOSSF="true",HIDEPTF="false",HIDEPARTYF="true",HIDERAIDF="true",FLUIDFREQ=12,STICKYSENSITIVITY=30,FLUIDBARS="false",STICKYFRAME="true"}
 Healing~t!{TINCRAID="true",SELFPET=0,GROUPPETS="true",TARGETINCOMBAT=2,TINCSELF="false",FONLYFRIEND="false",TINCGROUP="true",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCPET="false",TEXRAID="false",ALERT=1}
 Protection~t!{COMBATRAID=0,GENERALMACRO="false",COMBATPARTY=0,CRASH="false",COMBAT="false"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",INCARENAPETS="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2336,7 +2440,7 @@ Magic
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=7,HIDEPTF="false",HIDEPARTYF="true",HIDERAIDF="true",HIDEBOSSF="true",STICKYSENSITIVITY=30,FLUIDBARS="false",STICKYFRAME="true"}
+General~t!{FLUIDFREQ=12,HIDEPTF="false",HIDEPARTYF="true",HIDERAIDF="true",HIDEBOSSF="true",STICKYSENSITIVITY=30,FLUIDBARS="false",STICKYFRAME="true"}
 Healing~t!{TINCRAID="true",TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCGROUP="true",FONLYFRIEND="false",TINCPET="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",SELFPET=0,TEXRAID="false",ALERT=0.88}
 Protection~t!{COMBATRAID=0,GENERALMACRO="false",COMBATPARTY=0,CRASH="true",COMBAT="false"}
 Enemy~t!{USE=0,INCARENA="true",INCTANKS="true",INCMYTAR="false",INCARENAPETS="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCSELF="true",NUMBOSS=2,EXISTSHOWPTAR="true",HIDE="true",EXISTSHOWBOSS="false",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2442,7 +2546,7 @@ Standard Original
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="false",HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="false",STICKYSENSITIVITY=30,FLUIDBARS="false",FLUIDFREQ=3}
+General~t!{HIDEBOSSF="false",HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="false",STICKYSENSITIVITY=30,FLUIDBARS="false",FLUIDFREQ=11}
 Healing~t!{TONLYFRIEND="false",TARGETINCOMBAT=2,FOCUSINCOMBAT=2,GROUPPETS="true",FEXRAID="false",FONLYFRIEND="false",TEXRAID="false",SELFPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2544,7 +2648,7 @@ Group Original
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",FLUIDFREQ=3,HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=30,FLUIDBARS="true",HIDEPARTYF="false"}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",FLUIDFREQ=11,HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=30,FLUIDBARS="true",HIDEPARTYF="false"}
 Healing~t!{TONLYFRIEND="false",SELFPET="false",FOCUSINCOMBAT=2,GROUPPETS="true",TARGETINCOMBAT=2,TEXRAID="false",FONLYFRIEND="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2652,7 +2756,7 @@ Raid Original
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",FLUIDFREQ=3}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",FLUIDFREQ=11}
 Healing~t!{TONLYFRIEND="false",TARGETINCOMBAT=2,FOCUSINCOMBAT=2,GROUPPETS="true",FEXRAID="false",FONLYFRIEND="false",TEXRAID="false",SELFPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2764,7 +2868,7 @@ Alterac Valley
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=3,HIDEPTF="false",STICKYFRAME="true",HIDEBOSSF="false",STICKYSENSITIVITY=30,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="false"}
+General~t!{FLUIDFREQ=11,HIDEPTF="false",STICKYFRAME="true",HIDEBOSSF="false",STICKYSENSITIVITY=30,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="false"}
 Healing~t!{TONLYFRIEND="false",FEXRAID="false",FOCUSINCOMBAT=2,GROUPPETS="true",SELFPET="false",TEXRAID="false",FONLYFRIEND="false",TARGETINCOMBAT=2}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="false",COMBATRAID="true"}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",HIDE="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",ENEMYTARGET="false",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2870,7 +2974,7 @@ Bottoms Up cRaid 25
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{HIDEBOSSF="false",HIDEPARTYF="false",FLUIDFREQ=2,STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEPTF="false"}
+General~t!{HIDEBOSSF="false",HIDEPARTYF="false",FLUIDFREQ=11,STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEPTF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCPET="false",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCGROUP=1,TEXRAID="false",TINCRAID=1}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",INCARENAPETS="false",ENEMYTARGETSIZE=40,INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -2997,7 +3101,7 @@ AuxBar^1~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=2,OTYPE=1,A=1,B
 AuxBar^2~f~1!{SIZE=1,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,OTYPE=1,A=1,B=1,G=1}
 AuxBar^2~d!2~3~4~5~6~7~8~9~
 AuxBar^2~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,OTYPE=1,A=1,B=1,G=1}
-AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
+AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
 AuxBar^3~d!2~3~4~5~6~7~8~9~
 AuxBar^3~f~10!{SIZE=1,USE=1,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
 AuxBar^4~f~1!{SIZE=1,USE=2,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
@@ -3021,7 +3125,7 @@ Bottoms Up hRaid 25
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{HIDEBOSSF="true",HIDEPARTYF="false",FLUIDFREQ=5,STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="true",HIDEPTF="false"}
+General~t!{HIDEBOSSF="true",HIDEPARTYF="false",FLUIDFREQ=12,STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="true",HIDEPTF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCPET="false",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCGROUP=1,TEXRAID="false",TINCRAID=1}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",INCARENAPETS="false",ENEMYTARGETSIZE=40,INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -3175,7 +3279,7 @@ Bottoms Up cGroup
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="false",FLUIDFREQ=2}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="false",FLUIDFREQ=11}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCGROUP=1,TEXRAID="false",TINCPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -3292,7 +3396,7 @@ AuxBar^1~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=2,G=1,B=1,A=1,O
 AuxBar^2~f~1!{SIZE=1,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,A=1,OTYPE=1}
 AuxBar^2~d!2~3~4~5~6~7~8~9~
 AuxBar^2~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,A=1,OTYPE=1}
-AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
+AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
 AuxBar^3~f~2!{SIZE=1,USE=1,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
 AuxBar^3~d!3~4~5~6~7~8~9~10~
 AuxBar^4~f~1!{SIZE=1,USE=2,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
@@ -3316,7 +3420,7 @@ Bottoms Up hGroup
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",FLUIDFREQ=2}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",HIDEPARTYF="false",STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",FLUIDFREQ=11}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCGROUP=1,TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -3455,7 +3559,7 @@ Buttoms Up hRaid 40
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{FLUIDFREQ=5,HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="true",HIDEBOSSF="false"}
+General~t!{FLUIDFREQ=12,HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="true",HIDEBOSSF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCGROUP=1,TEXRAID="false",TINCPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -3611,7 +3715,7 @@ Bottoms Up cRaid 40
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{FLUIDFREQ=2,HIDEPARTYF="false",HIDEBOSSF="false",STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEPTF="false"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEBOSSF="false",STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="false",HIDEPTF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,FEXRAID="false",FONLYFRIEND="false",TINCPET="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCGROUP=1,TEXRAID="false",TINCRAID=1}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -3740,10 +3844,10 @@ AuxBar^1~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=2,OTYPE=1,A=1,B
 AuxBar^2~f~1!{SIZE=1,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,OTYPE=1,A=1,B=1,G=1}
 AuxBar^2~d!2~3~4~5~6~7~8~9~
 AuxBar^2~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,OTYPE=1,A=1,B=1,G=1}
-AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
+AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
 AuxBar^3~d!2~3~4~5~6~
 AuxBar^3~f~7!{SIZE=1,USE=1,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=5,G=1,B=1,A=1,OTYPE=1}
-AuxBar^3~f~8!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=5,G=1,B=1,A=1,OTYPE=1}
+AuxBar^3~f~8!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=5,G=1,B=1,A=1,OTYPE=1}
 AuxBar^3~d!9~
 AuxBar^3~f~10!{SIZE=1,USE=1,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
 AuxBar^4~f~1!{SIZE=1,USE=2,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=5,OTYPE=1,A=1,B=1,G=1}
@@ -3776,7 +3880,7 @@ Bottoms Up cRaid 10
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{FLUIDFREQ=5,HIDEPTF="false",HIDEPARTYF="false",STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="true",HIDEBOSSF="false"}
+General~t!{FLUIDFREQ=12,HIDEPTF="false",HIDEPARTYF="false",STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="true",HIDEBOSSF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCGROUP=1,TEXRAID="false",TINCPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -3893,7 +3997,7 @@ AuxBar^1~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=2,G=1,B=1,A=1,O
 AuxBar^2~f~1!{SIZE=1,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,A=1,OTYPE=1}
 AuxBar^2~d!2~3~4~5~6~7~8~9~
 AuxBar^2~f~10!{SIZE=1,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,A=1,OTYPE=1}
-AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
+AuxBar^3~f~1!{SIZE=1,USE=3,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
 AuxBar^3~f~2!{SIZE=1,USE=1,R=1,COLOUR=2,ANCHOR=3,OFFSET=1,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
 AuxBar^3~d!3~4~5~6~7~8~9~10~
 AuxBar^4~f~1!{SIZE=1,USE=2,R=1,COLOUR=2,ANCHOR=3,OFFSET=0,DEPTH=8,G=1,B=1,A=1,OTYPE=1}
@@ -3917,7 +4021,7 @@ Bottoms Up hRaid 10
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{FLUIDFREQ=2,HIDEPARTYF="false",HIDEBOSSF="false",STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="false",HIDEPTF="false"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEBOSSF="false",STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="false",HIDEPTF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,FEXRAID="false",FONLYFRIEND="false",TINCPET="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCGROUP=1,TEXRAID="false",TINCRAID=1}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -4059,7 +4163,7 @@ Bottoms Up Compact Group
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{HIDEBOSSF="false",HIDEPTF="false",FLUIDFREQ=5,STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="false"}
+General~t!{HIDEBOSSF="false",HIDEPTF="false",FLUIDFREQ=12,STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="false",HIDEPARTYF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCPET="false",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCGROUP=1,TEXRAID="false",TINCRAID=1}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -4224,7 +4328,7 @@ Bottoms Up Compact Small Raid
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{HIDEBOSSF="false",HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="true",FLUIDFREQ=5}
+General~t!{HIDEBOSSF="false",HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="true",FLUIDFREQ=12}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCGROUP=1,TEXRAID="false",TINCPET="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -4387,7 +4491,7 @@ Bottoms Up Compact Large Raid
 Author~v!Monti of Terenas
 DuplicateBars~v!true
 Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
-General~t!{FLUIDFREQ=5,HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=12,HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCGROUP=1,TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
 Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
@@ -4544,7 +4648,7 @@ Aux Party
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=4,HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,TINCGROUP="true",FONLYFRIEND="true",TINCPET="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCRAID="true",TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{ENEMYTARGET="true",INCTANKS="true",INCMYTAR="false",INCARENA="false",ENEMYTARGETSIZE=58,INCARENAPETS="false",INCSELF="false",NUMBOSS=1,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -4679,7 +4783,7 @@ Clarity Party
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="true",HIDEPTF="false",FLUIDFREQ=4,STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEPARTYF="false"}
+General~t!{HIDEBOSSF="true",HIDEPTF="false",FLUIDFREQ=11,STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEPARTYF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FEXRAID="false",FONLYFRIEND="true",SELFPET=0,TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCRAID="true",TEXRAID="false",FALWAYSSHOW="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{ENEMYTARGET="true",INCTANKS="true",INCMYTAR="false",INCARENA="false",INCARENAPETS="false",ENEMYTARGETSIZE=58,HIDE="true",NUMBOSS=1,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -4819,7 +4923,7 @@ Clarity Raid 10
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=4,HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=11,HIDEPTF="false",HIDEPARTYF="false",HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FALWAYSSHOW="false",FONLYFRIEND="true",TINCPET="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCRAID="true",TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",INCARENAPETS="false",ENEMYTARGETSIZE=58,INCSELF="false",NUMBOSS=1,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -4958,7 +5062,7 @@ Clarity Raid 25
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{HIDEBOSSF="true",HIDEPARTYF="false",FLUIDFREQ=4,HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEPTF="false"}
+General~t!{HIDEBOSSF="true",HIDEPARTYF="false",FLUIDFREQ=11,HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEPTF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FEXRAID="false",FONLYFRIEND="true",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCRAID="true",TEXRAID="false",TINCGROUP="true"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",ENEMYTARGETSIZE=58,INCARENAPETS="false",HIDE="true",NUMBOSS=1,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -5098,7 +5202,7 @@ Clarity Raid 40
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=4,HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEPTF="false",HIDERAIDF="true",STICKYSENSITIVITY=20,STICKYFRAME="true",FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FALWAYSSHOW="false",FONLYFRIEND="true",TINCPET="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCRAID="true",TEXRAID="false",SELFPET=0}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{ENEMYTARGET="true",INCTANKS="true",INCMYTAR="false",INCARENA="false",ENEMYTARGETSIZE=58,INCARENAPETS="false",INCSELF="false",NUMBOSS=1,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -5238,7 +5342,7 @@ Compact Raid 40
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=4,HIDEPTF="false",HIDEPARTYF="false",STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=11,HIDEPTF="false",HIDEPARTYF="false",STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FALWAYSSHOW="false",FONLYFRIEND="true",TINCPET="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCRAID="true",TEXRAID="false",FEXRAID="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",INCARENAPETS="false",ENEMYTARGETSIZE=58,INCSELF="false",NUMBOSS=1,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -5374,7 +5478,7 @@ Compact Raid 25
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=4,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=20,STICKYFRAME="true",HIDERAIDF="true",FLUIDBARS="false",HIDEBOSSF="true"}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="false",HIDEPTF="false",STICKYSENSITIVITY=20,STICKYFRAME="true",HIDERAIDF="true",FLUIDBARS="false",HIDEBOSSF="true"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FALWAYSSHOW="false",FONLYFRIEND="true",TINCPET="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCRAID="true",TEXRAID="false",SELFPET=0}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{ENEMYTARGET="true",INCTANKS="true",INCMYTAR="false",INCARENA="false",ENEMYTARGETSIZE=58,INCARENAPETS="false",INCSELF="false",NUMBOSS=1,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -5510,7 +5614,7 @@ Compact Raid 10
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=4,HIDEPTF="false",HIDEBOSSF="true",STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEPARTYF="false"}
+General~t!{FLUIDFREQ=11,HIDEPTF="false",HIDEBOSSF="true",STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEPARTYF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,SELFPET=0,FONLYFRIEND="true",FEXRAID="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCRAID="true",TEXRAID="false",FALWAYSSHOW="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",ENEMYTARGETSIZE=58,INCARENAPETS="false",HIDE="true",NUMBOSS=1,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -5646,7 +5750,7 @@ Compact Party
 Author~v!Monti of Terenas
 DuplicateBars~v!false
 Chat~t!{EOCOOM="false",EOCOOMV=5,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
-General~t!{FLUIDFREQ=4,HIDEPTF="false",HIDEBOSSF="true",STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEPARTYF="false"}
+General~t!{FLUIDFREQ=11,HIDEPTF="false",HIDEBOSSF="true",STICKYFRAME="true",HIDERAIDF="true",STICKYSENSITIVITY=20,FLUIDBARS="false",HIDEPARTYF="false"}
 Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,SELFPET=0,FONLYFRIEND="true",FEXRAID="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCRAID="true",TEXRAID="false",FALWAYSSHOW="false"}
 Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
 Enemy~t!{INCARENA="false",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="true",ENEMYTARGETSIZE=58,INCARENAPETS="false",HIDE="true",NUMBOSS=1,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
@@ -5775,5 +5879,2227 @@ AuxBar^7~d!2~3~4~5~6~7~8~9~10~
 AuxBar^8~f~1!{SIZE=0.98,USE=1,B=0.251,COLOUR=3,ANCHOR=3,OFFSET=1,DEPTH=2,R=1,G=0.557,OTYPE=2}
 AuxBar^8~d!2~3~4~5~6~7~8~9~10~
 AuxBar^9~f~1!{SIZE=0.98,USE=1,B=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,R=1,G=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[41]=[[Skin
+RAID 40 RAVERA
+Author~v!Ravera de Mandokir
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",NOTIFY=5}
+General~t!{FLUIDFREQ=15,STICKYSENSITIVITY=45,FLUIDBARS="true",LOWMANACOMBAT="false",HIDEBOSSF="false",HIDEPTF="false",STICKYFRAME="true",HIDERAIDF="true",HIDEPARTYF="false"}
+Healing~t!{TONLYFRIEND="false",FEXRAID="false",FOCUSINCOMBAT=2,GROUPPETS="true",SELFPET="false",FONLYFRIEND="false",TEXRAID="false",TARGETINCOMBAT=2}
+Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="false",COMBATRAID="true"}
+Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",INCARENAPETS="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=1,ALIAS="Frame 1",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{SIZE=12,NAME="",R=1,ALIAS="Frame 2",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~d!3~4~5~
+FrameAlias~f~6!{SIZE=12,NAME="Vehicle",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="Pets",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="Target",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="Focus",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="Enemy",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.2,TEXTURE="Skewed",B=0.1,HEIGHT=20,R=0.1,G=0.1,WIDTH=0.9}
+FrameAliasBar~d!2~3~4~5~6~7~8~9~10~
+Frame~f~1!{BACKR=0.1,BACKG=0.1,TIPLOC=5,BACKB=0.7,LOCKED="true",SCALE=1.05,BORDERA=0.04,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BORDERG=0.1,BORDERR=0.1,SFOFFSETH=0}
+Frame~f~2!{BACKR=0.1,BACKG=0.1,TIPLOC=5,BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=-8,AUTOCLOSE="false",BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BORDERG=0.1,BORDERR=0.1,SFOFFSETH=0}
+Frame~f~3!{BACKR=0.1,BACKG=0.1,TIPLOC=5,BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BORDERG=0.1,BORDERR=0.1,SFOFFSETH=0}
+Frame~d!4~5~6~
+Frame~f~7!{BACKR=0.1,BACKG=0.1,TIPLOC=5,BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BORDERG=0.1,BORDERR=0.1,SFOFFSETH=-8}
+Frame~f~8!{BACKR=0.1,BACKG=0.1,TIPLOC=5,BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=1,AUTOCLOSE="false",BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BORDERG=0.1,BORDERR=0.1,SFOFFSETH=9}
+Frame~f~9!{BACKR=0.1,BACKG=0.1,TIPLOC=5,BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BORDERG=0.1,BORDERR=0.1,SFOFFSETH=9}
+Frame~f~10!{BACKR=0.1,BACKG=0.1,TIPLOC=5,BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BORDERG=0.1,BORDERR=0.1,SFOFFSETH=0}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~9!{STUCK="true",STUCKTOPOINT="LEFT",STUCKTO=1,STUCKPOINT="RIGHT"}
+StickyFrames~f~10!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=1,STATE="true",NAME="Self"}
+HealGroups~f~3!{FRAME=1,STATE="true",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="true",NAME="Group"}
+HealGroups~f~5!{FRAME=1,STATE="true",NAME="Raid"}
+HealGroups~f~6!{FRAME=1,STATE="false",NAME="Private List"}
+HealGroups~f~7!{FRAME=6,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="false",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="false",NAME="Enemy"}
+Anchors~f~1!{Y=35.55,GROW=1,BARS=1,FRAME=1,X=41.87}
+Anchors~f~2!{Y=33.29,GROW=2,BARS=3,FRAME=2,X=42}
+Anchors~f~3!{Y=52,GROW=2,BARS=3,FRAME=3,X=52}
+Anchors~f~4!{Y=53,GROW=2,BARS=3,FRAME=3,X=53}
+Anchors~f~5!{Y=54,GROW=2,BARS=3,FRAME=3,X=54}
+Anchors~f~6!{Y=55,GROW=2,BARS=3,FRAME=3,X=55}
+Anchors~f~7!{Y=35.55,GROW=2,BARS=3,FRAME=3,X=60.28}
+Anchors~f~8!{Y=64.1,GROW=2,BARS=3,FRAME=3,X=74.2}
+Anchors~f~9!{Y=27.63,GROW=2,BARS=3,FRAME=3,X=96.72}
+Anchors~f~10!{Y=59,GROW=2,BARS=3,FRAME=3,X=59}
+HeadBar~f~1!{SHOW="false",TEXTURE="HealBot 10",R=0.1,B=0.1,HEIGHT=20,A=0.2,G=0.1,WIDTH=0.89}
+HeadBar~f~2!{SHOW="false",TEXTURE="Skewed",R=0.1,B=0.1,HEIGHT=20,A=0.2,G=0.1,WIDTH=0.9}
+HeadBar~d!3~4~5~6~7~8~9~10~
+HeadText~f~1!{A=0.4,R=1,OFFSET=0,B=0.1,FONT="Friz Quadrata TT",HEIGHT=9,G=1,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=27,GRPCOLS="false",CMARGIN=0,TEXTURE="HealBot 10",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=58,RMARGIN=0,OFIX=1,NUMCOLS=8,LOWMANA=2}
+HealBar~f~2!{HEIGHT=32,GRPCOLS="false",CMARGIN=0,TEXTURE="Tukui2",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=154,RMARGIN=0,OFIX=1,NUMCOLS=2,LOWMANA=1}
+HealBar~f~3!{HEIGHT=32,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui2",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=75,RMARGIN=2,OFIX=1,NUMCOLS=2,LOWMANA=1}
+HealBar~d!4~5~6~
+HealBar~f~7!{HEIGHT=27,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui2",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=49,RMARGIN=0,OFIX=1,NUMCOLS=1,LOWMANA=1}
+HealBar~f~8!{HEIGHT=32,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui2",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=75,RMARGIN=0,OFIX=1,NUMCOLS=2,LOWMANA=1}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=32,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui2",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=75,RMARGIN=2,OFIX=1,NUMCOLS=2,LOWMANA=1}
+BarCol~f~1!{BACK=3,BA=0.75,BOUT=0,DISA=0.75,BR=0.043,HB=0.4,BG=0.09,HG=0.4,HA=0.95,HR=0.2,ORA=0.4,BB=0.09,HLTH=2}
+BarCol~f~2!{BACK=2,BA=0.05,BOUT=1,DISA=0.12,BR=0.2,HB=0.4,BG=0.4,HG=0.4,HA=0.95,HR=0.2,ORA=0.3,BB=0.4,HLTH=2}
+BarCol~d!3~4~5~6~7~8~9~10~
+BarIACol~f~1!{AC=3,AB=1,AA=0.5,AR=1,AG=1,IC=4,IB=0.2,IA=0.9,IR=0.2,IG=0.8}
+BarIACol~f~2!{AC=3,AB=1,AA=0.5,AR=1,AG=1,IC=4,IB=0.2,IA=0.58,IR=0.2,IG=0.8}
+BarIACol~d!3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="true",TAGOOR="",IGNOREONFULL="true",MAXCHARS=10,HMAXCHARS=0,OUTLINE=1,CLASSONBAR="false",HOUTLINE=1,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",CLASSTYPE=1,HLTHTYPE=3,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",TAGRIP="",NAMEONBAR="true",HEIGHT=8,OFFSET=-1,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~2!{HLTHONBAR="true",TAGOOR="",IGNOREONFULL="true",MAXCHARS=0,HMAXCHARS=0,OUTLINE=1,CLASSONBAR="false",HOUTLINE=1,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",CLASSTYPE=1,HLTHTYPE=3,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",TAGRIP="",NAMEONBAR="true",HEIGHT=10,OFFSET=0,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~3!{HLTHONBAR="true",TAGOOR="[ OOR ] ",IGNOREONFULL="true",MAXCHARS=0,HMAXCHARS=0,OUTLINE=1,CLASSONBAR="false",HOUTLINE=1,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",CLASSTYPE=1,HLTHTYPE=3,NUMFORMAT2=1,OVERHEAL=1,TAGDC="[ DC ] ",TAGRIP="[ RIP ] ",NAMEONBAR="true",HEIGHT=10,OFFSET=0,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="[ R ] ",HOFFSET=0}
+BarText~d!4~5~6~
+BarText~f~7!{HLTHONBAR="false",TAGOOR="",IGNOREONFULL="true",MAXCHARS=8,HMAXCHARS=0,OUTLINE=1,CLASSONBAR="false",HOUTLINE=1,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",CLASSTYPE=1,HLTHTYPE=3,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",TAGRIP="",NAMEONBAR="true",HEIGHT=10,OFFSET=0,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~8!{HLTHONBAR="true",TAGOOR="",IGNOREONFULL="true",MAXCHARS=0,HMAXCHARS=0,OUTLINE=1,CLASSONBAR="false",HOUTLINE=1,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",CLASSTYPE=1,HLTHTYPE=3,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",TAGRIP="",NAMEONBAR="true",HEIGHT=10,OFFSET=0,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!9~
+BarText~f~10!{HLTHONBAR="true",TAGOOR="[ OOR ] ",IGNOREONFULL="true",MAXCHARS=0,HMAXCHARS=0,OUTLINE=1,CLASSONBAR="false",HOUTLINE=1,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",CLASSTYPE=1,HLTHTYPE=3,NUMFORMAT2=1,OVERHEAL=1,TAGDC="[ DC ] ",TAGRIP="[ RIP ] ",NAMEONBAR="true",HEIGHT=10,OFFSET=0,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="[ R ] ",HOFFSET=0}
+BarTextCol~f~1!{NAME=3,NDEBUFF="false",HLTH=3,NCDA=1,HCG=1,NCA=1,NCG=1,HCR=0.973,HCB=0.992,HCA=1,NCR=0.973,HDEBUFF="false",NCB=0.992,HCDA=1}
+BarTextCol~f~2!{NAME=2,NDEBUFF="false",HLTH=2,NCDA=0.7,HCG=1,NCA=1,NCG=1,HCR=1,HCB=0,HCA=1,NCR=1,HDEBUFF="false",NCB=0,HCDA=0.7}
+BarTextCol~d!3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=2,DOUBLE="true",FADE="false",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=1,ONBAR=1,SHOWRC="true",SCALE=1,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=4}
+Icons~f~2!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=2,DOUBLE="true",FADE="false",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=1,ONBAR=1,SHOWRC="true",SCALE=1,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=5}
+Icons~f~3!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=2,DOUBLE="true",FADE="false",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=1,ONBAR=1,SHOWRC="true",SCALE=1,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=4}
+Icons~d!4~5~
+Icons~f~6!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=3,DOUBLE="true",FADE="false",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=1,ONBAR=1,SHOWRC="true",SCALE=1,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=8}
+Icons~f~7!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=2,DOUBLE="true",FADE="false",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=1,ONBAR=1,SHOWRC="true",SCALE=1,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=4}
+Icons~f~8!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=2,DOUBLE="true",FADE="false",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=1,ONBAR=1,SHOWRC="true",SCALE=1,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=6}
+Icons~d!9~
+Icons~f~10!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=3,DOUBLE="true",FADE="false",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=1,ONBAR=1,SHOWRC="true",SCALE=1,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=8}
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",CROSS="true",MOON="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=10,FONT="Friz Quadrata TT",SDUR="true",SSDUR="false",OUTLINE=2}
+IconText~f~2!{DURWARN=3,HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="false",OUTLINE=2}
+IconText~d!3~4~5~
+IconText~f~6!{DURWARN=3,HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="false",SSDUR="true",OUTLINE=2}
+IconText~d!7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.55,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.85,HIDEOOR="false"}
+BarVisibility~d!3~4~5~
+BarVisibility~f~6!{INCCLASSES=1,ALERTIC=0.85,ALERTOC=0.7,HIDEOOR="false"}
+BarVisibility~d!7~
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.85,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=4,OORLAST="true",RAIDORDER=2,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!3~4~5~6~7~8~9~10~
+BarAggro~f~1!{R=1,SHOWTEXT="false",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="false",ALERTIND=2,SHOWIND="true",B=0,ALERT=3}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=4,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=3,G=1,B=1,OTYPE=1}
+AuxBar^1~f~2!{SIZE=0.98,USE=4,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^1~d!3~4~5~6~
+AuxBar^1~f~7!{SIZE=0.98,USE=4,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^1~d!8~9~
+AuxBar^1~f~10!{SIZE=0.98,USE=4,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^5~f~2!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^5~d!3~4~5~6~
+AuxBar^5~f~7!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!8~9~
+AuxBar^5~f~10!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[42]=[[Skin
+Group 5
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=14,HIDEPARTYF="true",HIDEBOSSF="true",HIDERAIDF="true",STICKYSENSITIVITY=19,STICKYFRAME="true",FLUIDBARS="true",HIDEPTF="false"}
+Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,TINCGROUP="true",FONLYFRIEND="true",TINCPET="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCRAID="true",TEXRAID="false",SELFPET=0}
+Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
+Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,INCSELF="false",NUMBOSS=4,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="Party",R=1,ALIAS="Group",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{SIZE=12,NAME="Tank and Healer",R=1,ALIAS="Tank and Healer",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~3!{SIZE=12,NAME="Pets",R=1,ALIAS="Not Used 1",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~4!{SIZE=12,NAME="Focus and Target",R=1,ALIAS="Not Used 2",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~5!{SIZE=12,NAME="Enemy",R=1,ALIAS="Not Used 3",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="Pets",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="Target",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.25,WIDTH=0.9,B=0.1,HEIGHT=20,R=0.1,G=0.1,TEXTURE="Diagonal"}
+FrameAliasBar~d!2~3~4~5~6~7~8~9~10~
+Frame~f~1!{BACKR=0.506,SFOFFSETH=0,BORDERR=1,BORDERG=1,LOCKED="true",OPENSOUND="false",BORDERA=0.14,SFOFFSETV=0,BACKG=0.506,BACKB=0.506,BACKA=0,SCALE=1,BORDERB=1,AUTOCLOSE="false",TIPLOC=2}
+Frame~f~2!{BACKR=0.1,SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.5,SFOFFSETV=0,BACKG=0.1,BACKB=0.5,BACKA=0.2,SCALE=1,BORDERB=0.1,AUTOCLOSE="false",TIPLOC=1}
+Frame~f~3!{BACKR=0.1,SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.5,SFOFFSETV=0,BACKG=0.1,BACKB=0.5,BACKA=0.2,SCALE=1,BORDERB=0.1,AUTOCLOSE="false",TIPLOC=2}
+Frame~d!4~
+Frame~f~5!{BACKR=0.1,SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.5,SFOFFSETV=0,BACKG=0.1,BACKB=0.5,BACKA=0.2,SCALE=1,BORDERB=0.1,AUTOCLOSE="false",TIPLOC=4}
+Frame~f~6!{BACKR=0.1,SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.5,SFOFFSETV=0,BACKG=0.1,BACKB=0.5,BACKA=0.2,SCALE=1,BORDERB=0.1,AUTOCLOSE="false",TIPLOC=5}
+Frame~d!7~
+Frame~f~8!{SFOFFSETH=5,TIPLOC=5,AUTOCLOSE="false",BORDERB=0.1,LOCKED="false",SCALE=1,BORDERA=0.5,BORDERG=0.1,BACKG=0.1,BACKB=0.5,BACKA=0.2,OPENSOUND="false",BACKR=0.1,SFOFFSETV=0,BORDERR=0.1}
+Frame~f~9!{SFOFFSETH=0,TIPLOC=5,AUTOCLOSE="false",BORDERB=0.1,LOCKED="false",SCALE=1,BORDERA=0.5,BORDERG=0.1,BACKG=0.1,BACKB=0.5,BACKA=0.2,OPENSOUND="false",BACKR=0.1,SFOFFSETV=5,BORDERR=0.1}
+Frame~f~10!{BACKR=0.102,SFOFFSETH=0,BORDERR=0.102,BORDERG=0.102,LOCKED="true",OPENSOUND="false",BORDERA=0.1,SFOFFSETV=0,BACKG=0.102,BACKB=0.502,BACKA=0.05,SCALE=1,BORDERB=0.102,AUTOCLOSE="false",TIPLOC=4}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!2~3~4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~9!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=8,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="BOTTOMRIGHT"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=1,STATE="true",NAME="Private List"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~4!{FRAME=1,STATE="true",NAME="Healers"}
+HealGroups~f~5!{FRAME=1,STATE="true",NAME="Group"}
+HealGroups~f~6!{FRAME=1,STATE="false",NAME="Raid"}
+HealGroups~f~7!{FRAME=6,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=1,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="true",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="true",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=68.33,GROW=2,BARS=3,FRAME=3,X=95.11}
+Anchors~f~2!{Y=64.2,GROW=2,BARS=1,FRAME=1,X=88.81}
+Anchors~f~3!{Y=54.67,GROW=2,BARS=3,FRAME=3,X=88.79}
+Anchors~f~4!{Y=64.17,GROW=2,BARS=1,FRAME=1,X=83.17}
+Anchors~f~5!{Y=65.23,GROW=2,BARS=2,FRAME=2,X=89.04}
+Anchors~f~6!{Y=55,GROW=2,BARS=1,FRAME=1,X=55}
+Anchors~f~7!{Y=49.67,GROW=2,BARS=1,FRAME=1,X=88.64}
+Anchors~f~8!{Y=68.33,GROW=2,BARS=1,FRAME=3,X=88.94}
+Anchors~f~9!{Y=65.08,GROW=2,BARS=1,FRAME=3,X=88.94}
+Anchors~f~10!{Y=68.33,GROW=2,BARS=4,FRAME=4,X=95.11}
+HeadBar~f~1!{SHOW="false",WIDTH=0.9,B=0.506,R=0.506,HEIGHT=28,A=0.4,G=0.506,TEXTURE="Diagonal"}
+HeadBar~f~2!{SHOW="false",WIDTH=0.9,B=0.1,R=0.1,HEIGHT=28,A=0.25,G=0.1,TEXTURE="Diagonal"}
+HeadBar~d!3~4~5~6~7~8~9~10~
+HeadText~f~1!{A=0.7,B=0.8,OFFSET=0,R=0.2,FONT="Friz Quadrata TT",HEIGHT=10,G=0.8,OUTLINE=1}
+HeadText~f~2!{A=0.7,B=0.1,OFFSET=0,R=1,FONT="Friz Quadrata TT",HEIGHT=10,G=1,OUTLINE=1}
+HeadText~d!3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=34,GRPCOLS="false",CMARGIN=4,TEXTURE="Smooth v2",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=1,OFIX=1,RMARGIN=0,WIDTH=172}
+HealBar~d!2~3~4~5~6~
+HealBar~f~7!{HEIGHT=34,GRPCOLS="false",CMARGIN=4,TEXTURE="Smooth v2",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=3,OFIX=1,RMARGIN=0,WIDTH=172}
+HealBar~f~8!{HEIGHT=34,GRPCOLS="false",CMARGIN=4,TEXTURE="Smooth v2",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=1,OFIX=1,RMARGIN=0,WIDTH=170}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=34,GRPCOLS="false",CMARGIN=4,TEXTURE="Smooth v2",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=2,OFIX=1,RMARGIN=0,WIDTH=172}
+BarCol~f~1!{BACK=2,BA=0.2,BOUT=0,DISA=0,BR=0.506,HB=0.9,BB=0.506,BG=0.506,HA=1,HG=0.2,ORA=0.32,HR=0.2,HLTH=1}
+BarCol~f~2!{BACK=2,BA=0.34,BOUT=0,DISA=0,BR=0.624,HB=1,BB=1,BG=0.914,HA=1,HG=1,ORA=0.55,HR=1,HLTH=1}
+BarCol~f~3!{BACK=2,BA=0.24,BOUT=0,DISA=0,BR=1,HB=1,BB=1,BG=1,HA=1,HG=1,ORA=0.55,HR=1,HLTH=1}
+BarCol~d!4~5~6~
+BarCol~f~7!{BACK=2,BA=0.24,BOUT=0,DISA=0,BR=1,HB=1,BB=1,BG=1,HA=0.95,HG=1,ORA=0.55,HR=1,HLTH=1}
+BarCol~f~8!{BACK=2,BA=0.24,BOUT=0,DISA=0,BR=1,HB=1,BB=1,BG=1,HA=1,HG=1,ORA=0.55,HR=1,HLTH=2}
+BarCol~d!9~
+BarCol~f~10!{BACK=2,BA=0.24,BOUT=0,DISA=0,BR=1,HB=0,BB=1,BG=1,HA=1,HG=0,ORA=0.55,HR=0.949,HLTH=3}
+BarIACol~f~1!{AC=3,AB=0.8,AA=0.45,AR=0.2,AG=0.8,IC=3,IB=0.2,IA=0.5,IR=0.2,IG=0.9}
+BarIACol~f~2!{AC=3,AB=0.816,AA=0.4,AR=0.184,AG=0.475,IC=3,IB=0.4,IA=0.5,IR=0.4,IG=1}
+BarIACol~f~3!{AC=3,AB=0.816,AA=0.3,AR=0.184,AG=0.475,IC=3,IB=0.4,IA=0.3,IR=0.4,IG=1}
+BarIACol~d!4~5~6~7~8~9~10~
+BarText~f~1!{HHEIGHT=10,TAGOOR="OOR | ",IGNOREONFULL="true",MAXCHARS=0,NAMEONBAR="true",CLASSONBAR="false",HFONT="Friz Quadrata TT",OFFSET=0,HMAXCHARS=0,INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=1,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,OUTLINE=1,TAGDC="DC | ",FONT="Friz Quadrata TT",TAGRIP="RIP | ",HEIGHT=12,HOUTLINE=1,SHOWROLE="false",HALIGN=2,NUMFORMAT1=11,HLTHONBAR="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="R | ",HOFFSET=0}
+BarText~f~2!{HHEIGHT=10,TAGOOR="OOR | ",IGNOREONFULL="true",MAXCHARS=0,NAMEONBAR="true",CLASSONBAR="false",HFONT="Friz Quadrata TT",OFFSET=0,HMAXCHARS=0,INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,OUTLINE=1,TAGDC="DC | ",FONT="Friz Quadrata TT",TAGRIP="RIP | ",HEIGHT=12,HOUTLINE=1,SHOWROLE="false",HALIGN=2,NUMFORMAT1=11,HLTHONBAR="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="R | ",HOFFSET=0}
+BarText~f~3!{HHEIGHT=10,TAGOOR="[OOR] ",IGNOREONFULL="true",MAXCHARS=0,NAMEONBAR="true",CLASSONBAR="false",HFONT="Friz Quadrata TT",OFFSET=0,HMAXCHARS=0,INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,OUTLINE=1,TAGDC="[DC] ",FONT="Friz Quadrata TT",TAGRIP="[RIP] ",HEIGHT=12,HOUTLINE=1,SHOWROLE="false",HALIGN=2,NUMFORMAT1=11,HLTHONBAR="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="[R] ",HOFFSET=0}
+BarText~d!4~5~
+BarText~f~6!{HHEIGHT=10,TAGOOR="OOR | ",IGNOREONFULL="true",MAXCHARS=0,NAMEONBAR="true",CLASSONBAR="false",HFONT="Friz Quadrata TT",OFFSET=0,HMAXCHARS=0,INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,OUTLINE=1,TAGDC="DC | ",FONT="Friz Quadrata TT",TAGRIP="RIP | ",HEIGHT=12,HOUTLINE=1,SHOWROLE="false",HALIGN=2,NUMFORMAT1=11,HLTHONBAR="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="R | ",HOFFSET=0}
+BarText~d!7~
+BarText~f~8!{HHEIGHT=10,TAGOOR="",IGNOREONFULL="true",MAXCHARS=0,NAMEONBAR="true",CLASSONBAR="false",HFONT="Friz Quadrata TT",OFFSET=0,HMAXCHARS=0,INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,OUTLINE=1,TAGDC="",FONT="Friz Quadrata TT",TAGRIP="",HEIGHT=12,HOUTLINE=1,SHOWROLE="false",HALIGN=2,NUMFORMAT1=11,HLTHONBAR="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~9!{HHEIGHT=10,TAGOOR="[OOR] ",IGNOREONFULL="true",MAXCHARS=0,NAMEONBAR="true",CLASSONBAR="false",HFONT="Friz Quadrata TT",OFFSET=0,HMAXCHARS=0,INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,OUTLINE=1,TAGDC="[DC] ",FONT="Friz Quadrata TT",TAGRIP="[RIP] ",HEIGHT=12,HOUTLINE=1,SHOWROLE="false",HALIGN=2,NUMFORMAT1=11,HLTHONBAR="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="[R] ",HOFFSET=0}
+BarText~d!10~
+BarTextCol~f~1!{NAME=2,NCR=0.949,NCB=0.267,NCDA=0.47,HCG=0.843,HCA=1,NCG=0.843,HCR=0.949,NDEBUFF="false",HCB=0.267,NCA=1,HDEBUFF="false",HCDA=0.47,HLTH=2}
+BarTextCol~f~2!{NAME=2,NCR=0.8,NCB=0.149,NCDA=0.69,HCG=0.8,HCA=1,NCG=0.8,HCR=0.8,NDEBUFF="false",HCB=0.149,NCA=1,HDEBUFF="false",HCDA=0.69,HLTH=2}
+BarTextCol~d!3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",SHOWDEBUFF="true",MAXDICONS=3,I15EN="true",POSITION=2,DOUBLE="false",ONBAR=1,FADE="false",DSCALE=0.45,SHOWDIR="true",SHOWRC="true",SCALE=0.45,FADESECS=15,SHOWDIRMOUSE="false",MAXBICONS=8}
+Icons~d!2~3~4~5~6~7~8~9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",MOON="true",TRIANGLE="true",STAR="true",SKULL="true",CROSS="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=10,SSCNT="false",FONT="Friz Quadrata TT",SCNT="true",DURTHRH=9,SCALE=0.75,SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~d!2~3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!2~3~4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.88,ALERTOC=0.75,HIDEOOR="true"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=2,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0.114,SHOWTEXT="false",G=0.553,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",ALERTIND=2,R=0.988,SHOWIND="true",ALERT=2}
+BarAggro~f~2!{B=0,SHOWTEXT="false",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",ALERTIND=1,R=1,SHOWIND="true",ALERT=2}
+BarAggro~f~3!{B=0,SHOWTEXT="false",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",ALERTIND=2,R=1,SHOWIND="true",ALERT=2}
+BarAggro~d!4~5~6~
+BarAggro~f~7!{B=0,SHOWTEXT="false",G=1,TEXTFORMAT=3,SHOW="false",SHOWTEXTPCT="true",ALERTIND=2,R=0.957,SHOWIND="true",ALERT=2}
+BarAggro~f~8!{B=0,SHOWTEXT="false",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",ALERTIND=2,R=1,SHOWIND="true",ALERT=2}
+BarAggro~d!9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,B=1,G=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,B=1,G=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,B=1,G=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,B=1,G=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=1,B=1,G=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,B=1,G=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,B=1,G=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,B=1,G=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,B=1,G=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[43]=[[Skin
+cRaid25
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=14,HIDEPTF="false",HIDEPARTYF="true",HIDERAIDF="true",HIDEBOSSF="true",STICKYSENSITIVITY=30,FLUIDBARS="true",STICKYFRAME="true"}
+Healing~t!{TINCSELF="false",TINCPET="false",GROUPPETS="true",TARGETINCOMBAT=1,TINCRAID="true",FONLYFRIEND="false",TINCGROUP="true",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",SELFPET=0,TEXRAID="false",ALERT=0.95}
+Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
+Enemy~t!{USE=0,INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=4,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="Tanks and Healers",R=1,ALIAS="Tanks and Healers",G=1,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{A=1,NAME="Damage Dealers",R=1,ALIAS="Raid",G=1,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{SIZE=12,NAME="Members Pets",R=1,ALIAS="Not Used",G=1,SHOW="true",OFFSET=8,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=1,NAME="",R=1,ALIAS="Not Used 2",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{SIZE=12,NAME="Hostile",R=1,ALIAS="Not Used 3",G=0.047058823529412,SHOW="true",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=0,OUTLINE=1}
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.85}
+FrameAliasBar~d!2~
+FrameAliasBar~f~3!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.7}
+FrameAliasBar~d!4~5~6~7~8~9~10~
+Frame~f~1!{SFOFFSETH=0,BORDERB=0.027,BORDERR=0.027,BACKG=0.016,LOCKED="true",OPENSOUND="false",BORDERA=0,SFOFFSETV=0,TIPLOC=5,BACKB=0.016,BACKA=0.05,SCALE=1,AUTOCLOSE="false",BACKR=0.016,BORDERG=0.027}
+Frame~f~2!{BORDERR=0.2,TIPLOC=2,OPENSOUND="false",BACKG=0.1,LOCKED="true",BACKB=0.1,BORDERA=0,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,SCALE=1,BACKR=0.1,BORDERG=0.2,SFOFFSETH=0}
+Frame~f~3!{SFOFFSETH=0,BACKB=0.1,BORDERR=0.2,BACKG=0.1,LOCKED="true",SCALE=1,BORDERA=0,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,OPENSOUND="false",TIPLOC=5,BACKR=0.1,BORDERG=0.2}
+Frame~f~4!{BORDERR=0.2,TIPLOC=4,OPENSOUND="false",BACKG=0.1,LOCKED="true",BACKB=0.1,BORDERA=0.2,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,SCALE=1,BACKR=0.1,BORDERG=0.2,SFOFFSETH=0}
+Frame~f~5!{BORDERR=0.2,TIPLOC=4,OPENSOUND="false",BACKG=0.1,LOCKED="true",BACKB=0.1,BORDERA=0,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,SCALE=1,BACKR=0.1,BORDERG=0.2,SFOFFSETH=0}
+Frame~f~6!{BORDERR=0.2,TIPLOC=5,OPENSOUND="false",BACKG=0.1,LOCKED="true",BACKB=0.1,BORDERA=0.2,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,SCALE=1,BACKR=0.1,BORDERG=0.2,SFOFFSETH=0}
+Frame~d!7~8~9~
+Frame~f~10!{SFOFFSETH=0,BACKB=0.1,BORDERR=0.2,BACKG=0.1,LOCKED="true",SCALE=1,BORDERA=0.2,SFOFFSETV=0,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,OPENSOUND="false",TIPLOC=4,BACKR=0.1,BORDERG=0.2}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOM",STUCKTO=2,STUCKPOINT="TOP"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="BOTTOMRIGHT"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~3!{FRAME=1,STATE="true",NAME="Healers"}
+HealGroups~f~4!{FRAME=2,STATE="false",NAME="Group"}
+HealGroups~f~5!{FRAME=2,STATE="true",NAME="Raid"}
+HealGroups~f~6!{FRAME=3,STATE="false",NAME="Private List"}
+HealGroups~f~7!{FRAME=6,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=66.65,GROW=2,BARS=3,FRAME=3,X=95.47}
+Anchors~f~2!{Y=66.65,GROW=2,BARS=3,FRAME=3,X=89.82}
+Anchors~f~3!{Y=43.9,GROW=2,BARS=3,FRAME=3,X=95.03}
+Anchors~f~4!{Y=79.82,GROW=2,BARS=3,FRAME=3,X=93.91}
+Anchors~f~5!{Y=68.26,GROW=2,BARS=4,FRAME=4,X=93.58}
+Anchors~f~6!{Y=34.7,GROW=2,BARS=3,FRAME=3,X=31.21}
+Anchors~f~7!{Y=55.15,GROW=2,BARS=3,FRAME=5,X=83.09}
+Anchors~f~8!{Y=66.65,GROW=2,BARS=3,FRAME=3,X=89.82}
+Anchors~f~9!{Y=70.22,GROW=2,BARS=3,FRAME=3,X=90.04}
+Anchors~f~10!{Y=68.32,GROW=2,BARS=3,FRAME=4,X=95.47}
+HeadBar~f~1!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=10,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~f~2!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=9,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~f~3!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=7,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~f~4!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=15,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~f~5!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=9,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~f~6!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=10,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~f~7!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=9,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~f~8!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=10,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~d!9~10~
+HeadText~f~1!{A=1,R=1,OFFSET=0,B=1,FONT="Friz Quadrata TT",HEIGHT=12,G=1,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=28,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=148,RMARGIN=0,OFIX=1,NUMCOLS=1,LOWMANA=2}
+HealBar~f~2!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=3,RMARGIN=0,OFIX=1,WIDTH=120,LOWMANA=2}
+HealBar~f~3!{HEIGHT=20,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=50,RMARGIN=0,OFIX=1,NUMCOLS=2,LOWMANA=2}
+HealBar~f~4!{HEIGHT=42,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=152,RMARGIN=0,OFIX=1,NUMCOLS=4,LOWMANA=2}
+HealBar~f~5!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=95,RMARGIN=0,OFIX=1,NUMCOLS=3,LOWMANA=2}
+HealBar~f~6!{HEIGHT=27,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=132,RMARGIN=0,OFIX=1,NUMCOLS=4,LOWMANA=2}
+HealBar~f~7!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=3,RMARGIN=0,OFIX=1,WIDTH=118,LOWMANA=2}
+HealBar~f~8!{HEIGHT=27,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=4,RMARGIN=0,OFIX=1,WIDTH=132,LOWMANA=2}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=27,GRPCOLS="false",CMARGIN=1,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=130,RMARGIN=0,OFIX=1,NUMCOLS=4,LOWMANA=2}
+BarCol~f~1!{BACK=2,BA=0.1,BOUT=2,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,HR=0.38,HA=0.98,HG=0.424,ORA=0.5,BB=0.059,HLTH=2}
+BarCol~f~2!{BACK=2,BA=0.1,BB=0.059,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,BOUT=2,HA=0.98,HR=0.38,ORA=0.4,HG=0.424,HLTH=2}
+BarCol~f~3!{BACK=2,BA=0.1,BB=0.059,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,BOUT=2,HA=0.98,HR=0.38,ORA=0.5,HG=0.424,HLTH=2}
+BarCol~d!4~5~6~
+BarCol~f~7!{BACK=3,BA=0.1,BB=0.059,DISA=0.04,BR=0.059,HB=0.643,BG=0.059,BOUT=2,HA=0.98,HR=0.624,ORA=0.25,HG=0.659,HLTH=3}
+BarCol~f~8!{BACK=2,BA=0.1,BB=0.059,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,BOUT=2,HA=0.98,HR=0.38,ORA=0.5,HG=0.424,HLTH=2}
+BarCol~d!9~
+BarCol~f~10!{BACK=3,BA=0.2,BB=0,DISA=0.04,BR=0.6,HB=0.106,BG=0,HG=0.106,HA=0.98,HR=0.855,ORA=0.5,BOUT=2,HLTH=3}
+BarIACol~f~1!{AC=3,AB=1,AA=0.7,AR=1,AG=1,IC=4,IB=0.459,IA=0.7,IR=1,IG=0.467}
+BarIACol~d!2~3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="true",TAGOOR="OOR | ",IGNOREONFULL="false",MAXCHARS=0,NUMFORMAT1=2,HMAXCHARS=0,OUTLINE=1,OVERHEAL=1,FONT="Friz Quadrata TT",INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=1,CLASSONBAR="true",CLASSTYPE=1,NUMFORMAT2=1,TAGRIP="RIP | ",TAGDC=" DC | ",HHEIGHT=10,NAMEONBAR="true",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,OFFSET=0,HOUTLINE=1,INCABSORBS=3,HOFFSET2=0,ALIGN=2,TAGR="R | ",HOFFSET=0}
+BarText~d!2~
+BarText~f~3!{HLTHONBAR="true",TAGOOR="OOR | ",IGNOREONFULL="false",MAXCHARS=0,NUMFORMAT1=2,HMAXCHARS=0,OUTLINE=1,OVERHEAL=1,CLASSONBAR="false",INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=1,CLASSTYPE=1,FONT="Friz Quadrata TT",NUMFORMAT2=1,NAMEONBAR="true",TAGDC=" DC | ",HHEIGHT=10,TAGRIP="RIP | ",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,OFFSET=0,HOUTLINE=1,INCABSORBS=3,HOFFSET2=0,ALIGN=2,TAGR="R | ",HOFFSET=0}
+BarText~d!4~5~6~7~8~9~10~
+BarTextCol~f~1!{NAME=2,HCA=1,NCB=0,NCDA=0.8,HCG=1,NDEBUFF="false",HCB=0,HCR=1,NCR=1,NCG=1,NCA=1,HDEBUFF="false",HLTH=2,HCDA=0.8}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,FADE="false",MAXDICONS=3,ONBAR=1,POSITION=2,SHOWDIRMOUSE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="true",SCALE=0.5,DOUBLE="false",I15EN="true",MAXBICONS=8}
+Icons~d!2~3~4~5~6~7~8~9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",MOON="true",TRIANGLE="true",STAR="true",CROSS="true",SKULL="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{SDUR="true",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="false",OUTLINE=2}
+IconText~d!2~
+IconText~f~3!{SDUR="true",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~4!{SDUR="true",HEIGHT=12,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~5!{SDUR="true",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~6!{SDUR="true",HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~7!{SDUR="true",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~8!{SDUR="true",HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~d!9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.9,ALERTOC=0.75,HIDEOOR="false"}
+BarVisibility~f~3!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.75,ALERTOC=0.55,HIDEOOR="true"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=2,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="true",RAIDORDER=2,SUBPF="true"}
+BarSort~d!3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",SHOWTEXT="false",R=1,ALERT=2}
+BarAggro~f~2!{B=0.2,ALERTIND=2,G=0.569,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",SHOWTEXT="false",R=0.949,ALERT=2}
+BarAggro~f~3!{B=0,ALERTIND=1,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",SHOWTEXT="true",R=1,ALERT=2}
+BarAggro~f~4!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",SHOWTEXT="true",R=1,ALERT=2}
+BarAggro~d!5~6~
+BarAggro~f~7!{B=0,ALERTIND=2,G=0.792,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",SHOWTEXT="true",R=1,ALERT=2}
+BarAggro~f~8!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",SHOWTEXT="true",R=1,ALERT=2}
+BarAggro~d!9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=4,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[44]=[[Skin
+cRaid40
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=14,HIDEPARTYF="true",HIDEBOSSF="true",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=30,FLUIDBARS="true",HIDEPTF="false"}
+Healing~t!{TINCRAID="true",TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FALWAYSSHOW="false",FONLYFRIEND="false",TINCPET="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",SELFPET=0,TEXRAID="false",ALERT=0.95}
+Protection~t!{COMBAT="false",GENERALMACRO="true",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
+Enemy~t!{USE=0,ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=4,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="Tanks",R=1,ALIAS="Tanks",G=1,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{A=1,NAME="Raid",R=1,ALIAS="Raid",G=1,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{SIZE=12,NAME="Members Pets",R=1,ALIAS="Not Used",G=1,SHOW="true",OFFSET=8,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=1,NAME="",R=1,ALIAS="Not Used 2",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{SIZE=12,NAME="Hostile",R=1,ALIAS="Not Used 3",G=0.047058823529412,SHOW="true",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=0,OUTLINE=1}
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,WIDTH=0.85,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!2~
+FrameAliasBar~f~3!{A=0.5,WIDTH=0.7,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!4~5~6~7~8~9~10~
+Frame~f~1!{SFOFFSETH=0,BACKR=0.016,SFOFFSETV=0,BACKG=0.016,LOCKED="true",SCALE=1,BORDERA=0,BORDERG=0.027,TIPLOC=5,BACKB=0.016,BACKA=0.05,OPENSOUND="false",BORDERB=0.027,AUTOCLOSE="false",BORDERR=0.027}
+Frame~f~2!{BORDERR=0.2,SFOFFSETH=0,BACKR=0.1,SFOFFSETV=0,LOCKED="true",SCALE=1,BORDERA=0,BORDERG=0.2,BACKG=0.1,BORDERB=0.2,BACKA=0.05,OPENSOUND="false",BACKB=0.1,TIPLOC=2,AUTOCLOSE="false"}
+Frame~f~3!{SFOFFSETH=0,BACKR=0.1,SFOFFSETV=0,BACKG=0.1,LOCKED="true",OPENSOUND="false",BORDERA=0,BORDERG=0.2,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,SCALE=1,BACKB=0.1,TIPLOC=5,BORDERR=0.2}
+Frame~f~4!{BORDERR=0.2,SFOFFSETH=0,BACKR=0.1,SFOFFSETV=0,LOCKED="true",SCALE=1,BORDERA=0.2,BORDERG=0.2,BACKG=0.1,BORDERB=0.2,BACKA=0.05,OPENSOUND="false",BACKB=0.1,TIPLOC=4,AUTOCLOSE="false"}
+Frame~f~5!{BORDERR=0.2,SFOFFSETH=0,BACKR=0.1,SFOFFSETV=0,LOCKED="true",SCALE=1,BORDERA=0,BORDERG=0.2,BACKG=0.1,BORDERB=0.2,BACKA=0.05,OPENSOUND="false",BACKB=0.1,TIPLOC=4,AUTOCLOSE="false"}
+Frame~f~6!{BORDERR=0.2,SFOFFSETH=0,BACKR=0.1,SFOFFSETV=0,LOCKED="true",SCALE=1,BORDERA=0.2,BORDERG=0.2,BACKG=0.1,BORDERB=0.2,BACKA=0.05,OPENSOUND="false",BACKB=0.1,TIPLOC=5,AUTOCLOSE="false"}
+Frame~d!7~8~9~
+Frame~f~10!{SFOFFSETH=0,BACKR=0.1,SFOFFSETV=0,BACKG=0.1,LOCKED="true",OPENSOUND="false",BORDERA=0.2,BORDERG=0.2,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.05,SCALE=1,BACKB=0.1,TIPLOC=4,BORDERR=0.2}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOM",STUCKTO=2,STUCKPOINT="TOP"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="BOTTOMRIGHT"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=2,STATE="false",NAME="Self"}
+HealGroups~f~3!{FRAME=2,STATE="true",NAME="Healers"}
+HealGroups~f~4!{FRAME=2,STATE="false",NAME="Group"}
+HealGroups~f~5!{FRAME=2,STATE="true",NAME="Raid"}
+HealGroups~f~6!{FRAME=3,STATE="false",NAME="Private List"}
+HealGroups~f~7!{FRAME=6,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=66.65,GROW=2,BARS=3,FRAME=3,X=95.47}
+Anchors~f~2!{Y=66.65,GROW=2,BARS=3,FRAME=3,X=89.82}
+Anchors~f~3!{Y=43.9,GROW=2,BARS=3,FRAME=3,X=95.03}
+Anchors~f~4!{Y=79.82,GROW=2,BARS=3,FRAME=3,X=93.91}
+Anchors~f~5!{Y=68.26,GROW=2,BARS=4,FRAME=4,X=93.58}
+Anchors~f~6!{Y=34.7,GROW=2,BARS=3,FRAME=3,X=31.21}
+Anchors~f~7!{Y=43.32,GROW=2,BARS=3,FRAME=5,X=83.12}
+Anchors~f~8!{Y=63.51,GROW=2,BARS=3,FRAME=3,X=62.1}
+Anchors~f~9!{Y=62.51,GROW=2,BARS=3,FRAME=3,X=62.1}
+Anchors~f~10!{Y=68.32,GROW=2,BARS=3,FRAME=4,X=95.47}
+HeadBar~f~1!{SHOW="false",WIDTH=0.8,B=0.231,R=0.298,HEIGHT=10,A=0.4,G=0.231,TEXTURE="Tukui"}
+HeadBar~f~2!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=9,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~f~3!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=7,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~f~4!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=15,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~f~5!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=9,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~f~6!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=10,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~f~7!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=9,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~f~8!{SHOW="false",TEXTURE="Tukui",R=0.298,B=0.231,HEIGHT=10,A=0.4,G=0.231,WIDTH=0.8}
+HeadBar~d!9~10~
+HeadText~f~1!{A=1,B=1,OFFSET=0,R=1,FONT="Friz Quadrata TT",HEIGHT=12,G=1,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=28,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=1,OFIX=1,RMARGIN=0,WIDTH=148}
+HealBar~f~2!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,WIDTH=90,OFIX=1,RMARGIN=0,NUMCOLS=4}
+HealBar~f~3!{HEIGHT=20,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=2,OFIX=1,RMARGIN=0,WIDTH=50}
+HealBar~f~4!{HEIGHT=42,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=4,OFIX=1,RMARGIN=0,WIDTH=152}
+HealBar~f~5!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=3,OFIX=1,RMARGIN=0,WIDTH=95}
+HealBar~f~6!{HEIGHT=27,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=4,OFIX=1,RMARGIN=0,WIDTH=132}
+HealBar~f~7!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,WIDTH=118,OFIX=1,RMARGIN=0,NUMCOLS=3}
+HealBar~f~8!{HEIGHT=27,GRPCOLS="false",CMARGIN=2,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,WIDTH=132,OFIX=1,RMARGIN=0,NUMCOLS=4}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=27,GRPCOLS="false",CMARGIN=1,TEXTURE="Minimalist",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=4,OFIX=1,RMARGIN=0,WIDTH=130}
+BarCol~f~1!{BACK=2,BA=0.1,BOUT=2,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,BB=0.059,HA=0.98,HG=0.424,ORA=0.5,HR=0.38,HLTH=2}
+BarCol~f~2!{BACK=2,BA=0.1,BOUT=1,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,HR=0.38,HA=1,HG=0.424,ORA=0.4,BB=0.059,HLTH=2}
+BarCol~f~3!{BACK=2,BA=0.1,BOUT=2,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,HR=0.38,HA=0.98,HG=0.424,ORA=0.5,BB=0.059,HLTH=2}
+BarCol~d!4~5~6~
+BarCol~f~7!{BACK=3,BA=0.1,BOUT=2,DISA=0.04,BR=0.059,HB=0.643,BG=0.059,HR=0.624,HA=0.98,HG=0.659,ORA=0.25,BB=0.059,HLTH=3}
+BarCol~f~8!{BACK=2,BA=0.1,BOUT=2,DISA=0.04,BR=0.059,HB=0.404,BG=0.059,HR=0.38,HA=0.98,HG=0.424,ORA=0.5,BB=0.059,HLTH=2}
+BarCol~d!9~
+BarCol~f~10!{BACK=3,BA=0.2,BB=0,DISA=0.04,BR=0.6,HB=0.106,BG=0,BOUT=2,HA=0.98,HR=0.855,ORA=0.5,HG=0.106,HLTH=3}
+BarIACol~f~1!{AC=3,AB=1,AA=0.7,AR=1,AG=1,IC=4,IB=0.459,IA=0.7,IR=1,IG=0.467}
+BarIACol~d!2~3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="true",TAGOOR="OOR | ",OVERHEAL=1,MAXCHARS=0,CLASSONBAR="true",HOFFSET=0,HMAXCHARS=0,HLTHTYPE=1,INCHEALS=3,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",IGNOREONFULL="false",INCABSORBS=3,NUMFORMAT2=1,HOUTLINE=1,TAGDC=" DC | ",OFFSET=0,TAGRIP="RIP | ",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,NUMFORMAT1=2,CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="R | ",OUTLINE=1}
+BarText~d!2~
+BarText~f~3!{HLTHONBAR="true",TAGOOR="OOR | ",OVERHEAL=1,MAXCHARS=0,CLASSONBAR="false",HOFFSET=0,HMAXCHARS=0,FONT="Friz Quadrata TT",INCHEALS=3,HLTHTXTANCHOR=1,HLTHTYPE=1,IGNOREONFULL="false",INCABSORBS=3,NUMFORMAT2=1,HOUTLINE=1,TAGDC=" DC | ",OFFSET=0,NAMEONBAR="true",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,TAGRIP="RIP | ",HHEIGHT=10,NUMFORMAT1=2,CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="R | ",OUTLINE=1}
+BarText~d!4~5~6~7~8~9~10~
+BarTextCol~f~1!{NCB=0,NDEBUFF="false",HCDA=0.8,NCDA=0.8,HCG=1,NAME=2,HCB=0,HCR=1,NCA=1,NCG=1,NCR=1,HDEBUFF="false",HCA=1,HLTH=2}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=2,MAXDICONS=3,FADESECS=15,I15EN="true",SHOWDIRMOUSE="false",SHOWDIR="true",FADE="false",DSCALE=0.5,ONBAR=1,SHOWRC="true",SCALE=0.5,DOUBLE="false",SHOWDEBUFF="true",MAXBICONS=8}
+Icons~d!2~3~4~5~6~7~8~9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",MOON="true",TRIANGLE="true",STAR="true",SKULL="true",CROSS="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="false",OUTLINE=2}
+IconText~d!2~
+IconText~f~3!{DURWARN=3,HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~4!{DURWARN=3,HEIGHT=12,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~5!{DURWARN=3,HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~6!{DURWARN=3,HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~7!{DURWARN=3,HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~8!{DURWARN=3,HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~d!9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.9,ALERTOC=0.75,HIDEOOR="false"}
+BarVisibility~f~3!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.75,ALERTOC=0.55,HIDEOOR="true"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=2,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="true",RAIDORDER=2,SUBPF="true"}
+BarSort~d!3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",R=1,SHOWTEXT="false",ALERT=2}
+BarAggro~f~2!{B=0.2,ALERTIND=2,G=0.569,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",R=0.949,SHOWTEXT="false",ALERT=2}
+BarAggro~f~3!{B=0,ALERTIND=1,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",R=1,SHOWTEXT="true",ALERT=2}
+BarAggro~f~4!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",R=1,SHOWTEXT="true",ALERT=2}
+BarAggro~d!5~6~
+BarAggro~f~7!{B=0,ALERTIND=2,G=0.792,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",R=1,SHOWTEXT="true",ALERT=2}
+BarAggro~f~8!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",R=1,SHOWTEXT="true",ALERT=2}
+BarAggro~d!9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=4,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,OTYPE=1,B=1,G=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=1,OTYPE=1,B=1,G=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+
+HealBot_ExtraSkinData[45]=[[Skin
+B&W-Group
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="true",HIDEPTF="false",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=19,FLUIDBARS="true",HIDEBOSSF="true"}
+Healing~t!{TINCRAID="true",TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,TINCGROUP="true",FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",TINCPET="false",TEXRAID="false",ALERT=0.95}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
+Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=4,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=0.714,ALIAS="Group",G=0.714,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=0.714,OUTLINE=1}
+FrameAlias~f~2!{A=0.66,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{A=1,NAME="",R=1,ALIAS="Not Used 1",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=0.65,NAME="",R=1,ALIAS="Not Used 2",G=1,SHOW="true",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{A=0.8,NAME="",R=1,ALIAS="Not Used 3",G=0.282,SHOW="true",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=0.188,OUTLINE=1}
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{A=0.63,NAME="Pets",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~8!{A=1,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~9!{A=1,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~10!{A=1,NAME="Enemy",R=0.757,ALIAS="Enemy",G=0.153,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=0.153,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.7}
+FrameAliasBar~d!2~3~4~5~6~7~8~9~10~
+Frame~f~1!{BACKR=0.071,AUTOCLOSE="false",BACKG=0.071,BORDERB=0.2,LOCKED="false",SCALE=1,BORDERA=1,SFOFFSETV=0,TIPLOC=5,BACKB=0.071,BACKA=0.9,OPENSOUND="false",BORDERG=0.2,BORDERR=0.2,SFOFFSETH=0}
+Frame~f~2!{BACKR=0.071,BORDERR=0.2,BACKG=0.071,BORDERB=0.2,LOCKED="true",SCALE=0.85,BORDERA=1,SFOFFSETV=0,TIPLOC=5,BACKB=0.071,BACKA=0.9,OPENSOUND="false",AUTOCLOSE="false",BORDERG=0.2,SFOFFSETH=0}
+Frame~f~3!{BACKR=0.071,BORDERR=0.2,BACKG=0.071,BORDERB=0.2,LOCKED="false",SCALE=0.85,BORDERA=1,SFOFFSETV=0,TIPLOC=4,BACKB=0.071,BACKA=0.9,OPENSOUND="false",AUTOCLOSE="false",BORDERG=0.2,SFOFFSETH=0}
+Frame~f~4!{BACKR=0.071,BORDERR=0.2,BACKG=0.071,BORDERB=0.2,LOCKED="false",SCALE=0.85,BORDERA=1,SFOFFSETV=0,TIPLOC=2,BACKB=0.071,BACKA=0.9,OPENSOUND="false",AUTOCLOSE="false",BORDERG=0.2,SFOFFSETH=0}
+Frame~f~5!{BACKR=0.071,BORDERR=0.2,BACKG=0.071,BORDERB=0.2,LOCKED="false",SCALE=0.85,BORDERA=1,SFOFFSETV=0,TIPLOC=4,BACKB=0.071,BACKA=0.9,OPENSOUND="false",AUTOCLOSE="false",BORDERG=0.2,SFOFFSETH=0}
+Frame~f~6!{BACKR=0.071,BORDERR=0.2,BACKG=0.071,BORDERB=0.2,LOCKED="true",SCALE=0.85,BORDERA=1,SFOFFSETV=0,TIPLOC=1,BACKB=0.071,BACKA=0.9,OPENSOUND="false",AUTOCLOSE="false",BORDERG=0.2,SFOFFSETH=0}
+Frame~f~7!{BACKR=0.071,AUTOCLOSE="false",BACKG=0.071,BORDERB=0.2,LOCKED="true",SCALE=1,BORDERA=1,SFOFFSETV=0,TIPLOC=3,BACKB=0.071,BACKA=0.9,OPENSOUND="false",BORDERG=0.2,BORDERR=0.2,SFOFFSETH=0}
+Frame~d!8~9~
+Frame~f~10!{BACKR=0.071,AUTOCLOSE="false",BACKG=0.071,BORDERB=0.2,LOCKED="true",SCALE=1,BORDERA=1,SFOFFSETV=0,TIPLOC=4,BACKB=0.071,BACKA=0.9,OPENSOUND="false",BORDERG=0.2,BORDERR=0.2,SFOFFSETH=0}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!2~3~4~5~6~7~
+StickyFrames~f~8!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+HealGroups~f~1!{FRAME=2,STATE="false",NAME="Self"}
+HealGroups~f~2!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~3!{FRAME=1,STATE="true",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="true",NAME="Group"}
+HealGroups~f~5!{FRAME=2,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=1,STATE="true",NAME="Raid"}
+HealGroups~f~7!{FRAME=6,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=1,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="true",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="true",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=66.68,GROW=2,BARS=1,FRAME=1,X=17.1}
+Anchors~f~2!{Y=60.6,GROW=2,BARS=3,FRAME=3,X=22.47}
+Anchors~f~3!{Y=40.21,GROW=2,BARS=1,FRAME=4,X=7.14}
+Anchors~f~4!{Y=39.37,GROW=2,BARS=1,FRAME=3,X=7.52}
+Anchors~f~5!{Y=56.81,GROW=2,BARS=1,FRAME=4,X=21.87}
+Anchors~f~6!{Y=34.62,GROW=2,BARS=1,FRAME=2,X=34.81}
+Anchors~f~7!{Y=39.43,GROW=2,BARS=1,FRAME=1,X=8.48}
+Anchors~f~8!{Y=66.68,GROW=2,BARS=1,FRAME=1,X=22.47}
+Anchors~d!9~
+Anchors~f~10!{Y=68.35,GROW=2,BARS=3,FRAME=2,X=17.1}
+HeadBar~f~1!{A=1,TEXTURE="Minimalist",SHOW="false",B=0.184,HEIGHT=11,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~f~2!{SHOW="false",WIDTH=0.75,A=1,B=0.184,HEIGHT=13,R=0.184,G=0.184,TEXTURE="Minimalist"}
+HeadBar~f~3!{SHOW="true",WIDTH=0.75,A=1,B=0.184,HEIGHT=15,R=0.184,G=0.184,TEXTURE="Minimalist"}
+HeadBar~f~4!{SHOW="false",WIDTH=0.75,A=1,B=0.184,HEIGHT=11,R=0.184,G=0.184,TEXTURE="Minimalist"}
+HeadBar~f~5!{A=1,TEXTURE="Minimalist",SHOW="false",B=0.184,HEIGHT=12,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~f~6!{A=1,TEXTURE="Minimalist",SHOW="false",B=0.184,HEIGHT=8,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~d!7~
+HeadBar~f~8!{A=1,TEXTURE="Minimalist",SHOW="false",B=0.184,HEIGHT=11,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~d!9~
+HeadBar~f~10!{A=1,TEXTURE="Minimalist",SHOW="false",B=0.184,HEIGHT=8,R=0.184,G=0.184,WIDTH=0.75}
+HeadText~f~1!{A=0.7,B=1,OFFSET=0,R=1,FONT="Friz Quadrata TT",HEIGHT=10,G=1,OUTLINE=1}
+HeadText~f~2!{A=0.68,R=0.424,OFFSET=0,B=0.424,FONT="Friz Quadrata TT",HEIGHT=10,G=0.424,OUTLINE=1}
+HeadText~f~3!{A=0.26,B=0.984,OFFSET=0,R=0.984,FONT="Friz Quadrata TT",HEIGHT=10,G=0.984,OUTLINE=1}
+HeadText~f~4!{A=0.68,B=0.424,OFFSET=0,R=0.424,FONT="Friz Quadrata TT",HEIGHT=10,G=0.424,OUTLINE=1}
+HeadText~d!5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=35,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=140,RMARGIN=1,OFIX=1,NUMCOLS=1,LOWMANA=2}
+HealBar~f~2!{HEIGHT=42,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=4,RMARGIN=1,OFIX=1,WIDTH=95,LOWMANA=2}
+HealBar~f~3!{HEIGHT=50,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=12,RMARGIN=1,OFIX=1,WIDTH=120,LOWMANA=2}
+HealBar~f~4!{HEIGHT=34,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=2,RMARGIN=1,OFIX=1,WIDTH=70,LOWMANA=2}
+HealBar~f~5!{HEIGHT=38,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=3,RMARGIN=1,OFIX=1,WIDTH=95,LOWMANA=2}
+HealBar~f~6!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=2,RMARGIN=1,OFIX=1,WIDTH=144,LOWMANA=2}
+HealBar~f~7!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=55,RMARGIN=1,OFIX=1,NUMCOLS=2,LOWMANA=2}
+HealBar~f~8!{HEIGHT=34,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=120,RMARGIN=1,OFIX=1,NUMCOLS=2,LOWMANA=2}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=140,RMARGIN=1,OFIX=1,NUMCOLS=1,LOWMANA=2}
+BarCol~f~1!{BACK=3,BA=0.75,BOUT=2,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,HG=0.776,HA=1,HR=0.753,ORA=0.4,BB=0.051,HLTH=3}
+BarCol~f~2!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,BB=0.051,HA=1,HG=0.776,ORA=0.4,HR=0.753,HLTH=3}
+BarCol~d!3~4~
+BarCol~f~5!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.149,BG=0.047,BB=0.051,HA=1,HR=0.776,ORA=0.4,HG=0.243,HLTH=3}
+BarCol~f~6!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,BB=0.051,HA=1,HR=0.753,ORA=0.4,HG=0.776,HLTH=3}
+BarCol~d!7~8~9~
+BarCol~f~10!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.149,BG=0.047,HG=0.243,HA=1,HR=0.776,ORA=0.4,BB=0.051,HLTH=3}
+BarIACol~f~1!{AC=4,AB=0.38,AA=0.9,AR=0.38,AG=0.38,IC=4,IB=0.592,IA=0.9,IR=0.533,IG=0.533}
+BarIACol~f~2!{AC=4,AB=0.38,AA=0.9,AR=0.38,AG=0.38,IC=4,IB=0.592,IA=0.94,IR=0.533,IG=0.533}
+BarIACol~d!3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="false",TAGOOR="OOR-",OVERHEAL=1,MAXCHARS=0,CLASSONBAR="false",OUTLINE=1,HMAXCHARS=0,FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=1,IGNOREONFULL="true",CLASSTYPE=1,NUMFORMAT2=1,HHEIGHT=10,TAGDC="DC-",NUMFORMAT1=1,TAGRIP="RIP-",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",OFFSET=-5,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="R-",HOFFSET=0}
+BarText~d!2~3~4~5~6~7~8~9~10~
+BarTextCol~f~1!{NAME=2,NDEBUFF="false",HLTH=2,NCDA=0.4,HCG=0.996,HCA=1,NCG=0.996,NCA=1,HCR=1,HCB=0.043,NCR=1,HDEBUFF="false",NCB=0.043,HCDA=0.4}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=1,FADESECS=15,I15EN="false",MAXDICONS=3,FADE="false",SHOWDIR="true",DOUBLE="false",DSCALE=0.45,ONBAR=1,SHOWRC="true",SCALE=0.45,SHOWDIRMOUSE="false",SHOWDEBUFF="true",MAXBICONS=8}
+Icons~d!2~3~4~5~6~7~8~9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",MOON="true",CROSS="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{SDUR="true",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~2!{SDUR="true",HEIGHT=12,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~3!{SDUR="true",HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~4!{SDUR="true",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~d!5~6~7~8~9~
+IconText~f~10!{SDUR="true",HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!3~4~5~6~7~8~9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="false",RAIDORDER=2,SUBPF="true"}
+BarSort~f~3!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!4~5~6~7~8~9~10~
+BarAggro~f~1!{R=1,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWTEXT="false",SHOWIND="true",B=0,ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~
+AuxBar^4~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~
+AuxBar^5~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+
+HealBot_ExtraSkinData[46]=[[Skin
+B&W-Raid25
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{HIDEBOSSF="true",HIDEPARTYF="true",HIDEPTF="false",STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",FLUIDFREQ=11}
+Healing~t!{TINCRAID="true",TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,TINCGROUP="true",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",SELFPET=0,TEXRAID="false",ALERT=0.95}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
+Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=4,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="Tanks",R=0.714,ALIAS="Tanks",G=0.714,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.714,OUTLINE=1}
+FrameAlias~f~2!{A=0.66,NAME="Raid",R=1,ALIAS="Raid",G=1,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{A=1,NAME="",R=1,ALIAS="Not Used 1",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=0.65,NAME="",R=1,ALIAS="Not Used 2",G=1,SHOW="true",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{A=0.8,NAME="",R=1,ALIAS="Not Used 3",G=0.282,SHOW="true",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=0.188,OUTLINE=1}
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{A=0.63,NAME="Pets",R=1,ALIAS="Pets",G=1,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~8!{A=1,NAME="Target",R=0.714,ALIAS="Target",G=0.714,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=0.714,OUTLINE=1}
+FrameAlias~f~9!{A=1,NAME="Focus",R=0.714,ALIAS="Focus",G=0.714,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=0.714,OUTLINE=1}
+FrameAlias~f~10!{A=1,NAME="Enemy",R=0.757,ALIAS="Enemy",G=0.153,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=0.153,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.9}
+FrameAliasBar~d!2~
+FrameAliasBar~f~3!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.7}
+FrameAliasBar~d!4~5~6~
+FrameAliasBar~f~7!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.9}
+FrameAliasBar~f~8!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.8}
+FrameAliasBar~d!9~
+FrameAliasBar~f~10!{A=0.5,WIDTH=0.9,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+Frame~f~1!{SFOFFSETH=0,BACKG=0.071,AUTOCLOSE="false",BORDERB=0.2,LOCKED="false",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=3,BACKB=0.071,BACKA=0.9,SCALE=1,BORDERR=0.2,SFOFFSETV=0,BACKR=0.071}
+Frame~f~2!{SFOFFSETH=0,BORDERR=0.2,AUTOCLOSE="false",BORDERB=0.2,LOCKED="true",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=5,BACKB=0.071,BACKA=0.9,SCALE=1,BACKG=0.071,BACKR=0.071,SFOFFSETV=0}
+Frame~f~3!{SFOFFSETH=0,BORDERR=0.2,AUTOCLOSE="false",BORDERB=0.2,LOCKED="false",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=4,BACKB=0.071,BACKA=0.9,SCALE=0.85,BACKG=0.071,BACKR=0.071,SFOFFSETV=0}
+Frame~f~4!{SFOFFSETH=0,BORDERR=0.2,AUTOCLOSE="false",BORDERB=0.2,LOCKED="false",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=2,BACKB=0.071,BACKA=0.9,SCALE=0.85,BACKG=0.071,BACKR=0.071,SFOFFSETV=0}
+Frame~f~5!{SFOFFSETH=0,BORDERR=0.2,AUTOCLOSE="false",BORDERB=0.2,LOCKED="false",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=4,BACKB=0.071,BACKA=0.9,SCALE=0.85,BACKG=0.071,BACKR=0.071,SFOFFSETV=0}
+Frame~f~6!{SFOFFSETH=0,BORDERR=0.2,AUTOCLOSE="false",BORDERB=0.2,LOCKED="true",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=1,BACKB=0.071,BACKA=0.9,SCALE=0.85,BACKG=0.071,BACKR=0.071,SFOFFSETV=0}
+Frame~f~7!{SFOFFSETH=0,BACKG=0.071,AUTOCLOSE="false",BORDERB=0.2,LOCKED="false",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=3,BACKB=0.071,BACKA=0.9,SCALE=1,BORDERR=0.2,SFOFFSETV=0,BACKR=0.071}
+Frame~f~8!{SFOFFSETH=0,BACKR=0.071,TIPLOC=3,BACKB=0.071,LOCKED="true",SCALE=1,BORDERA=1,BORDERG=0.2,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKG=0.071,BORDERR=0.2,SFOFFSETV=0}
+Frame~d!9~
+Frame~f~10!{SFOFFSETH=0,BACKG=0.071,AUTOCLOSE="false",BORDERB=0.2,LOCKED="true",OPENSOUND="false",BORDERA=1,BORDERG=0.2,TIPLOC=4,BACKB=0.071,BACKA=0.9,SCALE=1,BORDERR=0.2,SFOFFSETV=0,BACKR=0.071}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMLEFT",STUCKTO=2,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~9!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=2,STATE="true",NAME="Self"}
+HealGroups~f~3!{FRAME=2,STATE="true",NAME="Healers"}
+HealGroups~f~4!{FRAME=2,STATE="false",NAME="Group"}
+HealGroups~f~5!{FRAME=2,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=2,STATE="true",NAME="Raid"}
+HealGroups~f~7!{FRAME=6,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="true",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="true",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=70.02,GROW=2,BARS=1,FRAME=1,X=18.71}
+Anchors~f~2!{Y=62.85,GROW=2,BARS=3,FRAME=3,X=32.77}
+Anchors~f~3!{Y=40.21,GROW=2,BARS=1,FRAME=4,X=7.14}
+Anchors~f~4!{Y=39.37,GROW=2,BARS=1,FRAME=3,X=7.52}
+Anchors~f~5!{Y=56.81,GROW=2,BARS=1,FRAME=4,X=21.87}
+Anchors~f~6!{Y=34.62,GROW=2,BARS=1,FRAME=2,X=34.81}
+Anchors~f~7!{Y=56.68,GROW=2,BARS=1,FRAME=1,X=29.04}
+Anchors~f~8!{Y=70.02,GROW=2,BARS=1,FRAME=3,X=18.71}
+Anchors~f~9!{Y=70.02,GROW=2,BARS=1,FRAME=1,X=32.77}
+Anchors~f~10!{Y=71.69,GROW=2,BARS=3,FRAME=2,X=18.71}
+HeadBar~f~1!{SHOW="false",TEXTURE="Minimalist",A=1,B=0.184,HEIGHT=15,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~f~2!{A=1,WIDTH=0.75,SHOW="false",B=0.184,HEIGHT=13,R=0.184,G=0.184,TEXTURE="Minimalist"}
+HeadBar~f~3!{A=1,WIDTH=0.75,SHOW="true",B=0.184,HEIGHT=15,R=0.184,G=0.184,TEXTURE="Minimalist"}
+HeadBar~f~4!{A=1,WIDTH=0.75,SHOW="false",B=0.184,HEIGHT=11,R=0.184,G=0.184,TEXTURE="Minimalist"}
+HeadBar~f~5!{SHOW="false",TEXTURE="Minimalist",A=1,B=0.184,HEIGHT=12,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~f~6!{SHOW="false",TEXTURE="Minimalist",A=1,B=0.184,HEIGHT=8,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~d!7~
+HeadBar~f~8!{SHOW="false",TEXTURE="Minimalist",A=1,B=0.184,HEIGHT=11,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~d!9~
+HeadBar~f~10!{SHOW="false",TEXTURE="Minimalist",A=1,B=0.184,HEIGHT=8,R=0.184,G=0.184,WIDTH=0.75}
+HeadText~f~1!{A=0.7,B=1,OFFSET=0,R=1,FONT="Friz Quadrata TT",HEIGHT=10,G=1,OUTLINE=1}
+HeadText~f~2!{A=0.68,R=0.424,OFFSET=0,B=0.424,FONT="Friz Quadrata TT",HEIGHT=10,G=0.424,OUTLINE=1}
+HeadText~f~3!{A=0.26,B=0.984,OFFSET=0,R=0.984,FONT="Friz Quadrata TT",HEIGHT=10,G=0.984,OUTLINE=1}
+HeadText~f~4!{A=0.68,B=0.424,OFFSET=0,R=0.424,FONT="Friz Quadrata TT",HEIGHT=10,G=0.424,OUTLINE=1}
+HeadText~d!5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=50,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=192,RMARGIN=1,OFIX=1,NUMCOLS=2,LOWMANA=2}
+HealBar~f~2!{HEIGHT=38,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=4,RMARGIN=1,OFIX=1,WIDTH=93,LOWMANA=2}
+HealBar~f~3!{HEIGHT=50,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=2,RMARGIN=1,OFIX=1,WIDTH=192,LOWMANA=2}
+HealBar~d!4~5~6~
+HealBar~f~7!{HEIGHT=24,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=73,RMARGIN=1,OFIX=1,NUMCOLS=5,LOWMANA=2}
+HealBar~f~8!{HEIGHT=50,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=112,RMARGIN=1,OFIX=1,NUMCOLS=2,LOWMANA=2}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=35,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=125,RMARGIN=1,OFIX=1,NUMCOLS=3,LOWMANA=2}
+BarCol~f~1!{BACK=3,BA=0.75,BB=0.051,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,HG=0.776,HA=1,HR=0.753,ORA=0.4,BOUT=2,HLTH=3}
+BarCol~f~2!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,BB=0.051,HA=1,HG=0.776,ORA=0.4,HR=0.753,HLTH=3}
+BarCol~d!3~4~
+BarCol~f~5!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.149,BG=0.047,BB=0.051,HA=1,HR=0.776,ORA=0.4,HG=0.243,HLTH=3}
+BarCol~f~6!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,BB=0.051,HA=1,HR=0.753,ORA=0.4,HG=0.776,HLTH=3}
+BarCol~d!7~8~9~
+BarCol~f~10!{BACK=3,BA=0.95,BB=0.051,DISA=0.18,BR=0.043,HB=0.149,BG=0.047,HG=0.243,HA=1,HR=0.776,ORA=0.4,BOUT=2,HLTH=3}
+BarIACol~f~1!{AC=4,AB=0.38,AA=0.9,AR=0.38,AG=0.38,IC=4,IB=0.592,IA=0.9,IR=0.533,IG=0.533}
+BarIACol~f~2!{AC=4,AB=0.38,AA=0.9,AR=0.38,AG=0.38,IC=4,IB=0.592,IA=0.94,IR=0.533,IG=0.533}
+BarIACol~d!3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="false",TAGOOR="OOR-",IGNOREONFULL="true",MAXCHARS=0,HMAXCHARS=0,OUTLINE=1,HLTHTYPE=1,CLASSONBAR="false",INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HOUTLINE=1,CLASSTYPE=1,NUMFORMAT2=1,HHEIGHT=10,TAGDC="DC-",NUMFORMAT1=1,TAGRIP="RIP-",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",OFFSET=-5,OVERHEAL=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="R- ",HOFFSET=0}
+BarText~d!2~3~4~5~6~7~8~9~10~
+BarTextCol~f~1!{NCB=0.043,HCA=1,HLTH=2,NCDA=0.58,HCG=0.996,NAME=2,NCG=0.996,NCA=1,HCR=1,HCB=0.043,NCR=1,HDEBUFF="false",NDEBUFF="false",HCDA=0.58}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=1,MAXDICONS=3,DOUBLE="false",I15EN="false",SHOWDIRMOUSE="false",ONBAR=1,FADE="false",DSCALE=0.35,SHOWDIR="true",SHOWRC="true",SCALE=0.35,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=8}
+Icons~f~2!{SHOWBUFF="true",POSITION=1,MAXDICONS=3,SHOWDIRMOUSE="false",I15EN="false",DOUBLE="true",ONBAR=1,FADE="false",DSCALE=0.8,SHOWDIR="true",SHOWRC="true",SCALE=0.8,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=8}
+Icons~f~3!{SHOWBUFF="true",POSITION=1,MAXDICONS=3,SHOWDIRMOUSE="false",I15EN="true",DOUBLE="false",ONBAR=1,FADE="true",DSCALE=0.4,SHOWDIR="true",SHOWRC="true",SCALE=0.4,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=8}
+Icons~d!4~5~
+Icons~f~6!{SHOWBUFF="true",POSITION=1,MAXDICONS=3,DOUBLE="false",I15EN="true",SHOWDIRMOUSE="false",ONBAR=1,FADE="true",DSCALE=0.5,SHOWDIR="true",SHOWRC="true",SCALE=0.5,SHOWDEBUFF="true",FADESECS=15,MAXBICONS=8}
+Icons~f~7!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,I15EN="false",POSITION=1,FADE="false",SHOWDIR="true",SHOWDIRMOUSE="false",DSCALE=0.5,ONBAR=1,SHOWRC="true",SCALE=0.5,MAXDICONS=3,DOUBLE="false",MAXBICONS=8}
+Icons~f~8!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,I15EN="false",POSITION=1,FADE="false",SHOWDIR="true",SHOWDIRMOUSE="false",DSCALE=0.45,ONBAR=1,SHOWRC="true",SCALE=0.45,MAXDICONS=3,DOUBLE="false",MAXBICONS=8}
+Icons~d!9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",MOON="true",CROSS="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~2!{DURWARN=3,HEIGHT=12,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~3!{DURWARN=3,HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~4!{DURWARN=3,HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~d!5~6~7~8~9~
+IconText~f~10!{DURWARN=3,HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.85,HIDEOOR="false"}
+BarVisibility~f~3!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.9,ALERTOC=0.75,HIDEOOR="true"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="false",RAIDORDER=2,SUBPF="true"}
+BarSort~f~3!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!4~5~6~7~8~9~10~
+BarAggro~f~1!{R=1,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWTEXT="false",SHOWIND="true",B=0,ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~
+AuxBar^4~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~
+AuxBar^5~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[47]=[[Skin
+B&W Raid40
+Author~v!Monti of Terenas
+DuplicateBars~v!true
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=11,HIDEPTF="false",HIDEBOSSF="true",STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",HIDEPARTYF="true"}
+Healing~t!{TINCRAID="true",TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=1,FALWAYSSHOW="false",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",SELFPET=0,TEXRAID="false",ALERT=0.95}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY="true",CRASH="true",COMBATRAID="true"}
+Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=4,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="Tanks",R=1,ALIAS="Tanks",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=0.66,B=1,OUTLINE=1}
+FrameAlias~f~2!{A=0.66,NAME="Raid",R=1,ALIAS="Raid",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{A=0.66,NAME="",R=1,ALIAS="Not Used 1",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=0.66,NAME="",R=1,ALIAS="Not Used 2",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{A=0.66,NAME="",R=1,ALIAS="Not Used 3",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=0.66,B=1,OUTLINE=1}
+FrameAlias~f~7!{A=0.66,NAME="Pets",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~8!{A=0.66,NAME="Target",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~9!{A=0.66,NAME="Focus",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~10!{A=0.66,NAME="Enemy",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,WIDTH=0.9,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="Empty"}
+FrameAliasBar~f~2!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.9}
+FrameAliasBar~f~3!{A=0.5,WIDTH=0.9,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="Empty"}
+FrameAliasBar~d!4~5~6~7~8~9~10~
+Frame~f~1!{BACKR=0.071,BORDERR=0.2,SFOFFSETH=0,SFOFFSETV=0,LOCKED="false",SCALE=1,BORDERA=1,BORDERG=0.2,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,TIPLOC=3}
+Frame~f~2!{BACKR=0.071,BORDERR=0.2,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="true",SCALE=1,BORDERA=1,BORDERG=0.2,TIPLOC=5,BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,SFOFFSETH=0}
+Frame~f~3!{BACKR=0.071,BORDERR=0.2,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="false",SCALE=0.85,BORDERA=1,BORDERG=0.2,TIPLOC=4,BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,SFOFFSETH=0}
+Frame~f~4!{BACKR=0.071,BORDERR=0.2,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="false",SCALE=0.85,BORDERA=1,BORDERG=0.2,TIPLOC=2,BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,SFOFFSETH=0}
+Frame~f~5!{BACKR=0.071,BORDERR=0.2,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="false",SCALE=0.85,BORDERA=1,BORDERG=0.2,TIPLOC=4,BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,SFOFFSETH=0}
+Frame~f~6!{BACKR=0.071,BORDERR=0.2,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="true",SCALE=0.85,BORDERA=1,BORDERG=0.2,TIPLOC=1,BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,SFOFFSETH=0}
+Frame~f~7!{BACKR=0.071,BORDERR=0.2,SFOFFSETH=0,SFOFFSETV=0,LOCKED="true",SCALE=1,BORDERA=1,BORDERG=0.2,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,TIPLOC=3}
+Frame~d!8~9~
+Frame~f~10!{BACKR=0.071,BORDERR=0.2,SFOFFSETH=0,SFOFFSETV=0,LOCKED="true",SCALE=1,BORDERA=1,BORDERG=0.2,AUTOCLOSE="false",BORDERB=0.2,BACKA=0.9,OPENSOUND="false",BACKB=0.071,BACKG=0.071,TIPLOC=4}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMLEFT",STUCKTO=2,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~9!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=2,STATE="false",NAME="Self"}
+HealGroups~f~3!{FRAME=2,STATE="false",NAME="Healers"}
+HealGroups~f~4!{FRAME=2,STATE="false",NAME="Group"}
+HealGroups~f~5!{FRAME=2,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=2,STATE="true",NAME="Raid"}
+HealGroups~f~7!{FRAME=6,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="true",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=69.25,GROW=1,BARS=1,FRAME=1,X=14.23}
+Anchors~f~2!{Y=64.93,GROW=1,BARS=1,FRAME=3,X=32.05}
+Anchors~f~3!{Y=40.21,GROW=2,BARS=1,FRAME=4,X=7.14}
+Anchors~f~4!{Y=39.37,GROW=2,BARS=1,FRAME=3,X=7.52}
+Anchors~f~5!{Y=56.81,GROW=2,BARS=1,FRAME=4,X=21.87}
+Anchors~f~6!{Y=34.62,GROW=2,BARS=1,FRAME=2,X=34.81}
+Anchors~f~7!{Y=60.87,GROW=1,BARS=1,FRAME=1,X=26.03}
+Anchors~f~8!{Y=69.25,GROW=2,BARS=1,FRAME=3,X=14.23}
+Anchors~f~9!{Y=66.55,GROW=2,BARS=1,FRAME=1,X=33.99}
+Anchors~f~10!{Y=69.25,GROW=1,BARS=1,FRAME=2,X=14.23}
+HeadBar~f~1!{SHOW="true",WIDTH=0.75,A=1,B=0.184,HEIGHT=30,R=0.184,G=0.184,TEXTURE="Empty"}
+HeadBar~f~2!{A=1,TEXTURE="Empty",SHOW="true",B=0.184,HEIGHT=30,R=0.184,G=0.184,WIDTH=0.95}
+HeadBar~f~3!{A=1,TEXTURE="Empty",SHOW="true",B=0.184,HEIGHT=30,R=0.184,G=0.184,WIDTH=0.75}
+HeadBar~d!4~5~6~
+HeadBar~f~7!{A=1,TEXTURE="Empty",SHOW="true",B=0.184,HEIGHT=30,R=0.184,G=0.184,WIDTH=0.95}
+HeadBar~f~8!{SHOW="true",WIDTH=0.75,A=1,B=0.184,HEIGHT=30,R=0.184,G=0.184,TEXTURE="Empty"}
+HeadBar~d!9~
+HeadBar~f~10!{SHOW="true",WIDTH=0.95,A=1,B=0.184,HEIGHT=30,R=0.184,G=0.184,TEXTURE="Empty"}
+HeadText~f~1!{A=0.68,R=0.62,OFFSET=0,B=0.62,FONT="Friz Quadrata TT",HEIGHT=10,G=0.62,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=35,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=4,OFIX=1,RMARGIN=1,WIDTH=99}
+HealBar~f~2!{HEIGHT=32,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,WIDTH=78,OFIX=1,RMARGIN=1,NUMCOLS=1}
+HealBar~f~3!{HEIGHT=50,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,WIDTH=192,OFIX=1,RMARGIN=1,NUMCOLS=2}
+HealBar~d!4~5~6~
+HealBar~f~7!{HEIGHT=24,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=1,OFIX=1,RMARGIN=1,WIDTH=78}
+HealBar~f~8!{HEIGHT=35,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=2,OFIX=1,RMARGIN=1,WIDTH=92}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=30,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=1,OFIX=1,RMARGIN=1,WIDTH=78}
+BarCol~f~1!{BACK=3,BA=0.75,BOUT=2,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,BB=0.051,HA=1,HG=0.776,ORA=0.4,HR=0.753,HLTH=3}
+BarCol~f~2!{BACK=3,BA=0.95,BB=0.051,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,HR=0.753,HA=1,HG=0.776,ORA=0.4,BOUT=2,HLTH=3}
+BarCol~d!3~4~
+BarCol~f~5!{BACK=3,BA=0.95,BB=0.051,DISA=0.18,BR=0.043,HB=0.149,BG=0.047,HG=0.243,HA=1,HR=0.776,ORA=0.4,BOUT=2,HLTH=3}
+BarCol~f~6!{BACK=3,BA=0.95,BB=0.051,DISA=0.18,BR=0.043,HB=0.749,BG=0.047,HG=0.776,HA=1,HR=0.753,ORA=0.4,BOUT=2,HLTH=3}
+BarCol~d!7~8~9~
+BarCol~f~10!{BACK=3,BA=0.95,BOUT=2,DISA=0.18,BR=0.043,HB=0.149,BG=0.047,BB=0.051,HA=1,HG=0.243,ORA=0.4,HR=0.776,HLTH=3}
+BarIACol~f~1!{AC=4,AB=0.38,AA=0.9,AR=0.38,AG=0.38,IC=4,IB=0.592,IA=0.9,IR=0.533,IG=0.533}
+BarIACol~f~2!{AC=4,AB=0.38,AA=0.9,AR=0.38,AG=0.38,IC=4,IB=0.592,IA=0.94,IR=0.533,IG=0.533}
+BarIACol~d!3~4~5~6~7~8~9~10~
+BarText~f~1!{HHEIGHT=10,TAGOOR="OOR-",IGNOREONFULL="true",MAXCHARS=0,HMAXCHARS=0,HOFFSET=0,CLASSONBAR="false",FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=1,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,HOUTLINE=1,TAGDC="DC-",OFFSET=-5,NAMEONBAR="true",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,TAGRIP="RIP-",NUMFORMAT1=1,HLTHONBAR="false",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="R- ",OUTLINE=1}
+BarText~d!2~3~4~5~6~7~8~9~10~
+BarTextCol~f~1!{NCB=0.043,NCR=1,HCDA=0.58,NCDA=0.58,NAME=2,HCA=1,HCB=0.043,HCR=1,NCA=1,NCG=0.996,NDEBUFF="false",HDEBUFF="false",HCG=0.996,HLTH=2}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,I15EN="false",POSITION=1,SHOWDIR="false",FADE="false",DSCALE=0.4,ONBAR=1,SHOWRC="true",SCALE=0.4,DOUBLE="false",SHOWDIRMOUSE="false",MAXBICONS=8}
+Icons~f~2!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,I15EN="false",POSITION=1,SHOWDIR="false",FADE="false",DSCALE=0.9,ONBAR=1,SHOWRC="true",SCALE=0.9,SHOWDIRMOUSE="false",DOUBLE="true",MAXBICONS=8}
+Icons~f~3!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,I15EN="false",POSITION=1,SHOWDIR="false",FADE="false",DSCALE=0.4,ONBAR=1,SHOWRC="true",SCALE=0.4,SHOWDIRMOUSE="false",DOUBLE="false",MAXBICONS=8}
+Icons~d!4~5~6~7~8~9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",MOON="true",TRIANGLE="true",STAR="true",CROSS="true",SKULL="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~2!{DURWARN=3,HEIGHT=12,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~3!{DURWARN=3,HEIGHT=10,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~f~4!{DURWARN=3,HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~d!5~6~7~8~9~
+IconText~f~10!{DURWARN=3,HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.85,HIDEOOR="false"}
+BarVisibility~f~3!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.9,ALERTOC=0.75,HIDEOOR="true"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!2~3~4~5~6~7~8~9~10~
+BarAggro~f~1!{R=1,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="false",SHOWTEXT="false",B=0,ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=1,OTYPE=1,B=1,G=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~
+AuxBar^4~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=1,OTYPE=1,B=1,G=1}
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=1,OTYPE=1,B=1,G=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~
+AuxBar^5~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=1,OTYPE=1,B=1,G=1}
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[48]=[[Skin
+High-Vis
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=11,HIDEPARTYF="true",HIDEBOSSF="true",HIDERAIDF="true",STICKYFRAME="true",STICKYSENSITIVITY=30,FLUIDBARS="false",HIDEPTF="false"}
+Healing~t!{TINCSELF="false",GROUPPETS="false",TARGETINCOMBAT=2,FEXRAID="false",FONLYFRIEND="false",TINCPET="false",TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCRAID="true",TEXRAID="false",FALWAYSSHOW="false"}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
+Enemy~t!{ENEMYTARGET="false",INCTANKS="false",INCMYTAR="false",INCARENA="true",INCARENAPETS="false",ENEMYTARGETSIZE=40,HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=1,ALIAS="Group",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{SIZE=12,NAME="",R=1,ALIAS="Frame 1",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~d!3~4~5~
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,WIDTH=0.7,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!2~3~4~5~6~7~8~9~10~
+Frame~f~1!{BACKR=0.1,SFOFFSETH=0,SFOFFSETV=0,BACKG=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.2,BORDERG=0.2,TIPLOC=5,BACKB=0.1,BACKA=0.05,SCALE=1,BORDERB=0.2,AUTOCLOSE="false",BORDERR=0.2}
+Frame~d!2~3~4~5~6~7~8~9~10~
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!2~3~4~5~6~7~
+StickyFrames~f~8!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~9!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~10!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+HealGroups~f~1!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~2!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="true",NAME="Raid"}
+HealGroups~f~5!{FRAME=1,STATE="true",NAME="Group"}
+HealGroups~f~6!{FRAME=1,STATE="false",NAME="Private List"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=1,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="true",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="false",NAME="Enemy"}
+Anchors~f~1!{Y=68.08,GROW=2,BARS=3,FRAME=3,X=89.41}
+Anchors~f~2!{Y=75.7,GROW=2,BARS=3,FRAME=3,X=84.17}
+Anchors~f~3!{Y=52,GROW=2,BARS=3,FRAME=3,X=52}
+Anchors~f~4!{Y=53,GROW=2,BARS=3,FRAME=3,X=53}
+Anchors~f~5!{Y=54,GROW=2,BARS=3,FRAME=3,X=54}
+Anchors~f~6!{Y=55,GROW=2,BARS=3,FRAME=3,X=55}
+Anchors~f~7!{Y=57.61,GROW=2,BARS=3,FRAME=3,X=93.82}
+Anchors~f~8!{Y=68.08,GROW=2,BARS=3,FRAME=3,X=77.93}
+Anchors~f~9!{Y=57.89,GROW=2,BARS=3,FRAME=3,X=25.43}
+Anchors~f~10!{Y=71.8,GROW=2,BARS=3,FRAME=3,X=89.41}
+HeadBar~f~1!{SHOW="false",TEXTURE="HealBot 10",R=0.1,B=0.1,HEIGHT=17,A=0.4,G=0.7,WIDTH=0.7}
+HeadBar~f~2!{SHOW="false",WIDTH=0.7,B=0.1,R=0.1,HEIGHT=15,A=0.4,G=0.7,TEXTURE="HealBot 10"}
+HeadBar~d!3~4~5~6~7~8~9~10~
+HeadText~f~1!{A=0.74,R=1,OFFSET=0,B=1,FONT="Friz Quadrata TT",HEIGHT=9,G=1,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=33,GRPCOLS="false",CMARGIN=0,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,WIDTH=155,OFIX=1,RMARGIN=0,NUMCOLS=2}
+HealBar~f~2!{HEIGHT=30,GRPCOLS="false",CMARGIN=2,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,WIDTH=161,OFIX=1,RMARGIN=1,NUMCOLS=2}
+HealBar~d!3~4~5~6~7~8~9~10~
+BarCol~f~1!{BACK=1,BA=0.05,BOUT=1,DISA=0.7,BR=0.4,HB=0.702,BG=0.4,HR=0.4,HA=1,HG=0.4,ORA=0.05,BB=0.7,HLTH=1}
+BarCol~f~2!{BACK=1,BA=0,BOUT=2,DISA=0.04,BR=0.4,HB=0.7,BG=0.4,HR=0.4,HA=1,HG=0.4,ORA=0.13,BB=0.7,HLTH=1}
+BarCol~d!3~4~5~6~7~8~9~10~
+BarIACol~f~1!{AC=3,AB=1,AA=0.72,AR=1,AG=1,IC=3,IB=0.2,IA=0.58,IR=0.2,IG=1}
+BarIACol~f~2!{AC=3,AB=1,AA=0.78,AR=1,AG=1,IC=3,IB=0.2,IA=0.64,IR=0.2,IG=1}
+BarIACol~d!3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="false",TAGOOR="OOR|",IGNOREONFULL="true",MAXCHARS=15,FONT="Friz Quadrata TT",CLASSONBAR="false",HOFFSET=0,OUTLINE=2,OFFSET=0,INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=1,HMAXCHARS=0,INCABSORBS=1,NUMFORMAT2=1,HOUTLINE=1,NUMFORMAT1=11,HHEIGHT=10,TAGRIP="RIP|",HEIGHT=15,NAMEONBAR="true",SHOWROLE="true",HALIGN=2,TAGDC="DC|",OVERHEAL=1,CLASSTYPE=1,HOFFSET2=0,ALIGN=1,TAGR="R|",HFONT="Friz Quadrata TT"}
+BarText~f~2!{HLTHONBAR="false",TAGOOR="OOR|",HOUTLINE=1,MAXCHARS=15,TAGRIP="RIP|",HMAXCHARS=0,HFONT="Friz Quadrata TT",OUTLINE=2,OFFSET=0,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HLTHTYPE=1,CLASSTYPE=2,NUMFORMAT2=1,CLASSONBAR="false",NUMFORMAT1=11,OVERHEAL=1,NAMEONBAR="true",HEIGHT=15,TAGDC="DC|",SHOWROLE="false",HALIGN=2,HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=1,TAGR="R|",HOFFSET=0}
+BarText~d!3~4~5~6~7~8~9~10~
+BarTextCol~f~1!{HCG=1,NDEBUFF="false",NAME=2,NCDA=0.7,NCB=0,NCR=1,HCB=0,HCR=1,HCA=1,NCG=1,NCA=1,HDEBUFF="false",HCDA=0.4,HLTH=2}
+BarTextCol~f~2!{HCG=1,NCR=1,NCB=0,NCDA=0.4,NAME=2,HCA=1,HCB=0,HCR=1,NDEBUFF="false",NCG=1,NCA=1,HDEBUFF="false",HLTH=2,HCDA=0.4}
+BarTextCol~d!3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,POSITION=2,FADE="false",ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.85,SHOWDIR="false",SHOWRC="true",SCALE=0.85,DOUBLE="true",I15EN="false",MAXBICONS=8}
+Icons~f~2!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,I15EN="true",POSITION=2,FADE="true",ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.7,SHOWDIR="true",SHOWRC="true",SCALE=0.7,DOUBLE="false",MAXDICONS=3,MAXBICONS=8}
+Icons~d!3~4~5~6~7~8~9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",CROSS="true",MOON="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{SDUR="true",HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~2!{SDUR="true",HEIGHT=11,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~d!3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=1,ALERTOC=1,HIDEOOR="false"}
+BarVisibility~d!3~4~5~6~7~8~9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=1,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,SHOWIND="false",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",R=1,ALERTIND=1,SHOWTEXT="true",ALERT=1}
+BarAggro~f~2!{B=0,SHOWIND="true",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",ALERTIND=2,R=1,SHOWTEXT="true",ALERT=2}
+BarAggro~d!3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=2,OTYPE=1,B=1,G=1}
+AuxBar^4~f~2!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^4~d!3~4~5~6~7~8~9~
+AuxBar^4~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=2,OTYPE=1,B=1,G=1}
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=2,OTYPE=1,B=1,G=1}
+AuxBar^5~f~2!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^5~d!3~4~5~6~7~8~9~
+AuxBar^5~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=2,OTYPE=1,B=1,G=1}
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[49]=[[Skin
+Retro-Raid
+Author~v!Ivanhoof of Terenas
+DuplicateBars~v!true
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=16,HIDEPARTYF="true",HIDEPTF="false",STICKYFRAME="false",STICKYSENSITIVITY=30,HIDERAIDF="true",FLUIDBARS="true",HIDEBOSSF="true"}
+Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID="true",FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",TINCGROUP="true",FOCUSINCOMBAT=2,TALWAYSSHOW="false",FEXRAID="false",FALWAYSSHOW="false",TEXRAID="false",TINCPET="false"}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
+Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=1,ALIAS="Raid",G=1,SHOW="false",OFFSET=10,FONT="Oregon LDO Black",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{SIZE=12,NAME="",R=1,ALIAS="Frame 2",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~d!3~4~5~
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,WIDTH=0.8,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~f~2!{A=0.5,WIDTH=0.7,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!3~4~5~6~7~8~9~10~
+Frame~f~1!{BORDERR=0.2,TIPLOC=5,AUTOCLOSE="false",BACKB=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.2,SFOFFSETV=0,BACKG=0.1,BORDERB=0.2,BACKA=0.05,SCALE=1,BORDERG=0.2,BACKR=0.1,SFOFFSETH=0}
+Frame~d!2~3~4~5~6~7~8~9~10~
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!2~3~4~5~6~7~8~9~10~
+HealGroups~f~1!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~2!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~3!{FRAME=1,STATE="true",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="true",NAME="Raid"}
+HealGroups~f~5!{FRAME=1,STATE="false",NAME="Group"}
+HealGroups~f~6!{FRAME=1,STATE="false",NAME="Private List"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=1,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="false",NAME="Enemy"}
+Anchors~f~1!{Y=83.06,GROW=2,BARS=3,FRAME=3,X=29.67}
+Anchors~f~2!{Y=51,GROW=2,BARS=3,FRAME=3,X=51}
+Anchors~f~3!{Y=52,GROW=2,BARS=3,FRAME=3,X=52}
+Anchors~f~4!{Y=53,GROW=2,BARS=3,FRAME=3,X=53}
+Anchors~f~5!{Y=54,GROW=2,BARS=3,FRAME=3,X=54}
+Anchors~f~6!{Y=55,GROW=2,BARS=3,FRAME=3,X=55}
+Anchors~f~7!{Y=56,GROW=2,BARS=3,FRAME=3,X=56}
+Anchors~f~8!{Y=87.7,GROW=2,BARS=3,FRAME=3,X=23.77}
+Anchors~f~9!{Y=87.66,GROW=2,BARS=3,FRAME=3,X=29.7}
+Anchors~f~10!{Y=83.29,GROW=2,BARS=3,FRAME=3,X=35.14}
+HeadBar~f~1!{SHOW="true",TEXTURE="HealBot 10",R=0.1,B=0.1,HEIGHT=14,A=0.4,G=0.7,WIDTH=0.9}
+HeadBar~f~2!{SHOW="true",TEXTURE="HealBot 10",R=0.1,B=0.1,HEIGHT=13,A=0.4,G=0.7,WIDTH=0.7}
+HeadBar~d!3~4~5~6~7~8~9~10~
+HeadText~f~1!{A=0.74,R=1,OFFSET=0,B=1,FONT="Friz Quadrata TT",HEIGHT=9,G=1,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=79,RMARGIN=0,OFIX=1,NUMCOLS=2,LOWMANA=2}
+HealBar~f~2!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=144,RMARGIN=1,OFIX=1,NUMCOLS=2,LOWMANA=2}
+HealBar~d!3~4~5~6~7~8~9~
+HealBar~f~10!{HEIGHT=25,GRPCOLS="false",CMARGIN=2,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=2,NUMCOLS=2,OFIX=1,RMARGIN=0,WIDTH=144}
+BarCol~f~1!{BACK=1,BA=0,BOUT=0,DISA=0.1,BR=0.4,HB=0.7,BG=0.4,HR=0.4,HA=1,HG=0.4,ORA=0.4,BB=0.7,HLTH=1}
+BarCol~f~2!{BACK=1,BA=0,BOUT=2,DISA=0.1,BR=0.4,HB=0.7,BG=0.4,BB=0.7,HA=1,HR=0.4,ORA=0.4,HG=0.4,HLTH=1}
+BarCol~d!3~4~5~6~7~8~9~
+BarCol~f~10!{BACK=1,BA=0.3,BOUT=1,DISA=0.1,BR=0.4,HB=0.7,BG=0.4,HG=0.4,HA=1,HR=0.4,ORA=0.4,BB=0.7,HLTH=1}
+BarIACol~f~1!{AC=3,AB=1,AA=0.78,AR=1,AG=1,IC=3,IB=0.2,IA=0.82,IR=0.2,IG=1}
+BarIACol~d!2~3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="true",TAGOOR="",OVERHEAL=1,MAXCHARS=0,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,OFFSET=0,INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",TAGDC="",NUMFORMAT1=11,NAMEONBAR="true",HEIGHT=10,FONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,TAGRIP="",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~2!{HLTHONBAR="true",TAGOOR="[ OOR ] ",OVERHEAL=1,MAXCHARS=0,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,OFFSET=0,INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=1,HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",TAGDC="[ DC ] ",NUMFORMAT1=11,NAMEONBAR="true",HEIGHT=10,FONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,TAGRIP="[ RIP ] ",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="[ R ] ",HOFFSET=0}
+BarText~d!3~4~5~6~7~8~9~10~
+BarTextCol~f~1!{NAME=2,NDEBUFF="false",HLTH=2,NCDA=0.4,HCG=1,HCA=1,NCG=1,NCA=1,HCR=1,HCB=0,NCR=1,HDEBUFF="false",NCB=0,HCDA=0.4}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,I15EN="true",DOUBLE="false",SHOWDIR="true",FADE="true",DSCALE=0.6,ONBAR=1,SHOWRC="true",SCALE=0.6,SHOWDIRMOUSE="false",POSITION=2,MAXBICONS=8}
+Icons~f~2!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,I15EN="true",DOUBLE="false",SHOWDIR="true",FADE="true",DSCALE=0.7,ONBAR=1,SHOWRC="true",SCALE=0.7,SHOWDIRMOUSE="false",POSITION=2,MAXBICONS=8}
+Icons~d!3~4~5~6~7~8~9~10~
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",CROSS="true",MOON="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{SDUR="true",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~f~2!{SDUR="true",HEIGHT=9,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~d!3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!3~4~5~6~7~8~9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!2~3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,SHOWIND="true",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",ALERTIND=2,R=1,SHOWTEXT="false",ALERT=2}
+BarAggro~f~2!{B=0,SHOWIND="true",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",R=1,ALERTIND=2,SHOWTEXT="true",ALERT=2}
+BarAggro~d!3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=4,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~
+AuxBar^1~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=2,OTYPE=1,B=1,G=1}
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[50]=[[Skin
+Blended-Group
+Author~v!Ivanhoof of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{FLUIDFREQ=17,HIDEPTF="false",HIDEPARTYF="true",STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",HIDEBOSSF="true"}
+Healing~t!{TINCSELF="false",TINCRAID="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCGROUP="false",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",SELFPET="true",TEXRAID="false",ALERT=0.95}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="true",COMBATRAID=1}
+Enemy~t!{USE=0,INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",INCARENAPETS="false",ENEMYTARGETSIZE=40,INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=0.243,ALIAS="Tank and Heals",G=0.478,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.882,OUTLINE=1}
+FrameAlias~f~2!{SIZE=12,NAME="Damage Dealers",R=0.275,ALIAS="Group",G=0.882,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.243,OUTLINE=1}
+FrameAlias~f~3!{SIZE=12,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~d!4~5~
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="Pets",R=0.275,ALIAS="Pets",G=0.882,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.243,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="Enemy",R=0.902,ALIAS="Enemy",G=0.2,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.2,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.95}
+FrameAliasBar~f~2!{A=0.25,TEXTURE="Smooth v2",B=0,HEIGHT=14,R=0,G=0,WIDTH=0.95}
+FrameAliasBar~f~3!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.7}
+FrameAliasBar~d!4~5~6~
+FrameAliasBar~f~7!{A=0.25,TEXTURE="Smooth v2",B=0,HEIGHT=12,R=0,G=0,WIDTH=0.95}
+FrameAliasBar~f~8!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.7}
+FrameAliasBar~d!9~
+FrameAliasBar~f~10!{A=0.25,TEXTURE="HealBot 10",B=0,HEIGHT=14,R=0,G=0,WIDTH=0.9}
+Frame~f~1!{BACKR=0.2,BACKG=0.196,AUTOCLOSE="false",BORDERB=0.2,LOCKED="true",SCALE=1,BORDERA=0,SFOFFSETV=0,TIPLOC=4,BACKB=0.188,BACKA=0,OPENSOUND="false",BORDERG=0.2,BORDERR=0.2,SFOFFSETH=0}
+Frame~f~2!{BACKR=0.173,BACKG=0.184,AUTOCLOSE="false",BORDERB=0.808,LOCKED="true",SCALE=1,BORDERA=0,SFOFFSETV=0,TIPLOC=5,BACKB=0.2,BACKA=0,OPENSOUND="false",BORDERG=0.796,BORDERR=0.765,SFOFFSETH=0}
+Frame~f~3!{BORDERR=0.765,BACKR=0.173,AUTOCLOSE="false",BORDERB=0.808,LOCKED="true",OPENSOUND="false",BORDERA=0.5,SFOFFSETV=0,TIPLOC=5,BACKB=0.2,BACKA=0.1,SCALE=1,BACKG=0.184,BORDERG=0.796,SFOFFSETH=0}
+Frame~d!4~5~6~
+Frame~f~7!{BORDERR=0.765,BACKG=0.184,AUTOCLOSE="false",BORDERB=0.808,LOCKED="true",OPENSOUND="false",BORDERA=0,SFOFFSETV=0,TIPLOC=5,BACKB=0.2,BACKA=0,SCALE=1,BORDERG=0.796,BACKR=0.173,SFOFFSETH=0}
+Frame~f~8!{BACKR=0.173,BACKG=0.184,AUTOCLOSE="false",BORDERB=0.808,LOCKED="false",OPENSOUND="false",BORDERA=0.5,SFOFFSETV=0,TIPLOC=5,BACKB=0.2,BACKA=0.1,SCALE=1,BORDERG=0.796,BORDERR=0.765,SFOFFSETH=0}
+Frame~d!9~
+Frame~f~10!{BACKR=0.2,BACKG=0.2,AUTOCLOSE="false",BORDERB=0.2,LOCKED="true",SCALE=1,BORDERA=0,SFOFFSETV=-14,TIPLOC=2,BACKB=0.2,BACKA=0,OPENSOUND="false",BORDERG=0.2,BORDERR=0.2,SFOFFSETH=0}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=2,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=1,STATE="true",NAME="Healers"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~4!{FRAME=2,STATE="true",NAME="Group"}
+HealGroups~f~5!{FRAME=2,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=2,STATE="false",NAME="Raid"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=69.09,X=79.66,BARS=1,FRAME=1,GROW=2}
+Anchors~f~2!{Y=62.92,X=84.89,BARS=1,FRAME=3,GROW=1}
+Anchors~f~3!{Y=41.05,X=35.18,BARS=1,FRAME=1,GROW=2}
+Anchors~f~4!{Y=38.93,X=33.85,BARS=1,FRAME=1,GROW=2}
+Anchors~f~5!{Y=36.82,X=32.53,BARS=1,FRAME=1,GROW=2}
+Anchors~f~6!{Y=34.7,X=31.21,BARS=1,FRAME=1,GROW=2}
+Anchors~f~7!{Y=58.17,X=84.89,BARS=1,FRAME=3,GROW=2}
+Anchors~f~8!{Y=63.18,X=83.33,BARS=1,FRAME=1,GROW=2}
+Anchors~f~9!{Y=58.28,X=83.32,BARS=1,FRAME=1,GROW=2}
+Anchors~f~10!{Y=67.92,X=79.66,BARS=3,FRAME=3,GROW=2}
+HeadBar~f~1!{SHOW="true",WIDTH=0.95,B=0,R=0,HEIGHT=14,A=0.25,G=0,TEXTURE="Smooth v2"}
+HeadBar~f~2!{SHOW="false",TEXTURE="Skewed",R=0.09,B=0.118,HEIGHT=13,A=0,G=0.11,WIDTH=0.9}
+HeadBar~f~3!{SHOW="true",TEXTURE="Skewed",R=0.09,B=0.118,HEIGHT=10,A=0,G=0.11,WIDTH=0.9}
+HeadBar~d!4~5~6~
+HeadBar~f~7!{SHOW="false",WIDTH=0.9,B=0.118,R=0.09,HEIGHT=12,A=0,G=0.11,TEXTURE="Skewed"}
+HeadBar~f~8!{SHOW="true",WIDTH=0.9,B=0.118,R=0.09,HEIGHT=10,A=0,G=0.11,TEXTURE="Skewed"}
+HeadBar~d!9~
+HeadBar~f~10!{SHOW="false",WIDTH=0.9,B=0.118,R=0.09,HEIGHT=5,A=0,G=0.11,TEXTURE="Skewed"}
+HeadText~f~1!{A=1,R=0.2,OFFSET=0,B=0.2,FONT="Friz Quadrata TT",HEIGHT=12,G=0.902,OUTLINE=1}
+HeadText~f~2!{A=1,B=0.835,OFFSET=-1,R=0.541,FONT="Friz Quadrata TT",HEIGHT=12,G=0.757,OUTLINE=1}
+HeadText~f~3!{A=0.85,B=0.973,OFFSET=0,R=0.651,FONT="Friz Quadrata TT",HEIGHT=12,G=0.82,OUTLINE=1}
+HeadText~d!4~5~6~
+HeadText~f~7!{A=0.85,B=0.973,OFFSET=-1,R=0.651,FONT="Friz Quadrata TT",HEIGHT=12,G=0.82,OUTLINE=1}
+HeadText~f~8!{A=0.85,B=0.973,OFFSET=0,R=0.651,FONT="Friz Quadrata TT",HEIGHT=12,G=0.82,OUTLINE=1}
+HeadText~d!9~10~
+HealBar~f~1!{HEIGHT=32,GRPCOLS="true",CMARGIN=1,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=1,RMARGIN=1,OFIX=1,WIDTH=140,LOWMANA=1}
+HealBar~f~2!{HEIGHT=31,GRPCOLS="false",CMARGIN=1,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=1,RMARGIN=1,OFIX=1,WIDTH=93,LOWMANA=1}
+HealBar~f~3!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=75,RMARGIN=1,OFIX=1,NUMCOLS=5,LOWMANA=1}
+HealBar~d!4~5~6~
+HealBar~f~7!{HEIGHT=24,GRPCOLS="false",CMARGIN=1,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=4,RMARGIN=0,OFIX=1,WIDTH=69,LOWMANA=1}
+HealBar~f~8!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=5,RMARGIN=1,OFIX=1,WIDTH=75,LOWMANA=1}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=28,GRPCOLS="false",CMARGIN=1,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=1,RMARGIN=0,OFIX=1,WIDTH=102,LOWMANA=1}
+BarCol~f~1!{BACK=1,BA=0,BB=0.2,DISA=0.02,BR=0,HB=0.2,BG=0.2,BOUT=0,HA=1,HG=0.2,ORA=0.3,HR=0,HLTH=1}
+BarCol~d!2~3~4~5~6~7~8~9~
+BarCol~f~10!{BACK=1,BA=0,BOUT=0,DISA=0.02,BR=0,HB=0.11,BG=0.2,HR=0.824,HA=1,HG=0.11,ORA=0.3,BB=0.2,HLTH=3}
+BarIACol~f~1!{AC=4,AB=1,AA=0.5,AR=1,AG=1,IC=3,IB=0,IA=0.7,IR=0,IG=0.502}
+BarIACol~d!2~3~4~5~6~7~8~9~
+BarIACol~f~10!{AC=4,AB=1,AA=0.5,AR=1,AG=1,IC=4,IB=0.173,IA=0.7,IR=0.996,IG=0.886}
+BarText~f~1!{HLTHONBAR="true",TAGOOR="",OVERHEAL=1,MAXCHARS=0,HMAXCHARS=0,HFONT="Friz Quadrata TT",OUTLINE=1,OFFSET=0,INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=1,FONT="Friz Quadrata TT",CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",TAGDC="",NUMFORMAT1=2,TAGRIP="",HEIGHT=10,NAMEONBAR="true",SHOWROLE="false",HALIGN=2,HHEIGHT=10,HOUTLINE=1,CLASSONBAR="false",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~2!{HLTHONBAR="true",TAGOOR="",HOUTLINE=1,MAXCHARS=0,HMAXCHARS=0,HFONT="Friz Quadrata TT",OUTLINE=1,CLASSONBAR="false",OFFSET=1,HLTHTXTANCHOR=1,HLTHTYPE=1,INCHEALS=2,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",FONT="Friz Quadrata TT",NAMEONBAR="true",HEIGHT=10,TAGRIP="",SHOWROLE="false",HALIGN=2,NUMFORMAT1=2,HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~3!{HLTHONBAR="true",TAGOOR="",HOUTLINE=1,MAXCHARS=0,HMAXCHARS=0,HFONT="Friz Quadrata TT",OUTLINE=1,CLASSONBAR="false",OFFSET=0,HLTHTXTANCHOR=1,HLTHTYPE=1,INCHEALS=2,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",FONT="Friz Quadrata TT",NAMEONBAR="true",HEIGHT=10,TAGRIP="",SHOWROLE="false",HALIGN=2,NUMFORMAT1=2,HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!4~5~6~
+BarText~f~7!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,HMAXCHARS=0,HFONT="Friz Quadrata TT",OUTLINE=1,CLASSONBAR="false",OFFSET=0,HLTHTXTANCHOR=1,HLTHTYPE=1,INCHEALS=2,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",FONT="Friz Quadrata TT",NAMEONBAR="true",HEIGHT=10,TAGRIP="",SHOWROLE="false",HALIGN=2,NUMFORMAT1=2,HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~8!{HLTHONBAR="true",TAGOOR="",HOUTLINE=1,MAXCHARS=0,HMAXCHARS=0,HFONT="Friz Quadrata TT",OUTLINE=1,CLASSONBAR="false",OFFSET=0,HLTHTXTANCHOR=1,HLTHTYPE=1,INCHEALS=2,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",FONT="Friz Quadrata TT",NAMEONBAR="true",HEIGHT=10,TAGRIP="",SHOWROLE="false",HALIGN=2,NUMFORMAT1=2,HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!9~10~
+BarTextCol~f~1!{HCG=1,NCR=1,HLTH=2,NCDA=0.4,NCB=0,NDEBUFF="false",HCB=0,HCR=1,NCA=1,NCG=1,HCA=1,HDEBUFF="false",NAME=2,HCDA=0.4}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",SHOWDEBUFF="true",I15EN="true",MAXDICONS=3,FADESECS=8,DOUBLE="false",ONBAR=1,FADE="true",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,SHOWDIRMOUSE="false",POSITION=2,MAXBICONS=8}
+Icons~f~2!{SHOWBUFF="true",SHOWDEBUFF="true",I15EN="true",MAXDICONS=2,FADESECS=8,POSITION=2,ONBAR=1,DOUBLE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,SHOWDIRMOUSE="false",FADE="true",MAXBICONS=5}
+Icons~f~3!{SHOWBUFF="true",SHOWDEBUFF="true",I15EN="true",MAXDICONS=3,FADESECS=15,POSITION=2,ONBAR=1,DOUBLE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,SHOWDIRMOUSE="false",FADE="true",MAXBICONS=8}
+Icons~d!4~5~6~
+Icons~f~7!{SHOWBUFF="true",SHOWDEBUFF="true",I15EN="true",MAXDICONS=2,FADESECS=8,POSITION=2,ONBAR=1,DOUBLE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,SHOWDIRMOUSE="false",FADE="true",MAXBICONS=5}
+Icons~f~8!{SHOWBUFF="true",SHOWDEBUFF="true",I15EN="true",MAXDICONS=3,FADESECS=15,POSITION=2,ONBAR=1,DOUBLE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,SHOWDIRMOUSE="false",FADE="true",MAXBICONS=8}
+Icons~d!9~
+Icons~f~10!{SHOWBUFF="true",SHOWDEBUFF="true",I15EN="true",MAXDICONS=2,FADESECS=8,POSITION=2,ONBAR=1,DOUBLE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,SHOWDIRMOUSE="false",FADE="true",MAXBICONS=5}
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",MOON="true",CROSS="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",SDUR="true",SSDUR="true",OUTLINE=2}
+IconText~d!2~
+IconText~f~3!{SDUR="false",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~d!4~5~6~7~8~9~
+IconText~f~10!{SDUR="false",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="false",OUTLINE=2}
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~3!{INCCLASSES=1,ALERTIC=0.99,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.9,ALERTOC=0.8,HIDEOOR="false"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=0.99,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!2~3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",R=1,SHOWIND="true",SHOWTEXT="false",ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~
+AuxBar^4~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~
+AuxBar^5~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[51]=[[Skin
+Blended-Raid
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="",RESONLY="true",CHAN="",NOTIFY=1}
+General~t!{HIDEBOSSF="true",HIDEPARTYF="true",HIDEPTF="false",STICKYSENSITIVITY=30,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",FLUIDFREQ=22}
+Healing~t!{TINCRAID="false",TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,FALWAYSSHOW="false",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",TINCGROUP="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET="true",TINCPET="false",TEXRAID="false",ALERT=0.95}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="true",COMBATRAID=1}
+Enemy~t!{USE=0,ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="false"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="Tanks and Healers",R=0.2,ALIAS="Tank and Heals",G=0.9,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.2,OUTLINE=1}
+FrameAlias~f~2!{SIZE=12,NAME="Raid",R=0.275,ALIAS="Raid",G=0.882,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.243,OUTLINE=1}
+FrameAlias~f~3!{SIZE=12,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~d!4~5~
+FrameAlias~f~6!{SIZE=12,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~7!{SIZE=12,NAME="Pets",R=0.275,ALIAS="Pets",G=0.882,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.243,OUTLINE=1}
+FrameAlias~f~8!{SIZE=12,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~9!{SIZE=12,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~10!{SIZE=12,NAME="Enemy",R=0.902,ALIAS="Enemy",G=0.2,SHOW="true",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=0.2,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.25,WIDTH=0.95,B=0.004,HEIGHT=14,R=0.004,G=0.004,TEXTURE="Smooth v2"}
+FrameAliasBar~f~2!{A=0.25,WIDTH=0.95,B=0,HEIGHT=14,R=0,G=0,TEXTURE="Smooth v2"}
+FrameAliasBar~f~3!{A=0.5,WIDTH=0.7,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!4~5~6~
+FrameAliasBar~f~7!{A=0.25,WIDTH=0.95,B=0,HEIGHT=12,R=0,G=0,TEXTURE="Smooth v2"}
+FrameAliasBar~f~8!{A=0.5,WIDTH=0.7,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!9~
+FrameAliasBar~f~10!{A=0.25,WIDTH=0.9,B=0,HEIGHT=14,R=0,G=0,TEXTURE="HealBot 10"}
+Frame~f~1!{BACKR=0.2,BORDERR=0.2,AUTOCLOSE="false",BACKB=0.188,LOCKED="false",OPENSOUND="false",BORDERA=0,BORDERG=0.2,TIPLOC=2,BORDERB=0.2,BACKA=0,SCALE=1,BACKG=0.196,SFOFFSETV=0,SFOFFSETH=0}
+Frame~f~2!{BACKR=0.173,BORDERR=0.765,AUTOCLOSE="false",BACKB=0.2,LOCKED="true",OPENSOUND="false",BORDERA=0,BORDERG=0.796,TIPLOC=3,BORDERB=0.808,BACKA=0,SCALE=1,BACKG=0.184,SFOFFSETV=0,SFOFFSETH=0}
+Frame~f~3!{BORDERR=0.765,BACKG=0.184,AUTOCLOSE="false",BACKB=0.2,LOCKED="true",OPENSOUND="false",BORDERA=0.5,BORDERG=0.796,TIPLOC=5,BORDERB=0.808,BACKA=0.1,SCALE=1,SFOFFSETV=0,BACKR=0.173,SFOFFSETH=0}
+Frame~d!4~5~6~
+Frame~f~7!{BORDERR=0.765,BACKR=0.173,AUTOCLOSE="false",BACKB=0.2,LOCKED="true",SCALE=1,BORDERA=0,BORDERG=0.796,TIPLOC=5,BORDERB=0.808,BACKA=0,OPENSOUND="false",BACKG=0.184,SFOFFSETV=0,SFOFFSETH=0}
+Frame~f~8!{BACKR=0.173,BORDERR=0.765,AUTOCLOSE="false",BACKB=0.2,LOCKED="false",SCALE=1,BORDERA=0.5,BORDERG=0.796,TIPLOC=5,BORDERB=0.808,BACKA=0.1,OPENSOUND="false",BACKG=0.184,SFOFFSETV=0,SFOFFSETH=0}
+Frame~d!9~
+Frame~f~10!{BACKR=0.2,BORDERR=0.2,AUTOCLOSE="false",BACKB=0.2,LOCKED="true",OPENSOUND="false",BORDERA=0,BORDERG=0.2,TIPLOC=4,BORDERB=0.2,BACKA=0,SCALE=1,BACKG=0.2,SFOFFSETV=0,SFOFFSETH=0}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=1,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!4~5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMRIGHT",STUCKTO=2,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="BOTTOMRIGHT"}
+HealGroups~f~1!{FRAME=1,STATE="true",NAME="Main tanks"}
+HealGroups~f~2!{FRAME=1,STATE="true",NAME="Healers"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~4!{FRAME=2,STATE="true",NAME="Group"}
+HealGroups~f~5!{FRAME=2,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=2,STATE="true",NAME="Raid"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=68.67,X=75.85,BARS=1,FRAME=1,GROW=2}
+Anchors~f~2!{Y=63.42,X=80.38,BARS=1,FRAME=3,GROW=2}
+Anchors~f~3!{Y=41.05,X=35.18,BARS=1,FRAME=1,GROW=2}
+Anchors~f~4!{Y=38.93,X=33.85,BARS=1,FRAME=1,GROW=2}
+Anchors~f~5!{Y=36.82,X=32.53,BARS=1,FRAME=1,GROW=2}
+Anchors~f~6!{Y=34.7,X=31.21,BARS=1,FRAME=1,GROW=2}
+Anchors~f~7!{Y=45.17,X=80.38,BARS=1,FRAME=3,GROW=2}
+Anchors~f~8!{Y=63.18,X=83.33,BARS=1,FRAME=1,GROW=2}
+Anchors~f~9!{Y=58.28,X=83.32,BARS=1,FRAME=1,GROW=2}
+Anchors~f~10!{Y=69.84,X=80.38,BARS=1,FRAME=4,GROW=1}
+HeadBar~f~1!{SHOW="false",TEXTURE="Smooth v2",R=0,B=0,HEIGHT=14,A=0.25,G=0,WIDTH=0.95}
+HeadBar~f~2!{SHOW="false",WIDTH=0.9,B=0.118,R=0.09,HEIGHT=13,A=0,G=0.11,TEXTURE="Skewed"}
+HeadBar~f~3!{SHOW="true",WIDTH=0.9,B=0.118,R=0.09,HEIGHT=10,A=0,G=0.11,TEXTURE="Skewed"}
+HeadBar~d!4~5~6~
+HeadBar~f~7!{SHOW="false",TEXTURE="Skewed",R=0.09,B=0.118,HEIGHT=12,A=0,G=0.11,WIDTH=0.9}
+HeadBar~f~8!{SHOW="true",TEXTURE="Skewed",R=0.09,B=0.118,HEIGHT=10,A=0,G=0.11,WIDTH=0.9}
+HeadBar~d!9~
+HeadBar~f~10!{SHOW="false",TEXTURE="Skewed",R=0.09,B=0.118,HEIGHT=5,A=0,G=0.11,WIDTH=0.9}
+HeadText~f~1!{A=1,B=0.2,OFFSET=0,R=0.2,FONT="Friz Quadrata TT",HEIGHT=12,G=0.9,OUTLINE=1}
+HeadText~f~2!{A=1,R=0.541,OFFSET=-1,B=0.835,FONT="Friz Quadrata TT",HEIGHT=12,G=0.757,OUTLINE=1}
+HeadText~f~3!{A=0.85,R=0.651,OFFSET=0,B=0.973,FONT="Friz Quadrata TT",HEIGHT=12,G=0.82,OUTLINE=1}
+HeadText~d!4~5~6~
+HeadText~f~7!{A=0.85,R=0.651,OFFSET=-1,B=0.973,FONT="Friz Quadrata TT",HEIGHT=12,G=0.82,OUTLINE=1}
+HeadText~f~8!{A=0.85,R=0.651,OFFSET=0,B=0.973,FONT="Friz Quadrata TT",HEIGHT=12,G=0.82,OUTLINE=1}
+HeadText~d!9~10~
+HealBar~f~1!{HEIGHT=35,GRPCOLS="false",CMARGIN=2,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=120,RMARGIN=1,OFIX=1,NUMCOLS=2,LOWMANA=1}
+HealBar~f~2!{HEIGHT=28,GRPCOLS="false",CMARGIN=1,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=1,OFIX=1,NUMCOLS=3,LOWMANA=1}
+HealBar~f~3!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=5,RMARGIN=1,OFIX=1,WIDTH=75,LOWMANA=1}
+HealBar~d!4~5~6~
+HealBar~f~7!{HEIGHT=24,GRPCOLS="false",CMARGIN=1,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=59,RMARGIN=0,OFIX=1,NUMCOLS=4,LOWMANA=1}
+HealBar~f~8!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Smooth",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=75,RMARGIN=1,OFIX=1,NUMCOLS=5,LOWMANA=1}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=28,GRPCOLS="false",CMARGIN=1,TEXTURE="Charcoal",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=0,OFIX=1,NUMCOLS=1,LOWMANA=1}
+BarCol~f~1!{BACK=1,BA=0,BOUT=0,DISA=0.02,BR=0,HB=0.2,BG=0.2,HG=0.2,HA=1,HR=0,ORA=0.25,BB=0.2,HLTH=1}
+BarCol~d!2~
+BarCol~f~3!{BACK=1,BA=0,BB=0.2,DISA=0.02,BR=0,HB=0.2,BG=0.2,BOUT=0,HA=1,HG=0.2,ORA=0.3,HR=0,HLTH=1}
+BarCol~d!4~5~6~
+BarCol~f~7!{BACK=1,BA=0,BB=0.2,DISA=0.02,BR=0,HB=0.2,BG=0.2,BOUT=0,HA=1,HG=0.2,ORA=0.2,HR=0,HLTH=1}
+BarCol~f~8!{BACK=1,BA=0,BB=0.2,DISA=0.02,BR=0,HB=0.2,BG=0.2,BOUT=0,HA=1,HG=0.2,ORA=0.3,HR=0,HLTH=1}
+BarCol~d!9~
+BarCol~f~10!{BACK=1,BA=0,BB=0.2,DISA=0.02,BR=0,HB=0.11,BG=0.2,BOUT=0,HA=1,HG=0.11,ORA=0.25,HR=0.824,HLTH=3}
+BarIACol~f~1!{AC=4,AB=1,AA=0.5,AR=1,AG=1,IC=3,IB=0,IA=0.7,IR=0,IG=0.502}
+BarIACol~d!2~3~4~5~6~7~8~9~
+BarIACol~f~10!{AC=4,AB=1,AA=0.5,AR=1,AG=1,IC=4,IB=0.173,IA=0.7,IR=0.996,IG=0.886}
+BarText~f~1!{HLTHONBAR="true",TAGOOR="",OVERHEAL=1,MAXCHARS=0,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,HOUTLINE=1,INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=1,HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",TAGDC="",FONT="Friz Quadrata TT",NAMEONBAR="true",HEIGHT=10,OFFSET=0,SHOWROLE="false",HALIGN=2,TAGRIP="",NUMFORMAT1=2,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~2!{HLTHONBAR="true",TAGOOR="",IGNOREONFULL="true",MAXCHARS=0,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,HLTHTYPE=1,OFFSET=1,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=2,TAGDC="",TAGRIP="",HEIGHT=10,INCHEALS=2,SHOWROLE="false",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=2}
+BarText~f~3!{HLTHONBAR="true",TAGOOR="",IGNOREONFULL="true",MAXCHARS=0,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,HLTHTYPE=1,OFFSET=0,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=2,TAGDC="",TAGRIP="",HEIGHT=10,INCHEALS=2,SHOWROLE="false",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!4~5~6~
+BarText~f~7!{HLTHONBAR="false",TAGOOR="",IGNOREONFULL="true",MAXCHARS=12,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,HLTHTYPE=1,OFFSET=-5,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=2,TAGDC="",TAGRIP="",HEIGHT=10,INCHEALS=2,SHOWROLE="false",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~8!{HLTHONBAR="true",TAGOOR="",IGNOREONFULL="true",MAXCHARS=0,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,HLTHTYPE=1,OFFSET=0,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=2,TAGDC="",TAGRIP="",HEIGHT=10,INCHEALS=2,SHOWROLE="false",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!9~
+BarText~f~10!{HLTHONBAR="false",TAGOOR="",IGNOREONFULL="true",MAXCHARS=0,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=1,HLTHTYPE=1,OFFSET=-5,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=2,TAGDC="",TAGRIP="",HEIGHT=10,INCHEALS=2,SHOWROLE="false",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarTextCol~f~1!{NAME=2,NDEBUFF="false",HLTH=2,NCDA=0.75,HCG=1,HCA=1,NCG=1,NCA=1,HCR=1,HCB=0,NCR=1,HDEBUFF="false",NCB=0,HCDA=0.75}
+BarTextCol~f~2!{NCB=0,NCR=1,HCDA=0.5,NCDA=0.5,HCG=1,NDEBUFF="false",NCG=1,NCA=1,HCR=1,HCB=0,HCA=1,HDEBUFF="false",NAME=2,HLTH=2}
+BarTextCol~f~3!{NCB=0,NCR=1,HCDA=0.4,NCDA=0.4,HCG=1,NDEBUFF="false",NCG=1,NCA=1,HCR=1,HCB=0,HCA=1,HDEBUFF="false",NAME=2,HLTH=2}
+BarTextCol~d!4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=2,FADESECS=15,MAXDICONS=3,I15EN="true",SHOWDEBUFF="true",ONBAR=1,FADE="true",DSCALE=0.5,SHOWDIR="true",SHOWRC="true",SCALE=0.5,SHOWDIRMOUSE="false",DOUBLE="false",MAXBICONS=8}
+Icons~f~2!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=2,I15EN="true",POSITION=2,ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="true",SCALE=0.5,DOUBLE="false",FADE="true",MAXBICONS=5}
+Icons~f~3!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,I15EN="true",POSITION=2,ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,DOUBLE="false",FADE="true",MAXBICONS=8}
+Icons~d!4~5~6~
+Icons~f~7!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=2,I15EN="true",POSITION=2,ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,DOUBLE="false",FADE="true",MAXBICONS=5}
+Icons~f~8!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,I15EN="true",POSITION=2,ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,DOUBLE="false",FADE="true",MAXBICONS=8}
+Icons~d!9~
+Icons~f~10!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=2,I15EN="true",POSITION=2,ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.5,SHOWDIR="true",SHOWRC="false",SCALE=0.5,DOUBLE="false",FADE="true",MAXBICONS=5}
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",MOON="true",TRIANGLE="true",STAR="true",CROSS="true",SKULL="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{SDUR="false",HEIGHT=8,SSCNT="false",SCNT="true",DURTHRH=9,FONT="Friz Quadrata TT",DURWARN=3,SSDUR="true",OUTLINE=2}
+IconText~d!2~3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~3!{INCCLASSES=1,ALERTIC=0.99,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.85,ALERTOC=0.7,HIDEOOR="false"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=0.99,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=2,OORLAST="false",RAIDORDER=6,SUBPF="true"}
+BarSort~f~2!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,SHOWIND="true",G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",ALERTIND=2,R=1,SHOWTEXT="false",ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~
+AuxBar^4~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=2,OFFSET=0,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~
+AuxBar^5~f~10!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=0,DEPTH=2,G=1,B=1,OTYPE=1}
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[52]=[[Skin
+Kalimdor-5
+Author~v!Monti of Terenas
+DuplicateBars~v!false
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
+General~t!{FLUIDFREQ=18,HIDEPTF="false",HIDEPARTYF="true",STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",HIDEBOSSF="true"}
+Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCGROUP=1,TEXRAID="false",FEXRAID="false"}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
+Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=1,ALIAS="Group",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{A=1,NAME="Tanks",R=1,ALIAS="Tank",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=1,NAME="",R=1,ALIAS="NotUsed",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~6!{A=1,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~7!{A=1,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~8!{A=1,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~9!{A=1,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~10!{A=1,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.8,TEXTURE="HealBot 10",B=0.106,HEIGHT=30,R=0.106,G=0.106,WIDTH=0.95}
+FrameAliasBar~f~2!{A=0.4,TEXTURE="HealBot 10",B=0.102,HEIGHT=30,R=0.102,G=0.102,WIDTH=0.95}
+FrameAliasBar~f~3!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.7}
+FrameAliasBar~d!4~5~6~7~8~9~10~
+Frame~f~1!{BACKR=0.102,BACKG=0.102,AUTOCLOSE="false",BACKB=0.702,LOCKED="false",SCALE=1,BORDERA=0.04,BORDERG=0.1,TIPLOC=2,BORDERB=0.1,BACKA=0,OPENSOUND="false",SFOFFSETV=0,SFOFFSETH=0,BORDERR=0.1}
+Frame~f~2!{SFOFFSETH=0,BORDERR=0.1,AUTOCLOSE="false",BACKB=0.702,LOCKED="true",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,TIPLOC=2,BORDERB=0.1,BACKA=0,SCALE=1,BACKG=0.102,SFOFFSETV=-5,BACKR=0.102}
+Frame~f~3!{BACKR=0.1,BACKG=0.1,AUTOCLOSE="false",BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,BORDERG=0.1,TIPLOC=5,BORDERB=0.1,BACKA=0.1,OPENSOUND="false",SFOFFSETV=0,SFOFFSETH=0,BORDERR=0.1}
+Frame~d!4~
+Frame~f~5!{SFOFFSETH=0,BORDERR=0.1,AUTOCLOSE="false",BACKB=0.7,LOCKED="true",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,TIPLOC=2,BORDERB=0.1,BACKA=0.1,SCALE=1,BACKG=0.1,SFOFFSETV=0,BACKR=0.1}
+Frame~f~6!{SFOFFSETH=0,BORDERR=0.1,AUTOCLOSE="false",BACKB=0.7,LOCKED="false",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,TIPLOC=5,BORDERB=0.1,BACKA=0.1,SCALE=1,BACKG=0.1,SFOFFSETV=0,BACKR=0.1}
+Frame~f~7!{SFOFFSETH=0,BORDERR=0.1,AUTOCLOSE="false",BACKB=0.7,LOCKED="true",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,TIPLOC=5,BORDERB=0.1,BACKA=0.1,SCALE=1,BACKG=0.1,SFOFFSETV=5,BACKR=0.1}
+Frame~f~8!{BACKR=0.1,SFOFFSETH=0,SFOFFSETV=0,BACKG=0.1,LOCKED="false",SCALE=1,BORDERA=0.04,BORDERG=0.1,AUTOCLOSE="false",BACKB=0.7,BACKA=0.1,OPENSOUND="false",BORDERB=0.1,TIPLOC=5,BORDERR=0.1}
+Frame~d!9~
+Frame~f~10!{BACKR=0.1,SFOFFSETH=-2,SFOFFSETV=0,BACKG=0.1,LOCKED="true",SCALE=1,BORDERA=1,BORDERG=0,AUTOCLOSE="false",BACKB=0.7,BACKA=0.1,OPENSOUND="false",BORDERB=0,TIPLOC=4,BORDERR=1}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="RIGHT",STUCKTO=2,STUCKPOINT="LEFT"}
+StickyFrames~f~4!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMLEFT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~9!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=2,STUCKPOINT="TOPRIGHT"}
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+HealGroups~f~1!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~2!{FRAME=2,STATE="true",NAME="Main tanks"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="true",NAME="Group"}
+HealGroups~f~5!{FRAME=1,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=1,STATE="false",NAME="Raid"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="true",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=64.99,GROW=2,BARS=1,FRAME=1,X=72.07}
+Anchors~f~2!{Y=64.57,GROW=1,BARS=1,FRAME=2,X=72.07}
+Anchors~f~3!{Y=22.89,GROW=1,BARS=1,FRAME=6,X=31.19}
+Anchors~f~4!{Y=53,GROW=2,BARS=1,FRAME=1,X=53}
+Anchors~f~5!{Y=50.59,GROW=2,BARS=1,FRAME=1,X=58.13}
+Anchors~f~6!{Y=55,GROW=2,BARS=1,FRAME=1,X=55}
+Anchors~f~7!{Y=59.07,GROW=2,BARS=1,FRAME=1,X=72.07}
+Anchors~f~8!{Y=69.57,GROW=2,BARS=1,FRAME=1,X=72.07}
+Anchors~f~9!{Y=70.91,GROW=2,BARS=1,FRAME=3,X=72.07}
+Anchors~f~10!{Y=64.99,GROW=2,BARS=1,FRAME=1,X=75.28}
+HeadBar~f~1!{SHOW="false",TEXTURE="Tukui",R=0.102,B=0.102,HEIGHT=66,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~f~2!{SHOW="false",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=62,A=0.4,G=0.102,TEXTURE="Tukui"}
+HeadBar~f~3!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=60,A=0.4,G=0.102,TEXTURE="Tukui2"}
+HeadBar~d!4~5~6~
+HeadBar~f~7!{SHOW="false",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=38,A=0.4,G=0.102,TEXTURE="Tukui"}
+HeadBar~f~8!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=60,A=0.4,G=0.102,TEXTURE="Tukui2"}
+HeadBar~d!9~
+HeadBar~f~10!{SHOW="true",TEXTURE="Tukui2",R=0.102,B=0.102,HEIGHT=12,A=0.4,G=0.102,WIDTH=0.95}
+HeadText~f~1!{A=1,R=1,OFFSET=0,B=0.961,FONT="Friz Quadrata TT",HEIGHT=11,G=0.996,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=2,OFIX=1,NUMCOLS=2,LOWMANA=1}
+HealBar~f~2!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=166,RMARGIN=2,OFIX=1,NUMCOLS=1,LOWMANA=1}
+HealBar~f~3!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=2,OFIX=1,NUMCOLS=2,LOWMANA=1}
+HealBar~f~4!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=3,OFIX=1,RMARGIN=2,WIDTH=80}
+HealBar~d!5~6~
+HealBar~f~7!{HEIGHT=30,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,WIDTH=80,OFIX=1,RMARGIN=2,NUMCOLS=2}
+HealBar~f~8!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,WIDTH=80,OFIX=1,RMARGIN=2,NUMCOLS=3}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=50,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=3,RMARGIN=2,OFIX=1,WIDTH=80,LOWMANA=1}
+BarCol~f~1!{BACK=3,BA=0.75,BOUT=2,DISA=0.15,BR=0,HB=0.4,BG=0,HR=0.2,HA=1,HG=0.4,ORA=0.45,BB=0,HLTH=2}
+BarCol~d!2~3~4~5~6~7~8~9~10~
+BarIACol~f~1!{AC=3,AB=1,AA=0.6,AR=1,AG=1,IC=4,IB=0.2,IA=0.6,IR=0.2,IG=0.8}
+BarIACol~d!2~3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,CLASSONBAR="false",OUTLINE=2,INCHEALS=2,FONT="Friz Quadrata TT",OFFSET=10,HLTHTXTANCHOR=1,HLTHTYPE=3,HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",NUMFORMAT1=11,TAGRIP="",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~2!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=0,CLASSONBAR="false",OUTLINE=2,INCHEALS=2,FONT="Friz Quadrata TT",OFFSET=10,HLTHTXTANCHOR=1,HLTHTYPE=3,HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",NUMFORMAT1=11,TAGRIP="",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~3!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,CLASSONBAR="false",OUTLINE=2,INCHEALS=2,FONT="Friz Quadrata TT",OFFSET=10,HLTHTXTANCHOR=1,HLTHTYPE=3,HMAXCHARS=0,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",NUMFORMAT1=11,TAGRIP="",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",HHEIGHT=10,IGNOREONFULL="true",INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!4~5~6~
+BarText~f~7!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=2,HMAXCHARS=0,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HLTHTYPE=3,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",IGNOREONFULL="true",TAGRIP="",HEIGHT=10,NAMEONBAR="true",SHOWROLE="true",HALIGN=2,OFFSET=1,NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~8!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=2,HMAXCHARS=0,INCHEALS=2,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HLTHTYPE=3,CLASSTYPE=1,NUMFORMAT2=1,OVERHEAL=1,TAGDC="",IGNOREONFULL="true",TAGRIP="",HEIGHT=10,NAMEONBAR="true",SHOWROLE="true",HALIGN=2,OFFSET=10,NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!9~
+BarText~f~10!{HLTHONBAR="false",TAGOOR="",OVERHEAL=1,MAXCHARS=12,CLASSONBAR="false",HFONT="Friz Quadrata TT",OUTLINE=2,HMAXCHARS=0,OFFSET=5,HLTHTXTANCHOR=1,HLTHTYPE=3,FONT="Friz Quadrata TT",CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",NUMFORMAT1=11,TAGDC="",NAMEONBAR="true",HEIGHT=10,TAGRIP="",SHOWROLE="true",HALIGN=2,INCHEALS=2,HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarTextCol~f~1!{NAME=3,HCA=1,HLTH=3,NCDA=0.7,HCG=1,NCR=0.929,HCB=0,NCA=1,NDEBUFF="false",NCG=1,HCR=0.929,HDEBUFF="false",NCB=0,HCDA=0.7}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=2,FADESECS=15,I15EN="true",SHOWDEBUFF="true",FADE="true",ONBAR=1,DOUBLE="true",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,SHOWDIRMOUSE="false",MAXDICONS=4,MAXBICONS=6}
+Icons~f~2!{SHOWBUFF="true",POSITION=2,FADESECS=15,I15EN="true",SHOWDEBUFF="true",FADE="true",ONBAR=1,DOUBLE="true",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,SHOWDIRMOUSE="false",MAXDICONS=5,MAXBICONS=10}
+Icons~f~3!{SHOWBUFF="true",POSITION=2,FADESECS=15,I15EN="true",SHOWDEBUFF="true",FADE="true",ONBAR=1,DOUBLE="true",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,SHOWDIRMOUSE="false",MAXDICONS=3,MAXBICONS=8}
+Icons~d!4~5~6~
+Icons~f~7!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=2,FADESECS=15,SHOWDIRMOUSE="false",ONBAR=1,FADE="true",DSCALE=0.45,SHOWDIR="false",SHOWRC="true",SCALE=0.45,DOUBLE="false",SHOWDEBUFF="true",MAXBICONS=3}
+Icons~f~8!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=3,FADESECS=15,SHOWDIRMOUSE="false",ONBAR=1,FADE="true",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,DOUBLE="true",SHOWDEBUFF="true",MAXBICONS=8}
+Icons~d!9~
+Icons~f~10!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=4,FADESECS=15,SHOWDIRMOUSE="false",ONBAR=1,FADE="true",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,DOUBLE="true",SHOWDEBUFF="true",MAXBICONS=6}
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",CROSS="true",MOON="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=10,SSCNT="false",SCALE=0.8,SCNT="true",DURTHRH=9,FONT="Swansea",SDUR="true",SSDUR="false",OUTLINE=2}
+IconText~f~2!{DURWARN=3,HEIGHT=10,SSCNT="false",SCALE=0.7,SCNT="true",DURTHRH=9,FONT="Swansea",SDUR="true",SSDUR="false",OUTLINE=2}
+IconText~d!3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!2~3~4~5~6~7~8~9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!2~3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWIND="true",SHOWTEXT="true",R=1,ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[53]=[[Skin
+Kalimdor-25
+Author~v!Monti of Terenas
+DuplicateBars~v!true
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
+General~t!{FLUIDFREQ=21,HIDEPTF="false",HIDEPARTYF="true",STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="true",HIDEBOSSF="true"}
+Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCRAID=1,FONLYFRIEND="false",SELFPET=0,TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",TINCPET="false",TINCGROUP=1,TEXRAID="false",FEXRAID="false"}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
+Enemy~t!{ENEMYTARGET="false",INCTANKS="true",INCMYTAR="false",INCARENA="true",ENEMYTARGETSIZE=40,INCARENAPETS="false",HIDE="true",NUMBOSS=2,EXISTSHOWPTAR="false",INCSELF="false",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=1,ALIAS="Raid",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{A=1,NAME="Tanks",R=1,ALIAS="Tanks",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=1,NAME="",R=1,ALIAS="NotUsed",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~6!{A=1,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~7!{A=1,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~8!{A=1,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~9!{A=1,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~10!{A=1,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.8,TEXTURE="HealBot 10",B=0.106,HEIGHT=30,R=0.106,G=0.106,WIDTH=0.95}
+FrameAliasBar~f~2!{A=0.4,TEXTURE="HealBot 10",B=0.102,HEIGHT=30,R=0.102,G=0.102,WIDTH=0.95}
+FrameAliasBar~f~3!{A=0.5,TEXTURE="HealBot 10",B=0.25,HEIGHT=20,R=0.1,G=0.25,WIDTH=0.7}
+FrameAliasBar~d!4~5~6~7~8~9~10~
+Frame~f~1!{BACKR=0.102,AUTOCLOSE="false",TIPLOC=2,BACKB=0.702,LOCKED="false",SCALE=1,BORDERA=0.04,BORDERG=0.1,BACKG=0.102,BORDERB=0.1,BACKA=0,OPENSOUND="false",SFOFFSETV=0,BORDERR=0.1,SFOFFSETH=0}
+Frame~f~2!{BORDERR=0.1,BACKR=0.102,TIPLOC=2,BACKB=0.702,LOCKED="true",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,BACKG=0.102,BORDERB=0.1,BACKA=0,SCALE=1,AUTOCLOSE="false",SFOFFSETV=-5,SFOFFSETH=0}
+Frame~f~3!{BACKR=0.1,AUTOCLOSE="false",TIPLOC=5,BACKB=0.7,LOCKED="false",SCALE=1,BORDERA=0.04,BORDERG=0.1,BACKG=0.1,BORDERB=0.1,BACKA=0.1,OPENSOUND="false",SFOFFSETV=0,BORDERR=0.1,SFOFFSETH=0}
+Frame~d!4~
+Frame~f~5!{BORDERR=0.1,BACKR=0.1,TIPLOC=2,BACKB=0.7,LOCKED="true",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,BACKG=0.1,BORDERB=0.1,BACKA=0.1,SCALE=1,AUTOCLOSE="false",SFOFFSETV=0,SFOFFSETH=0}
+Frame~f~6!{BORDERR=0.1,BACKR=0.1,TIPLOC=5,BACKB=0.7,LOCKED="false",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,BACKG=0.1,BORDERB=0.1,BACKA=0.1,SCALE=1,AUTOCLOSE="false",SFOFFSETV=0,SFOFFSETH=0}
+Frame~f~7!{BORDERR=0.1,BACKR=0.1,TIPLOC=5,BACKB=0.7,LOCKED="true",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,BACKG=0.1,BORDERB=0.1,BACKA=0.1,SCALE=1,AUTOCLOSE="false",SFOFFSETV=5,SFOFFSETH=0}
+Frame~f~8!{SFOFFSETH=0,BORDERR=0.1,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="false",SCALE=1,BORDERA=0.04,BORDERG=0.1,TIPLOC=5,BACKB=0.7,BACKA=0.1,OPENSOUND="false",BORDERB=0.1,BACKG=0.1,BACKR=0.1}
+Frame~d!9~
+Frame~f~10!{SFOFFSETH=-2,BORDERR=1,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="true",SCALE=1,BORDERA=1,BORDERG=0,TIPLOC=4,BACKB=0.7,BACKA=0.1,OPENSOUND="false",BORDERB=0,BACKG=0.1,BACKR=0.1}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="RIGHT",STUCKTO=2,STUCKPOINT="LEFT"}
+StickyFrames~f~4!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMLEFT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+HealGroups~f~1!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~2!{FRAME=2,STATE="true",NAME="Main tanks"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="false",NAME="Group"}
+HealGroups~f~5!{FRAME=1,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=1,STATE="true",NAME="Raid"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=69.09,GROW=1,BARS=1,FRAME=1,X=66.93}
+Anchors~f~2!{Y=68.67,GROW=1,BARS=1,FRAME=2,X=66.93}
+Anchors~f~3!{Y=22.89,GROW=1,BARS=1,FRAME=6,X=31.19}
+Anchors~f~4!{Y=53,GROW=2,BARS=1,FRAME=1,X=53}
+Anchors~f~5!{Y=50.59,GROW=2,BARS=1,FRAME=1,X=58.13}
+Anchors~f~6!{Y=55,GROW=2,BARS=1,FRAME=1,X=55}
+Anchors~f~7!{Y=63.17,GROW=1,BARS=1,FRAME=1,X=66.93}
+Anchors~f~8!{Y=73.74,GROW=2,BARS=1,FRAME=1,X=66.78}
+Anchors~f~9!{Y=75.01,GROW=2,BARS=1,FRAME=1,X=63.65}
+Anchors~f~10!{Y=69.09,GROW=2,BARS=1,FRAME=1,X=72.93}
+HeadBar~f~1!{SHOW="true",TEXTURE="Tukui",R=0.102,B=0.102,HEIGHT=66,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~f~2!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=62,A=0.4,G=0.102,TEXTURE="Tukui"}
+HeadBar~f~3!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=60,A=0.4,G=0.102,TEXTURE="Tukui2"}
+HeadBar~d!4~5~6~
+HeadBar~f~7!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=38,A=0.4,G=0.102,TEXTURE="Tukui"}
+HeadBar~f~8!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=60,A=0.4,G=0.102,TEXTURE="Tukui2"}
+HeadBar~d!9~10~
+HeadText~f~1!{A=1,R=1,OFFSET=0,B=0.961,FONT="Friz Quadrata TT",HEIGHT=11,G=0.996,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=2,OFIX=1,NUMCOLS=1,LOWMANA=1}
+HealBar~f~2!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=147,RMARGIN=2,OFIX=1,NUMCOLS=1,LOWMANA=1}
+HealBar~f~3!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=2,OFIX=1,NUMCOLS=2,LOWMANA=1}
+HealBar~f~4!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=3,OFIX=1,RMARGIN=2,WIDTH=80}
+HealBar~d!5~6~
+HealBar~f~7!{HEIGHT=30,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,WIDTH=80,OFIX=1,RMARGIN=2,NUMCOLS=1}
+HealBar~f~8!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,WIDTH=80,OFIX=1,RMARGIN=2,NUMCOLS=3}
+HealBar~d!9~10~
+BarCol~f~1!{BACK=3,BA=0.75,BOUT=2,DISA=0.15,BR=0,HB=0.4,BG=0,HR=0.2,HA=1,HG=0.4,ORA=0.45,BB=0,HLTH=2}
+BarCol~d!2~3~4~5~6~7~8~9~10~
+BarIACol~f~1!{AC=3,AB=1,AA=0.6,AR=1,AG=1,IC=4,IB=0.2,IA=0.6,IR=0.2,IG=0.8}
+BarIACol~d!2~3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="false",TAGOOR="",OVERHEAL=1,MAXCHARS=12,CLASSONBAR="false",OUTLINE=2,HMAXCHARS=0,FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,OFFSET=10,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",NUMFORMAT1=11,HFONT="Friz Quadrata TT",TAGRIP="",HEIGHT=10,NAMEONBAR="true",SHOWROLE="true",HALIGN=2,TAGDC="",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~2!{HLTHONBAR="false",TAGOOR="",OVERHEAL=1,MAXCHARS=0,CLASSONBAR="false",OUTLINE=2,HMAXCHARS=0,FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,OFFSET=10,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",NUMFORMAT1=11,HFONT="Friz Quadrata TT",TAGRIP="",HEIGHT=10,NAMEONBAR="true",SHOWROLE="true",HALIGN=2,TAGDC="",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~3!{HLTHONBAR="false",TAGOOR="",OVERHEAL=1,MAXCHARS=12,CLASSONBAR="false",OUTLINE=2,HMAXCHARS=0,FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,OFFSET=10,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",NUMFORMAT1=11,HFONT="Friz Quadrata TT",TAGRIP="",HEIGHT=10,NAMEONBAR="true",SHOWROLE="true",HALIGN=2,TAGDC="",HHEIGHT=10,HOUTLINE=1,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!4~5~6~
+BarText~f~7!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,CLASSONBAR="false",OUTLINE=2,HMAXCHARS=0,FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",TAGDC="",TAGRIP="",NAMEONBAR="true",HEIGHT=10,OFFSET=1,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~f~8!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,CLASSONBAR="false",OUTLINE=2,HMAXCHARS=0,FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,CLASSTYPE=1,NUMFORMAT2=1,IGNOREONFULL="true",TAGDC="",TAGRIP="",NAMEONBAR="true",HEIGHT=10,OFFSET=10,SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",NUMFORMAT1=11,HHEIGHT=10,INCABSORBS=1,HOFFSET2=0,ALIGN=2,TAGR="",HOFFSET=0}
+BarText~d!9~10~
+BarTextCol~f~1!{HCG=1,NDEBUFF="false",HLTH=3,NCDA=0.7,NAME=3,HCR=0.929,NCG=1,NCA=1,HCB=0,HCA=1,NCR=0.929,HDEBUFF="false",NCB=0,HCDA=0.7}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=2,FADESECS=15,I15EN="true",MAXDICONS=4,SHOWDEBUFF="true",ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,FADE="true",DOUBLE="true",MAXBICONS=6}
+Icons~f~2!{SHOWBUFF="true",POSITION=2,FADESECS=15,I15EN="true",MAXDICONS=5,SHOWDEBUFF="true",ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,FADE="true",DOUBLE="true",MAXBICONS=10}
+Icons~f~3!{SHOWBUFF="true",POSITION=2,FADESECS=15,I15EN="true",MAXDICONS=3,SHOWDEBUFF="true",ONBAR=1,SHOWDIRMOUSE="false",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,FADE="true",DOUBLE="true",MAXBICONS=8}
+Icons~d!4~5~6~
+Icons~f~7!{SHOWBUFF="true",POSITION=2,FADESECS=15,MAXDICONS=2,I15EN="true",SHOWDIRMOUSE="false",ONBAR=1,FADE="true",DSCALE=0.45,SHOWDIR="false",SHOWRC="true",SCALE=0.45,DOUBLE="false",SHOWDEBUFF="true",MAXBICONS=3}
+Icons~f~8!{SHOWBUFF="true",POSITION=2,FADESECS=15,MAXDICONS=3,I15EN="true",SHOWDIRMOUSE="false",ONBAR=1,FADE="true",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,DOUBLE="true",SHOWDEBUFF="true",MAXBICONS=8}
+Icons~d!9~
+Icons~f~10!{SHOWBUFF="true",POSITION=2,FADESECS=15,MAXDICONS=4,I15EN="true",SHOWDIRMOUSE="false",ONBAR=1,FADE="true",DSCALE=0.55,SHOWDIR="false",SHOWRC="true",SCALE=0.55,DOUBLE="true",SHOWDEBUFF="true",MAXBICONS=6}
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",SKULL="true",TRIANGLE="true",STAR="true",CROSS="true",MOON="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{DURWARN=3,HEIGHT=10,SSCNT="false",SCALE=0.8,SCNT="true",DURTHRH=9,FONT="Swansea",SDUR="true",SSDUR="false",OUTLINE=2}
+IconText~f~2!{DURWARN=3,HEIGHT=10,SSCNT="false",SCALE=0.7,SCNT="true",DURTHRH=9,FONT="Swansea",SDUR="true",SSDUR="false",OUTLINE=2}
+IconText~d!3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~2!{INCCLASSES=1,ALERTIC=0.98,ALERTOC=0.95,HIDEOOR="false"}
+BarVisibility~f~3!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!4~5~6~
+BarVisibility~f~7!{INCCLASSES=1,ALERTIC=0.95,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~f~8!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!2~3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWTEXT="true",R=1,SHOWIND="true",ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,G=1,B=1,OTYPE=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,G=1,B=1,OTYPE=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[54]=[[Skin
+Kalimdor-40
+Author~v!Monti of Terenas
+DuplicateBars~v!true
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
+General~t!{HIDEBOSSF="true",HIDEPTF="false",FLUIDFREQ=21,STICKYFRAME="true",STICKYSENSITIVITY=35,HIDERAIDF="true",FLUIDBARS="true",HIDEPARTYF="true"}
+Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,FEXRAID="false",FONLYFRIEND="false",TINCPET="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCGROUP=1,TEXRAID="false",TINCRAID=1}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
+Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=1,ALIAS="Raid",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{A=1,NAME="Tanks",R=1,ALIAS="Tanks",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=1,NAME="",R=1,ALIAS="NotUsed",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~6!{A=1,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~7!{A=1,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~8!{A=1,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~9!{A=1,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~10!{A=1,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.8,WIDTH=0.95,B=0.106,HEIGHT=30,R=0.106,G=0.106,TEXTURE="HealBot 10"}
+FrameAliasBar~f~2!{A=0.4,WIDTH=0.95,B=0.102,HEIGHT=30,R=0.102,G=0.102,TEXTURE="HealBot 10"}
+FrameAliasBar~f~3!{A=0.5,WIDTH=0.7,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!4~5~6~7~8~9~10~
+Frame~f~1!{SFOFFSETH=0,BORDERR=0.1,BACKR=0.102,BORDERG=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.04,SFOFFSETV=0,TIPLOC=2,BORDERB=0.1,BACKA=0,SCALE=1,BACKB=0.702,AUTOCLOSE="false",BACKG=0.102}
+Frame~f~2!{SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,TIPLOC=2,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=-5,BACKG=0.102,BORDERB=0.1,BACKA=0,OPENSOUND="false",BACKB=0.702,AUTOCLOSE="false",BACKR=0.102}
+Frame~f~3!{SFOFFSETH=0,BORDERR=0.1,BACKR=0.1,BORDERG=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.04,SFOFFSETV=0,TIPLOC=5,BORDERB=0.1,BACKA=0.1,SCALE=1,BACKB=0.7,AUTOCLOSE="false",BACKG=0.1}
+Frame~d!4~
+Frame~f~5!{SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,TIPLOC=2,LOCKED="true",SCALE=1,BORDERA=0.04,SFOFFSETV=0,BACKG=0.1,BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BACKB=0.7,AUTOCLOSE="false",BACKR=0.1}
+Frame~f~6!{SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,TIPLOC=5,LOCKED="false",SCALE=1,BORDERA=0.04,SFOFFSETV=0,BACKG=0.1,BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BACKB=0.7,AUTOCLOSE="false",BACKR=0.1}
+Frame~f~7!{SFOFFSETH=0,BORDERR=0.1,BORDERG=0.1,TIPLOC=5,LOCKED="true",SCALE=1,BORDERA=0.04,SFOFFSETV=5,BACKG=0.1,BORDERB=0.1,BACKA=0.1,OPENSOUND="false",BACKB=0.7,AUTOCLOSE="false",BACKR=0.1}
+Frame~f~8!{BACKR=0.1,SFOFFSETH=0,AUTOCLOSE="false",BACKB=0.7,LOCKED="false",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,TIPLOC=5,BORDERB=0.1,BACKA=0.1,SCALE=1,BACKG=0.1,BORDERR=0.1,SFOFFSETV=0}
+Frame~d!9~
+Frame~f~10!{BACKR=0.1,SFOFFSETH=-2,AUTOCLOSE="false",BACKB=0.7,LOCKED="true",OPENSOUND="false",BORDERA=1,BORDERG=0,TIPLOC=4,BORDERB=0,BACKA=0.1,SCALE=1,BACKG=0.1,BORDERR=1,SFOFFSETV=0}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="RIGHT",STUCKTO=2,STUCKPOINT="LEFT"}
+StickyFrames~f~4!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMLEFT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+HealGroups~f~1!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~2!{FRAME=2,STATE="true",NAME="Main tanks"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="false",NAME="Group"}
+HealGroups~f~5!{FRAME=1,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=1,STATE="true",NAME="Raid"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=66.17,GROW=1,BARS=1,FRAME=1,X=71.69}
+Anchors~f~2!{Y=65.75,GROW=1,BARS=1,FRAME=2,X=71.69}
+Anchors~f~3!{Y=22.89,GROW=1,BARS=1,FRAME=6,X=31.19}
+Anchors~f~4!{Y=53,GROW=2,BARS=1,FRAME=1,X=53}
+Anchors~f~5!{Y=50.59,GROW=2,BARS=1,FRAME=1,X=58.13}
+Anchors~f~6!{Y=55,GROW=2,BARS=1,FRAME=1,X=55}
+Anchors~f~7!{Y=34.01,GROW=1,BARS=1,FRAME=1,X=71.69}
+Anchors~f~8!{Y=73.74,GROW=2,BARS=1,FRAME=1,X=66.78}
+Anchors~f~9!{Y=75.08,GROW=2,BARS=1,FRAME=1,X=63.5}
+Anchors~f~10!{Y=66.17,GROW=2,BARS=1,FRAME=1,X=85.19}
+HeadBar~f~1!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=47,A=0.4,G=0.102,TEXTURE="Tukui"}
+HeadBar~f~2!{SHOW="true",TEXTURE="Tukui",R=0.102,B=0.102,HEIGHT=55,A=0.4,G=0.102,WIDTH=0.75}
+HeadBar~f~3!{SHOW="true",TEXTURE="Tukui2",R=0.102,B=0.102,HEIGHT=60,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~d!4~5~6~
+HeadBar~f~7!{SHOW="true",TEXTURE="Tukui",R=0.102,B=0.102,HEIGHT=39,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~f~8!{SHOW="true",TEXTURE="Tukui2",R=0.102,B=0.102,HEIGHT=60,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~d!9~10~
+HeadText~f~1!{A=1,B=0.961,OFFSET=0,R=1,FONT="Friz Quadrata TT",HEIGHT=11,G=0.996,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=40,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=1,OFIX=1,RMARGIN=1,WIDTH=58}
+HealBar~f~2!{HEIGHT=40,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=2,OFIX=1,RMARGIN=1,WIDTH=74}
+HealBar~f~3!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=2,OFIX=1,RMARGIN=2,WIDTH=80}
+HealBar~f~4!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=2,OFIX=1,NUMCOLS=3,LOWMANA=1}
+HealBar~d!5~6~
+HealBar~f~7!{HEIGHT=25,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=1,RMARGIN=1,OFIX=1,WIDTH=58,LOWMANA=1}
+HealBar~f~8!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=3,RMARGIN=2,OFIX=1,WIDTH=80,LOWMANA=1}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=60,GRPCOLS="false",CMARGIN=1,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,WIDTH=80,OFIX=1,RMARGIN=1,NUMCOLS=3}
+BarCol~f~1!{BACK=3,BA=0.75,BB=0,DISA=0.15,BR=0,HB=0.4,BG=0,BOUT=2,HA=1,HG=0.4,ORA=0.45,HR=0.2,HLTH=2}
+BarCol~d!2~3~4~5~6~7~8~9~10~
+BarIACol~f~1!{AC=3,AB=1,AA=0.6,AR=1,AG=1,IC=4,IB=0.2,IA=0.6,IR=0.2,IG=0.8}
+BarIACol~d!2~3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,NAMEONBAR="true",HMAXCHARS=0,HOFFSET=0,FONT="Friz Quadrata TT",INCHEALS=2,OFFSET=5,HLTHTXTANCHOR=1,HLTHTYPE=3,CLASSONBAR="false",INCABSORBS=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=11,HHEIGHT=10,TAGRIP="",HEIGHT=10,TAGDC="",SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~f~2!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=0,NAMEONBAR="true",HMAXCHARS=0,HOFFSET=0,FONT="Friz Quadrata TT",INCHEALS=2,OFFSET=5,HLTHTXTANCHOR=1,HLTHTYPE=3,CLASSONBAR="false",INCABSORBS=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=11,HHEIGHT=10,TAGRIP="",HEIGHT=10,TAGDC="",SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~f~3!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,NAMEONBAR="true",HMAXCHARS=0,HOFFSET=0,FONT="Friz Quadrata TT",INCHEALS=2,OFFSET=10,HLTHTXTANCHOR=1,HLTHTYPE=3,CLASSONBAR="false",INCABSORBS=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=11,HHEIGHT=10,TAGRIP="",HEIGHT=10,TAGDC="",SHOWROLE="true",HALIGN=2,HFONT="Friz Quadrata TT",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~d!4~5~6~
+BarText~f~7!{HHEIGHT=10,TAGOOR="",IGNOREONFULL="true",MAXCHARS=12,OFFSET=1,HMAXCHARS=0,HOFFSET=0,FONT="Friz Quadrata TT",CLASSONBAR="false",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,HLTHONBAR="false",TAGDC="",NUMFORMAT1=11,NAMEONBAR="true",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,TAGRIP="",HOUTLINE=1,CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~f~8!{HHEIGHT=10,TAGOOR="",IGNOREONFULL="true",MAXCHARS=12,OFFSET=10,HMAXCHARS=0,HOFFSET=0,FONT="Friz Quadrata TT",CLASSONBAR="false",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,OVERHEAL=1,INCABSORBS=1,NUMFORMAT2=1,HLTHONBAR="false",TAGDC="",NUMFORMAT1=11,NAMEONBAR="true",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,TAGRIP="",HOUTLINE=1,CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~d!9~10~
+BarTextCol~f~1!{NAME=3,NCR=0.929,NCB=0,NCDA=0.7,HCG=1,HCA=1,HCB=0,NCA=1,NDEBUFF="false",NCG=1,HCR=0.929,HDEBUFF="false",HCDA=0.7,HLTH=3}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=2,I15EN="true",FADE="true",FADESECS=15,SHOWDIRMOUSE="false",SHOWDIR="false",DOUBLE="true",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,SHOWDEBUFF="true",MAXDICONS=4,MAXBICONS=6}
+Icons~f~2!{SHOWBUFF="true",POSITION=2,I15EN="true",FADE="true",FADESECS=15,SHOWDIRMOUSE="false",SHOWDIR="false",DOUBLE="true",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,SHOWDEBUFF="true",MAXDICONS=5,MAXBICONS=10}
+Icons~f~3!{SHOWBUFF="true",POSITION=2,I15EN="true",FADE="true",FADESECS=15,SHOWDIRMOUSE="false",SHOWDIR="false",DOUBLE="true",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,SHOWDEBUFF="true",MAXDICONS=3,MAXBICONS=8}
+Icons~d!4~5~6~
+Icons~f~7!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=2,POSITION=2,DOUBLE="false",SHOWDIR="false",FADE="true",DSCALE=0.45,ONBAR=1,SHOWRC="true",SCALE=0.45,I15EN="true",SHOWDIRMOUSE="false",MAXBICONS=3}
+Icons~f~8!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=3,POSITION=2,DOUBLE="true",SHOWDIR="false",FADE="true",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,I15EN="true",SHOWDIRMOUSE="false",MAXBICONS=8}
+Icons~d!9~
+Icons~f~10!{SHOWBUFF="true",SHOWDEBUFF="true",FADESECS=15,MAXDICONS=4,POSITION=2,DOUBLE="true",SHOWDIR="false",FADE="true",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,I15EN="true",SHOWDIRMOUSE="false",MAXBICONS=6}
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",MOON="true",TRIANGLE="true",STAR="true",SKULL="true",CROSS="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{SDUR="true",HEIGHT=10,SSCNT="false",SCALE=0.8,SCNT="true",DURTHRH=9,FONT="Swansea",DURWARN=3,SSDUR="false",OUTLINE=2}
+IconText~f~2!{SDUR="true",HEIGHT=10,SSCNT="false",SCALE=0.7,SCNT="true",DURTHRH=9,FONT="Swansea",DURWARN=3,SSDUR="false",OUTLINE=2}
+IconText~d!3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!2~3~4~5~6~7~8~9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!2~3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",R=1,SHOWTEXT="true",SHOWIND="true",ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,OTYPE=1,B=1,G=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^9~d!2~3~4~5~6~7~8~9~10~
+Complete!]]
+HealBot_ExtraSkinData[55]=[[Skin
+Kalimdor-10
+Author~v!Monti of Terenas
+DuplicateBars~v!true
+Chat~t!{EOCOOM="false",EOCOOMV=20,MSG="Casting #s on #n",RESONLY="true",CHAN="",NOTIFY=0}
+General~t!{HIDEBOSSF="true",HIDEPTF="false",FLUIDFREQ=21,STICKYSENSITIVITY=35,HIDERAIDF="true",STICKYFRAME="true",FLUIDBARS="true",HIDEPARTYF="true"}
+Healing~t!{TINCSELF="false",GROUPPETS="true",TARGETINCOMBAT=2,TINCPET="false",FONLYFRIEND="false",FEXRAID="false",TONLYFRIEND="false",FALWAYSSHOW="false",FOCUSINCOMBAT=2,TALWAYSSHOW="false",SELFPET=0,TINCGROUP=1,TEXRAID="false",TINCRAID=1}
+Protection~t!{COMBAT="false",GENERALMACRO="false",COMBATPARTY=1,CRASH="false",COMBATRAID=2}
+Enemy~t!{INCARENA="true",INCTANKS="true",INCMYTAR="false",ENEMYTARGET="false",ENEMYTARGETSIZE=40,INCARENAPETS="false",INCSELF="false",NUMBOSS=2,EXISTSHOWPTAR="false",HIDE="true",EXISTSHOWBOSS="true",DOUBLEWIDTH="false",EXISTSHOWARENA="true"}
+IncludeGroup~f~1!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~2!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~3!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~4!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~5!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~6!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~7!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~8!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~9!{"true","true","true","true","true","true","true","true"}
+IncludeGroup~f~10!{"true","true","true","true","true","true","true","true"}
+FrameAlias~f~1!{SIZE=12,NAME="",R=1,ALIAS="Raid",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",A=1,B=1,OUTLINE=1}
+FrameAlias~f~2!{A=1,NAME="Tanks",R=1,ALIAS="Tanks",G=1,SHOW="false",OFFSET=0,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~3!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~4!{A=1,NAME="",R=1,ALIAS="NotUsed",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~5!{A=1,NAME="",R=1,ALIAS="Not Used",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~6!{A=1,NAME="",R=1,ALIAS="Vehicle",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~7!{A=1,NAME="",R=1,ALIAS="Pets",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~8!{A=1,NAME="",R=1,ALIAS="Target",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~9!{A=1,NAME="",R=1,ALIAS="Focus",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAlias~f~10!{A=1,NAME="",R=1,ALIAS="Enemy",G=1,SHOW="false",OFFSET=10,FONT="Friz Quadrata TT",SIZE=12,B=1,OUTLINE=1}
+FrameAliasBar~f~1!{A=0.8,WIDTH=0.95,B=0.106,HEIGHT=30,R=0.106,G=0.106,TEXTURE="HealBot 10"}
+FrameAliasBar~f~2!{A=0.4,WIDTH=0.95,B=0.102,HEIGHT=30,R=0.102,G=0.102,TEXTURE="HealBot 10"}
+FrameAliasBar~f~3!{A=0.5,WIDTH=0.7,B=0.25,HEIGHT=20,R=0.1,G=0.25,TEXTURE="HealBot 10"}
+FrameAliasBar~d!4~5~6~7~8~9~10~
+Frame~f~1!{SFOFFSETH=0,BORDERR=0.1,BACKR=0.102,SFOFFSETV=0,LOCKED="false",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,AUTOCLOSE="false",BACKB=0.702,BACKA=0,SCALE=1,BORDERB=0.1,BACKG=0.102,TIPLOC=2}
+Frame~f~2!{SFOFFSETH=0,BORDERR=0.1,SFOFFSETV=-5,AUTOCLOSE="false",LOCKED="true",SCALE=1,BORDERA=0.04,BORDERG=0.1,TIPLOC=2,BACKB=0.702,BACKA=0,OPENSOUND="false",BORDERB=0.1,BACKG=0.102,BACKR=0.102}
+Frame~f~3!{SFOFFSETH=0,BORDERR=0.1,BACKR=0.1,SFOFFSETV=0,LOCKED="false",OPENSOUND="false",BORDERA=0.04,BORDERG=0.1,AUTOCLOSE="false",BACKB=0.7,BACKA=0.1,SCALE=1,BORDERB=0.1,BACKG=0.1,TIPLOC=5}
+Frame~d!4~
+Frame~f~5!{SFOFFSETH=0,BORDERR=0.1,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="true",SCALE=1,BORDERA=0.04,BORDERG=0.1,TIPLOC=2,BACKB=0.7,BACKA=0.1,OPENSOUND="false",BORDERB=0.1,BACKG=0.1,BACKR=0.1}
+Frame~f~6!{SFOFFSETH=0,BORDERR=0.1,SFOFFSETV=0,AUTOCLOSE="false",LOCKED="false",SCALE=1,BORDERA=0.04,BORDERG=0.1,TIPLOC=5,BACKB=0.7,BACKA=0.1,OPENSOUND="false",BORDERB=0.1,BACKG=0.1,BACKR=0.1}
+Frame~f~7!{SFOFFSETH=0,BORDERR=0.1,SFOFFSETV=5,AUTOCLOSE="false",LOCKED="true",SCALE=1,BORDERA=0.04,BORDERG=0.1,TIPLOC=5,BACKB=0.7,BACKA=0.1,OPENSOUND="false",BORDERB=0.1,BACKG=0.1,BACKR=0.1}
+Frame~f~8!{BACKR=0.1,SFOFFSETH=0,BACKG=0.1,BORDERB=0.1,LOCKED="false",OPENSOUND="false",BORDERA=0.04,SFOFFSETV=0,AUTOCLOSE="false",BACKB=0.7,BACKA=0.1,SCALE=1,TIPLOC=5,BORDERG=0.1,BORDERR=0.1}
+Frame~d!9~
+Frame~f~10!{BACKR=0.1,SFOFFSETH=-2,BACKG=0.1,BORDERB=0,LOCKED="true",OPENSOUND="false",BORDERA=1,SFOFFSETV=0,AUTOCLOSE="false",BACKB=0.7,BACKA=0.1,SCALE=1,TIPLOC=4,BORDERG=0,BORDERR=1}
+StickyFrames~f~1!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~f~2!{STUCK="true",STUCKTOPOINT="TOPLEFT",STUCKTO=1,STUCKPOINT="BOTTOMLEFT"}
+StickyFrames~f~3!{STUCK="false",STUCKTOPOINT="RIGHT",STUCKTO=2,STUCKPOINT="LEFT"}
+StickyFrames~f~4!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!5~6~
+StickyFrames~f~7!{STUCK="true",STUCKTOPOINT="BOTTOMLEFT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+StickyFrames~f~8!{STUCK="false",STUCKTOPOINT="NONE",STUCKTO=0,STUCKPOINT="NONE"}
+StickyFrames~d!9~
+StickyFrames~f~10!{STUCK="true",STUCKTOPOINT="TOPRIGHT",STUCKTO=1,STUCKPOINT="TOPLEFT"}
+HealGroups~f~1!{FRAME=1,STATE="false",NAME="Self"}
+HealGroups~f~2!{FRAME=2,STATE="true",NAME="Main tanks"}
+HealGroups~f~3!{FRAME=1,STATE="false",NAME="Healers"}
+HealGroups~f~4!{FRAME=1,STATE="false",NAME="Group"}
+HealGroups~f~5!{FRAME=1,STATE="false",NAME="Private List"}
+HealGroups~f~6!{FRAME=1,STATE="true",NAME="Raid"}
+HealGroups~f~7!{FRAME=1,STATE="false",NAME="Vehicle"}
+HealGroups~f~8!{FRAME=7,STATE="true",NAME="Pets"}
+HealGroups~f~9!{FRAME=8,STATE="false",NAME="Target"}
+HealGroups~f~10!{FRAME=9,STATE="false",NAME="Focus"}
+HealGroups~f~11!{FRAME=10,STATE="true",NAME="Enemy"}
+Anchors~f~1!{Y=69.16,GROW=1,BARS=1,FRAME=1,X=66.78}
+Anchors~f~2!{Y=68.74,GROW=1,BARS=1,FRAME=2,X=66.78}
+Anchors~f~3!{Y=22.89,GROW=1,BARS=1,FRAME=6,X=31.19}
+Anchors~f~4!{Y=53,GROW=2,BARS=1,FRAME=1,X=53}
+Anchors~f~5!{Y=50.59,GROW=2,BARS=1,FRAME=1,X=58.13}
+Anchors~f~6!{Y=55,GROW=2,BARS=1,FRAME=1,X=55}
+Anchors~f~7!{Y=63.24,GROW=1,BARS=1,FRAME=1,X=66.78}
+Anchors~f~8!{Y=73.74,GROW=2,BARS=1,FRAME=1,X=66.78}
+Anchors~f~9!{Y=75.08,GROW=2,BARS=1,FRAME=1,X=63.5}
+Anchors~f~10!{Y=69.16,GROW=2,BARS=1,FRAME=1,X=72.78}
+HeadBar~f~1!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=66,A=0.4,G=0.102,TEXTURE="Tukui"}
+HeadBar~f~2!{SHOW="true",TEXTURE="Tukui",R=0.102,B=0.102,HEIGHT=62,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~f~3!{SHOW="true",TEXTURE="Tukui2",R=0.102,B=0.102,HEIGHT=60,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~d!4~5~6~
+HeadBar~f~7!{SHOW="true",TEXTURE="Tukui",R=0.102,B=0.102,HEIGHT=38,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~f~8!{SHOW="true",TEXTURE="Tukui2",R=0.102,B=0.102,HEIGHT=60,A=0.4,G=0.102,WIDTH=0.95}
+HeadBar~d!9~
+HeadBar~f~10!{SHOW="true",WIDTH=0.95,B=0.102,R=0.102,HEIGHT=12,A=0.4,G=0.102,TEXTURE="Tukui2"}
+HeadText~f~1!{A=1,B=0.961,OFFSET=0,R=1,FONT="Friz Quadrata TT",HEIGHT=11,G=0.996,OUTLINE=1}
+HeadText~d!2~3~4~5~6~7~8~9~10~
+HealBar~f~1!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=1,OFIX=1,RMARGIN=2,WIDTH=80}
+HealBar~f~2!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=1,OFIX=1,RMARGIN=2,WIDTH=147}
+HealBar~f~3!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,NUMCOLS=2,OFIX=1,RMARGIN=2,WIDTH=80}
+HealBar~f~4!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",WIDTH=80,RMARGIN=2,OFIX=1,NUMCOLS=3,LOWMANA=1}
+HealBar~d!5~6~
+HealBar~f~7!{HEIGHT=30,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=1,RMARGIN=2,OFIX=1,WIDTH=80,LOWMANA=1}
+HealBar~f~8!{HEIGHT=60,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",NUMCOLS=3,RMARGIN=2,OFIX=1,WIDTH=80,LOWMANA=1}
+HealBar~d!9~
+HealBar~f~10!{HEIGHT=47,GRPCOLS="false",CMARGIN=2,TEXTURE="Tukui",POWERCNT="true",LOWMANACOMBAT="true",LOWMANA=1,WIDTH=80,OFIX=1,RMARGIN=2,NUMCOLS=3}
+BarCol~f~1!{BACK=3,BA=0.75,BB=0,DISA=0.15,BR=0,HB=0.4,BG=0,BOUT=2,HA=1,HR=0.2,ORA=0.45,HG=0.4,HLTH=2}
+BarCol~d!2~3~4~5~6~7~8~9~10~
+BarIACol~f~1!{AC=3,AB=1,AA=0.6,AR=1,AG=1,IC=4,IB=0.2,IA=0.6,IR=0.2,IG=0.8}
+BarIACol~d!2~3~4~5~6~7~8~9~10~
+BarText~f~1!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,HMAXCHARS=0,HOFFSET=0,INCHEALS=2,FONT="Friz Quadrata TT",OFFSET=10,HLTHTXTANCHOR=1,HLTHTYPE=3,CLASSONBAR="false",INCABSORBS=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=11,HHEIGHT=10,TAGRIP="",HEIGHT=10,TAGDC="",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",HFONT="Friz Quadrata TT",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~f~2!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=0,HMAXCHARS=0,HOFFSET=0,INCHEALS=2,FONT="Friz Quadrata TT",OFFSET=10,HLTHTXTANCHOR=1,HLTHTYPE=3,CLASSONBAR="false",INCABSORBS=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=11,HHEIGHT=10,TAGRIP="",HEIGHT=10,TAGDC="",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",HFONT="Friz Quadrata TT",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~f~3!{HLTHONBAR="false",TAGOOR="",HOUTLINE=1,MAXCHARS=12,HMAXCHARS=0,HOFFSET=0,INCHEALS=2,FONT="Friz Quadrata TT",OFFSET=10,HLTHTXTANCHOR=1,HLTHTYPE=3,CLASSONBAR="false",INCABSORBS=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=11,HHEIGHT=10,TAGRIP="",HEIGHT=10,TAGDC="",SHOWROLE="true",HALIGN=2,NAMEONBAR="true",HFONT="Friz Quadrata TT",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~d!4~5~6~
+BarText~f~7!{HHEIGHT=10,TAGOOR="",OVERHEAL=1,MAXCHARS=12,HMAXCHARS=0,HOFFSET=0,CLASSONBAR="false",FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,HOUTLINE=1,INCABSORBS=1,NUMFORMAT2=1,HLTHONBAR="false",TAGDC="",NUMFORMAT1=11,TAGRIP="",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,OFFSET=1,NAMEONBAR="true",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~f~8!{HHEIGHT=10,TAGOOR="",OVERHEAL=1,MAXCHARS=12,HMAXCHARS=0,HOFFSET=0,CLASSONBAR="false",FONT="Friz Quadrata TT",INCHEALS=2,HLTHTXTANCHOR=1,HLTHTYPE=3,HOUTLINE=1,INCABSORBS=1,NUMFORMAT2=1,HLTHONBAR="false",TAGDC="",NUMFORMAT1=11,TAGRIP="",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,OFFSET=10,NAMEONBAR="true",IGNOREONFULL="true",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarText~d!9~
+BarText~f~10!{HLTHONBAR="false",TAGOOR="",IGNOREONFULL="true",MAXCHARS=12,HMAXCHARS=0,HOFFSET=0,CLASSONBAR="false",HLTHTYPE=3,OFFSET=5,HLTHTXTANCHOR=1,FONT="Friz Quadrata TT",HOUTLINE=1,INCABSORBS=1,NUMFORMAT2=1,OVERHEAL=1,NUMFORMAT1=11,HHEIGHT=10,NAMEONBAR="true",HEIGHT=10,HFONT="Friz Quadrata TT",SHOWROLE="true",HALIGN=2,INCHEALS=2,TAGRIP="",TAGDC="",CLASSTYPE=1,HOFFSET2=0,ALIGN=2,TAGR="",OUTLINE=2}
+BarTextCol~f~1!{NCB=0,NDEBUFF="false",HCDA=0.7,NCDA=0.7,HCG=1,HCR=0.929,NCG=1,NCA=1,NCR=0.929,HCA=1,HCB=0,HDEBUFF="false",NAME=3,HLTH=3}
+BarTextCol~d!2~3~4~5~6~7~8~9~10~
+Icons~f~1!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=4,FADESECS=15,DOUBLE="true",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,FADE="true",SHOWDEBUFF="true",MAXBICONS=6}
+Icons~f~2!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=5,FADESECS=15,DOUBLE="true",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,FADE="true",SHOWDEBUFF="true",MAXBICONS=10}
+Icons~f~3!{SHOWBUFF="true",POSITION=2,I15EN="true",MAXDICONS=3,FADESECS=15,DOUBLE="true",SHOWDIR="false",SHOWDIRMOUSE="false",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,FADE="true",SHOWDEBUFF="true",MAXBICONS=8}
+Icons~d!4~5~6~
+Icons~f~7!{SHOWBUFF="true",SHOWDEBUFF="true",MAXDICONS=2,FADESECS=15,POSITION=2,DOUBLE="false",SHOWDIR="false",FADE="true",DSCALE=0.45,ONBAR=1,SHOWRC="true",SCALE=0.45,SHOWDIRMOUSE="false",I15EN="true",MAXBICONS=3}
+Icons~f~8!{SHOWBUFF="true",SHOWDEBUFF="true",MAXDICONS=3,FADESECS=15,POSITION=2,DOUBLE="true",SHOWDIR="false",FADE="true",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,SHOWDIRMOUSE="false",I15EN="true",MAXBICONS=8}
+Icons~d!9~
+Icons~f~10!{SHOWBUFF="true",SHOWDEBUFF="true",MAXDICONS=4,FADESECS=15,POSITION=2,DOUBLE="true",SHOWDIR="false",FADE="true",DSCALE=0.55,ONBAR=1,SHOWRC="true",SCALE=0.55,SHOWDIRMOUSE="false",I15EN="true",MAXBICONS=6}
+RaidIcon~f~1!{SQUARE="true",CIRCLE="true",DIAMOND="true",SHOW="true",MOON="true",TRIANGLE="true",STAR="true",SKULL="true",CROSS="true"}
+RaidIcon~d!2~3~4~5~6~7~8~9~10~
+IconText~f~1!{SDUR="true",HEIGHT=10,SSCNT="false",SCALE=0.8,SCNT="true",DURTHRH=9,FONT="Swansea",DURWARN=3,SSDUR="false",OUTLINE=2}
+IconText~f~2!{SDUR="true",HEIGHT=10,SSCNT="false",SCALE=0.7,SCNT="true",DURTHRH=9,FONT="Swansea",DURWARN=3,SSDUR="false",OUTLINE=2}
+IconText~d!3~4~5~6~7~8~9~10~
+BarVisibility~f~1!{INCCLASSES=1,ALERTIC=1,ALERTOC=0.9,HIDEOOR="false"}
+BarVisibility~d!2~3~4~5~6~7~8~9~10~
+BarSort~f~1!{SUBORDER=1,OORLAST="false",RAIDORDER=3,SUBPF="true"}
+BarSort~d!2~3~4~5~6~7~8~9~10~
+BarAggro~f~1!{B=0,ALERTIND=2,G=0,TEXTFORMAT=3,SHOW="true",SHOWTEXTPCT="true",SHOWTEXT="true",SHOWIND="true",R=1,ALERT=2}
+BarAggro~d!2~3~4~5~6~7~8~9~10~
+AuxBarFrame~f~1!{OFREQ=0.07,OVERLAP=1,OMIN=0.1,OMAX=0.95}
+AuxBarFrame~d!2~3~4~5~6~7~8~9~10~
+AuxBar^1~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^1~d!2~3~4~5~6~7~8~9~10~
+AuxBar^2~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^2~d!2~3~4~5~6~7~8~9~10~
+AuxBar^3~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^3~d!2~3~4~5~6~7~8~9~10~
+AuxBar^4~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^4~d!2~3~4~5~6~7~8~9~10~
+AuxBar^5~f~1!{SIZE=0.98,USE=5,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=1,OTYPE=1,B=1,G=1}
+AuxBar^5~d!2~3~4~5~6~7~8~9~10~
+AuxBar^6~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^6~d!2~3~4~5~6~7~8~9~10~
+AuxBar^7~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^7~d!2~3~4~5~6~7~8~9~10~
+AuxBar^8~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
+AuxBar^8~d!2~3~4~5~6~7~8~9~10~
+AuxBar^9~f~1!{SIZE=0.98,USE=1,R=1,COLOUR=1,ANCHOR=1,OFFSET=1,DEPTH=5,OTYPE=1,B=1,G=1}
 AuxBar^9~d!2~3~4~5~6~7~8~9~10~
 Complete!]]

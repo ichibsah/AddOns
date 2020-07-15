@@ -9,7 +9,7 @@ addon.events = LibStub("CallbackHandler-1.0"):New(addon)
 local Debug
 do
 	local TextDump = LibStub("LibTextDump-1.0")
-	local debuggable = GetAddOnMetadata(myname, "Version") == 'v80300.1.1'
+	local debuggable = GetAddOnMetadata(myname, "Version") == 'v80300.2'
 	local _window
 	local function GetDebugWindow()
 		if not _window then
@@ -335,9 +335,6 @@ do
 	function addon:IsMobInPhase(id, zone)
 		local phased, poi = true, true
 		if not mobdb[id] then return end
-		if not mobdb[id].locations[zone] then
-			return false
-		end
 		if mobdb[id].phase then
 			phased = mobdb[id].phase == C_Map.GetMapArtID(zone)
 		end

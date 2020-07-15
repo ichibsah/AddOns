@@ -51,7 +51,7 @@ L:SetGeneralLocalization({
 --L= DBM:GetModLocalization(2423)
 
 -----------------------
--- Stradama Margrave --
+-- Margrave Stradama --
 -----------------------
 --L= DBM:GetModLocalization(2404)
 
@@ -169,7 +169,7 @@ L:SetGeneralLocalization({
 --L= DBM:GetModLocalization(2401)
 
 -----------------------
--- Hazak the Unfallen --
+-- Xav the Unfallen --
 -----------------------
 --L= DBM:GetModLocalization(2390)
 

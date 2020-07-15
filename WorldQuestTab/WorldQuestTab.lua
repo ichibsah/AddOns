@@ -4,24 +4,43 @@
 -- questId					[number] questId
 -- isAllyQuest				[boolean] is a quest for combat allies (Nazjatar)
 -- isDaily					[boolean] is a daily type quest (Nazjatar & threat quests)
--- isCriteria				[boolean] is part of currently selected amissary
+-- isCriteria				[boolean] is part of currently selected emissary
 -- alwaysHide				[boolean] If the quest should be hidden no matter what
 -- passedFilter				[boolean] passed current filters
 -- isValid					[boolean] true if the quest is valid. Quest are invalid when they are missing quest data
 -- time						[table] time related values
 --		seconds					[number] seconds remaining when the data was gathered (To check the difference between no time and expired time)
--- mapInfo					[table] zone related values
+-- mapInfo					[table] zone related values, for more accurate position use WQT_Utils:GetQuestMapLocation
 --		mapX					[number] x pin position
 --		mapY					[number] y pin position
--- reward					[table] reward related values
---		type					[number] type of the more valueable reward (and the one displayed). See WQT_REWARDTYPE in Data.lua
---		texture					[number/string] texture of the reward. can be string for things like gold or unknown reward
---		amount					[amount] amount of items, gold, rep, or item level
---		id						[number, nullable] itemId for reward. null if not an item
---		quality					[number] item quality; common, rare, epic, etc
---		canUpgrade				[boolean, nullable] true if item has a chance to upgrade (e.g. ilvl 285+)
---		color					[Color] color based on the type of reward
---		typeBits				[bitfield] a combination of flags for all the types of rewards the quest provides. I.e. AP + gold + rep = 2^3 + 2^6 + 2^9 = 584 (10 0100 1000‬)
+-- Reward					[table]
+--		typeBits				[bitfield] a combination of flags for all the types of rewards the quest provides. I.e. AP + gold + rep = 2^3 + 2^6 + 2^9 = 584 (1001001000‬)
+-- rewardList				[table] List of rewards sorted by priority and filter settings
+--		iterative list of rewardInfo tables
+--
+-- questInfo Functions
+-- 
+-- GetRewardType()			Type of the top reward
+-- GetRewardId()			Id of the top reward
+-- GetRewardAmount()		Amount of the top reward
+-- GetRewardTexture()		Texture of the top reward
+-- GetRewardQuality()		Quality of the top reward
+-- GetRewardColor()			Color of the top reward
+-- GetRewardCanUpgrade()	If the top reward has a chance of upgrading
+-- TryDressUpReward()		Try all of the rewards to be shown in the dressing room
+-- IsExpired()				Whether the quest time is expired or not
+-- GetReward(index)			Get a specific reward from the list. nil if index is not available
+-- IterateRewards()			Return ipairs of the rewards
+
+-- RewardInfo structure
+--
+--	type					[number] type of reward. See WQT_REWARDTYPE in Data.lua
+--	texture					[number/string] texture of the reward. can be string for things like gold or unknown reward
+--	amount					[amount] amount of items, gold, rep, or item level
+--	id						[number] itemId for reward. 0 if not applicable (i.e. gold)
+--	quality					[number] item quality; common, rare, epic, etc
+--	canUpgrade				[boolean, nullable] true if item has a chance to upgrade (e.g. ilvl 285+)
+--	color					[Color] color based on the type of reward
 
 --
 -- For other data use following functions
@@ -33,20 +52,22 @@
 -- local tagID, tagName, worldQuestType, rarity, isElite, tradeskillLineIndex, displayTimeLeft = GetQuestTagInfo(questId);
 -- local texture, sizeX, sizeY = WQT_Utils:GetCachedTypeIconData(worldQuestType, tradeskillLineIndex);
 -- local timeLeftSeconds, timeString, color, timeStringShort, category = WQT_Utils:GetQuestTimeString(questInfo, fullString, unabreviated);
+-- local x, y = WQT_Utils:GetQuestMapLocation(questId, mapId); | More up to date position than mapInfo
 
 --
 -- Callbacks (WQT_WorldQuestFrame:RegisterCallback(event, func))
 --
--- "InitFilter" 		(self, level) After InitFilter finishes
--- "DisplayQuestList" 	(skipPins) After all buttons in the list have been updated
--- "FilterQuestList"	() After the list has been filtered
--- "UpdateQuestList"	() After the list has been both filtered and updated
--- "QuestsLoaded"		() After the dataprovider updated its quest data
--- "WaitingRoomUpdated"	() After data in the dataprovider's waitingroom got updated
--- "SortChanged"		(category) After sort category was changed to a different one
--- "ListButtonUpdate"	(button) After a button was updated and shown
--- "AnchorChanged"		(anchor) After the anchor of the quest list has changed
--- "MapPinInitialized"	(pin) After a map pin has been fully setup to be shown
+-- "InitFilter" 			(self, level) After InitFilter finishes
+-- "DisplayQuestList" 		(skipPins) After all buttons in the list have been updated
+-- "FilterQuestList"		() After the list has been filtered
+-- "UpdateQuestList"		() After the list has been both filtered and updated
+-- "QuestsLoaded"			() After the dataprovider updated its quest data
+-- "WaitingRoomUpdated"		() After data in the dataprovider's waitingroom got updated
+-- "SortChanged"			(category) After sort category was changed to a different one
+-- "ListButtonUpdate"		(button) After a button was updated and shown
+-- "AnchorChanged"			(anchor) After the anchor of the quest list has changed
+-- "MapPinInitialized"		(pin) After a map pin has been fully setup to be shown
+-- "WorldQuestCompleted"	(questId, questInfo) When a world quest is completed. questInfo gets cleared shortly after this callback is triggered
 
 local addonName, addon = ...
 
@@ -56,6 +77,7 @@ local ADD = LibStub("AddonDropDown-1.0");
 local _L = addon.L
 local _V = addon.variables;
 local WQT_Utils = addon.WQT_Utils;
+local WQT_Profiles = addon.WQT_Profiles;
 
 local _; -- local trash 
 local _emptyTable = {};
@@ -67,75 +89,6 @@ local utilitiesStatus = select(5, GetAddOnInfo("WorldQuestTabUtilities"));
 local _utilitiesInstalled = not utilitiesStatus or utilitiesStatus ~= "MISSING";
 
 local _WFMLoaded = IsAddOnLoaded("WorldFlightMap");
-
-local WQT_DEFAULTS = {
-	global = {	
-		versionCheck = "";
-		sortBy = 1;
-		updateSeen = false;
-		fullScreenButtonPos = {["anchor"] = "TOPRIGHT", ["x"] = -35, ["y"] = -2};
-		fullScreenContainerPos = {["anchor"] = "TOPLEFT", ["x"] = 0, ["y"] = -25};
-
-		["general"] = {
-			defaultTab = false;
-			saveFilters = true;
-			preciseFilters = false;
-			emissaryOnly = false;
-			useLFGButtons = false;
-			autoEmisarry = true;
-			questCounter = true;
-			bountyCounter = true;
-			
-			loadUtilities = true;
-			
-			useTomTom = true;
-			TomTomAutoArrow = true;
-			TomTomArrowOnClick = false;
-		};
-		
-		["list"] = {
-			typeIcon = true;
-			factionIcon = true;
-			showZone = true;
-			amountColors = true;
-			alwaysAllQuests = false;
-			includeDaily = true;
-			colorTime = true;
-			fullTime = false;
-		};
-
-		["pin"] = {
-			typeIcon = true;
-			rewardTypeIcon = false;
-			rarityIcon = false;
-			timeIcon = false;
-			filterPoI = true;
-			scale = 1;
-			disablePoI = false;
-			timeLabel = false;
-			continentPins = false;
-			fadeOnPing = true;
-			eliteRing = false;
-			ringType = _V["RING_TYPES"].time;
-			centerType = _V["PIN_CENTER_TYPES"].reward;
-		};
-
-		["filters"] = {
-				[_V["FILTER_TYPES"].faction] = {["name"] = FACTION
-						,["misc"] = {["none"] = true, ["other"] = true}, ["flags"] = {}}-- Faction filters are assigned later
-				,[_V["FILTER_TYPES"].type] = {["name"] = TYPE
-						, ["flags"] = {["Default"] = true, ["Elite"] = true, ["PvP"] = true, ["Petbattle"] = true, ["Dungeon"] = true, ["Raid"] = true, ["Profession"] = true, ["Invasion"] = true, ["Assault"] = true, ["Daily"] = true, ["Threat"] = true}}
-				,[_V["FILTER_TYPES"].reward] = {["name"] = REWARD
-						, ["flags"] = {["Item"] = true, ["Armor"] = true, ["Gold"] = true, ["Currency"] = true, ["Artifact"] = true, ["Relic"] = true, ["None"] = true, ["Experience"] = true, ["Honor"] = true, ["Reputation"] = true}}
-			}
-	}
-}
-
-for k, v in pairs(_V["WQT_FACTION_DATA"]) do
-	if v.expansion >= LE_EXPANSION_LEGION then
-		WQT_DEFAULTS.global.filters[1].flags[k] = true;
-	end
-end
 
 -- Custom number abbreviation to fit inside reward icons in the list.
 local function GetLocalizedAbbreviatedNumber(number)
@@ -502,15 +455,14 @@ local function GetNewSettingData(old, default)
 end
 
 local function ConvertOldSettings(version)
-	if (not version) then
-		WQT.settings.filters[3].flags.Resources = nil;
-		WQT.settings.versionCheck = "1";
+	if (not version or version == "") then
+		WQT.db.global.versionCheck = "1";
 		return;
 	end
 	-- BfA
 	if (version < "8.0.1") then
 		-- In 8.0.01 factions use ids rather than name
-		local repFlags = WQT.settings.filters[1].flags;
+		local repFlags = WQT.db.global.filters[1].flags;
 		for name in pairs(repFlags) do
 			if (type(name) == "string" and name ~= "Other" and name ~= _L["NO_FACTION"]) then
 				repFlags[name] = nil;
@@ -519,64 +471,61 @@ local function ConvertOldSettings(version)
 	end
 	-- Pin rework, turn off pin time by default
 	if (version < "8.2.01")  then
-		WQT.settings.showPinTime = false;
+		WQT.db.global.showPinTime = false;
 	end
 	-- Reworked save structure
 	if (version < "8.2.02")  then
-		WQT.settings.general.defaultTab =		GetNewSettingData(WQT.settings.defaultTab, false);
-		WQT.settings.general.saveFilters = 		GetNewSettingData(WQT.settings.saveFilters, true);
-		WQT.settings.general.emissaryOnly = 		GetNewSettingData(WQT.settings.emissaryOnly, false);
-		WQT.settings.general.useLFGButtons = 	GetNewSettingData(WQT.settings.useLFGButtons, false);
-		WQT.settings.general.autoEmisarry = 		GetNewSettingData(WQT.settings.autoEmisarry, true);
-		WQT.settings.general.questCounter = 		GetNewSettingData(WQT.settings.questCounter, true);
-		WQT.settings.general.bountyCounter = 	GetNewSettingData(WQT.settings.bountyCounter, true);
-		WQT.settings.general.useTomTom = 		GetNewSettingData(WQT.settings.useTomTom, true);
-		WQT.settings.general.TomTomAutoArrow = 	GetNewSettingData(WQT.settings.TomTomAutoArrow, true);
+		WQT.db.global.general.defaultTab =		GetNewSettingData(WQT.db.global.defaultTab, false);
+		WQT.db.global.general.saveFilters = 		GetNewSettingData(WQT.db.global.saveFilters, true);
+		WQT.db.global.general.emissaryOnly = 	GetNewSettingData(WQT.db.global.emissaryOnly, false);
+		WQT.db.global.general.useLFGButtons = 	GetNewSettingData(WQT.db.global.useLFGButtons, false);
+		WQT.db.global.general.autoEmisarry = 	GetNewSettingData(WQT.db.global.autoEmisarry, true);
+		WQT.db.global.general.questCounter = 	GetNewSettingData(WQT.db.global.questCounter, true);
+		WQT.db.global.general.bountyCounter = 	GetNewSettingData(WQT.db.global.bountyCounter, true);
+		WQT.db.global.general.useTomTom = 		GetNewSettingData(WQT.db.global.useTomTom, true);
+		WQT.db.global.general.TomTomAutoArrow = 	GetNewSettingData(WQT.db.global.TomTomAutoArrow, true);
 		
-		WQT.settings.list.typeIcon = 			GetNewSettingData(WQT.settings.showTypeIcon, true);
-		WQT.settings.list.factionIcon = 			GetNewSettingData(WQT.settings.showFactionIcon, true);
-		WQT.settings.list.showZone = 			GetNewSettingData(WQT.settings.listShowZone, true);
-		WQT.settings.list.amountColors = 		GetNewSettingData(WQT.settings.rewardAmountColors, true);
-		WQT.settings.list.alwaysAllQuests =		GetNewSettingData(WQT.settings.alwaysAllQuests, false);
-		WQT.settings.list.fullTime = 			GetNewSettingData(WQT.settings.listFullTime, false);
+		WQT.db.global.list.typeIcon = 			GetNewSettingData(WQT.db.global.showTypeIcon, true);
+		WQT.db.global.list.factionIcon = 		GetNewSettingData(WQT.db.global.showFactionIcon, true);
+		WQT.db.global.list.showZone = 			GetNewSettingData(WQT.db.global.listShowZone, true);
+		WQT.db.global.list.amountColors = 		GetNewSettingData(WQT.db.global.rewardAmountColors, true);
+		WQT.db.global.list.alwaysAllQuests =		GetNewSettingData(WQT.db.global.alwaysAllQuests, false);
+		WQT.db.global.list.fullTime = 			GetNewSettingData(WQT.db.global.listFullTime, false);
 
-		WQT.settings.pin.typeIcon =				GetNewSettingData(WQT.settings.pinType, true);
-		WQT.settings.pin.rewardTypeIcon =		GetNewSettingData(WQT.settings.pinRewardType, false);
-		WQT.settings.pin.filterPoI =				GetNewSettingData(WQT.settings.filterPoI, true);
-		WQT.settings.pin.bigPoI =				GetNewSettingData(WQT.settings.bigPoI, false);
-		WQT.settings.pin.disablePoI =			GetNewSettingData(WQT.settings.disablePoI, false);
-		WQT.settings.pin.reward =				GetNewSettingData(WQT.settings.showPinReward, true);
-		WQT.settings.pin.timeLabel =				GetNewSettingData(WQT.settings.showPinTime, false);
-		WQT.settings.pin.ringType =				GetNewSettingData(WQT.settings.ringType, _V["RING_TYPES"].time);
+		WQT.db.global.pin.typeIcon =				GetNewSettingData(WQT.db.global.pinType, true);
+		WQT.db.global.pin.rewardTypeIcon =		GetNewSettingData(WQT.db.global.pinRewardType, false);
+		WQT.db.global.pin.filterPoI =			GetNewSettingData(WQT.db.global.filterPoI, true);
+		WQT.db.global.pin.bigPoI =				GetNewSettingData(WQT.db.global.bigPoI, false);
+		WQT.db.global.pin.disablePoI =			GetNewSettingData(WQT.db.global.disablePoI, false);
+		WQT.db.global.pin.reward =				GetNewSettingData(WQT.db.global.showPinReward, true);
+		WQT.db.global.pin.timeLabel =			GetNewSettingData(WQT.db.global.showPinTime, false);
+		WQT.db.global.pin.ringType =				GetNewSettingData(WQT.db.global.ringType, _V["RING_TYPES"].time);
 		
 		-- Clean up old data
-		local version = WQT.settings.versionCheck;
-		local sortBy = WQT.settings.sortBy;
-		local updateSeen = WQT.settings.updateSeen;
+		local version = WQT.db.global.versionCheck;
+		local sortBy = WQT.db.global.sortBy;
+		local updateSeen = WQT.db.global.updateSeen;
 		
-		for k, v in pairs(WQT.settings) do
-			if (type(v) ~= "table") then
-				WQT.settings[k] = nil;
+		if (WQT.settings) then
+			for k, v in pairs(WQT.settings) do
+				if (type(v) ~= "table") then
+					WQT.settings[k] = nil;
+				end
 			end
 		end
 		
-		WQT.settings.versionCheck = version;
-		WQT.settings.sortBy = sortBy;
-		WQT.settings.updateSeen = updateSeen;
-		
-		-- New filters
-		for filterID in pairs(WQT.settings.filters) do
-			WQT:SetAllFilterTo(filterID, true);
-		end
+		WQT.db.global.versionCheck = version;
+		WQT.db.global.sortBy = sortBy;
+		WQT.db.global.updateSeen = updateSeen;
 	end
 	
 	if (version < "8.3.01")  then
-		WQT.settings.pin.scale = WQT.settings.pin.bigPoI and 1.15 or 1;
-		WQT.settings.pin.centerType = WQT.settings.pin.reward and _V["PIN_CENTER_TYPES"].reward or _V["PIN_CENTER_TYPES"].blizzard;
+		WQT.db.global.pin.scale = WQT.db.global.pin.bigPoI and 1.15 or 1;
+		WQT.db.global.pin.centerType = WQT.db.global.pin.reward and _V["PIN_CENTER_TYPES"].reward or _V["PIN_CENTER_TYPES"].blizzard;
 	end
 	
 	if (version < "8.3.02")  then
-		local factionFlags = WQT.settings.filters[_V["FILTER_TYPES"].faction].flags;
+		local factionFlags = WQT.db.global.filters[_V["FILTER_TYPES"].faction].flags;
 		-- clear out string keys
 		for k in pairs(factionFlags) do
 			if (type(k) == "string") then
@@ -587,9 +536,29 @@ local function ConvertOldSettings(version)
 	
 	if (version < "8.3.03")  then
 		-- Anchoring changed, reset to default position
-		WQT.settings.fullScreenButtonPos.anchor =  WQT_DEFAULTS.global.fullScreenButtonPos.anchor;
-		WQT.settings.fullScreenButtonPos.x = WQT_DEFAULTS.global.fullScreenButtonPos.x;
-		WQT.settings.fullScreenButtonPos.y = WQT_DEFAULTS.global.fullScreenButtonPos.y;
+		WQT.db.global.fullScreenButtonPos.anchor =  _V["WQT_DEFAULTS"].global.fullScreenButtonPos.anchor;
+		WQT.db.global.fullScreenButtonPos.x = _V["WQT_DEFAULTS"].global.fullScreenButtonPos.x;
+		WQT.db.global.fullScreenButtonPos.y = _V["WQT_DEFAULTS"].global.fullScreenButtonPos.y;
+	end
+	
+	if (version < "8.3.04")  then
+		-- Changes for profiles
+		if (WQT.db.global.sortBy) then
+			WQT.db.global.general.sortBy = WQT.db.global.sortBy;
+			WQT.db.global.sortBy = nil;
+		end
+		if (WQT.db.global.fullScreenButtonPos) then
+			WQT.db.global.general.fullScreenButtonPos = WQT.db.global.fullScreenButtonPos;
+			WQT.db.global.fullScreenButtonPos = nil;
+		end
+		if (WQT.db.global.fullScreenContainerPos) then
+			WQT.db.global.general.fullScreenContainerPos = WQT.db.global.fullScreenContainerPos;
+			WQT.db.global.fullScreenContainerPos = nil;
+		end
+		
+		-- Forgot to clear this in 8.3.01
+		WQT.db.global.pin.bigPoI = nil;
+		WQT.db.global.pin.reward = nil; 
 	end
 end
 
@@ -660,7 +629,7 @@ function WQT:Sort_OnClick(self, category)
 		dropdown.active = category
 		ADD:SetSelectedValue(dropdown, category);
 		ADD:SetText(dropdown, _V["WQT_SORT_OPTIONS"][category]);
-		WQT.settings.sortBy = category;
+		WQT.settings.general.sortBy = category;
 		WQT_QuestScrollFrame:UpdateQuestList();
 		WQT_WorldQuestFrame:TriggerCallback("SortChanged", category);
 	end
@@ -796,7 +765,6 @@ function WQT:PassesAllFilters(questInfo)
 	end
 	local filterTypes = _V["FILTER_TYPES"];
 	
-	
 	-- For precise filters, all filters have to pass
 	if (WQT.settings.general.preciseFilters)  then
 		if (not  WQT:IsFiltering()) then
@@ -887,15 +855,15 @@ function WQT:PassesFlagId(flagId ,questInfo, checkPrecise)
 end
 
 function WQT:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("BWQDB", WQT_DEFAULTS, true);
-	self.settings = self.db.global;
+	self.db = LibStub("AceDB-3.0"):New("BWQDB", _V["WQT_DEFAULTS"], true);
+	ConvertOldSettings(WQT.db.global.versionCheck)
+	WQT_Profiles:InitSettings();
 	
-	ConvertOldSettings(WQT.settings.versionCheck)
 	-- Hightlight 'what's new'
 	local currentVersion = GetAddOnMetadata(addonName, "version")
-	if (WQT.settings.versionCheck < currentVersion) then
-		WQT.settings.updateSeen = false;
-		WQT.settings.versionCheck  = currentVersion;
+	if (WQT.db.global.versionCheck < currentVersion) then
+		WQT.db.global.updateSeen = false;
+		WQT.db.global.versionCheck  = currentVersion;
 	end
 	
 	_V:GeneratePatchNotes();
@@ -912,9 +880,8 @@ function WQT:OnEnable()
 	end
 	
 	-- Place fullscreen button in saved location
-	WQT_WorldMapContainerButton:LinkSettings(WQT.settings.fullScreenButtonPos);
-	WQT_WorldMapContainer:LinkSettings(WQT.settings.fullScreenContainerPos);
-	
+	WQT_WorldMapContainerButton:LinkSettings(WQT.settings.general.fullScreenButtonPos);
+	WQT_WorldMapContainer:LinkSettings(WQT.settings.general.fullScreenContainerPos);
 	
 	-- Apply saved filters
 	if (not self.settings.general.saveFilters) then
@@ -924,9 +891,9 @@ function WQT:OnEnable()
 	end
 
 	-- Update sort text
-	if self.settings.general.saveFilters and _V["WQT_SORT_OPTIONS"][self.settings.sortBy] then
-		ADD:SetSelectedValue(WQT_WorldQuestFrameSortButton, self.settings.sortBy);
-		ADD:SetText(WQT_WorldQuestFrameSortButton, _V["WQT_SORT_OPTIONS"][self.settings.sortBy]);
+	if self.settings.general.saveFilters and _V["WQT_SORT_OPTIONS"][self.settings.general.sortBy] then
+		ADD:SetSelectedValue(WQT_WorldQuestFrameSortButton, self.settings.general.sortBy);
+		ADD:SetText(WQT_WorldQuestFrameSortButton, _V["WQT_SORT_OPTIONS"][self.settings.general.sortBy]);
 	else
 		ADD:SetSelectedValue(WQT_WorldQuestFrameSortButton, 1);
 		ADD:SetText(WQT_WorldQuestFrameSortButton, _V["WQT_SORT_OPTIONS"][1]);
@@ -994,6 +961,86 @@ function WQT:OnEnable()
 end
 
 ------------------------------------------
+-- 			REWARDDISPLAY MIXIN			--
+------------------------------------------
+-- OnLoad()
+-- Reset()
+-- AddRewardByInfo(rewardInfo, warmodeBonus)
+-- AddReward(rewardType, texture, quality, amount, typeColor, canUpgrade, warmodeBonus)
+
+WQT_RewardDisplayMixin = {};
+
+function WQT_RewardDisplayMixin:OnLoad()
+	self.numDisplayed = 0;
+end
+
+function WQT_RewardDisplayMixin:Reset()
+	for k, reward in ipairs(self.rewardFrames) do
+		reward:Hide();
+	end
+	
+	self.numDisplayed = 0;
+	self:SetWidth(0.1);
+end
+
+function WQT_RewardDisplayMixin:AddRewardByInfo(rewardInfo, warmodeBonus)
+	-- A bit easier when updating buttons
+	self:AddReward(rewardInfo.type, rewardInfo.texture, rewardInfo.quality, rewardInfo.amount, rewardInfo.color, rewardInfo.canUpgrade, warmodeBonus);
+end
+
+function WQT_RewardDisplayMixin:AddReward(rewardType, texture, quality, amount, typeColor, canUpgrade, warmodeBonus)
+	local displayTypeSetting = WQT.settings.list.rewardDisplay;
+
+	-- Limit the amount of rewards shown
+	if (self.numDisplayed >= WQT.settings.list.rewardNumDisplay) then return; end
+	
+	self.numDisplayed = self.numDisplayed + 1;
+	local num = self.numDisplayed;
+	
+	amount = amount or 1;
+	-- Calculate warmode bonus
+	if (warmodeBonus  and C_PvP.IsWarModeDesired() and _V["WARMODE_BONUS_REWARD_TYPES"][rewardType]) then
+		amount = amount + floor(amount * C_PvP.GetWarModeRewardBonus() / 100);
+	end
+	
+	self:SetWidth(num * 29 - 1);
+	local r, g, b = GetItemQualityColor(quality);
+	local rewardFrame = self.rewardFrames[num];
+	rewardFrame:Show();
+	rewardFrame.Icon:SetTexture(texture);
+	rewardFrame.IconBorder:SetVertexColor(r, g, b);
+	
+	rewardFrame.Amount:Hide();
+	if (amount > 1) then
+		rewardFrame.Amount:Show();
+		
+		local amountDisplay = GetLocalizedAbbreviatedNumber(amount);
+		
+		if (rewardType == WQT_REWARDTYPE.relic) then
+			amountDisplay = "+"..amountDisplay;
+		elseif (canUpgrade) then
+			amountDisplay = amountDisplay.."+";
+		end
+		rewardFrame.Amount:SetText(amountDisplay);
+		
+		
+		-- Color reward amount for certain types
+		r, g, b = 1, 1, 1
+		if ( WQT.settings.list.amountColors) then
+			if (rewardType == WQT_REWARDTYPE.artifact) then
+				r, g, b = GetItemQualityColor(2);
+			elseif (rewardType == WQT_REWARDTYPE.equipment or rewardType == WQT_REWARDTYPE.weapon) then
+				
+				r, g, b = typeColor:GetRGB();
+			end
+		end
+		
+		rewardFrame.Amount:SetVertexColor(r, g, b);
+		
+	end
+end
+
+------------------------------------------
 -- 			LISTBUTTON MIXIN			--
 ------------------------------------------
 --
@@ -1019,6 +1066,7 @@ function WQT_ListButtonMixin:OnClick(button)
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 	if (not self.questId or self.questId== -1) then return end
 	local isBonus = QuestUtils_IsQuestBonusObjective(self.questId);
+	local reward = self.questInfo:GetReward(1);
 	
 	-- 'Hard' tracking quests with shift
 	if (IsModifiedClick("QUESTWATCHTOGGLE")) then
@@ -1040,10 +1088,8 @@ function WQT_ListButtonMixin:OnClick(button)
 		end
 		
 	-- Trying gear with Ctrl
-	elseif (IsModifiedClick("DRESSUP") and (self.questInfo.reward.type == WQT_REWARDTYPE.equipment or self.questInfo.reward.type == WQT_REWARDTYPE.weapon)) then
-		local _, link = GetItemInfo(self.questInfo.reward.id);
-		DressUpItemLink(link)
-	
+	elseif (IsModifiedClick("DRESSUP")) then
+		self.questInfo:TryDressUpReward();
 	-- 'Soft' tracking and jumping map to relevant zone
 	elseif (button == "LeftButton") then
 		-- Don't track bonus objectives. The object tracker doesn't like it;
@@ -1094,6 +1140,8 @@ function WQT_ListButtonMixin:OnLeave()
 	WQT_WorldQuestFrame:HideWorldmapHighlight();
 	GameTooltip:Hide();
 	GameTooltip.ItemTooltip:Hide();
+	
+	WQT:HideDebugTooltip()
 end
 
 function WQT_ListButtonMixin:OnEnter()
@@ -1156,7 +1204,6 @@ end
 
 function WQT_ListButtonMixin:Update(questInfo, shouldShowZone)
 	if (self.questInfo ~= questInfo) then
-		self.Reward.Amount:Hide();
 		self.TrackedBorder:Hide();
 		self.Highlight:Hide();
 		self:Hide();
@@ -1179,7 +1226,7 @@ function WQT_ListButtonMixin:Update(questInfo, shouldShowZone)
 	self.Title:SetText(title);
 	
 	self.Title:ClearAllPoints()
-	self.Title:SetPoint("RIGHT", self.Reward, "LEFT", -5, 0);
+	self.Title:SetPoint("RIGHT", self.Rewards, "LEFT", -5, 0);
 	
 	if (WQT.settings.list.factionIcon) then
 		self.Title:SetPoint("BOTTOMLEFT", self.Faction, "RIGHT", 5, 1);
@@ -1235,66 +1282,13 @@ function WQT_ListButtonMixin:Update(questInfo, shouldShowZone)
 		self.Type:SetWidth(0.1);
 	end
 	
-	-- Display reward
-	self.Reward:Show();
-	self.Reward.Icon:Show();
-	self.Reward:SetWidth(28);
-	if (questInfo.reward.typeBits == WQT_REWARDTYPE.missing) then
-		self.Reward.IconBorder:SetVertexColor(.75, 0, 0);
-		self.Reward.Icon:SetColorTexture(0, 0, 0, 0.5);
-		self.Reward.Amount:Hide();
-	elseif (questInfo.reward.typeBits == WQT_REWARDTYPE.none) then
-		self.Reward:Hide();
-		self.Reward:SetWidth(1);
-	else
-		local r, g, b = GetItemQualityColor(questInfo.reward.quality);
-		self.Reward.IconBorder:SetVertexColor(r, g, b);
-		if (questInfo.reward.texture == "") then
-			self.Reward:Hide();
-		end
-		self.Reward.Icon:SetTexture(questInfo.reward.texture);
-		
-		-- Show reward amount if it's more than 1
-		if (questInfo.reward.amount and questInfo.reward.amount > 1)  then
-			if (questInfo.reward.type == WQT_REWARDTYPE.relic) then
-				-- Relics add ilvl so + in front
-				self.Reward.Amount:SetText("+" .. questInfo.reward.amount);
-			elseif (questInfo.reward.type == WQT_REWARDTYPE.equipment) then
-				-- If gear can upgrade, add + to the back
-				if (questInfo.reward.canUpgrade) then
-					self.Reward.Amount:SetText(questInfo.reward.amount.."+");
-				else 
-					self.Reward.Amount:SetText(questInfo.reward.amount);
-				end
-			else
-				-- Regular values. If warmode applies, include bonus value.
-				local rewardAmount = questInfo.reward.amount;
-				if (C_PvP.IsWarModeDesired() and _V["WARMODE_BONUS_REWARD_TYPES"][questInfo.reward.type] and C_QuestLog.QuestHasWarModeBonus(questInfo.questId) ) then
-					rewardAmount = rewardAmount + floor(rewardAmount * C_PvP.GetWarModeRewardBonus() / 100);
-				end
-				self.Reward.Amount:SetText(GetLocalizedAbbreviatedNumber(rewardAmount));
-			end
-			
-			-- color amount text based on reward type
-			r, g, b = 1, 1, 1;
-			if ( WQT.settings.list.amountColors) then
-				if (questInfo.reward.type == WQT_REWARDTYPE.artifact) then
-					r, g, b = GetItemQualityColor(2);
-				elseif (questInfo.reward.type == WQT_REWARDTYPE.equipment or questInfo.reward.type == WQT_REWARDTYPE.weapon) then
-					if (questInfo.reward.canUpgrade) then
-						self.Reward.Amount:SetText(questInfo.reward.amount.."+");
-					end
-					r, g, b = questInfo.reward.color:GetRGB();
-				end
-			end
-	
-			self.Reward.Amount:SetVertexColor(r, g, b);
-			self.Reward.Amount:Show();
-		else
-			self.Reward.Amount:Hide();
-		end
+	-- Rewards
+	self.Rewards:Reset();
+	for k, rewardInfo in questInfo:IterateRewards() do
+		self.Rewards:AddRewardByInfo(rewardInfo, C_QuestLog.QuestCanHaveWarModeBonus(self.questId));
 	end
 	
+
 	-- Show border if quest is tracked
 	if (GetSuperTrackedQuestID() == questInfo.questId or IsWorldQuestWatched(questInfo.questId)) then
 		self.TrackedBorder:Show();
@@ -1344,7 +1338,6 @@ function WQT_ScrollListMixin:ResetButtons()
 	if buttons == nil then return; end
 	for i=1, #buttons do
 		local button = buttons[i];
-		button.Reward.Amount:Hide();
 		button.TrackedBorder:Hide();
 		button.Highlight:Hide();
 		button:Hide();
@@ -1404,7 +1397,7 @@ function WQT_ScrollListMixin:UpdateFilterDisplay()
 	local numHidden = 0;
 	local totalValid = 0;
 	for k, questInfo in ipairs(self.questList) do
-		if (questInfo.isValid and questInfo.reward.type ~= WQT_REWARDTYPE.missing) then
+		if (questInfo.isValid and questInfo.hasRewardData) then
 			if (questInfo.passedFilter) then
 				numHidden = numHidden + 1;
 			end	
@@ -1422,7 +1415,7 @@ function WQT_ScrollListMixin:FilterQuestList()
 	local BlizFiltering = WQT:IsWorldMapFiltering();
 	for k, questInfo in ipairs(self.questList) do
 		questInfo.passedFilter = false;
-		if (questInfo.isValid and not questInfo.alwaysHide and questInfo.reward.type ~= WQT_REWARDTYPE.missing and not WQT_Utils:QuestIsExpired(questInfo)) then
+		if (questInfo.isValid and not questInfo.alwaysHide and questInfo.hasRewardData and not questInfo:IsExpired()) then
 			local pass = BlizFiltering and WorldMap_DoesWorldQuestInfoPassFilters(questInfo) or not BlizFiltering;
 			if (pass and WQTFiltering) then
 				pass = WQT:PassesAllFilters(questInfo);
@@ -1449,6 +1442,11 @@ function WQT_ScrollListMixin:UpdateQuestList()
 	if (not (flightShown or worldShown)) then return end	
 	
 	self.questList = WQT_WorldQuestFrame.dataProvider:GetIterativeList();
+	-- Update reward priorities
+	for k, questInfo in ipairs(self.questList) do
+		questInfo:ParseRewards();
+	end
+	
 	self:FilterQuestList();
 	self:ApplySort();
 	self:DisplayQuestList();
@@ -1481,7 +1479,6 @@ function WQT_ScrollListMixin:DisplayQuestList()
 		if ( displayIndex <= #list) then
 			button:Update(list[displayIndex], shouldShowZone);
 		else
-			button.Reward.Amount:Hide();
 			button.TrackedBorder:Hide();
 			button.Highlight:Hide();
 			button:Hide();
@@ -1617,6 +1614,7 @@ function WQT_ConstrainedChildMixin:OnDragStop()
 end
 
 function WQT_ConstrainedChildMixin:OnUpdate()
+	--
 	if (self.isBeingDragged) then
 		self:ConstrainPosition();
 	end
@@ -1630,6 +1628,7 @@ end
 
 -- Constrain the frame to stay inside the borders of the parent frame
 function WQT_ConstrainedChildMixin:ConstrainPosition()
+	
 	local parent = self:GetParent();
 	local l1, b1, w1, h1 = self:GetRect();
 	local l2, b2, w2, h2 = parent:GetRect();
@@ -1689,8 +1688,8 @@ function WQT_ConstrainedChildMixin:ConstrainPosition()
 
 	-- If the frame had to be constrained, force the constrained position
 	if (SetConstrainedPos) then
-		--self:ClearAllPoints();
-		--self:SetPoint(self.anchor, parent, self.anchor, left, bottom);
+		self:ClearAllPoints();
+		self:SetPoint(self.anchor, parent, self.anchor, left, bottom);
 	end
 end
 
@@ -1835,8 +1834,6 @@ function WQT_CoreMixin:OnLoad()
 	self.sortButton = ADD:CreateMenuTemplate("WQT_WorldQuestFrameSortButton", self, nil, "BUTTON");
 	self.sortButton:SetSize(110, 22);
 	self.sortButton:SetPoint("RIGHT", "WQT_WorldQuestFrameFilterButton", "LEFT", -2, -1);
-	self.sortButton:EnableMouse(false);
-	self.sortButton:SetScript("OnClick", function() PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON); end);
 
 	ADD:Initialize(self.sortButton, function(self, level) WQT:InitSort(self, level) end);
 
@@ -1878,6 +1875,7 @@ function WQT_CoreMixin:OnLoad()
 	self:RegisterEvent("QUEST_WATCH_LIST_CHANGED");
 	self:RegisterEvent("TAXIMAP_OPENED");
 	self:RegisterEvent("QUEST_LOG_UPDATE"); -- Dataprovider only
+	self:RegisterEvent("PLAYER_LOGOUT");
 	
 	self:SetScript("OnEvent", function(self, event, ...) 
 			if	(self.dataProvider) then
@@ -2134,9 +2132,17 @@ function WQT_CoreMixin:OnLoad()
 	QuestScrollFrame.Background:SetPoint("BOTTOMRIGHT",QuestMapFrame, "BOTTOMRIGHT", 0, -2);
 	QuestMapFrame.DetailsFrame:SetPoint("TOPRIGHT", QuestMapFrame, "TOPRIGHT", -26, -2)
 	QuestMapFrame.VerticalSeparator:SetHeight(463);
-	
+end
 
-	
+function WQT_CoreMixin:ApplyAllSettings()
+	self:UpdateBountyCounters();
+	self:RepositionBountyTabs();
+	self.pinDataProvider:RefreshAllData()
+	WQT_Utils:RefreshOfficialDataProviders();
+	WQT_QuestScrollFrame:UpdateQuestList();
+	WQT:Sort_OnClick(nil, WQT.settings.general.sortBy);
+	WQT_WorldMapContainerButton:LinkSettings(WQT.settings.general.fullScreenButtonPos);
+	WQT_WorldMapContainer:LinkSettings(WQT.settings.general.fullScreenContainerPos);
 end
 
 function WQT_CoreMixin:UpdateBountyCounters()
@@ -2332,6 +2338,11 @@ function WQT_CoreMixin:PLAYER_REGEN_ENABLED()
 end
 
 function WQT_CoreMixin:QUEST_TURNED_IN(questId)
+	local questInfo = WQT_WorldQuestFrame.dataProvider:GetQuestById(questId);
+	if (questInfo) then
+		WQT_WorldQuestFrame:TriggerCallback("WorldQuestCompleted", questId, questInfo);
+	end
+
 	-- Remove TomTom arrow if tracked
 	if (TomTom and WQT.settings.general.useTomTom and TomTom.GetKeyArgs and TomTom.RemoveWaypoint and TomTom.waypoints) then
 		WQT_Utils:RemoveTomTomArrowbyQuestId(questId);
@@ -2349,6 +2360,10 @@ end
 
 function WQT_CoreMixin:QUEST_LOG_UPDATE()
 	-- Dataprovider handles this one
+end
+
+function WQT_CoreMixin:PLAYER_LOGOUT()
+	WQT_Profiles:ClearDefaultsFromActive();
 end
 
 function WQT_CoreMixin:QUEST_WATCH_LIST_CHANGED(...)

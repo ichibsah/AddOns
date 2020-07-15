@@ -132,6 +132,44 @@ LFGShout.config.AceConfig = {
 			order=304,
 		
 		},
+
+
+        e = {
+            type = 'header',
+            name = 'Coordinate Detection and TomTom',
+            order=350,
+            
+            
+        },
+        
+        ea = {
+            type = 'description',
+            name = '|cff00FFFFLFGShout can detect coordinates in chat (e..g elite monster coordinates) and ask TomTom to direct you to them.',
+            fontSize='medium',
+            order=351,
+        },
+
+        eb = {
+            type = 'toggle',
+            name = 'Detect coordinates',
+            desc = 'Detect and show messages that contain coordinates?',
+            set = function(info,val) LFGShout_Global.Coordinates=val end,
+            get = function(info) return LFGShout_Global.Coordinates end,
+            order=352,
+        },
+        ec = {
+            type = 'toggle',
+            name = 'Push to TomTom',
+            desc = 'Automatically ask TomTom to guide you to detected coordinates?',
+            set = function(info,val) LFGShout_Global.CoordinatesTomTom=val end,
+            get = function(info) return LFGShout_Global.CoordinatesTomTom end,
+            disabled  = function(info) return not LFGShout_Global.Coordinates end,
+            order=353,
+        },
+
+
+
+
 		d = {
             type = 'header',
             name = 'Other Options',

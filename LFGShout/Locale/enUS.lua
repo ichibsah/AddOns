@@ -40,7 +40,7 @@ function LFGShout_Locale_English()
 	LFGShout.lang.Achievments={9707, 9708, 9391, 9423,8988, 8987, 8986,8966, 8968, 8932, 8970, 8972, 8949, 8961, 8963, 8965,8967,8956, 8969,8971,8973,8960,8962,8964,9255,9572,9573,9574,9575,9576,9577,9584,9585,9586,9587,9588,9589,9578,9579,9580,9581,9582,9583,};
 	----- Filters and blacklists
 	--F1-F5 = filter strings
-	--Type = 0 = General, 1 =buy, 2 = sell, 3 = dungeon, 4=quest, 5= guild
+	--Type = 0 = General, 1 =buy, 2 = sell, 3 = dungeon, 4=quest, 5= guild, 9=Coords
 	-- lStart - lEnd - level requierements
 	-- score == filter score
 	-- SingleWord - If not set or true, the strings in the filter will only be matched if they are a single word. complex filters and sentences should be set to false
@@ -51,6 +51,13 @@ function LFGShout_Locale_English()
 --|cffFFCC00|Hitem:43015:0:0:0:0:0:0:0|h[Fish Feast]|h|r
 	
 	LFGShout.lang.Filters={
+				----- Co-ords in Chat
+				{F1=".*%d+%p%d+",F2=".*%d+ %d+",F3=".*%d+%p %d+",F4="",F5="", Type=9, lStart=0, lEnd=999, Score=75},
+				{F1=".*%d+%.%d+%p%d+",F2=".*%d+%.%d+ %d+",F3=".*%d+%.%d+%p %d+",F4="",F5="", Type=9, lStart=0, lEnd=999, Score=75},
+				{F1=".*%d+%p%d+%.%d+",F2=".*%d+ %d+%.%d+",F3=".*%d+%p %d+%.%d+",F4="",F5="", Type=9, lStart=0, lEnd=999, Score=75},
+				{F1=".*%d+%.%d%p%d+%.%d+",F2=".*%d+%.%d+ %d+%.%d+",F3=".*%d+%.%d+%p %d+%.%d+",F4="",F5="", Type=9, lStart=0, lEnd=999, Score=75},
+				
+				---General
 				{F1="LFG",F2="LF%dM",F3="LF%d2%dM",F4="LFM",F5="", Type=3, lStart=0, lEnd=999, Score=75},
 				{F1="LOOKING",F2="LF",F3="NEED HELP",F4="HELP",F5="GARRISON", Type=0, lStart=0, lEnd=999, Score=25},
 				{F1="HEAL",F2="HEALZ",F3="HEALS",F4="HEALER",F5="RDPS", Type=3, lStart=0, lEnd=999, Score=25},
@@ -357,7 +364,7 @@ function LFGShout_Locale_English()
 				{F1="TOL DAGOR",F2="DAGOR",F3="TD",F4="",F5="", Type=3, lStart=110, lEnd=120, Score=50},
 				{F1="HEROIC TOL DAGOR",F2="HDAGOR",F3="HTD",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
 
-				{F1="THE MOTHERLODE",F2="MOTHERLODE",F3="TML",F4="ML",F5="", Type=3, lStart=110, lEnd=120, Score=50},
+				{F1="THE MOTHERLODE",F2="MOTHERLODE",F3="TML",F4="ML",F5="THE MOTHERLODE!!", Type=3, lStart=110, lEnd=120, Score=50},
 				{F1="HEROIC MOTHERLODE",F2="HTML",F3="HML",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
 
 				{F1="ATAL'DAZAR",F2="DAZAR",F3="AD",F4="ATALDAZAR",F5="", Type=3, lStart=110, lEnd=120, Score=50},
@@ -372,12 +379,23 @@ function LFGShout_Locale_English()
 				{F1="FREEHOLD",F2="FH",F3="",F4="",F5="", Type=3, lStart=110, lEnd=120, Score=50},
 				{F1="HEROIC FREEHOLD",F2="HFH",F3="",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
 
-				
+				{F1="SHRINE OF THE STORM",F2="SOS",F3="SHRINE",F4="",F5="", Type=3, lStart=110, lEnd=120, Score=50},
+				{F1="HEROIC SHRINE OF THE STORM",F2="HSOS",F3="HSHRINE",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
+
+				{F1="OPERATION: MECHAGON",F2="OPERATION MECHAGON",F3="MECHAGON",F4="MECH",F5="", Type=3, lStart=110, lEnd=120, Score=50},
+				{F1="HEROIC OPERATION: MECHAGO",F2="HEROIC OPERATION MECHAGO",F3="HMECHAGON",F4="HMECH",F5="", Type=3, lStart=120, lEnd=122, Score=50},
+
+
 
 				--raids
 				
 				{F1="ULDIR",F2="ULD",F3="ULDIR %d%d",F4="ULD %d%d",F5="", Type=3, lStart=120, lEnd=122, Score=50},
-				
+				{F1="BATTLE OF DAZAR'ALOR",F2="BOD",F3="BOD %d%d",F4="DAZAR'ALOR %d%d",F5="DAZAR'ALOR", Type=3, lStart=120, lEnd=122, Score=50},
+				{F1="CRUCIBLE OF STORMS",F2="CRUCIBLE",F3="CRUCIBLE %d%d",F4="COS %d%d",F5="COS", Type=3, lStart=120, lEnd=122, Score=50},
+				{F1="ETERNAL PALACE",F2="EP",F3="EP %d%d",F4="ETERNAL PALACE %d%d",F5="", Type=3, lStart=120, lEnd=122, Score=50},
+				{F1="NY'ALOTHA, THE WAKING CITY",F2="WAKING CITY",F3="WAKING CITY %d%d",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
+				{F1="NY'ALOTHA",F2="NY'ALOTHA",F3="NY'ALOTHA %d%d",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
+				{F1="WC",F2="N",F3="WC %d%d",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
 				
 				--World boss
 				
@@ -386,6 +404,7 @@ function LFGShout_Locale_English()
 				{F1="AZURETHOS THE WINGED TYPHOON",F2="TYPHOON",F3="AZURETHOS",F4="HAILSTONE CONSTRUCT",F5="HAILSTONE", Type=3, lStart=120, lEnd=122, Score=50},
 				{F1="THE LIONS ROAR",F2="LION",F3="LIONS ROAR",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
 				{F1="DOOM'S HOWL",F2="DOOMS HOWL",F3="",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
+				{F1="WORLD BOSS",F2="WORLD QUEST",F3="",F4="",F5="", Type=3, lStart=120, lEnd=122, Score=50},
 				
 				---Black List
 				

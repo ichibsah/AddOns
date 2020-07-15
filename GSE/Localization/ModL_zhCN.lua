@@ -376,6 +376,8 @@ L["Save"] = "保存"
 L["Save the changes made to this macro"] = "Save the changes made to this macro"
 --[[Translation missing --]]
 L["Scenario"] = "Scenario"
+--[[Translation missing --]]
+L["Scenario setting changed to Default."] = "Scenario setting changed to Default."
 L["Seed Initial Macro"] = "种子初始宏"
 L["Select Other Version"] = "选择其他版本"
 L["Send"] = "发送"
@@ -463,6 +465,8 @@ L["The version of this macro to use in normal dungeons."] = "The version of this
 --[[Translation missing --]]
 L["The version of this macro to use in PVP."] = "The version of this macro to use in PVP."
 --[[Translation missing --]]
+L["The version of this macro to use in Scenarios."] = "The version of this macro to use in Scenarios."
+--[[Translation missing --]]
 L["The version of this macro to use when in a party in the world."] = "The version of this macro to use when in a party in the world."
 --[[Translation missing --]]
 L["The version of this macro to use when in time walking dungeons."] = "The version of this macro to use when in time walking dungeons."
@@ -545,6 +549,8 @@ L["Use Second Trinket in KeyRelease"] = "使用第二个饰品在释放按键"
 --[[Translation missing --]]
 L["Use Verbose Export Sequence Format"] = "Use Verbose Export Sequence Format"
 L["Use WLM Export Sequence Format"] = "使用WLM导出序列格式"
+--[[Translation missing --]]
+L["Version"] = "Version"
 L["Version="] = "版本="
 --[[Translation missing --]]
 L["Website or forum URL where a player can get more information or ask questions about this macro."] = "Website or forum URL where a player can get more information or ask questions about this macro."

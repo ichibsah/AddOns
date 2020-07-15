@@ -12,7 +12,7 @@ local SPYFLASHFRAMES = {};
 local SpyFrameFlashTimers = {};
 local SpyFrameFlashTimerRefCount = {};
 
--- Fucntion to see if a frame is fading													  
+-- Fucntion to see if a frame is fading
 function SpyFrameIsFading(frame)
 	for index, value in pairs(SPYFADEFRAMES) do
 		if ( value == frame ) then
@@ -236,7 +236,7 @@ function Spy:SetupBar(row)
 	row.RightText:SetPoint("RIGHT", row.StatusBar, "RIGHT", -2, 0)	
 	row.RightText:SetJustifyH("RIGHT")
 	row.RightText:SetTextColor(1, 1, 1, 1)
-	Spy:SetFontSize(row.RightText, math.max(Spy.db.profile.MainWindow.RowHeight * 0.5, Spy.db.profile.MainWindow.RowHeight - 12))		
+	Spy:SetFontSize(row.RightText, math.max(Spy.db.profile.MainWindow.RowHeight * 0.65, Spy.db.profile.MainWindow.RowHeight - 12))		
 	Spy:AddFontString(row.RightText)
 
 	Spy.Colors:RegisterFont("Bar", "Bar Text", row.LeftText)
@@ -668,9 +668,9 @@ function Spy:CreateMainWindow()
 			end)
 			theFrame.DragTopLeft:SetScript("OnLeave", function(self)
 				theFrame.DragTopLeft:SetAlpha(0)
-			end)		
+			end)
 		end
-			
+
 		theFrame.RightButton = CreateFrame("Button", nil, theFrame)
 		theFrame.RightButton:SetNormalTexture("Interface\\AddOns\\Spy\\Textures\\button-right.tga")
 		theFrame.RightButton:SetPushedTexture("Interface\\AddOns\\Spy\\Textures\\button-right.tga")
@@ -808,31 +808,16 @@ function Spy:CreateMainWindow()
 	if not Spy.AlertWindow then
 		Spy.AlertWindow = CreateFrame("Frame", "Spy_AlertWindow", UIParent)
 		Spy.AlertWindow:ClearAllPoints()
---		Spy.AlertWindow:SetPoint("TOP", UIParent, "TOP", 0, -140) 
+--		Spy.AlertWindow:SetPoint("TOP", UIParent, "TOP", 0, -140)
 		Spy.AlertWindow:SetClampedToScreen(true)
-		Spy.AlertWindow:SetPoint("TOP", UIParent, "TOP", Spy.db.profile.AlertWindow.Position.x, Spy.db.profile.AlertWindow.Position.y)  		
---		Spy.AlertWindow:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-
-		Spy.AlertWindow:SetMovable(true)
-		Spy.AlertWindow:EnableMouse(true)
-	
-		Spy.AlertWindow:SetScript("OnMouseDown", function(self, button) 
-			Spy.AlertWindow:StartMoving();
-			Spy.AlertWindow.isMoving = true;
-		end)
-		Spy.AlertWindow:SetScript("OnMouseUp", function(self) 
-			if (Spy.AlertWindow.isMoving) then
-				Spy.AlertWindow:StopMovingOrSizing();
-				Spy.AlertWindow.isMoving = false;
-				Spy:SaveAlertWindowPosition()
-			end
-		end)
-	
+		Spy:UpdateAlertWindow()
 		Spy.AlertWindow:SetHeight(42)
 		Spy.AlertWindow:SetBackdrop({
-			bgFile = "Interface\\AddOns\\Spy\\Textures\\alert-background.tga", tile = true, tileSize = 8,
-			edgeFile = "Interface\\AddOns\\Spy\\Textures\\alert-industrial.tga", edgeSize = 8,
-			insets = { left = 8, right = 8, top = 8, bottom = 8 },
+--			bgFile = "Interface\\AddOns\\Spy\\Textures\\alert-background.tga", tile = true, tileSize = 8,
+--			edgeFile = "Interface\\AddOns\\Spy\\Textures\\alert-industrial.tga", edgeSize = 8,
+--			insets = { left = 8, right = 8, top = 8, bottom = 8 },
+			bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 8,edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 8,
+			insets = { left = 2, right = 2, top = 2, bottom = 2 },
 		})
 		Spy.Colors:RegisterBackground("Alert", "Background", Spy.AlertWindow)
 
@@ -1025,9 +1010,36 @@ function Spy:RestoreMainWindowPosition(x, y, width, height)
 end
 
 function Spy:SaveAlertWindowPosition()
-	Spy.db.profile.AlertWindow.Position.x = Spy.MainWindow:GetLeft()
-	Spy.db.profile.MainWindow.Position.y = Spy.MainWindow:GetTop()
+	Spy.db.profile.AlertWindow.Position.x = Spy.AlertWindow:GetLeft()
+	Spy.db.profile.AlertWindow.Position.y = Spy.AlertWindow:GetTop()
 end
+
+function Spy:RestoreAlertWindowPosition(x, y)
+	Spy.AlertWindow:ClearAllPoints()
+	Spy.AlertWindow:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
+end
+
+function Spy:UpdateAlertWindow()
+	if Spy.db.profile.DisplayWarnings == "Moveable" then	
+		Spy.AlertWindow:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", Spy.db.profile.AlertWindow.Position.x, Spy.db.profile.AlertWindow.Position.y)
+		Spy.AlertWindow:SetMovable(true)
+		Spy.AlertWindow:EnableMouse(true)
+		Spy.AlertWindow:SetScript("OnMouseDown", function(self, button) 
+			Spy.AlertWindow:StartMoving();
+			Spy.AlertWindow.isMoving = true;
+		end)
+		Spy.AlertWindow:SetScript("OnMouseUp", function(self) 
+			if (Spy.AlertWindow.isMoving) then
+				Spy.AlertWindow:StopMovingOrSizing();
+				Spy.AlertWindow.isMoving = false;
+				Spy:SaveAlertWindowPosition()
+			end
+		end)
+	else
+		Spy.AlertWindow:ClearAllPoints()	
+		Spy.AlertWindow:SetPoint("TOP", UIParent, "TOP", 0, -140)
+	end		
+end	
 
 function Spy:ShowTooltip(self, show, id)
 	if show then

@@ -140,7 +140,7 @@ end
 function AuctionatorCancellingDataProviderMixin:IsValidAuction(auctionInfo)
   return
     auctionInfo.status == 0 and
-    Auctionator.Utilities.ArrayIndex(self.beenCancelled, auctionInfo.auctionID) == nil
+    tIndexOf(self.beenCancelled, auctionInfo.auctionID) == nil
 end
 
 function AuctionatorCancellingDataProviderMixin:PopulateAuctions()
@@ -157,8 +157,8 @@ function AuctionatorCancellingDataProviderMixin:PopulateAuctions()
         quantity = info.quantity,
         price = info.buyoutAmount or info.bidAmount,
         itemKey = info.itemKey,
-        timeLeft = math.ceil(info.timeLeftSeconds/60/60),
-        cancelled = (Auctionator.Utilities.ArrayIndex(self.waitingforCancellation, info.auctionID) ~= nil),
+        timeLeft = math.ceil((info.timeLeftSeconds or 0)/60/60),
+        cancelled = (tIndexOf(self.waitingforCancellation, info.auctionID) ~= nil),
         undercut = self.undercutInfo[info.auctionID] or AUCTIONATOR_L_UNDERCUT_UNKNOWN
       })
     end

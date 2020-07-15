@@ -41,6 +41,7 @@ HealBot_Aura_luVars["prevDebuffType"]="x"
 HealBot_Aura_luVars["prevDebuffID"]=0
 HealBot_Aura_luVars["MaskAuraDCheck"]=0
 HealBot_Aura_luVars["MinIconUpdate"]=0.32
+HealBot_Aura_luVars["IgnoreFastDurDebuffsSecs"]=-1
 
 function HealBot_Aura_setLuVars(vName, vValue)
     HealBot_Aura_luVars[vName]=vValue
@@ -104,7 +105,7 @@ local function HealBot_Aura_Icon_AlphaValue(secLeft, button)
     if secLeft>=0 then
         if Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["FADE"] and 
            secLeft<Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["FADESECS"] then
-            retAlpha=(secLeft/HealBot_Aura_luVars["FadeTimeDiv"])+.1
+            retAlpha=(secLeft/HealBot_Aura_luVars["FadeTimeDiv"])+.12
             if Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][button.frame]["I15EN"] then
                 if retAlpha>Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][button.frame]["HA"] then
                     retAlpha=Healbot_Config_Skins.BarCol[Healbot_Config_Skins.Current_Skin][button.frame]["HA"]
@@ -127,7 +128,7 @@ end
 HealBot_UpdateIconFreq={[1]=50,[2]=50,[3]=50,[4]=50,[5]=50,[6]=50,[7]=50,[8]=50,[9]=50,[10]=50}
 function HealBot_Aura_SetUpdateIconFreq()
     for j=1,10 do
-        if not Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][j]["FADE"] or Healbot_Config_Skins.IconText[Healbot_Config_Skins.Current_Skin][j]["DURTHRH"]<Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][j]["FADESECS"] then
+        if Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][j]["FADE"] and Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][j]["FADESECS"]<Healbot_Config_Skins.IconText[Healbot_Config_Skins.Current_Skin][j]["DURTHRH"] then
             HealBot_UpdateIconFreq[j]=Healbot_Config_Skins.IconText[Healbot_Config_Skins.Current_Skin][j]["DURTHRH"]
         else
             HealBot_UpdateIconFreq[j]=Healbot_Config_Skins.Icons[Healbot_Config_Skins.Current_Skin][j]["FADESECS"]
@@ -787,7 +788,7 @@ local function HealBot_Aura_CheckCurDebuff(button)
         ccdbCheckthis=false
         if dTypePriority<21 and spellCD<0.25 and 
           (not HealBot_Config_Cures.IgnoreFriendDebuffs or not UnitIsFriend("player",uaUnitCaster)) and
-          (not HealBot_Config_Cures.IgnoreFastDurDebuffs or uaDuration==0 or uaDuration>=HealBot_Config_Cures.IgnoreFastDurDebuffsSecs) then
+          (uaDuration==0 or uaDuration>=HealBot_Aura_luVars["IgnoreFastDurDebuffsSecs"]) then
             ccdbWatchTarget=HealBot_Options_retDebuffWatchTarget(uaDebuffType);
             if ccdbWatchTarget then
                 if ccdbWatchTarget["Raid"] then
@@ -911,7 +912,6 @@ local buffUnitRange, WarnBuffName=0,false
 local function HealBot_Aura_BuffWarnings(button)
     if button.aura.buff.name~=curBuffName or curBuffName==HEALBOT_CUSTOM_en then
         if curBuffName~=HEALBOT_CUSTOM_en then 
-            button.spells.rangecheck=curBuffName 
             HealBot_UpdateUnitRange(button,false)
             buffUnitRange=button.status.range
         else
@@ -994,8 +994,7 @@ end
 
 local dbUnitRange=0
 local function HealBot_Aura_DebuffWarnings(button)
-    if button.aura.debuff.type~=HEALBOT_CUSTOM_en and button.status.current<9  then 
-        button.spells.rangecheck=HealBot_Action_dSpell() 
+    if button.aura.debuff.type~=HEALBOT_CUSTOM_en and button.status.current<9  then  
         HealBot_UpdateUnitRange(button,false)
         dbUnitRange=button.status.range
     else
@@ -1653,10 +1652,10 @@ function HealBot_Aura_ConfigClassHoT()
             --end
             if xClass=="ALL" and x==3 then
                 if (HealBot_Globals.CustomBuffIDMethod[id] or 3)<3 then
-                    if HealBot_Globals.CustomBuffIDMethod[id]==1 then
-                        HealBot_Watch_HoT[id]="C"
-                    elseif sName then
+                    if HealBot_Globals.CustomBuffIDMethod[id]==2 and sName then
                         HealBot_Watch_HoT[sName]="C"
+                    else
+                        HealBot_Watch_HoT[id]="C"
                     end
                 else
                     HealBot_Watch_HoT[id]="C"
@@ -1665,10 +1664,10 @@ function HealBot_Aura_ConfigClassHoT()
               --  if giftNaaru and HealBot_Data["PRACE_EN"]=="Draenei" then HealBot_Watch_HoT[sName]="C" end
             elseif (x==4) or (x==3 and xClass==HealBot_Data["PCLASSTRIM"]) then
                 if (HealBot_Globals.CustomBuffIDMethod[id] or 3)<3 then
-                    if HealBot_Globals.CustomBuffIDMethod[id]==1 then
-                        HealBot_Watch_HoT[id]="A"
-                    elseif sName then
+                    if HealBot_Globals.CustomBuffIDMethod[id]==2 and sName then
                         HealBot_Watch_HoT[sName]="A"
+                    else
+                        HealBot_Watch_HoT[id]="A"
                     end
                 else
                     HealBot_Watch_HoT[id]="A"
@@ -1677,10 +1676,10 @@ function HealBot_Aura_ConfigClassHoT()
             --    if giftNaaru and HealBot_Data["PRACE_EN"]=="Draenei" then HealBot_Watch_HoT[sName]="A" end
             elseif x==2 then
                 if (HealBot_Globals.CustomBuffIDMethod[id] or 3)<3 then
-                    if HealBot_Globals.CustomBuffIDMethod[id]==1 then
-                        HealBot_Watch_HoT[id]="S"
-                    elseif sName then
+                    if HealBot_Globals.CustomBuffIDMethod[id]==2 and sName then
                         HealBot_Watch_HoT[sName]="S"
+                    else
+                        HealBot_Watch_HoT[id]="S"
                     end
                 else
                     HealBot_Watch_HoT[id]="S"
@@ -1789,6 +1788,7 @@ function HealBot_Aura_InitData()
         [HEALBOT_BLOOM] = HEALBOT_EVER_BLOOMING_FROND,
         [HEALBOT_FEL_FOCUS] = HEALBOT_REPURPOSED_FEL_FOCUSER,
         [HEALBOT_BATTLE_SCARRED_AUGMENT] = HEALBOT_BATTLE_SCARRED_AUGMENT_RUNE,
+        [HEALBOT_LIGHTNING_FORGED_AUGMENT] = HEALBOT_LIGHTNING_FORGED_AUGMENT_RUNE,
         [HEALBOT_TAILWIND] = HEALBOT_TAILWIND_SAPPHIRE,
         [HEALBOT_SHADOW_TOUCHED] = HEALBOT_AMETHYST_OF_THE_SHADOW_KING,
     };
