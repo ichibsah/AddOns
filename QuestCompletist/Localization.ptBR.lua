@@ -116,11 +116,13 @@ qcLocalize = {
 	HELLFIRERAMPARTS = "Muralha Fogo do Inferno",
 	HERBALISM = "Herbalismo",
 	HIDECOMPLETEDQUESTS = "Ocultar as missões completadas",
+	HIDEDAILYQUEST = "Hide Daily Quests",
 	HIDEINPROGRESSQUESTS = "Ocultar missões em andamento",
 	HIDELOWLEVELQUESTS = "Ocultar missões de nível baixo",
 	HIDENONACTIVESEASONALQUESTS = "Ocultar Missões de Eventos Mundiais não ativas",
 	HIDEOTHERFACTIONQUESTS = "Ocultar missões de outra facção",
 	HIDEOTHERPROFESSIONQUESTS = "Ocultar missões de outra profissão",
+	HIDEWORLDQUEST = "Hide World Quests",
 	HIDEOTHERRACEANDCLASSQUESTS = "Ocultar missões de outra raça e classe",
 	HIGHMAUL = "Highmaul", -- Requires localization
 	HILLSBRADFOOTHILLS = "Contraforte de Eira dos Montes",
@@ -440,9 +442,22 @@ qcLocalize = {
 	PLAYERVSPLAYER = "Player Vs Player",
 	HERITAGE = "Heritage",
 	RATEDPVP = "Rated Pvp",
-	HIDEWORLDQUEST = "Hide Daily and World Quests",
-	HIDECOMPLETEDQUESTS = "Hide Completed Quests",
+	WORLDPVP = "World Pvp",
+	THEETERNALPALACE = "The Eternal Palace",
+	NYALOTHATHEWALKINGCITY = "Ny'alotha, The Waking City",
+	VISIONSOFNZOTH = "Visions of N'Zoth",
+	BLACKEMPIRECAMPAIGN = "Black Empire Campaign",
 	WORLDQUEST = "World Quests",
+		-- Shadowlands Code
+	SHADOWLANDS = "Shadowlands",
+	ARDENWEALD = "Ardenweald",
+	BASTION = "Bastion",
+	EXILESREACH	= "Exile's Reach",
+	MALDRAXXUS = "Maldraxxus",
+	ORIBOSTHEETERNALCITY = "Oribos, the Eternal City",
+	REVENDRETH = "Revendreth",
+	THEMAW = "The Maw",
+	SHADOWLANDSUNCATEQUEST = "Shadowlands Uncategorized Quests",
 }
 
 end

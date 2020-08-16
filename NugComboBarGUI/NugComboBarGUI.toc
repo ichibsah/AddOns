@@ -1,7 +1,7 @@
 ## Interface: 80300
 ## Title: NugComboBarGUI
 ## Notes: NugComboBar Configuration Panel
-## Version: 8.3.7
+## Version: 8.3.8
 ## Dependencies: NugComboBar
 ## Author: d87
 ## LoadOnDemand: 1

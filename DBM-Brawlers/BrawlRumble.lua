@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("BrawlRumble", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200605175933")
+mod:SetRevision("20200611161532")
 mod:SetModelID(28649)
 mod:SetZone()
 

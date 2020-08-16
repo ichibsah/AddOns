@@ -161,6 +161,7 @@ qcMenu={
 {text=qcL.LEGIONUNCATEQUEST,isTitle=false,notCheckable=false,hasArrow=false,arg1=1050,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
 {text=stringformat("   %s",qcL.KULTIRAS),isTitle=false,notCheckable=true,hasArrow=true,menuList={
 {text=qcL.DRUSTVAR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1060,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+{text=qcL.MECHAGONCITY,isTitle=false,notCheckable=false,hasArrow=false,arg1=1066,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.MECHAGONISLAND,isTitle=false,notCheckable=false,hasArrow=false,arg1=1063,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.NAZJATAR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1065,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.STORMSONGVALLEY,isTitle=false,notCheckable=false,hasArrow=false,arg1=1061,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
@@ -196,6 +197,7 @@ qcMenu={
 {text=qcL.TEMP,isTitle=false,notCheckable=false,hasArrow=false,arg1=148,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
 {text=qcL.ALLIANCEWARCAMPAIGN,isTitle=false,notCheckable=false,hasArrow=false,arg1=1090,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.BATTLEPETS,isTitle=false,notCheckable=false,hasArrow=false,arg1=19,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+{text=qcL.BLACKEMPIRECAMPAIGN,isTitle=false,notCheckable=false,hasArrow=false,arg1=1132,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.BRAWLERSGUILD,isTitle=false,notCheckable=false,hasArrow=false,arg1=30,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.CHAMBEROFHEART,isTitle=false,notCheckable=false,hasArrow=false,arg1=1064,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.DEEPRUNTRAM,isTitle=false,notCheckable=false,hasArrow=false,arg1=55,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
@@ -204,6 +206,7 @@ qcMenu={
 {text=qcL.PROVINGGROUNDS,isTitle=false,notCheckable=false,hasArrow=false,arg1=156,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.RIDING,isTitle=false,notCheckable=false,hasArrow=false,arg1=163,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.SCENARIO,isTitle=false,notCheckable=false,hasArrow=false,arg1=170,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+{text=qcL.VISIONSOFNZOTH,isTitle=false,notCheckable=false,hasArrow=false,arg1=1133,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.WARFRONTCONTRIBUTION,isTitle=false,notCheckable=false,hasArrow=false,arg1=1092,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end}}},
 {text=qcL.DUNGEONSANDRAIDS,isTitle=true,notCheckable=true,hasArrow=false},
 {text=stringformat("   %s",GetText("EXPANSION_NAME0")),isTitle=false,notCheckable=true,hasArrow=true,menuList={
@@ -350,6 +353,7 @@ qcMenu={
 {text=qcL.CRUCIBLEOFSTORMS,isTitle=false,notCheckable=false,hasArrow=false,arg1=1101,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.FREEHOLD,isTitle=false,notCheckable=false,hasArrow=false,arg1=1102,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.KINGSREST,isTitle=false,notCheckable=false,hasArrow=false,arg1=1103,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
+{text=qcL.NYALOTHATHEWALKINGCITY,isTitle=false,notCheckable=false,hasArrow=false,arg1=1115,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.SHRINEOFTHESTORM,isTitle=false,notCheckable=false,hasArrow=false,arg1=1104,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.SIEGEOFBORAUS,isTitle=false,notCheckable=false,hasArrow=false,arg1=1105,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},
 {text=qcL.SIEGEOFZULDAZAR,isTitle=false,notCheckable=false,hasArrow=false,arg1=1106,func=function(button,arg1)qcProcessMenuSelection(button,arg1);end},

@@ -78,6 +78,9 @@ function AuctionatorCancellingDataProviderMixin:OnHide()
 end
 
 function AuctionatorCancellingDataProviderMixin:QueryAuctions()
+  self.onPreserveScroll()
+  self.onSearchStarted()
+
   Auctionator.AH.QueryOwnedAuctions({{sortOrder = 1, reverseSort = true}})
 end
 
@@ -105,11 +108,6 @@ function AuctionatorCancellingDataProviderMixin:OnEvent(eventName, auctionID, ..
     self:QueryAuctions()
 
   elseif eventName == "OWNED_AUCTIONS_UPDATED" then
-    -- Reset columns
-    self.onSearchStarted()
-    self.onSearchEnded()
-
-    self:Reset()
     self:PopulateAuctions()
   end
 end
@@ -122,7 +120,6 @@ function AuctionatorCancellingDataProviderMixin:ReceiveEvent(eventName, eventDat
 
   elseif eventName == Auctionator.Cancelling.Events.UndercutScanStart then
     self.undercutInfo = {}
-    self:Reset()
     self:PopulateAuctions()
 
   elseif eventName == Auctionator.Cancelling.Events.UndercutStatus then
@@ -132,7 +129,6 @@ function AuctionatorCancellingDataProviderMixin:ReceiveEvent(eventName, eventDat
     else
       self.undercutInfo[eventData] = AUCTIONATOR_L_UNDERCUT_NO
     end
-    self:Reset()
     self:PopulateAuctions()
   end
 end
@@ -144,6 +140,8 @@ function AuctionatorCancellingDataProviderMixin:IsValidAuction(auctionInfo)
 end
 
 function AuctionatorCancellingDataProviderMixin:PopulateAuctions()
+  self:Reset()
+
   local results = {}
 
   local index

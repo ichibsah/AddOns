@@ -1,11 +1,5 @@
 ------------------------------------------------------------------------
-r12 | andols | 2019-11-05 19:06:15 +0000 (Tue, 05 Nov 2019) | 1 line
-Changed paths:
-   M /trunk/CurrencySorter.toc
-
-Toc update
-------------------------------------------------------------------------
-r11 | andols | 2019-11-05 19:06:01 +0000 (Tue, 05 Nov 2019) | 1 line
+r14 | andols | 2020-07-15 21:58:56 +0000 (Wed, 15 Jul 2020) | 1 line
 Changed paths:
    M /trunk/CurrencySorter.toc
 

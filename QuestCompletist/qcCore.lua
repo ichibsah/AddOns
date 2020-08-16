@@ -24,7 +24,7 @@ local qcNewDataAlertTooltip = nil
 local qcMutuallyExclusiveAlertTooltip = nil
 
 --[[ Constants ]]--
-local QCADDON_VERSION = 109.27
+local QCADDON_VERSION = 109.29
 local QCADDON_PURGE = true
 local QCDEBUG_MODE = false
 local QCADDON_CHAT_TITLE = "|CFF9482C9Quest Completist:|r "
@@ -227,11 +227,20 @@ local function qcGetCategoryQuests(categoryId, searchText) -- *
 			end
 		end
 	end
---      Hides Daily and Worldquest These should further be seperated in a future release
-		if (qcSettings.QC_L_HIDE_WORLDQUEST == 1) then
+--     Bitband Code for Hideing Daily quest
+		if (qcSettings.QC_L_HIDE_DAILYQUEST == 1) then
 			local questType = 4
-				for i = #qcCategoryQuests, 1, -1 do
-				if (BitBand(qcCategoryQuests[i][6], questType) == 4 ) then
+			for i = #qcCategoryQuests, 1, -1 do
+				if (BitBand(qcCategoryQuests[i][6], questType) == 4) then
+					tableRemove(qcCategoryQuests,i)
+			end
+		end
+	end
+--      Bitband Code for Hideing World quest	
+		if (qcSettings.QC_L_HIDE_WORLDQUEST == 1) then
+			local questType = 128
+			for i = #qcCategoryQuests, 1, -1 do
+				if (BitBand(qcCategoryQuests[i][6], questType) == 128) then
 					tableRemove(qcCategoryQuests,i)
 			end
 		end
@@ -431,7 +440,7 @@ function qcScrollUpdate(value) -- *
 		qcUpdateQuestList(nil, value)
 	end
 end
-
+--Function called doubbled was this an old fix to a blizzard bug?
 function qcQueryQuestFlaggedComplete()
 
 	local qcChecked = 0
@@ -440,7 +449,9 @@ function qcQueryQuestFlaggedComplete()
 	for qcIndex, qcEntry in pairs(qcQuestDatabase) do
 		qcChecked = (qcChecked + 1)
 		if (IsQuestFlaggedCompleted(qcIndex)) then
-			if not (qcQuestDatabase[qcIndex][6] == 2) or (qcQuestDatabase[qcIndex][6] == 3) then
+			if not (qcQuestDatabase[qcIndex][6] == 2) or 
+				   (qcQuestDatabase[qcIndex][6] == 4) or 
+				   (qcQuestDatabase[qcIndex][6] == 128) then
 				if (qcCompletedQuests[qcIndex] == nil) then
 					qcNewFlagged = (qcNewFlagged + 1)
 				end
@@ -469,7 +480,9 @@ local function qcQuestQueryCompleted()
 	for qcIndex, qcEntry in pairs(qcCompletedTable) do
 		qcCountReturned = (qcCountReturned + 1)
 		if not (qcQuestDatabase[qcIndex] == nil) then
-			if not (qcQuestDatabase[qcIndex][6] == 2) or (qcQuestDatabase[qcIndex][6] == 3) then
+			if not (qcQuestDatabase[qcIndex][6] == 2) or
+				   (qcQuestDatabase[qcIndex][6] == 4) or 
+				   (qcQuestDatabase[qcIndex][6] == 128) then
 				if (qcCompletedQuests[qcIndex] == nil) then
 					qcNewFlagged = (qcNewFlagged + 1)
 				end
@@ -617,7 +630,7 @@ local function qcZoneChangedNewArea() -- *
 		qcUpdateQuestList(qcCurrentCategoryID,1)
 	end
 end
-
+-- Tooltip when mouse over quest name
 function qcUpdateTooltip(index)
 	local stringFormat = string.format
 	local questId = _G["qcMenuButton" .. index].QuestID
@@ -632,7 +645,7 @@ function qcUpdateTooltip(index)
 			for qcInitiatorIndex, qcInitiatorEntry in pairs(qcQuestDatabase[questId][13]) do
 				local qcInitiatorID = qcInitiatorEntry[1]
 				local qcInitiatorName = qcInitiatorEntry[2]
-				local qcInitiatoruiMapID = qcInitiatorEntry[3]
+				local qcInitiatorUiMapID = qcInitiatorEntry[3]
 				local qcInitiatorMapLevel = qcInitiatorEntry[4]
 				local qcInitiatorX = qcInitiatorEntry[5]
 				local qcInitiatorY = qcInitiatorEntry[6]
@@ -650,9 +663,9 @@ function qcUpdateTooltip(index)
 					end
 				end
 				if not (qcInitiatorMapLevel == 0) then
-					qcQuestInformationTooltip:AddDoubleLine("  - Location:", stringFormat("%s%s, Floor %d @ %.1f,%.1f",COLOUR_HUNTER,tostring(GetMapNameByID(qcInitiatoruiMapID) or nil),qcInitiatorMapLevel,qcInitiatorX,qcInitiatorY),nil,nil,nil,true)
+					qcQuestInformationTooltip:AddDoubleLine("  - Location:", stringFormat("%s%s, Floor %d @ %.1f,%.1f",COLOUR_HUNTER,tostring(GetMapNameByID(qcInitiatorUiMapID) or nil),qcInitiatorMapLevel,qcInitiatorX,qcInitiatorY),nil,nil,nil,true)
 				else
-					qcQuestInformationTooltip:AddDoubleLine("  - Location:", stringFormat("%s%s @ %.1f,%.1f",COLOUR_HUNTER,tostring(GetMapNameByID(qcInitiatoruiMapID) or nil),qcInitiatorX,qcInitiatorY),nil,nil,nil,true)
+					qcQuestInformationTooltip:AddDoubleLine("  - Location:", stringFormat("%s%s @ %.1f,%.1f",COLOUR_HUNTER,tostring(GetMapNameByID(qcInitiatorUiMapID) or nil),qcInitiatorX,qcInitiatorY),nil,nil,nil,true)
 				end
 			end
 		end
@@ -757,7 +770,10 @@ end
 
 local function qcUpdateCompletedQuest(questId) -- *
 	if (qcQuestDatabase[questId]) then
-		if ((qcQuestDatabase[questId][6] == 2) or (qcQuestDatabase[questId][6] == 3)) then
+		if ((qcQuestDatabase[questId][6] == 2) 
+			or (qcQuestDatabase[questId][6] == 3)
+			or (qcQuestDatabase[questId][6] == 4)			
+			or (qcQuestDatabase[questId][6] == 128)) then
 			return nil
 		end
 	end
@@ -804,7 +820,7 @@ function qcNewDataAlert_OnEnter(self) -- *
 	qcNewDataAlertTooltip:SetOwner(qcNewDataAlert, "ANCHOR_CURSOR")
 	qcNewDataAlertTooltip:ClearLines()
 	qcNewDataAlertTooltip:AddLine("Quest Completist")
-	qcNewDataAlertTooltip:AddLine(COLOUR_HUNTER .. "Quest Completist was not aware of the following information. Please help improve the accuracy of the addon by submiting a post ore new issue over at curse", nil, nil, nil, true)
+	qcNewDataAlertTooltip:AddLine(COLOUR_HUNTER .. "Quest Completist was not aware of the following information. Please help improve the accuracy of the addon by submiting a post or new issue over at curse", nil, nil, nil, true)
 	if (qcNewDataAlert.New) then
 		qcNewDataAlertTooltip:AddLine(COLOUR_MAGE .. " - Quest does not exist in the database.", nil, nil, nil, true)
 		qcNewDataAlertTooltip:Show()
@@ -1017,15 +1033,17 @@ local function qcGetPin()
 		TableRemove(qcSparePinFrames, 1)
 	end
 	if not (pin) then
-		pin = CreateFrame("Frame", "qcPin", WorldMapDetailFrame)
+		--pin = CreateFrame("Frame", "qcPin", WorldMapDetailFrame) Old WorldMapDetailFrame removed
+		pin = CreateFrame("Frame", "qcPin", WorldMapFrame:GetCanvas())
 		pin:SetWidth(16)
 		pin:SetHeight(16)
 		pin.Texture = pin:CreateTexture()
 		pin.Texture:SetTexture("Interface\\Addons\\QuestCompletist\\Images\\QCIcons")
 		pin.Texture:SetAllPoints()
 		pin:EnableMouse(true)
-		pin:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata()) -- ****
-		pin:SetFrameLevel(WorldMapPOIFrame:GetFrameLevel() + 1)
+		--pin:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata()) -- **** Old WorldMapDetailFrame removed
+		--pin:SetFrameLevel(WorldMapPOIFrame:GetFrameLevel() + 1)  Old WorldMapPOIFrame removed
+		pin:SetFrameLevel(2500)
 		pin:HookScript("OnEnter",
 			function(self, motion)
 				local frames = {}
@@ -1083,8 +1101,12 @@ end
 
 local function qcShowPin(index, icon) -- *
 	local pin = qcGetPin()
-	pin:SetPoint("CENTER", WorldMapDetailFrame, "TOPLEFT", (qcPins[index][5] / 100) * WorldMapDetailFrame:GetWidth(), (-qcPins[index][6] / 100) * WorldMapDetailFrame:GetHeight())
-	pin.PinIndex = index
+	--pin:SetPoint("CENTER", WorldMapDetailFrame, "TOPLEFT", (qcPins[index][5] / 100) * WorldMapDetailFrame:GetWidth(), (-qcPins[index][6] / 100) * WorldMapDetailFrame:GetHeight())
+	--pin:SetPoint("CENTER", WorldMapFrame:GetCanvas(), "TOPLEFT", (qcPins[index][5] / 100) * WorldMapFrame:GetCanvas():GetWidth(), (-qcPins[index][6] / 100) * WorldMapFrame:GetCanvas():GetHeight())
+	local canvas = frame:GetCanvas()
+	local levelmanager = frame:GetPinFrameLevelsManager()
+	pin:SetPoint('CENTER', canvas, 'TOPLEFT', canvas:GetWidth() * x, -canvas:GetHeight() * y)	
+		pin.PinIndex = index
 	if (icon == 1) then
 		pin.Texture:SetTexCoord(unpack(QC_ICON_COORDS_NORMAL))
 	elseif (icon == 3) then
@@ -1113,15 +1135,15 @@ local function qcShowPin(index, icon) -- *
 	pin:Show()
 end
 
-local function qcRefreshPins(uimapId, mapLevel)
+local function qcRefreshPins(UiMapID, mapLevel)
 	if not (WorldMapFrame:IsVisible()) then return nil end
 	qcHideAllPins()
 	wipe(qcPins)
-	if (qcSettings.QC_M_SHOW_ICONS == 0) or (qcPinDB[uimapId] == nil) then
+	if (qcSettings.QC_M_SHOW_ICONS == 0) or (qcPinDB[UiMapID] == nil) then
 		wipe(qcPins)
 		return nil
 	end
-	qcPins = qcCopyTable(qcPinDB[uimapId])
+	qcPins = qcCopyTable(qcPinDB[UiMapID])
 	for i = #qcPins, 1, -1 do
 		if not (qcPins[i][1] == mapLevel) then
 			TableRemove(qcPins,i)
@@ -1358,19 +1380,7 @@ function qcInterfaceOptions_OnShow(self)
 			qcSettings.QC_M_HIDE_PROFESSION = 1
 		end
 	end)
-
---diabled whit line 1558 ->1562 getting behind other filter
---	qcIO_M_HIDE_WORLDQUEST = CreateFrame("CheckButton", "qcIO_M_HIDE_WORLDQUEST", self, "InterfaceOptionsCheckButtonTemplate")
---    qcIO_M_HIDE_WORLDQUEST:SetPoint("TOPLEFT", qcIO_M_HIDE_LOWLEVEL, "BOTTOMLEFT", 0, 0)
---	_G[qcIO_M_HIDE_WORLDQUEST:GetName().."Text"]:SetText(qcL.HIDEWORLDQUEST)
---	qcIO_M_HIDE_WORLDQUEST:SetScript("OnClick", function(self)
---		if (qcIO_M_HIDE_WORLDQUEST:GetChecked() == false) then
---			qcSettings.QC_M_HIDE_WORLDQUEST = 0
---		else
---			qcSettings.QC_M_HIDE_WORLDQUEST = 1
---		end
---	end)
-
+-- Map Pin Hide Seasonal quests
 	qcIO_M_HIDE_SEASONAL = CreateFrame("CheckButton", "qcIO_M_HIDE_SEASONAL", self, "InterfaceOptionsCheckButtonTemplate")
     qcIO_M_HIDE_SEASONAL:SetPoint("TOPLEFT", qcIO_M_HIDE_PROFESSION, "BOTTOMLEFT", 0, 0)
 	_G[qcIO_M_HIDE_SEASONAL:GetName().."Text"]:SetText(qcL.HIDENONACTIVESEASONALQUESTS)
@@ -1430,15 +1440,25 @@ function qcInterfaceOptions_OnShow(self)
 			qcSettings.QC_L_HIDE_PROFESSION = 1
 		end
 	end)
-
-
+--  Interface option code: Hide Daily Quests
+	qcIO_L_HIDE_DAILYQUEST = CreateFrame("CheckButton", "qcIO_L_HIDE_DAILYQUEST", self, "InterfaceOptionsCheckButtonTemplate")
+    qcIO_L_HIDE_DAILYQUEST:SetPoint("TOPLEFT", qcIO_L_HIDE_LOWLEVEL, "BOTTOMLEFT", 0, -25)
+	_G[qcIO_L_HIDE_DAILYQUEST:GetName().."Text"]:SetText(qcL.HIDEDAILYQUEST .. COLOUR_DEATHKNIGHT .. " ")
+	qcIO_L_HIDE_DAILYQUEST:SetScript("OnClick", function(self)
+		if (qcIO_L_HIDE_DAILYQUEST:GetChecked() == false) then
+			qcSettings.QC_L_HIDE_DAILYQUEST = 0
+		else
+			qcSettings.QC_L_HIDE_DAILYQUEST = 1
+		end
+	end)
+-- 	Interface option code: Hide World Quests
 	qcIO_L_HIDE_WORLDQUEST = CreateFrame("CheckButton", "qcIO_L_HIDE_WORLDQUEST", self, "InterfaceOptionsCheckButtonTemplate")
-    qcIO_L_HIDE_WORLDQUEST:SetPoint("TOPLEFT", qcIO_L_HIDE_LOWLEVEL, "BOTTOMLEFT", 0, -25)
+  qcIO_L_HIDE_WORLDQUEST:SetPoint("TOPLEFT", qcIO_L_HIDE_LOWLEVEL, "BOTTOMLEFT", 0, -50)
 	_G[qcIO_L_HIDE_WORLDQUEST:GetName().."Text"]:SetText(qcL.HIDEWORLDQUEST .. COLOUR_DEATHKNIGHT .. " ")
 	qcIO_L_HIDE_WORLDQUEST:SetScript("OnClick", function(self)
 		if (qcIO_L_HIDE_WORLDQUEST:GetChecked() == false) then
 			qcSettings.QC_L_HIDE_WORLDQUEST = 0
-		else
+	else
 			qcSettings.QC_L_HIDE_WORLDQUEST = 1
 		end
 	end)
@@ -1541,6 +1561,9 @@ local function qcCheckSettings()
 	if (qcSettings.QC_L_HIDE_PROFESSION == nil) then --[[ 0:No, 1:Yes ]]--
 		qcSettings.QC_L_HIDE_PROFESSION = 1
 	end
+	if (qcSettings.QC_L_HIDE_DAILYQUEST == nil) then --[[ 0:No, 1:Yes ]]--
+		qcSettings.QC_L_HIDE_DAILYQUEST = 1
+	end
 	if (qcSettings.QC_L_HIDE_WORLDQUEST == nil) then --[[ 0:No, 1:Yes ]]--
 		qcSettings.QC_L_HIDE_WORLDQUEST = 1
 	end
@@ -1581,11 +1604,6 @@ local function qcApplySettings()
 	else
 		qcIO_M_HIDE_PROFESSION:SetChecked(true)
 	end
---	if (qcSettings.QC_M_HIDE_WORLDQUEST == 0) then
---		qcIO_M_HIDE_WORLDQUEST:SetChecked(false)
---	else
---		qcIO_M_HIDE_WORLDQUEST:SetChecked(true)
---	end
 	if (qcSettings.QC_M_HIDE_SEASONAL == 0) then
 		qcIO_M_HIDE_SEASONAL:SetChecked(false)
 	else
@@ -1611,12 +1629,16 @@ local function qcApplySettings()
 	else
 		qcIO_L_HIDE_PROFESSION:SetChecked(true)
 	end
+	if (qcSettings.QC_L_HIDE_DAILYQUEST == 0) then
+		qcIO_L_HIDE_DAILYQUEST:SetChecked(false)
+	else
+		qcIO_L_HIDE_DAILYQUEST:SetChecked(true)
+	end
 	if (qcSettings.QC_L_HIDE_WORLDQUEST == 0) then
 		qcIO_L_HIDE_WORLDQUEST:SetChecked(false)
 	else
 		qcIO_L_HIDE_WORLDQUEST:SetChecked(true)
 	end
-
 	if (qcSettings.QC_ML_HIDE_FACTION == 0) then
 		qcIO_ML_HIDE_FACTION:SetChecked(false)
 	else

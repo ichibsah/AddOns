@@ -22,7 +22,8 @@ local UnitPower = UnitPower
 local UnitPowerMax = UnitPowerMax
 local GetRuneCooldown = GetRuneCooldown
 local tsort = table.sort
-local GetComboPoints = GetComboPoints
+local dummy = function() return 0 end
+local GetComboPoints = dummy
 
 --- Compatibility with Classic
 local isClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
@@ -64,7 +65,6 @@ local AuraTimerOnUpdate = function(self, time)
     end
     self:SetValue(progress)
 end
-local dummy = function() return 0 end
 
 function NugComboBar:LoadClassSettings()
         local class = select(2,UnitClass("player"))
@@ -679,11 +679,11 @@ function NugComboBar.CreateAnchor(frame)
     local self = CreateFrame("Frame",nil,UIParent)
     self:SetWidth(10)
     self:SetHeight(frame:GetHeight())
-    self:SetBackdrop{
-        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 0,
-        insets = {left = -2, right = -2, top = -2, bottom = -2},
-    }
-	self:SetBackdropColor(1, 0, 0, 0.8)
+
+    local t = self:CreateTexture(nil, "ARTWORK")
+    t:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background")
+    t:SetAllPoints(self)
+    t:SetVertexColor(1, 0, 0, 0.8)
     self:SetFrameStrata("HIGH")
 
     local profile = NugComboBar.db.profile
