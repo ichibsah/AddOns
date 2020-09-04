@@ -5,6 +5,7 @@
     inherits="AuctionatorTabFrameTemplate"
     parentKey="AuctionatorShoppingListFrame"
     mixin="AuctionatorShoppingListTabMixin"
+    hidden="true"
   >
     <Scripts>
       <OnLoad method="OnLoad" />
@@ -13,7 +14,7 @@
     </Scripts>
 
     <Frames>
-      <Frame parentKey="DataProvider" mixin="ShoppingListDataProviderMixin">
+      <Frame parentKey="DataProvider" mixin="AuctionatorShoppingListDataProviderMixin">
         <Scripts>
           <OnLoad method="OnLoad"/>
           <OnUpdate method="OnUpdate" />
@@ -76,7 +77,6 @@
                 <Anchor point="LEFT" x="45"/>
                 <Anchor point="RIGHT" x="-67"/>
               </Anchors>
-              <Color color="NORMAL_FONT_COLOR"/>
               <Shadow>
                 <Offset>
                   <AbsDimension x="1" y="-1"/>
@@ -117,7 +117,7 @@
           <Layer level="BACKGROUND" textureSubLevel="-6">
             <Texture name="$parentBg" file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true" parentKey="Bg">
               <Anchors>
-                <Anchor point="TOPLEFT" x="" y="-21"/>
+                <Anchor point="TOPLEFT" y="-21"/>
                 <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
               </Anchors>
             </Texture>

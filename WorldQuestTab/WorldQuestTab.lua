@@ -536,9 +536,12 @@ local function ConvertOldSettings(version)
 	
 	if (version < "8.3.03")  then
 		-- Anchoring changed, reset to default position
-		WQT.db.global.fullScreenButtonPos.anchor =  _V["WQT_DEFAULTS"].global.fullScreenButtonPos.anchor;
-		WQT.db.global.fullScreenButtonPos.x = _V["WQT_DEFAULTS"].global.fullScreenButtonPos.x;
-		WQT.db.global.fullScreenButtonPos.y = _V["WQT_DEFAULTS"].global.fullScreenButtonPos.y;
+		if (not WQT.db.global.fullScreenButtonPos) then
+			WQT.db.global.fullScreenButtonPos = {};
+		end
+		WQT.db.global.fullScreenButtonPos.anchor =  _V["WQT_DEFAULTS"].global.general.fullScreenButtonPos.anchor;
+		WQT.db.global.fullScreenButtonPos.x = _V["WQT_DEFAULTS"].global.general.fullScreenButtonPos.x;
+		WQT.db.global.fullScreenButtonPos.y = _V["WQT_DEFAULTS"].global.general.fullScreenButtonPos.y;
 	end
 	
 	if (version < "8.3.04")  then
@@ -2375,7 +2378,7 @@ function WQT_CoreMixin:QUEST_WATCH_LIST_CHANGED(...)
 	-- Update TomTom arrows when quests change. Might be new that needs tracking or completed that needs removing
 	local autoArrow = WQT.settings.general.TomTomAutoArrow;
 	local clickArrow = WQT.settings.general.TomTomArrowOnClick;
-	if (questId and added and TomTom and WQT.settings.general.useTomTom and (clickArrow or autoArrow) and QuestUtils_IsQuestWorldQuest(questId)) then
+	if (questId and TomTom and WQT.settings.general.useTomTom and (clickArrow or autoArrow) and QuestUtils_IsQuestWorldQuest(questId)) then
 		
 		if (added) then
 			if (clickArrow or IsWorldQuestHardWatched(questId)) then

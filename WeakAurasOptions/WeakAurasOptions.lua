@@ -1610,9 +1610,7 @@ function WeakAuras.AddTextFormatOption(input, withHeader, get, addOption, hidden
     headerOption =  {
       type = "execute",
       control = "WeakAurasExpandSmall",
-      name = function()
-        return L["|cFFffcc00Format Options|r"]
-      end,
+      name = L["|cFFffcc00Format Options|r"],
       width = WeakAuras.doubleWidth,
       func = function(info, button)
         setHidden(not hidden())
@@ -1657,10 +1655,9 @@ function WeakAuras.AddTextFormatOption(input, withHeader, get, addOption, hidden
         if (WeakAuras.format_types[selectedFormat]) then
           WeakAuras.format_types[selectedFormat].AddOptions(symbol, hidden, addOption, get)
         end
-
+        seenSymbols[symbol] = true
       end
     end
-    seenSymbols[symbol] = true
   end)
 
   if not next(seenSymbols) and withHeader then

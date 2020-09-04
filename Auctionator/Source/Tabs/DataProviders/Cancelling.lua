@@ -50,10 +50,10 @@ local EVENT_BUS_EVENTS = {
   Auctionator.Cancelling.Events.UndercutScanStart,
 }
 
-AuctionatorCancellingDataProviderMixin = CreateFromMixins(DataProviderMixin, AuctionatorItemKeyLoadingMixin)
+AuctionatorCancellingDataProviderMixin = CreateFromMixins(AuctionatorDataProviderMixin, AuctionatorItemKeyLoadingMixin)
 
 function AuctionatorCancellingDataProviderMixin:OnLoad()
-  DataProviderMixin.OnLoad(self)
+  AuctionatorDataProviderMixin.OnLoad(self)
   AuctionatorItemKeyLoadingMixin.OnLoad(self)
 
   self.waitingforCancellation = {}
@@ -144,7 +144,6 @@ function AuctionatorCancellingDataProviderMixin:PopulateAuctions()
 
   local results = {}
 
-  local index
   for index = 1, C_AuctionHouse.GetNumOwnedAuctions() do
     local info = C_AuctionHouse.GetOwnedAuctionInfo(index)
 
@@ -155,6 +154,7 @@ function AuctionatorCancellingDataProviderMixin:PopulateAuctions()
         quantity = info.quantity,
         price = info.buyoutAmount or info.bidAmount,
         itemKey = info.itemKey,
+        itemLink = info.itemLink, -- Used for tooltips
         timeLeft = math.ceil((info.timeLeftSeconds or 0)/60/60),
         cancelled = (tIndexOf(self.waitingforCancellation, info.auctionID) ~= nil),
         undercut = self.undercutInfo[info.auctionID] or AUCTIONATOR_L_UNDERCUT_UNKNOWN

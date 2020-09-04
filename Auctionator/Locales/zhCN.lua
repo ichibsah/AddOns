@@ -17,6 +17,8 @@ L["AUCTION_TOOLTIP_TOOLTIP_TEXT"] = "滑鼠指向时，在滑鼠提示中显示�
 --[[Translation missing --]]
 L["AUCTIONATOR"] = "Auctionator"
 L["AUTHOR_HEADER"] = "作者"
+--[[Translation missing --]]
+L["BID_PRICE"] = "Bid Price"
 L["BIDDING_AUCTION_INFO"] = "%s 竞标于 %s"
 L["BUG_REPORT"] = "回报 Bug"
 L["BUG_TOOLTIP_HEADER"] = "在 Github 回报 Bug"
@@ -28,6 +30,8 @@ L["CANCEL_UNDERCUT"] = "取消有更低价的"
 L["CANCELLING_TAB"] = "取消"
 L["CANCELLING_TAB_HEADER"] = "拍卖小帮手 - 取消"
 L["CANNOT_AUCTION"] = "无法拍卖"
+--[[Translation missing --]]
+L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
 L["COMMODITY"] = "商品"
 L["CONFIG_ADVANCED_CATEGORY"] = "进阶"
 L["CONFIG_ADVANCED_TEXT"] = "只有你知道自己在做什么的时候，才看这里。"
@@ -89,6 +93,12 @@ L["CONFIG_SELLING_BUY_SHORTCUT"] = "on an auction you don't own will buy it"
 L["CONFIG_SELLING_CANCEL_SHORTCUT"] = "on an auction you own will cancel it"
 L["CONFIG_SELLING_CATEGORY"] = "卖出"
 --[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "Set to 0 for maximum amount"
+--[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Default Posting Quantity"
+--[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "This lets you change the default amount used when posting an item. Set this to 0 to use the maximum possible amount."
+--[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE"] = "Bag icon size (reload required)"
 --[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Size of Icons"
@@ -121,6 +131,8 @@ L["DAY_5"] = "星期四"
 L["DAY_6"] = "星期五"
 L["DAY_7"] = "星期六"
 L["DEFAULT_AUCTION_DURATION"] = "预设拍卖有效时限"
+--[[Translation missing --]]
+L["DEFAULT_QUANTITY"] = "Default Quantity"
 L["DEFAULT_TAB"] = "预设标签"
 --[[Translation missing --]]
 L["DEFAULT_TAB_TEXT"] = "shows as the default tab"
@@ -144,6 +156,8 @@ L["FINISHED_PROCESSING"] = "已处理完成 %s 个物品。"
 L["FULL_SCAN_ALTERNATE_FAILED"] = "完整扫描 (替代模式) 失败，没有完成。"
 L["FULL_SCAN_BUTTON"] = "完整扫描"
 L["FULL_SCAN_FAILED"] = "完整扫描失败，没有完成。"
+--[[Translation missing --]]
+L["HIDE"] = "Hide"
 L["INFO_TAB_HEADER"] = "拍卖小帮手 - 资讯"
 L["IS_UNDERCUT"] = "有更低价格?"
 L["ITEM"] = "物品"
@@ -196,6 +210,8 @@ L["QUANTITY"] = "数量"
 L["RENAME"] = "重新命名"
 L["RENAME_LIST_DIALOG"] = "输入购物清单的新名称:"
 L["RESET_ALL"] = "全部重置"
+--[[Translation missing --]]
+L["RESTORE_ALL"] = "Restore All"
 L["RESULTS_AVAILABLE_COLUMN"] = "可用"
 L["RESULTS_NAME_COLUMN"] = "名称"
 L["RESULTS_PRICE_COLUMN"] = "价格"
@@ -264,6 +280,22 @@ L["SPLASH_832_FEATURES_6"] = "Auctions which you don't own can be purchased by h
 L["SPLASH_832_FEATURES_7"] = "Holding the Alt key while clicking on an item in your bag puts it in the Selling tab ready to post (this can be changed to a right click in the settings)"
 --[[Translation missing --]]
 L["SPLASH_832_FEATURES_HEADER"] = "Features of the Selling Tab"
+--[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_1"] = "Full scan prices are now shared between connected realms"
+--[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "Connected Realms"
+--[[Translation missing --]]
+L["SPLASH_833_DESCRIPTION"] = "This is a small release, with various quality of life improvements and bugfixes"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_1"] = "Specific items can be hidden from the bag view (right-click the item icon and click \"Hide\")"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_2"] = "The bid price (if any) for auctions from other sellers is now shown"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "Pets now have their level shown in the \"Item Level\" column"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "New option to change the default quantity used when posting items"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "Selling Tab Improvements"
 L["SPLASH_HIDE_MESSAGE"] = "下次更新前不要再显示"
 L["SPLASH_SCREEN_HEADER"] = "欢迎使用拍卖小帮手 Auctionator"
 L["STACK_AUCTION_INFO"] = "%s 个共 %s (每个 %s)"

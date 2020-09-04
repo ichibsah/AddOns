@@ -407,7 +407,8 @@ Supports multiple entries, separated by commas
 	L["Left"] = "左"
 	L["Left 2 HUD position"] = "左2 HUD 位置"
 	L["Left HUD position"] = "左方 HUD 位置"
-	L["Legacy Aura Trigger"] = "傳統光環觸發"
+	--[[Translation missing --]]
+	L["Legacy Aura Trigger"] = "Legacy Aura Trigger"
 	L["Length"] = "長度"
 	L["Limit"] = "限制"
 	L["Lines & Particles"] = "直線 & 粒子"
@@ -645,7 +646,8 @@ Supports multiple entries, separated by commas
 	L["Then "] = "(then) 則 "
 	L["Thickness"] = "粗細"
 	L["This adds %tooltip, %tooltip1, %tooltip2, %tooltip3 as text replacements."] = "這會加入 %tooltip, %tooltip1, %tooltip2, %tooltip3 用來替換文字。"
-	L["This aura has legacy aura trigger(s). Convert them to the new system to benefit from enhanced performance and features"] = "這個提醒效果包含傳統的光環觸發，將它們轉換成新的系統以獲得效能和功能增強的好處。"
+	--[[Translation missing --]]
+	L["This aura has legacy aura trigger(s). Convert them to the new system to benefit from enhanced performance and features"] = "This aura has legacy aura trigger(s). Convert them to the new system to benefit from enhanced performance and features"
 	L["This display is currently loaded"] = "這個提醒效果已經載入"
 	L["This display is not currently loaded"] = "這個提醒效果尚未載入"
 	L["This region of type \"%s\" is not supported."] = "不支援的地區類型 \"%s\"。"

@@ -198,20 +198,23 @@ end
 
 function AuctionatorSaleItemMixin:UpdateForNewItem()
   self:SetDuration()
-  self.Quantity:SetNumber(self.itemInfo.count)
+
+  self:SetQuantity()
 
   local price = Auctionator.Database.GetPrice(
     Auctionator.Utilities.ItemKeyFromBrowseResult({ itemKey = self.itemInfo.itemKey })
   )
   if price ~= nil then
     self:UpdateSalesPrice(price)
+  else
+    self:UpdateSalesPrice(0)
   end
 
   self:DoSearch(self.itemInfo)
 end
 
 function AuctionatorSaleItemMixin:UpdateForNoItem()
-  self.Quantity:SetNumber(1)
+  self.Quantity:SetNumber(0)
   self.MaxButton:Disable()
   self:UpdateSalesPrice(0)
 
@@ -232,8 +235,27 @@ function AuctionatorSaleItemMixin:SetDuration()
   end
 end
 
+function AuctionatorSaleItemMixin:SetQuantity()
+  -- If a default quantity has been selected (ie non-zero amount)
+  if Auctionator.Config.Get(Auctionator.Config.Options.SELLING_DEFAULT_QUANTITY) > 0 then
+    self.Quantity:SetNumber(math.min(
+      self.itemInfo.count,
+      Auctionator.Config.Get(Auctionator.Config.Options.SELLING_DEFAULT_QUANTITY)
+    ))
+  -- No default quantity setting, use the maximum possible
+  else
+    self.Quantity:SetNumber(self.itemInfo.count)
+  end
+end
+
+local function IsEquipment(itemInfo)
+  return itemInfo.classId == LE_ITEM_CLASS_WEAPON or itemInfo.classId == LE_ITEM_CLASS_ARMOR
+end
+
 function AuctionatorSaleItemMixin:DoSearch(itemInfo, ...)
   FrameUtil.RegisterFrameForEvents(self, SALE_ITEM_EVENTS)
+
+  local sortingOrder
 
   if itemInfo.itemType == Auctionator.Constants.ITEM_TYPES.COMMODITY then
     sortingOrder = {sortOrder = 0, reverseSort = false}
@@ -241,11 +263,14 @@ function AuctionatorSaleItemMixin:DoSearch(itemInfo, ...)
     sortingOrder = {sortOrder = 4, reverseSort = false}
   end
 
-  if itemInfo.itemType ~= Auctionator.Constants.ITEM_TYPES.COMMODITY and
-     itemInfo.itemKey.battlePetSpeciesID == 0 then
-    Auctionator.AH.SendSellSearchQuery(C_AuctionHouse.MakeItemKey(itemInfo.itemKey.itemID), sortingOrder, true)
+  if IsEquipment(itemInfo) then
+    -- Bug with PTR C_AuctionHouse.MakeItemKey(...), it always sets the
+    -- itemLevel to a non-zero value, so we have to create the key directly
+    self.expectedItemKey = {itemID = itemInfo.itemKey.itemID, itemLevel = 0, itemSuffix = 0, battlePetSpeciesID = 0}
+    Auctionator.AH.SendSellSearchQuery(self.expectedItemKey, {sortingOrder}, true)
   else
-    Auctionator.AH.SendSearchQuery(itemInfo.itemKey, sortingOrder, true)
+    self.expectedItemKey = itemInfo.itemKey
+    Auctionator.AH.SendSearchQuery(itemInfo.itemKey, {sortingOrder}, true)
   end
   Auctionator.EventBus:Fire(self, Auctionator.Selling.Events.SellSearchStart)
 end
@@ -257,17 +282,34 @@ function AuctionatorSaleItemMixin:Reset()
 end
 
 function AuctionatorSaleItemMixin:UpdateSalesPrice(salesPrice)
-  self.Price:SetAmount(NormalizePrice(salesPrice))
+  if salesPrice == 0 then
+    self.Price:SetAmount(0)
+  else
+    self.Price:SetAmount(NormalizePrice(salesPrice))
+  end
 end
 
 function AuctionatorSaleItemMixin:OnEvent(eventName, ...)
   if eventName == "COMMODITY_SEARCH_RESULTS_UPDATED" then
+    local itemID = ...
+    if itemID ~= self.expectedItemKey.itemID then
+      return
+    end
+
     self:ProcessCommodityResults(...)
+    FrameUtil.UnregisterFrameForEvents(self, SALE_ITEM_EVENTS)
+
   elseif eventName == "ITEM_SEARCH_RESULTS_UPDATED" then
+    local itemKey = ...
+    if Auctionator.Utilities.ItemKeyString(itemKey) ~=
+        Auctionator.Utilities.ItemKeyString(self.expectedItemKey) then
+      return
+    end
+
     self:ProcessItemResults(...)
+    FrameUtil.UnregisterFrameForEvents(self, SALE_ITEM_EVENTS)
   end
 
-  FrameUtil.UnregisterFrameForEvents(self, SALE_ITEM_EVENTS)
 end
 
 function AuctionatorSaleItemMixin:GetCommodityResult(itemId)

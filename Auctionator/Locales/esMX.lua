@@ -14,6 +14,8 @@ L["AUCTION_TOOLTIP_TOOLTIP_HEADER"] = "Información sobre herramientas de subast
 L["AUCTION_TOOLTIP_TOOLTIP_TEXT"] = "Mostrar información sobre herramientas de la subasta al pasar el ratón."
 L["AUCTIONATOR"] = "Auctionator"
 L["AUTHOR_HEADER"] = "Autor"
+--[[Translation missing --]]
+L["BID_PRICE"] = "Bid Price"
 L["BIDDING_AUCTION_INFO"] = "%s Pujando en %s"
 L["BUG_REPORT"] = "Reportar un error"
 L["BUG_TOOLTIP_HEADER"] = "Reportar un error en Github"
@@ -26,6 +28,8 @@ L["CANCELLING_TAB"] = "Cancelado"
 L["CANCELLING_TAB_HEADER"] = "Auctionator - Cancelado"
 L["CANNOT_AUCTION"] = [=[No se puede subastar
 ]=]
+--[[Translation missing --]]
+L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
 L["COMMODITY"] = "Mercancía"
 L["CONFIG_ADVANCED_CATEGORY"] = "Avanzado"
 L["CONFIG_ADVANCED_TEXT"] = "Solo mira aquí si sabes lo que estás haciendo"
@@ -77,6 +81,9 @@ L["CONFIG_SELLING_BAG_SELECT_SHORTCUT"] = "en un objeto en su bolsa lo pone en l
 L["CONFIG_SELLING_BUY_SHORTCUT"] = "en una subasta que no poseas lo comprará"
 L["CONFIG_SELLING_CANCEL_SHORTCUT"] = "en una subasta de su propiedad lo cancelará"
 L["CONFIG_SELLING_CATEGORY"] = "Venta"
+L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "Establecer en 0 para la cantidad máxima"
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Cantidad de contabilización predeterminada"
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "Esto le permite cambiar la cantidad predeterminada utilizada al publicar un objeto. Ajústelo a 0 para usar la cantidad máxima posible."
 L["CONFIG_SELLING_ICON_SIZE"] = "Tamaño del icono de la bolsa (se requiere recarga)"
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Tamaño de iconos"
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_TEXT"] = "Esto le permite hacer que los iconos de los objetos de la bolsa en la pestaña de venta sean más grandes (hasta 50) o más pequeños (hasta 10). El tamaño predeterminado es 42."
@@ -110,6 +117,7 @@ L["DAY_5"] = "Jueves"
 L["DAY_6"] = "Viernes"
 L["DAY_7"] = "Sábado"
 L["DEFAULT_AUCTION_DURATION"] = "Duración predeterminada de la subasta"
+L["DEFAULT_QUANTITY"] = "Cantidad predeterminada"
 L["DEFAULT_TAB"] = "Pestaña predeterminada"
 L["DEFAULT_TAB_TEXT"] = "se muestra como la pestaña predeterminada"
 L["DELETE"] = "Eliminar"
@@ -133,6 +141,7 @@ L["FINISHED_PROCESSING"] = "Finalizado el procesamiento de %s objetos."
 L["FULL_SCAN_ALTERNATE_FAILED"] = "El escaneo completo (modo alternativo) no se pudo completar."
 L["FULL_SCAN_BUTTON"] = "Escaneo completo"
 L["FULL_SCAN_FAILED"] = "El 'escaneo completo' ha fallado"
+L["HIDE"] = "Ocultar"
 L["INFO_TAB_HEADER"] = "Auctionator - Información"
 L["IS_UNDERCUT"] = "¿Descontar?"
 L["ITEM"] = "Objeto"
@@ -189,6 +198,8 @@ L["QUANTITY"] = "Cantidad"
 L["RENAME"] = "Renombrar"
 L["RENAME_LIST_DIALOG"] = "Ingrese el nombre de la nueva lista de compra"
 L["RESET_ALL"] = "Resetear todo"
+--[[Translation missing --]]
+L["RESTORE_ALL"] = "Restore All"
 L["RESULTS_AVAILABLE_COLUMN"] = "Disponible"
 L["RESULTS_NAME_COLUMN"] = "Nombre"
 L["RESULTS_PRICE_COLUMN"] = "Precio"
@@ -244,6 +255,22 @@ L["SPLASH_832_FEATURES_5"] = "Las subastas de propiedad existentes para el objet
 L["SPLASH_832_FEATURES_6"] = "Las subastas que no son de su propiedad se pueden comprar manteniendo presionada la tecla Alt y haciendo clic derecho en la subasta"
 L["SPLASH_832_FEATURES_7"] = "Si mantiene presionada la tecla Alt mientras hace clic en un objeto de su bolsa, lo coloca en la pestaña Venta listo para publicar (esto se puede cambiar a un clic derecho en la configuración)"
 L["SPLASH_832_FEATURES_HEADER"] = "Características de la pestaña de venta"
+--[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_1"] = "Full scan prices are now shared between connected realms"
+--[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "Connected Realms"
+--[[Translation missing --]]
+L["SPLASH_833_DESCRIPTION"] = "This is a small release, with various quality of life improvements and bugfixes"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_1"] = "Specific items can be hidden from the bag view (right-click the item icon and click \"Hide\")"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_2"] = "The bid price (if any) for auctions from other sellers is now shown"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "Pets now have their level shown in the \"Item Level\" column"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "New option to change the default quantity used when posting items"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "Selling Tab Improvements"
 L["SPLASH_HIDE_MESSAGE"] = "No mostrar hasta la próxima actualización"
 L["SPLASH_SCREEN_HEADER"] = "Bienvenido a Auctionator"
 L["STACK_AUCTION_INFO"] = "%s para %s (en %s cada una)"

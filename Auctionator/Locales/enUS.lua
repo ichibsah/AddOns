@@ -202,6 +202,14 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["SPLASH_832_CUSTOMISATION_3"] = "The message in your chat telling you what auction you just created can be turned off"
   L["SPLASH_832_CUSTOMISATION_4"] = "Gear/Pets have their own undercutting and duration settings to configure, separate from the settings for most items"
   L["SPLASH_832_CUSTOMISATION_5"] = "The shortcuts to buy auctions, cancel auctions and select an item from your bag can be changed"
+  L["SPLASH_833_DESCRIPTION"] = "This is a small release, with various quality of life improvements and bugfixes"
+  L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "Selling Tab Improvements"
+  L["SPLASH_833_SELLING_IMPROVEMENTS_1"] = "Specific items can be hidden from the bag view (right-click the item icon and click \"Hide\")"
+  L["SPLASH_833_SELLING_IMPROVEMENTS_2"] = "The bid price (if any) for auctions from other sellers is now shown"
+  L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "Pets now have their level shown in the \"Item Level\" column"
+  L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "New option to change the default quantity used when posting items"
+  L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "Connected Realms"
+  L["SPLASH_833_CONNECTED_REALMS_1"] = "Full scan prices are now shared between connected realms"
 
   L["SPLASH_HIDE_MESSAGE"] = "Do not show until next update"
 
@@ -263,6 +271,7 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["PROFILE_TOGGLE_TOOLTIP_TEXT"] = "Makes changes to the Auctionator settings only affect this character."
 
   L["BUYOUT_PRICE"] = "Buyout Price"
+  L["BID_PRICE"] = "Bid Price"
   L["DURATION"] = "Duration"
   L["POST"] = "Post"
   L["POST_BUTTON_MACRO"] = "Post Button Macro"
@@ -291,9 +300,10 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["CONFIG_SELLING_ICON_SIZE"] = "Bag icon size (reload required)"
   L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Size of Icons"
   L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_TEXT"] = "This lets you make the bag item icons in the selling tab larger (up to 50) or smaller (down to 10). Default size is 42."
-  L["CONFIG_SELLING_RESET_HIDDEN"] = "Restore hidden items"
   L["CONFIG_BAG"] = "Bag"
+
   L["HIDE"] = "Hide"
+  L["RESTORE_ALL"] = "Restore All"
 
   L["LEFT_CLICK"] = "Left Click"
   L["RIGHT_CLICK"] = "Right Click"
@@ -309,6 +319,8 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "Set to 0 for maximum amount"
   L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Default Posting Quantity"
   L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "This lets you change the default amount used when posting an item. Set this to 0 to use the maximum possible amount."
+
+  L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
 
   return L
 end

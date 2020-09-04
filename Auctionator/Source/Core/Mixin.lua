@@ -74,7 +74,6 @@ local function InitializeAuctionHouseTabs()
 end
 
 local function InitializeSplashScreen()
-  -- TODO Check for display setting before creating
   if Auctionator.State.SplashScreenRef == nil then
     Auctionator.State.SplashScreenRef = CreateFrame(
       "Frame",
@@ -110,7 +109,7 @@ local function InitializeLateTooltipHooks()
   setTooltipHooks = true
 end
 
-function ShowDefaultTab()
+local function ShowDefaultTab()
   local tabs = {
     AuctionatorTabs_ShoppingLists,
     AuctionatorTabs_Selling,
@@ -127,6 +126,8 @@ end
 
 function AuctionatorAHFrameMixin:OnShow()
   Auctionator.Debug.Message("AuctionatorAHFrameMixin:OnShow()")
+
+  Auctionator.Utilities.ClassicWoWCheck()
 
   InitializeFullScanFrame()
   InitializeIncrementalScanFrame()

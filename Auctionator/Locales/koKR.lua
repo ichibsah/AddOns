@@ -19,6 +19,8 @@ L["AUCTION_TOOLTIP_TOOLTIP_TEXT"] = "마우스를 위로  가져갔을 때 경�
 L["AUCTIONATOR"] = "Auctionator"
 L["AUTHOR_HEADER"] = "작가"
 --[[Translation missing --]]
+L["BID_PRICE"] = "Bid Price"
+--[[Translation missing --]]
 L["BIDDING_AUCTION_INFO"] = "%s bidding at %s"
 L["BUG_REPORT"] = "오류를 보고하기"
 L["BUG_TOOLTIP_HEADER"] = "깃허브에 오류를 보고하기"
@@ -35,6 +37,8 @@ L["CANCELLING_TAB"] = "Cancelling"
 --[[Translation missing --]]
 L["CANCELLING_TAB_HEADER"] = "Auctionator - Cancelling"
 L["CANNOT_AUCTION"] = "경매 불가"
+--[[Translation missing --]]
+L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
 --[[Translation missing --]]
 L["COMMODITY"] = "Commodity"
 --[[Translation missing --]]
@@ -116,6 +120,12 @@ L["CONFIG_SELLING_CANCEL_SHORTCUT"] = "on an auction you own will cancel it"
 --[[Translation missing --]]
 L["CONFIG_SELLING_CATEGORY"] = "Selling"
 --[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "Set to 0 for maximum amount"
+--[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Default Posting Quantity"
+--[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "This lets you change the default amount used when posting an item. Set this to 0 to use the maximum possible amount."
+--[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE"] = "Bag icon size (reload required)"
 --[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Size of Icons"
@@ -172,6 +182,8 @@ L["DAY_7"] = "Saturday"
 --[[Translation missing --]]
 L["DEFAULT_AUCTION_DURATION"] = "Default Auction Duration"
 --[[Translation missing --]]
+L["DEFAULT_QUANTITY"] = "Default Quantity"
+--[[Translation missing --]]
 L["DEFAULT_TAB"] = "Default Tab"
 --[[Translation missing --]]
 L["DEFAULT_TAB_TEXT"] = "shows as the default tab"
@@ -213,6 +225,8 @@ L["FULL_SCAN_ALTERNATE_FAILED"] = "Full scan (alternate mode) failed to complete
 L["FULL_SCAN_BUTTON"] = "Full Scan"
 --[[Translation missing --]]
 L["FULL_SCAN_FAILED"] = "Full scan failed to complete."
+--[[Translation missing --]]
+L["HIDE"] = "Hide"
 --[[Translation missing --]]
 L["INFO_TAB_HEADER"] = "Auctionator - Info"
 --[[Translation missing --]]
@@ -317,6 +331,8 @@ L["RENAME_LIST_DIALOG"] = "Enter the new name for the shopping list:"
 --[[Translation missing --]]
 L["RESET_ALL"] = "Reset All"
 --[[Translation missing --]]
+L["RESTORE_ALL"] = "Restore All"
+--[[Translation missing --]]
 L["RESULTS_AVAILABLE_COLUMN"] = "Available"
 --[[Translation missing --]]
 L["RESULTS_NAME_COLUMN"] = "Name"
@@ -417,6 +433,22 @@ L["SPLASH_832_FEATURES_7"] = "Holding the Alt key while clicking on an item in y
 --[[Translation missing --]]
 L["SPLASH_832_FEATURES_HEADER"] = "Features of the Selling Tab"
 --[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_1"] = "Full scan prices are now shared between connected realms"
+--[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "Connected Realms"
+--[[Translation missing --]]
+L["SPLASH_833_DESCRIPTION"] = "This is a small release, with various quality of life improvements and bugfixes"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_1"] = "Specific items can be hidden from the bag view (right-click the item icon and click \"Hide\")"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_2"] = "The bid price (if any) for auctions from other sellers is now shown"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "Pets now have their level shown in the \"Item Level\" column"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "New option to change the default quantity used when posting items"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "Selling Tab Improvements"
+--[[Translation missing --]]
 L["SPLASH_HIDE_MESSAGE"] = "Do not show until next update"
 --[[Translation missing --]]
 L["SPLASH_SCREEN_HEADER"] = "Welcome to Auctionator"
@@ -485,7 +517,7 @@ L["UNDERCUT_YES"] = "Yes"
 --[[Translation missing --]]
 L["UNIT_PRICE"] = "Unit Price"
 --[[Translation missing --]]
-L["UNKNOWN"] = "Unknown"
+L["UNKNOWN"] = "unknown"
 --[[Translation missing --]]
 L["VENDOR"] = "Vendor"
 --[[Translation missing --]]

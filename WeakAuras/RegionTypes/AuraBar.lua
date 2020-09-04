@@ -322,7 +322,7 @@ local barPrototype = {
 
         if (additionalBar.min and additionalBar.max) then
           if (valueWidth ~= 0) then
-            startProgress = max( (additionalBar.min - valueStart) / valueWidth, 0);
+            startProgress = (additionalBar.min - valueStart) / valueWidth;
             endProgress = (additionalBar.max - valueStart) / valueWidth;
 
             if (self.additionalBarsInverse) then
@@ -453,8 +453,8 @@ local barPrototype = {
   ["SetAdditionalBars"] = function(self, additionalBars, colors, min, max, inverse, overlayclip)
     self.additionalBars = additionalBars;
     self.additionalBarsColors = colors;
-    self.additionalBarsMin = min;
-    self.additionalBarsMax = max;
+    self.additionalBarsMin = min or 0;
+    self.additionalBarsMax = max or 0;
     self.additionalBarsInverse = inverse;
     self.additionalBarsClip = overlayclip;
     self:UpdateAdditionalBars();

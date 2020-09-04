@@ -18,6 +18,8 @@ L["AUCTION_TOOLTIP_TOOLTIP_TEXT"] = "Show auction information in tooltip on mous
 --[[Translation missing --]]
 L["AUCTIONATOR"] = "Auctionator"
 L["AUTHOR_HEADER"] = "Autore"
+--[[Translation missing --]]
+L["BID_PRICE"] = "Bid Price"
 L["BIDDING_AUCTION_INFO"] = "%s offerta a %s"
 L["BUG_REPORT"] = "Segnala un Bug"
 L["BUG_TOOLTIP_HEADER"] = "Segnala un Bug su Github"
@@ -34,6 +36,8 @@ L["CANCELLING_TAB"] = "Cancelling"
 L["CANCELLING_TAB_HEADER"] = "Auctionator - Cancelling"
 --[[Translation missing --]]
 L["CANNOT_AUCTION"] = "Cannot Auction"
+--[[Translation missing --]]
+L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
 --[[Translation missing --]]
 L["COMMODITY"] = "Commodity"
 --[[Translation missing --]]
@@ -116,6 +120,12 @@ L["CONFIG_SELLING_CANCEL_SHORTCUT"] = "on an auction you own will cancel it"
 --[[Translation missing --]]
 L["CONFIG_SELLING_CATEGORY"] = "Selling"
 --[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "Set to 0 for maximum amount"
+--[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Default Posting Quantity"
+--[[Translation missing --]]
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "This lets you change the default amount used when posting an item. Set this to 0 to use the maximum possible amount."
+--[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE"] = "Bag icon size (reload required)"
 --[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Size of Icons"
@@ -164,6 +174,8 @@ L["DAY_6"] = "Friday"
 L["DAY_7"] = "Saturday"
 L["DEFAULT_AUCTION_DURATION"] = "Durata Asta Default"
 --[[Translation missing --]]
+L["DEFAULT_QUANTITY"] = "Default Quantity"
+--[[Translation missing --]]
 L["DEFAULT_TAB"] = "Default Tab"
 --[[Translation missing --]]
 L["DEFAULT_TAB_TEXT"] = "shows as the default tab"
@@ -192,6 +204,8 @@ L["FINISHED_PROCESSING"] = "Elaborazione di %s oggetti terminata."
 L["FULL_SCAN_ALTERNATE_FAILED"] = "Full scan (alternate mode) failed to complete."
 L["FULL_SCAN_BUTTON"] = "Scansione Completa"
 L["FULL_SCAN_FAILED"] = "Scansione completa fallita."
+--[[Translation missing --]]
+L["HIDE"] = "Hide"
 L["INFO_TAB_HEADER"] = "Auctionator - Info"
 --[[Translation missing --]]
 L["IS_UNDERCUT"] = "Undercut?"
@@ -271,6 +285,8 @@ L["QUANTITY"] = "Quantity"
 L["RENAME"] = "Rinomina"
 L["RENAME_LIST_DIALOG"] = "Inserisci un nuovo nome per la shopping list."
 L["RESET_ALL"] = "Resetta tutto"
+--[[Translation missing --]]
+L["RESTORE_ALL"] = "Restore All"
 L["RESULTS_AVAILABLE_COLUMN"] = "Disponibile"
 L["RESULTS_NAME_COLUMN"] = "Nome"
 L["RESULTS_PRICE_COLUMN"] = "Prezzo"
@@ -349,6 +365,22 @@ L["SPLASH_832_FEATURES_6"] = "Auctions which you don't own can be purchased by h
 L["SPLASH_832_FEATURES_7"] = "Holding the Alt key while clicking on an item in your bag puts it in the Selling tab ready to post (this can be changed to a right click in the settings)"
 --[[Translation missing --]]
 L["SPLASH_832_FEATURES_HEADER"] = "Features of the Selling Tab"
+--[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_1"] = "Full scan prices are now shared between connected realms"
+--[[Translation missing --]]
+L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "Connected Realms"
+--[[Translation missing --]]
+L["SPLASH_833_DESCRIPTION"] = "This is a small release, with various quality of life improvements and bugfixes"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_1"] = "Specific items can be hidden from the bag view (right-click the item icon and click \"Hide\")"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_2"] = "The bid price (if any) for auctions from other sellers is now shown"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "Pets now have their level shown in the \"Item Level\" column"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "New option to change the default quantity used when posting items"
+--[[Translation missing --]]
+L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "Selling Tab Improvements"
 L["SPLASH_HIDE_MESSAGE"] = "Non visualizzare fino ad un prossimo aggiornamento"
 L["SPLASH_SCREEN_HEADER"] = "Benvenuto su Auctionator"
 L["STACK_AUCTION_INFO"] = "%s per %s (a %s ognuno)"

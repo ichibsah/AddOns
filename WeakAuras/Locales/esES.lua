@@ -95,7 +95,8 @@ L["20 Man Raid"] = "Banda de 20 jugadores"
 L["25 Man Raid"] = "Banda de 25 Jugadores"
 L["40 Man Raid"] = "Banda de 40 jugadores"
 L["5 Man Dungeon"] = "Mazmorra de 5 jugadores"
-L["A WeakAura just tried to use a forbidden function but has been blocked from doing so. Please check your auras!"] = "Un WeakAura acaba de intentar usar una función prohibida y ha sido bloqueado. ¡Por favor, revisa tus auras!"
+--[[Translation missing --]]
+L["A WeakAura just tried to use a forbidden function but has been blocked from doing so. Please check your auras!"] = "A WeakAura just tried to use a forbidden function but has been blocked from doing so. Please check your auras!"
 --[[Translation missing --]]
 L["Abbreviate"] = "Abbreviate"
 --[[Translation missing --]]
@@ -612,7 +613,8 @@ L["Grid"] = "Grid"
 --[[Translation missing --]]
 L["Grobbulus"] = "Grobbulus"
 L["Group"] = "Grupo"
-L["Group %s"] = "Grupo %s"
+--[[Translation missing --]]
+L["Group %s"] = "Group %s"
 --[[Translation missing --]]
 L["Group Arrangement"] = "Group Arrangement"
 L["Grow"] = "Crecer"

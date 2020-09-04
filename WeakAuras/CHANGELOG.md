@@ -1,50 +1,36 @@
-# [2.18.0](https://github.com/WeakAuras/WeakAuras2/tree/2.18.0) (2020-07-28)
+# [2.18.3](https://github.com/WeakAuras/WeakAuras2/tree/2.18.3) (2020-09-01)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/2.17.12...2.18.0)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/2.18.2...2.18.3)
 
 ## Highlights
 
- - Add LibSerialize 
+ - Model support for Classic
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEI1j9Zi1NNumv9US2dKkHNoaWU8IFAl9RPn0ACgkQdKkHNoaW
+U8JA/Q/9FrhVnIy1cQM5FPobxCLDEXA5D3pSpiFNd3RV1iL/daRa9kDsjzwJVVs9
+0JlPiP/AIszHgcAHJ6hwRT//lfQmlmL++oFfDf0jOM7gRObtkVmJ3dfAo9dBkFxj
+YVbv3aR2i9bZU8cpjDZyIZv4wFp9RxR3mgQfNfXMglbVPD/g6oEhwTTa0fqdKYy7
+2pd+9+IvHClDcj+wZ3th9tLUgfWIAGUybncEQgQ7Y2SdjKvH3gefP8TGGdbwbUYE
+bmPWN6qwy73F8R55atf/jY5SgYIRSnS5zMqObZN0mbCQ1fr/Jm1T9UCphEh4eDN5
+Biwdf8arroiFFRi01IC8n00OhsJcZaNcCyv7bWLoxBcl7eV512LOEbhw3qMEdghz
+Yrpy7p7e30pjzbPMhj+2PRBB+p3EoiJhtQocYSB4LM10Ekv9pd85rQcIYhekXflv
+ciNckfsn7L491LiD8ukDk0Vs1LBW0r2zF+BEdvNH7hhGhi/4br95CwARv6CacNMo
+Rkese5WO2ZRoPXMpwH79aEdeWwAcIF2/Nw0QANX4bHXmANgpQFhbFW9WCW+405Gs
+F0goQnIUPzwXWVsoS7YMIOBqgsKDT7NtuEdkz4oMUxM2SAdC4EVfVyIu031L58gp
+lXmtb7so/cZ/IYOft0y00TNBwTdIO3VrsH26KzEdZRMFRzct4RU=
+=N9Ss
+-----END PGP SIGNATURE----- 
 
 ## Commits
 
-InfusOnWoW (21):
+InfusOnWoW (7):
 
-- Fix error if state contains a non-table value for additionalProgress
-- Remove left over code that would taint max
-- SubText: Fix a few issues with the text offset
-- Fix wrong test for type of pickedDisplay
-- Add xOffset, yOffset to SubText properties
-- Fix min/max progress settings for overlays and ticks
-- Fix Expanding trigger functions if multiple auras are selected
-- Fix fetching of ownRealm.
-- Fix anchoring of dynamic groups
-- Fix Apply Template
-- Fix more regressions in the Options
-- CLEU: Fix trigger settings
-- BuffTrigger2: useUnitName Fix Options size
-- Fix setting of trigger types on the non-first trigger
-- Fix if moving a aura into a group with the new options visible
-- Combat Log: Fixes suffix event
-- Options Refactoring
-- Fix Abbreviate's slider allowing half-chars
-- Fix Has Vehicle UI Load options
-- Text Format Options: Make more resilent
-- Fix Big Number formatting options
-
-asakawa (1):
-
-- Set the wrap mode on all the textures in the TexturePicker window so they don't repeat at the edges
-
-emptyrivers (1):
-
-- Add LibSerialize (#2235)
-
-mrbuds (1):
-
-- fix MoverSizer alignYFrom
-
-nullKomplex (1):
-
-- Fix AdditionalProgress when not a table pt. 2
+- Fix unit model auras on classic
+- Fix overlays with negative min value
+- Fix moving/deleting sub elements not adjusting conditions correctly
+- Fix regression in the Range Trigger
+- Add missing calls to WeakAuras.Add
+- Fix updating of group auras
+- Fix %c in conditions
 

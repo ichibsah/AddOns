@@ -66,7 +66,7 @@ function Auctionator.Database.InternalUpdateHistory(itemKey, buyoutPrice)
   end
 
   -- save memory by only saving lowestLow when different from highestLow
-  if buyoutPrice < highestLow then
+  if buyoutPrice < highestLow and (lowestLow == nil or buyoutPrice < lowestLow) then
     db[itemKey].l[daysSinceZero] = buyoutPrice
   end
 end
@@ -76,7 +76,7 @@ function Auctionator.Database.Prune()
 
   local entriesPruned = 0
 
-  for itemKey, priceData in pairs(Auctionator.State.LiveDB) do
+  for _, priceData in pairs(Auctionator.State.LiveDB) do
 
     for day, _ in pairs(priceData.h) do
       if day <= cutoffDay then
