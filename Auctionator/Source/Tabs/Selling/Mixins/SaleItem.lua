@@ -21,6 +21,10 @@ local function NormalizePrice(price)
   return normalizedPrice
 end
 
+local function IsEquipment(itemInfo)
+  return itemInfo.classId == LE_ITEM_CLASS_WEAPON or itemInfo.classId == LE_ITEM_CLASS_ARMOR
+end
+
 AuctionatorSaleItemMixin = {}
 
 function AuctionatorSaleItemMixin:OnShow()
@@ -62,6 +66,13 @@ end
 
 function AuctionatorSaleItemMixin:OnUpdate()
   if self.itemInfo == nil then
+    return
+  end
+
+  if not C_Item.DoesItemExist(self.itemInfo.location) then
+    --Bag item location invalid due to posting (race condition)
+    self.itemInfo = nil
+    self:Reset()
     return
   end
 
@@ -206,6 +217,8 @@ function AuctionatorSaleItemMixin:UpdateForNewItem()
   )
   if price ~= nil then
     self:UpdateSalesPrice(price)
+  elseif IsEquipment(self.itemInfo) then
+    self:SetEquipmentMultiplier(self.itemInfo.itemLink)
   else
     self:UpdateSalesPrice(0)
   end
@@ -236,20 +249,21 @@ function AuctionatorSaleItemMixin:SetDuration()
 end
 
 function AuctionatorSaleItemMixin:SetQuantity()
-  -- If a default quantity has been selected (ie non-zero amount)
-  if Auctionator.Config.Get(Auctionator.Config.Options.SELLING_DEFAULT_QUANTITY) > 0 then
-    self.Quantity:SetNumber(math.min(
-      self.itemInfo.count,
-      Auctionator.Config.Get(Auctionator.Config.Options.SELLING_DEFAULT_QUANTITY)
-    ))
-  -- No default quantity setting, use the maximum possible
+  local defaultQuantity
+
+  if Auctionator.Utilities.IsNotLIFOItemKey(self.itemInfo.itemKey) then
+    defaultQuantity = Auctionator.Config.Get(Auctionator.Config.Options.NOT_LIFO_DEFAULT_QUANTITY)
   else
+    defaultQuantity = Auctionator.Config.Get(Auctionator.Config.Options.LIFO_DEFAULT_QUANTITY)
+  end
+
+  if defaultQuantity > 0 then
+    -- If a default quantity has been selected (ie non-zero amount)
+    self.Quantity:SetNumber(math.min(self.itemInfo.count, defaultQuantity))
+  else
+    -- No default quantity setting, use the maximum possible
     self.Quantity:SetNumber(self.itemInfo.count)
   end
-end
-
-local function IsEquipment(itemInfo)
-  return itemInfo.classId == LE_ITEM_CLASS_WEAPON or itemInfo.classId == LE_ITEM_CLASS_ARMOR
 end
 
 function AuctionatorSaleItemMixin:DoSearch(itemInfo, ...)
@@ -287,6 +301,22 @@ function AuctionatorSaleItemMixin:UpdateSalesPrice(salesPrice)
   else
     self.Price:SetAmount(NormalizePrice(salesPrice))
   end
+end
+
+function AuctionatorSaleItemMixin:SetEquipmentMultiplier(itemLink)
+  self:UpdateSalesPrice(0)
+
+  local item = Item:CreateFromItemLink(itemLink)
+  item:ContinueOnItemLoad(function()
+    local multiplier = Auctionator.Config.Get(Auctionator.Config.Options.GEAR_PRICE_MULTIPLIER)
+    local vendorPrice = select(11, GetItemInfo(itemLink))
+    if multiplier ~= 0 and vendorPrice ~= 0 then
+      -- Check for a vendor price multiplier being set (and a vendor price)
+      self:UpdateSalesPrice(
+        vendorPrice * multiplier + self:GetDeposit()
+      )
+    end
+  end)
 end
 
 function AuctionatorSaleItemMixin:OnEvent(eventName, ...)
@@ -411,6 +441,8 @@ function AuctionatorSaleItemMixin:GetPostButtonState()
   return
     self.itemInfo ~= nil and
 
+    C_Item.DoesItemExist(self.itemInfo.location) and
+
     -- Sufficient money to cover deposit
     GetMoney() > self:GetDeposit() and
 
@@ -470,10 +502,24 @@ function AuctionatorSaleItemMixin:PostItem()
     }
   )
 
-  self:DoSearch(self.itemInfo)
   -- Save item info for refreshing search results
   self.lastItemInfo = self.itemInfo
   self:Reset()
+
+  if (Auctionator.Config.Get(Auctionator.Config.Options.SELLING_AUTO_SELECT_NEXT) and
+      self.lastItemInfo.nextItem ~= nil and
+      -- Location may be invalid because of items being moved in the bag
+      C_Item.DoesItemExist(self.lastItemInfo.nextItem.location)
+    ) then
+    -- Option to automatically select the next item in the bag view
+    Auctionator.EventBus:Fire(
+      self, Auctionator.Selling.Events.BagItemClicked, self.lastItemInfo.nextItem
+    )
+
+  else
+    -- Search for current auctions of the last item posted
+    self:DoSearch(self.lastItemInfo)
+  end
 end
 
 function AuctionatorSaleItemMixin:RefreshButtonClicked()

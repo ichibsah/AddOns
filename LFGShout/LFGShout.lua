@@ -30,7 +30,7 @@ LFGShout_Global={
 			
 LFGShout_frame = CreateFrame("Frame");
 
-LFGShout={unittest={},lang={}, utils={}, event={},vars={}, config={}, Dialogs={}, Stats={checked=0, rejected=0, forwarded=0, fromforward=0, added=0, started=time()},
+LFGShout={ChatAddonReg=false,ChatPrefix="lfg-shout",unittest={},lang={}, utils={}, event={},vars={}, config={}, Dialogs={}, Stats={checked=0, rejected=0, forwarded=0, fromforward=0, added=0, started=time()},
 		broker=LibStub("AceAddon-3.0"):NewAddon("Broker_LFGShout", "AceConsole-3.0", "AceTimer-3.0", "AceEvent-3.0"),
 		timer = LibStub("AceAddon-3.0"):NewAddon("LFGShout_broadcast", "AceTimer-3.0"),
 
@@ -249,6 +249,7 @@ function LFGShout.utils:JoinChannel()
 	 	if type(name)=="string" then
 			if string.upper(name)=="LFGSHOUT" then
 				LFGShout.vars.Channel=chans[ind-1]
+				LFGShout.utils:JoinAddonChannel()
 				return
 			end
 		end
@@ -258,9 +259,26 @@ function LFGShout.utils:JoinChannel()
 	chan, name = JoinPermanentChannel("LFGShout")
 	LFGShout.vars.Channel=chan
 
+	LFGShout.utils:JoinAddonChannel()
+
+
+
 end
 
+function LFGShout.utils:JoinAddonChannel()
 
+	LFGShout.utils:Debug(2,"Addon Prefix :: "..LFGShout.ChatPrefix);
+	if (LFGShout.ChatAddonReg) then
+		LFGShout.utils:Debug(8,"Addon channel already registered.");
+		return
+	end
+
+	LFGShout.ChatAddonReg=C_ChatInfo.RegisterAddonMessagePrefix(LFGShout.ChatPrefix)
+
+	if (not LFGShout.ChatAddonReg) then
+		LFGShout.utils:Chat("Failed to join add-on channnel!");
+	end
+end
 
 
 --------------------------Broadcast Message-----------------------------
@@ -327,7 +345,13 @@ function LFGShout.timer:Broadcast()
 	
 		--Broadcast message
 		if tmpsend and LFGShout.BroadcastQ[f].sender~=nil then
-			SendChatMessage(tmpMess,"CHANNEL",nil,LFGShout.vars.Channel)
+			if (not LFGShout.ChatAddonReg) then
+				LFGShout.utils:Debug(8,"Addon channel not registered. Could not forward.");
+				return
+			end
+
+			--SendChatMessage(tmpMess,"CHANNEL",nil,LFGShout.vars.Channel)
+			C_ChatInfo.SendAddonMessage(LFGShout.ChatPrefix, tmpMess, LFGShout.vars.Channel)
 			LFGShout.Stats.forwarded=LFGShout.Stats.forwarded+1 -- increment stats
 			msgspamcnt=msgspamcnt+1
 		end
@@ -411,13 +435,21 @@ function LFGShout_SlashHandler(msg)
 
 	msg = strupper(msg);
 
-		if msg=="unittest" then
+		if msg=="UNITTEST" then
 			LFGShout.unittest:run()
 			return
 		end
 
-	
-	
+		if msg=="DEBUG" then
+			if LFGShout_Global.Debug<1 then
+				LFGShout_Global.Debug=10
+				LFGShout.utils:Chat("Debug On");
+			else
+				LFGShout_Global.Debug=0
+				LFGShout.utils:Chat("Debug Off");
+			end
+		end
+
 		if LFGShout_AdvertPlay(msg) then
 			return;
 		end
@@ -1191,35 +1223,7 @@ function LFGShout.Advertise(index, isTest, isSecure)
 	
 		
 	
-	if (profs[advert.skill]~=nil and profs[advert.skill]~=6 and  strfind(advert.lines[1]..advert.lines[2],"#tradelink#")~=nil) then
 	
-		name, texture, rank, maxRank, numSpells, spelloffset, skillLine, rankModifier = GetProfessionInfo(profs[advert.skill])
-		
-		trade_name=name
-		trade_level=""..rank
-		
-		
-		
-		
-		
-		
-		CastSpellByName(name);
-		trade_link=GetTradeSkillListLink();
-		if (trade_link==nil) then  --- must have been open
-			CastSpellByName(name);
-			trade_link=GetTradeSkillListLink();
-		end
-		
-		if (trade_link==nil) then  --- failed gettign link
-			trade_link="["..name.."]"; ---at least it will look right
-		end
-		
-		
-		CloseTradeSkill()
-		
-		
-		
-	end
 	
 	
 		
@@ -1254,8 +1258,6 @@ function LFGShout.Advertise(index, isTest, isSecure)
 			----#tradelink#, #tradename#, #tradelevel#,  #link:<spell id>#, #zone#
 			
 			advert_line=string.gsub(advert_line, "#tradename#", trade_name)
-			advert_line=string.gsub(advert_line, "#tradelevel#", trade_level)
-			advert_line=string.gsub(advert_line, "#tradelink#", trade_link)
 			advert_line=string.gsub(advert_line, "#zone#",GetZoneText())
 			advert_line=string.gsub(advert_line, "#ilvl#",floor(GetAverageItemLevel()))
 			class, fn = UnitClass("Player")

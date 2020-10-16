@@ -1,6 +1,6 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: Currency Sorter
-## Version: 8.3.0
+## Version: 9.0.1
 ## Notes: Move around the currency categories
 ## Author: Andols
 ## SavedVariablesPerCharacter: Cs_order

@@ -28,6 +28,7 @@
         </Anchors>
         <Scripts>
           <OnLoad method="OnLoad"/>
+          <OnShow method="OnShow"/>
         </Scripts>
       </Frame>
 
@@ -60,6 +61,27 @@
         <Scripts>
           <OnLoad method="OnLoad"/>
           <OnClick method="OnClick"/>
+        </Scripts>
+      </Button>
+
+      <!-- List export/Import -->
+      <Button inherits="UIPanelDynamicResizeButtonTemplate" text="AUCTIONATOR_L_IMPORT" parentKey="Import">
+        <Anchors>
+          <Anchor point="TOP" relativeKey="$parent.Rename" relativePoint="TOP"/>
+          <Anchor point="RIGHT" relativePoint="RIGHT" x="-8" y="55" />
+        </Anchors>
+        <Scripts>
+          <OnClick>self:GetParent():ImportListsClicked()</OnClick>
+        </Scripts>
+      </Button>
+
+      <Button inherits="UIPanelDynamicResizeButtonTemplate" text="AUCTIONATOR_L_EXPORT" parentKey="Export">
+        <Anchors>
+          <Anchor point="TOP" relativeKey="$parent.Rename" relativePoint="TOP"/>
+          <Anchor point="RIGHT" relativeKey="$parent.Import" relativePoint="LEFT" x="-3"/>
+        </Anchors>
+        <Scripts>
+          <OnClick>self:GetParent():ExportListsClicked()</OnClick>
         </Scripts>
       </Button>
 
@@ -102,6 +124,16 @@
           <OnShow method="OnShow"/>
           <OnEvent method="OnEvent"/>
         </Scripts>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture atlas="auctionhouse-background-sell-right">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPLEFT"/>
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent" relativePoint="BOTTOMRIGHT"/>
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
       </Frame>
 
       <!-- List Add Item Button -->

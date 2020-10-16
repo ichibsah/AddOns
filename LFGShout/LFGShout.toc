@@ -1,9 +1,9 @@
 ## Author: Linty
-## Interface: 80300
+## Interface: 90001
 ## Notes: Chat, LFG and Trade Advert Monitor.
 ## SavedVariables: LFGShout_Global
-## Title: LFG Shout |cff3399FFVersion 2.09
-## Version: 2.09
+## Title: LFG Shout |cff3399FFVersion 2.11
+## Version: 2.11
 
 
 

@@ -164,7 +164,7 @@
         </Anchors>
         <Size x="150" y="15"></Size>
     </Button>
-    <Button name="SpyStatsPlayersWinsSortTemplate" inherits="SpyStatsSortButtonTemplate" text="L_WON" virtual="true">
+    <Button name="SpyStatsPlayersWinsSortTemplate" inherits="SpyStatsSortButtonTemplate" text="Won" virtual="true">
         <Anchors>
             <Anchor point="LEFT" relativeTo="SpyStatsPlayersGuildSort" relativePoint="RIGHT">
                 <Offset x="8" y="0" />
@@ -173,7 +173,7 @@
         <Size x="30" y="15"></Size>
         <ButtonText justifyH="CENTER" />
     </Button>
-    <Button name="SpyStatsPlayersLosesSortTemplate" inherits="SpyStatsSortButtonTemplate" text="L_LOST" virtual="true">
+    <Button name="SpyStatsPlayersLosesSortTemplate" inherits="SpyStatsSortButtonTemplate" text="Lost" virtual="true">
         <Anchors>
             <Anchor point="LEFT" relativeTo="SpyStatsPlayersWinsSort" relativePoint="RIGHT">
                 <Offset x="8" y="0" />
@@ -182,7 +182,7 @@
         <Size x="30" y="15"></Size>
         <ButtonText justifyH="CENTER" />
     </Button>
-    <Button name="SpyStatsPlayersReasonSortTemplate" inherits="SpyStatsSortButtonTemplate" text="L_REASON" virtual="true"> 
+    <Button name="SpyStatsPlayersReasonSortTemplate" inherits="SpyStatsSortButtonTemplate" text="Reason" virtual="true"> --> 
 	<Anchors>
             <Anchor point="LEFT" relativeTo="SpyStatsPlayersLosesSort" relativePoint="RIGHT">
                 <Offset x="8" y="0" />
@@ -269,22 +269,19 @@
                     </Anchors>
                     <Color r="1" g="1" b="1" a="1" />
                 </FontString>
-                <FontString name="SpyStatsPvPDeathsText" font="GameFontNormal">
+                <FontString name="SpyStatsHonorKillsText" font="GameFontNormal">
                     <Anchors>
-                        <Anchor point="BOTTOMRIGHT">
-                            <Offset x="-130" y="16" />
+                        <Anchor point="BOTTOMLEFT">
+                            <Offset x="640" y="16" />
                         </Anchor>
                     </Anchors>
                     <Color r="1" g="1" b="1" a="1" />
-                </FontString>				
-                <FontString name="SpyStatsHonorKillsText" font="GameFontNormal">
+                </FontString>
+                <FontString name="SpyStatsPvPDeathsText" font="GameFontNormal">
                     <Anchors>
- <!--                       <Anchor point="BOTTOMRIGHT">
-                            <Offset x="640" y="16" />
-                        </Anchor> -->
-					    <Anchor point="RIGHT" relativeTo="SpyStatsPvPDeathsText" relativePoint="LEFT">  
-							<Offset x="-15" y="0" />
-						</Anchor>
+                        <Anchor point="BOTTOMLEFT">
+                            <Offset x="800" y="16" />
+                        </Anchor>
                     </Anchors>
                     <Color r="1" g="1" b="1" a="1" />
                 </FontString>
@@ -399,7 +396,7 @@
                         </Backdrop>
                         <Scripts>
                             <OnLoad>
-                                self:SetBackdropColor(0,0,0,.65)
+ <!--                               self:SetBackdropColor(0,0,0,.65)  -->
                             </OnLoad>
                         </Scripts>
                         <Frames>
@@ -668,7 +665,7 @@
                         </Frames>
                         <Scripts>
                             <OnLoad>
-                                self:SetBackdropColor(0,0,0,.5)
+<!--                                self:SetBackdropColor(0,0,0,.5)  -->
                                 self:SetFrameLevel(self:GetParent():GetFrameLevel() - 1)
                             </OnLoad>
                         </Scripts>
@@ -701,7 +698,7 @@
                 </Backdrop>
                 <Scripts>
                     <OnLoad>
-                        self:SetBackdropColor(0,0,0,.65)
+<!--                        self:SetBackdropColor(0,0,0,.65) -->
                     </OnLoad>
                     <OnEnterPressed>
                         self:ClearFocus()
@@ -778,7 +775,7 @@
         </Frames>
         <Scripts>
             <OnLoad>
-                self:SetBackdropColor(0,0,0,.95)
+ <!--               self:SetBackdropColor(0,0,0,.95) -->
             </OnLoad>
             <OnShow>
 <!--                PlaySound("igCharacterInfoTab") Error in v7.3 -->

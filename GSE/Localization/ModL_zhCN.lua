@@ -46,6 +46,10 @@ L["About"] = "关于"
 L["About GSE"] = "关于 GSE"
 L["Actions"] = "动作"
 L["Active Version: "] = "活动版本: "
+--[[Translation missing --]]
+L["Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."] = "Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."
+--[[Translation missing --]]
+L["Add Variable"] = "Add Variable"
 L["Addin Version %s contained versions for the following macros:"] = "加载版本 %s 包含于以下宏:"
 L["All macros are now stored as upper case names.  You may need to re-add your old macros to your action bars."] = "所有的宏现在被储存为大写.你也许需要重新添加旧的宏到动作栏."
 L["Alt Keys."] = "Alt键."
@@ -69,6 +73,8 @@ L["By setting this value the Sequence Editor will show every macro for every cla
 L["By setting this value the Sequence Editor will show every macro for your class.  Turning this off will only show the class macros for your current specialisation."] = "勾选此项,序列编辑器将显示职业的全部专精的宏.否则只显示当前专精的宏."
 L["Cancel"] = "撤销/取消"
 L["CheckMacroCreated"] = "检测已创建宏"
+--[[Translation missing --]]
+L["Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."] = "Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."
 L["Choose import action:"] = "选择导入动作:"
 L["Choose Language"] = "选择语言"
 L["Classwide Macro"] = "职业通用宏"
@@ -112,17 +118,27 @@ L["Debug Output Options"] = "调试输出设置"
 L["Debug Sequence Execution"] = "调试序列执行"
 --[[Translation missing --]]
 L["Decompress"] = "Decompress"
+--[[Translation missing --]]
+L["Default Editor Height"] = "Default Editor Height"
+--[[Translation missing --]]
+L["Default Editor Width"] = "Default Editor Width"
 L["Default Import Action"] = "默认导入动作"
 L["Default Version"] = "默认版本"
+--[[Translation missing --]]
+L["Del"] = "Del"
 L["Delete"] = "删除"
 L["Delete Icon"] = "删除图标"
 L["Delete Orphaned Macros on Logout"] = "登出时删除孤立的宏"
 --[[Translation missing --]]
 L["Delete this macro.  This is not able to be undone."] = "Delete this macro.  This is not able to be undone."
 --[[Translation missing --]]
+L["Delete this variable from the sequence."] = "Delete this variable from the sequence."
+--[[Translation missing --]]
 L[ [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=] ] = [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=]
+--[[Translation missing --]]
+L["Delete Variable"] = "Delete Variable"
 L["Delete Version"] = "删除版本"
 L["Different helpTxt"] = "不同的帮助脚本"
 L["Disable"] = "禁用"
@@ -221,6 +237,10 @@ L["Hide Minimap Icon for LibDataBroker (LDB) data text."] = "Hide Minimap Icon f
 L["Hides the message that GSE is loaded."] = "隐藏GSE加载的信息."
 --[[Translation missing --]]
 L["History"] = "History"
+--[[Translation missing --]]
+L["How many pixels high should the Editor start at.  Defaults to 700"] = "How many pixels high should the Editor start at.  Defaults to 700"
+--[[Translation missing --]]
+L["How many pixels wide should the Editor start at.  Defaults to 700"] = "How many pixels wide should the Editor start at.  Defaults to 700"
 L["Icon Colour"] = "图标颜色"
 L["If you load Gnome Sequencer - Enhanced and the Sequence Editor and want to create new macros from scratch, this will enable a first cut sequenced template that you can load into the editor as a starting point.  This enables a Hello World macro called Draik01.  You will need to do a /console reloadui after this for this to take effect."] = "如果你加载 Gnome Sequencer - Enhanced(侏儒序列器-增强) 和 Sequence Editor(序列编辑器) 并希望从头开始创建新的宏, 这将启用一个初始序列模板,你可以加载到编辑器作为起点.  它会启动一个名为Draik01的宏作为Hellow World宏.  你需要输入 /console reloadui 之后使之生效."
 L["Ignore"] = "忽略"
@@ -262,6 +282,8 @@ L["Macro Icon"] = "宏图标"
 L["Macro Import Successful."] = "宏导入成功."
 L["Macro Reset"] = "宏重置"
 L["Macro unable to be imported."] = "无法导入宏."
+--[[Translation missing --]]
+L["Macro Variables"] = "Macro Variables"
 L["Macro Version %d deleted."] = "宏版本%d 已删除."
 L["Make Active"] = "使它活动"
 L["Manage Versions"] = "管理版本"
@@ -282,6 +304,8 @@ L["Mythic"] = "史诗难度"
 L["Mythic setting changed to Default."] = "Mythic setting changed to Default."
 L["Mythic+"] = "史诗+难度"
 L["Mythic+ setting changed to Default."] = "史诗+设置更改为默认."
+--[[Translation missing --]]
+L["Name"] = "Name"
 L["Neck"] = "颈部"
 L["New"] = "新"
 L["New Sequence Name"] = "新序列名称"
@@ -362,6 +386,8 @@ L["Reset this macro when you exit combat."] = "Reset this macro when you exit co
 L["Resets"] = "重置"
 L["Resets macros back to the initial state when out of combat."] = "在退出战斗时宏重置为初始状态."
 L["Resume"] = "恢复"
+--[[Translation missing --]]
+L["Returns your current Global Cooldown value accounting for your haste if that stat is present."] = "Returns your current Global Cooldown value accounting for your haste if that stat is present."
 L["Right Alt Key"] = "右Alt键"
 L["Right Control Key"] = "右Ctrl键"
 L["Right Mouse Button"] = "鼠标右键"
@@ -390,6 +416,8 @@ L["Sequence Debugger"] = "序列调试器"
 L["Sequence Editor"] = "序列编辑器"
 L["Sequence Name"] = "序列名"
 L["Sequence Name %s is in Use. Please choose a different name."] = "序列名称 %s 已被使用.请选择一个不同的名称."
+--[[Translation missing --]]
+L["Sequence Named %s was not specifically designed for this version of the game.  It may need adjustments."] = "Sequence Named %s was not specifically designed for this version of the game.  It may need adjustments."
 L["Sequence Saved as version "] = "保存序列版本为 "
 L["Sequence specID set to current spec of "] = "序列天赋ID设置为当前天赋 "
 --[[Translation missing --]]
@@ -416,6 +444,8 @@ L["Store output of debug messages in a Global Variable that can be referrenced b
 L["String Colour"] = "字符串颜色"
 --[[Translation missing --]]
 L["Supporters"] = "Supporters"
+--[[Translation missing --]]
+L["System Variables"] = "System Variables"
 L["Talents"] = "天赋"
 L["Target"] = "目标"
 L["Target language "] = "目标语言 "
@@ -548,8 +578,14 @@ L["Use Second Trinket in KeyRelease"] = "使用第二个饰品在释放按键"
 L["Use Verbose Export Sequence Format"] = "Use Verbose Export Sequence Format"
 L["Use WLM Export Sequence Format"] = "使用WLM导出序列格式"
 --[[Translation missing --]]
+L["Value"] = "Value"
+--[[Translation missing --]]
+L["Variables"] = "Variables"
+--[[Translation missing --]]
 L["Version"] = "Version"
 L["Version="] = "版本="
+--[[Translation missing --]]
+L["WARNING ONLY"] = "WARNING ONLY"
 --[[Translation missing --]]
 L["Website or forum URL where a player can get more information or ask questions about this macro."] = "Website or forum URL where a player can get more information or ask questions about this macro."
 --[[Translation missing --]]

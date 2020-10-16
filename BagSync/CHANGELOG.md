@@ -1,11 +1,11 @@
 # BagSync
 
-## [v13.6](https://github.com/Xruptor/BagSync/tree/v13.6) (2020-04-14)
-[Full Changelog](https://github.com/Xruptor/BagSync/compare/v13.5...v13.6)
+## [v14.2](https://github.com/Xruptor/BagSync/tree/v14.2) (2020-10-15)
+[Full Changelog](https://github.com/Xruptor/BagSync/compare/v14.1...v14.2) 
 
-- Added a final fix for certain tokens not displaying tooltips at merchant vendors.  
-    Updated the toc for Classic WOW.  
-    Finalized all changes for additional checks to prevent crashes at the AH scan.  (Fixes #101)  
-- -Final cleanup on token currency bugfix on vendors.  
-- -Attempting to add more checks for the Auction House scan.  To prevent crashes and breaking the Auction House.  
-    -Fixing an issue where sometimes the currency on the merchants do not show the properly BagSync currency info.  
+- Bump the version number.  
+- Fixes an issue where GuildRoster was firing an error.  This was mostly happening on Classic and not Retail.  (Fixes #119)  
+- Fixed an issue where the FixDB on the BagSync minimap was not working properly.  
+- Fixes a bug where BagSync data was not being shown properly on the ActionBar.  (Fixes #117)  (Fixes #118)  
+- Fixes the issue with the Profession Window and Profession Scanner.  (Fixes #114)  
+- Fix for the Currency Window , Currency Scanner and Currency Tooltip issues.  (Fixes #112)  

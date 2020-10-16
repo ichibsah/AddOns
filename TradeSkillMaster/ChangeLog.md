@@ -1,5 +1,5 @@
-## v4.9.38 Changes
+## v4.10.9 Changes
 
-* [Retail] Fixed issues with buying commodities.
+* [Retail] Added workaround for AH bugs in 9.0.1
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

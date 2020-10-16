@@ -2,7 +2,7 @@
   <Frame
     name="AuctionatorCancellingTabFrameTemplate"
     virtual="true"
-    inherits="AuctionatorTabFrameTemplate"
+    parent="AuctionHouseFrame"
     parentKey="AuctionatorCancellingFrame"
     mixin="AuctionatorCancellingFrameMixin"
     hidden="true"
@@ -10,6 +10,12 @@
     <Scripts>
       <OnLoad method="OnLoad" />
     </Scripts>
+
+    <Anchors>
+      <Anchor point="TOP" relativeKey="$parent.CategoriesList" relativePoint="TOP" y="-30"/>
+      <Anchor point="LEFT" x="4"/>
+      <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-4" y="27" />
+    </Anchors>
 
     <Frames>
       <Button inherits="RefreshButtonTemplate">
@@ -39,9 +45,17 @@
         </Anchors>
       </Frame>
 
+      <Frame parentKey="HistoricalPriceInset" inherits="AuctionatorInsetTemplate">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeKey="$parent.ResultsListing" relativePoint="TOPLEFT" x="-5" y="-25"/>
+          <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ResultsListing" relativePoint="BOTTOMRIGHT"/>
+        </Anchors>
+      </Frame>
+
       <Frame mixin="AuctionatorUndercutScanMixin">
         <Scripts>
           <OnLoad method="OnLoad"/>
+          <OnHide method="OnHide" />
           <OnEvent method="OnEvent"/>
         </Scripts>
         <Size y="45"/>
@@ -70,17 +84,6 @@
             </Scripts>
           </Button>
         </Frames>
-
-        <Layers>
-          <Layer level="BACKGROUND" textureSubLevel="-6">
-            <Texture name="$parentBg" file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true" parentKey="Bg">
-              <Anchors>
-                <Anchor point="TOPLEFT" y="-21"/>
-                <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
-              </Anchors>
-            </Texture>
-          </Layer>
-        </Layers>
       </Frame>
     </Frames>
   </Frame>

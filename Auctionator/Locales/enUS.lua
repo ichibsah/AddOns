@@ -3,7 +3,6 @@ AUCTIONATOR_LOCALES.enUS = function()
 
   L["CONFIG_BASIC_OPTIONS_CATEGORY"] = "Basic Options"
   L["CONFIG_BASIC_OPTIONS_TEXT"] = "Basic options for enabling features in Auctionator."
-  L["CONFIG_SHOPPING_LIST"] = "Shopping List Settings"
   L["CONFIG_AUTO_LIST_SEARCH"] = "Automatically scan for shopping list items."
   L["CONFIG_AUTO_LIST_SEARCH_TOOLTIP_HEADER"] = "Automatic List Search"
   L["CONFIG_AUTO_LIST_SEARCH_TOOLTIP_TEXT"] = "When a list is selected, automatically scan the auction house for the list entries. When this option is off, you may scan for the entire list when selecting the 'Search' button in the Shopping List sidebar."
@@ -23,6 +22,12 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["CONFIG_DEBUG"] = "Toggle debug output."
   L["CONFIG_DEBUG_TOOLTIP_HEADER"] = "Auctionator Debug"
   L["CONFIG_DEBUG_TOOLTIP_TEXT"] = "This is used by the maintainers to output debug messages to the chat frame."
+
+  L["CONFIG_SHOPPING_CATEGORY"] = "Shopping"
+  L["CONFIG_SHOPPING_TEXT"] = "Options to change the behaviour of the Shopping tab."
+
+  L["CONFIG_CANCELLING_CATEGORY"] = "Cancelling"
+  L["CONFIG_CANCELLING_TEXT"] = "Options to change the behaviour of the Cancelling tab."
 
 
   L["CONFIG_TOOLTIPS_CATEGORY"] = "Tooltips"
@@ -94,17 +99,16 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["ROADMAP"] = "Technical Roadmap"
   L["ROADMAP_TOOLTIP_TEXT"] = "The technical roadmap defined the work we have planned for upcoming releases of Auctionator. Please check here for implementation progress towards your favorite feature!"
   L["TRANSLATORS_HELP"] = "Please help translate!"
-  L["TRANSLATORS_GERMAN"] = "German:"
-  L["TRANSLATORS_BRAZIL_PORTUGUEUSE"] = "Brazilian Portuguese:"
-  L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Traditional Chinese:"
-  L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Simplified Chinese:"
-  L["TRANSLATORS_SPANISH"] = "Spanish:"
-  L["TRANSLATORS_LATIN_SPANISH"] = "Latin American Spanish:"
-  L["TRANSLATORS_FRENCH"] = "French:"
-  L["TRANSLATORS_ITALIAN"] = "Italian:"
-  L["TRANSLATORS_KOREAN"] = "Korean:"
-  L["TRANSLATORS_RUSSIAN"] = "Russian:"
-  L["TRANSLATORS_GERMAN"] = "German:"
+  L["TRANSLATORS_GERMAN"] = "German"
+  L["TRANSLATORS_BRAZIL_PORTUGUEUSE"] = "Brazilian Portuguese"
+  L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Traditional Chinese"
+  L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Simplified Chinese"
+  L["TRANSLATORS_SPANISH"] = "Spanish"
+  L["TRANSLATORS_LATIN_SPANISH"] = "Latin American Spanish"
+  L["TRANSLATORS_FRENCH"] = "French"
+  L["TRANSLATORS_ITALIAN"] = "Italian"
+  L["TRANSLATORS_KOREAN"] = "Korean"
+  L["TRANSLATORS_RUSSIAN"] = "Russian"
 
   L["STACK_AUCTION_INFO"] = "%s for %s (at %s each)"
   L["BIDDING_AUCTION_INFO"] = "%s bidding at %s"
@@ -114,7 +118,6 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["NEXT_SCAN_MESSAGE"] = "A full scan may be started in %s minutes and %s seconds."
   L["FULL_SCAN_FAILED"] = "Full scan failed to complete."
   L["FINISHED_PROCESSING"] = "Finished processing %s items."
-  L["STOPPED_PROCESSING"] = "Stopped processing at %s out of %s."
   L["STARTING_FULL_SCAN_ALTERNATE"] = "Starting a full scan (alternate mode)."
   L["FULL_SCAN_ALTERNATE_FAILED"] = "Full scan (alternate mode) failed to complete."
 
@@ -139,10 +142,14 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["ADD_TERM_TO_LIST_DIALOG"] = "Enter the search term to add:"
 
   L["RENAME"] = "Rename"
+  L["SAVE_AS"] = "Save As"
   L["DELETE"] = "Delete"
   L["CREATE"] = "Create"
   L["ADD_ITEM"] = "Add Item"
+  L["EDIT_ITEM"] = "Edit Item"
   L["SEARCH"] = "Search"
+  L["EXPORT"] = "Export"
+  L["IMPORT"] = "Import"
 
   L["SHOPPING_TAB"] = "Shopping"
   L["SHOPPING_TAB_HEADER"] = "Auctionator - Shopping Lists"
@@ -211,9 +218,22 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "Connected Realms"
   L["SPLASH_833_CONNECTED_REALMS_1"] = "Full scan prices are now shared between connected realms"
 
+  L["SPLASH_834_DESCRIPTION"] = "The highlights of this release are being able to import/export shopping lists and the return of the reagents search from a crafting window."
+
+  L["SPLASH_834_SHOPPING_HEADER"] = "Shopping Tab"
+  L["SPLASH_834_SHOPPING_1"] = "Added import and export feature to share shopping lists"
+  L["SPLASH_834_SHOPPING_2"] = "You can set a default shopping list to search for when opening the Shopping tab"
+  L["SPLASH_834_SHOPPING_3"] = "Ability to reorder and edit shopping list items"
+  L["SPLASH_834_SELLING_HEADER"] = "Selling Tab"
+  L["SPLASH_834_SELLING_1"] = "New favourites section in the selling tab. Right-click an item and click \"Add Favourite\" to use the feature."
+  L["SPLASH_834_SELLING_2"] = "New default quantities for selling are separated for items vs gear/pets."
+  L["SPLASH_834_MISCELLANEOUS_HEADER"] = "Miscellaneous"
+  L["SPLASH_834_MISCELLANEOUS_1"] = "Search the AH for reagents from the crafting window (a \"Search\" button appears when both the crafting window and the AH are open)"
+
   L["SPLASH_HIDE_MESSAGE"] = "Do not show until next update"
 
   L["LIST_ADD_ITEM_HEADER"] = "Add Shopping List Item"
+  L["LIST_EDIT_ITEM_HEADER"] = "Edit Shopping List Item"
   L["SEARCH_TERM"] = "Search Term"
   L["EXACT_SEARCH"]= "Exact Search"
   L["ITEM_CLASS"] = "Item Class"
@@ -226,6 +246,17 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["MAX"] = "Max"
   L["CANCEL"] = "Cancel"
   L["RESET_ALL"] = "Reset All"
+  L["LIST_IMPORT_HEADER"] = "Import Shopping Lists"
+  L["LIST_EXPORT_HEADER"] = "Export Shopping Lists"
+  L["EXPORT_AS"] = "Export as:"
+  L["EXPORT_STRING"] = "Shareable string"
+  L["EXPORT_WHISPER"] = "Whisper to"
+  L["CLOSE"] = "Close"
+  L["COPY_TEXT_HEADER"] = "Copy Text"
+  L["SELECT_ALL"] = "Select All"
+  L["UNSELECT_ALL"] = "Unselect All"
+
+  L["ANY_LOWER"] = "any"
 
   L["NO_RESULTS"] = "No results found."
 
@@ -300,10 +331,16 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["CONFIG_SELLING_ICON_SIZE"] = "Bag icon size (reload required)"
   L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Size of Icons"
   L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_TEXT"] = "This lets you make the bag item icons in the selling tab larger (up to 50) or smaller (down to 10). Default size is 42."
+  L["CONFIG_SELLING_AUTO_SELECT_NEXT"] = "Automatically select the next item in your bag"
+  L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_HEADER"] = "Automatic item selection"
+  L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_TEXT"] = "When posting automatically select the next item in the bag view."
   L["CONFIG_BAG"] = "Bag"
 
   L["HIDE"] = "Hide"
   L["RESTORE_ALL"] = "Restore All"
+  L["FAVOURITES"] = "Favourites"
+  L["ADD_FAVOURITE"] = "Add Favourite"
+  L["REMOVE_FAVOURITE"] = "Remove Favourite"
 
   L["LEFT_CLICK"] = "Left Click"
   L["RIGHT_CLICK"] = "Right Click"
@@ -315,12 +352,20 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["AUCTIONATOR"] = "Auctionator"
 
   L["DEFAULT_QUANTITY"] = "Default Quantity"
+  L["GEAR_VENDOR_PRICE_MULTIPLIER"] = "Gear vendor price multiplier"
 
   L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "Set to 0 for maximum amount"
   L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Default Posting Quantity"
   L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "This lets you change the default amount used when posting an item. Set this to 0 to use the maximum possible amount."
+  L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_SUFFIX"] = "Set to 0 for no price"
+  L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_HEADER"] = "Gear Vendor Price Default"
+  L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_TEXT"] = "This lets you set a default price for gear as a multiple of the vendor price. This is used for any gear Auctionator doesn't have a price for. Set this to 0 to not set a price."
 
   L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
+
+  L["DEFAULT_LIST_HEADER"] = "Default Shopping List"
+
+  L["REAGENT_SEARCH"] = "Reagent Search"
 
   return L
 end

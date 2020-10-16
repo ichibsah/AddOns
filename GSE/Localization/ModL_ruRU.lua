@@ -65,6 +65,10 @@ L["Actions"] = "Действия"
 --[[Translation missing --]]
 L["Active Version: "] = "Active Version: "
 --[[Translation missing --]]
+L["Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."] = "Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."
+--[[Translation missing --]]
+L["Add Variable"] = "Add Variable"
+--[[Translation missing --]]
 L["Addin Version %s contained versions for the following macros:"] = "Addin Version %s contained versions for the following macros:"
 --[[Translation missing --]]
 L["All macros are now stored as upper case names.  You may need to re-add your old macros to your action bars."] = "All macros are now stored as upper case names.  You may need to re-add your old macros to your action bars."
@@ -95,6 +99,8 @@ L["By setting this value the Sequence Editor will show every macro for your clas
 L["Cancel"] = "Отменить"
 --[[Translation missing --]]
 L["CheckMacroCreated"] = "Check Macro Created"
+--[[Translation missing --]]
+L["Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."] = "Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."
 --[[Translation missing --]]
 L["Choose import action:"] = "Choose import action:"
 L["Choose Language"] = "Выберите Язык"
@@ -153,8 +159,14 @@ L["Debug Sequence Execution"] = "Debug Sequence Execution"
 --[[Translation missing --]]
 L["Decompress"] = "Decompress"
 --[[Translation missing --]]
+L["Default Editor Height"] = "Default Editor Height"
+--[[Translation missing --]]
+L["Default Editor Width"] = "Default Editor Width"
+--[[Translation missing --]]
 L["Default Import Action"] = "Default Import Action"
 L["Default Version"] = "По Умолчанию"
+--[[Translation missing --]]
+L["Del"] = "Del"
 L["Delete"] = "Удалить"
 L["Delete Icon"] = "Удалить иконку"
 --[[Translation missing --]]
@@ -162,9 +174,13 @@ L["Delete Orphaned Macros on Logout"] = "Delete Orphaned Macros on Logout"
 --[[Translation missing --]]
 L["Delete this macro.  This is not able to be undone."] = "Delete this macro.  This is not able to be undone."
 --[[Translation missing --]]
+L["Delete this variable from the sequence."] = "Delete this variable from the sequence."
+--[[Translation missing --]]
 L[ [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=] ] = [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=]
+--[[Translation missing --]]
+L["Delete Variable"] = "Delete Variable"
 L["Delete Version"] = "Удалить версию"
 --[[Translation missing --]]
 L["Different helpTxt"] = "Different helpTxt"
@@ -293,6 +309,10 @@ L["Hides the message that GSE is loaded."] = "Скрывает сообщени�
 --[[Translation missing --]]
 L["History"] = "History"
 --[[Translation missing --]]
+L["How many pixels high should the Editor start at.  Defaults to 700"] = "How many pixels high should the Editor start at.  Defaults to 700"
+--[[Translation missing --]]
+L["How many pixels wide should the Editor start at.  Defaults to 700"] = "How many pixels wide should the Editor start at.  Defaults to 700"
+--[[Translation missing --]]
 L["Icon Colour"] = "Icon Colour"
 --[[Translation missing --]]
 L["If you load Gnome Sequencer - Enhanced and the Sequence Editor and want to create new macros from scratch, this will enable a first cut sequenced template that you can load into the editor as a starting point.  This enables a Hello World macro called Draik01.  You will need to do a /console reloadui after this for this to take effect."] = "If you load Gnome Sequencer - Enhanced and the Sequence Editor and want to create new macros from scratch, this will enable a first cut sequenced template that you can load into the editor as a starting point.  This enables a Hello World macro called Draik01.  You will need to do a /console reloadui after this for this to take effect."
@@ -359,6 +379,8 @@ L["Macro Reset"] = "Сброс Макро"
 --[[Translation missing --]]
 L["Macro unable to be imported."] = "Macro unable to be imported."
 --[[Translation missing --]]
+L["Macro Variables"] = "Macro Variables"
+--[[Translation missing --]]
 L["Macro Version %d deleted."] = "Macro Version %d deleted."
 --[[Translation missing --]]
 L["Make Active"] = "Make Active"
@@ -387,6 +409,8 @@ L["Mythic setting changed to Default."] = "Mythic setting changed to Default."
 L["Mythic+"] = "Mythic+"
 --[[Translation missing --]]
 L["Mythic+ setting changed to Default."] = "Mythic+ setting changed to Default."
+--[[Translation missing --]]
+L["Name"] = "Name"
 L["Neck"] = "Шея"
 L["New"] = "Новый"
 --[[Translation missing --]]
@@ -511,6 +535,8 @@ L["Reset this macro when you exit combat."] = "Reset this macro when you exit co
 L["Resets"] = "Сбросы"
 L["Resets macros back to the initial state when out of combat."] = "Сбрасывает макросы обратно в исходное состояние, когда они находятся вне боя."
 L["Resume"] = "Продолжить"
+--[[Translation missing --]]
+L["Returns your current Global Cooldown value accounting for your haste if that stat is present."] = "Returns your current Global Cooldown value accounting for your haste if that stat is present."
 L["Right Alt Key"] = "Правая клавиша Alt"
 L["Right Control Key"] = "Правая клавиша Control"
 L["Right Mouse Button"] = "Правая кнопка мыши"
@@ -548,6 +574,8 @@ L["Sequence Editor"] = "Sequence Editor"
 L["Sequence Name"] = "Имя Последовательности"
 --[[Translation missing --]]
 L["Sequence Name %s is in Use. Please choose a different name."] = "Sequence Name %s is in Use. Please choose a different name."
+--[[Translation missing --]]
+L["Sequence Named %s was not specifically designed for this version of the game.  It may need adjustments."] = "Sequence Named %s was not specifically designed for this version of the game.  It may need adjustments."
 --[[Translation missing --]]
 L["Sequence Saved as version "] = "Sequence Saved as version "
 --[[Translation missing --]]
@@ -591,6 +619,8 @@ L["Store output of debug messages in a Global Variable that can be referrenced b
 L["String Colour"] = "String Colour"
 --[[Translation missing --]]
 L["Supporters"] = "Supporters"
+--[[Translation missing --]]
+L["System Variables"] = "System Variables"
 L["Talents"] = "Таланты"
 L["Target"] = "Цель"
 --[[Translation missing --]]
@@ -774,9 +804,15 @@ L["Use Verbose Export Sequence Format"] = "Use Verbose Export Sequence Format"
 --[[Translation missing --]]
 L["Use WLM Export Sequence Format"] = "Use WLM Export Sequence Format"
 --[[Translation missing --]]
+L["Value"] = "Value"
+--[[Translation missing --]]
+L["Variables"] = "Variables"
+--[[Translation missing --]]
 L["Version"] = "Version"
 --[[Translation missing --]]
 L["Version="] = "Version="
+--[[Translation missing --]]
+L["WARNING ONLY"] = "WARNING ONLY"
 --[[Translation missing --]]
 L["Website or forum URL where a player can get more information or ask questions about this macro."] = "Website or forum URL where a player can get more information or ask questions about this macro."
 --[[Translation missing --]]

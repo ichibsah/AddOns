@@ -26,7 +26,7 @@
 								end
 							</OnLeave>
                                                         <OnClick>
-								Cs_MoveUp(self)
+																CurrencySorter.MoveUp(self)
                                                                 self:Hide()
                                                         </OnClick>
 
@@ -58,8 +58,7 @@
 								end
 							</OnLeave>
                                                         <OnClick>
-								Cs_MoveDown(self)
-                                                                ModTokenFrame_Update()
+																CurrencySorter.MoveDown(self)
                                                                 self:Hide()
                                                         </OnClick>
 						</Scripts>

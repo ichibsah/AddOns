@@ -32,11 +32,19 @@ local function AAP_CreateQuestList()
 		AAP.PartyList.PartyFrames[CLi]:SetHeight(25)
 		AAP.PartyList.PartyFrames[CLi]:SetPoint("BOTTOMLEFT", AAP.PartyList.PartyFrame, "BOTTOMLEFT",40,-((25*CLi)-25))
 		AAP.PartyList.PartyFrames[CLi]:Hide()
-		AAP.PartyList.PartyFrames[CLi]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.PartyList.PartyFrames[CLi]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.PartyList.PartyFrames[CLi]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.PartyList.PartyFrames[CLi])
+AAP.PartyList.PartyFrames[CLi].texture = t
+
+
+
+
 		AAP.PartyList.PartyFrames[CLi]:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" and AAP1[AAP.Realm][AAP.Name]["Settings"]["Lock"] == 0 then
 				AAP.PartyList.PartyFrame:StartMoving();
@@ -49,7 +57,7 @@ local function AAP_CreateQuestList()
 				AAP.PartyList.PartyFrame.isMoving = false;
 				AAP1[AAP.Realm][AAP.Name]["Settings"]["Partyleft"] = AAP.PartyList.PartyFrame:GetLeft()
 				AAP1[AAP.Realm][AAP.Name]["Settings"]["Partytop"] = AAP.PartyList.PartyFrame:GetTop() - GetScreenHeight()
-				AAP.PartyList.PartyFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", AAP1[AAP.Realm][AAP.Name]["Settings"]["Partyleft"], AAP1[AAP.Realm][AAP.Name]["Settings"]["Partytop"])
+				--AAP.PartyList.PartyFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", AAP1[AAP.Realm][AAP.Name]["Settings"]["Partyleft"], AAP1[AAP.Realm][AAP.Name]["Settings"]["Partytop"])
 			end
 		end)
 		AAP.PartyList.PartyFrames[CLi]:SetScript("OnHide", function(self)
@@ -58,7 +66,7 @@ local function AAP_CreateQuestList()
 				AAP.PartyList.PartyFrame.isMoving = false;
 				AAP1[AAP.Realm][AAP.Name]["Settings"]["Partyleft"] = AAP.PartyList.PartyFrame:GetLeft()
 				AAP1[AAP.Realm][AAP.Name]["Settings"]["Partytop"] = AAP.PartyList.PartyFrame:GetTop() - GetScreenHeight()
-				AAP.PartyList.PartyFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", AAP1[AAP.Realm][AAP.Name]["Settings"]["Partyleft"], AAP1[AAP.Realm][AAP.Name]["Settings"]["Partytop"])
+				--AAP.PartyList.PartyFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", AAP1[AAP.Realm][AAP.Name]["Settings"]["Partyleft"], AAP1[AAP.Realm][AAP.Name]["Settings"]["Partytop"])
 			end
 		end)
 		
@@ -79,11 +87,16 @@ local function AAP_CreateQuestList()
 		AAP.PartyList.PartyFrames2[CLi]:SetHeight(25)
 		AAP.PartyList.PartyFrames2[CLi]:SetPoint("BOTTOMLEFT", AAP.PartyList.PartyFrame, "BOTTOMLEFT",0,-((25*CLi)-25))
 		AAP.PartyList.PartyFrames2[CLi]:Hide()
-		AAP.PartyList.PartyFrames2[CLi]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.PartyList.PartyFrames2[CLi]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.PartyList.PartyFrames2[CLi]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.PartyList.PartyFrames2[CLi])
+AAP.PartyList.PartyFrames2[CLi].texture = t
+
 		AAP.PartyList.PartyFrames2[CLi]:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" and AAP1[AAP.Realm][AAP.Name]["Settings"]["Lock"] == 0 then
 				AAP.PartyList.PartyFrame:StartMoving();
@@ -131,11 +144,16 @@ local function AAP_CreateQuestList()
 	AAP.QuestList.SugQuestFrame:EnableMouse(true)
 	AAP.QuestList.SugQuestFrame:SetFrameStrata("LOW")
 	AAP.QuestList.SugQuestFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", AAP1[AAP.Realm][AAP.Name]["Settings"]["Sugleft"], AAP1[AAP.Realm][AAP.Name]["Settings"]["Sugtop"])
-	AAP.QuestList.SugQuestFrame:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+	--AAP.QuestList.SugQuestFrame:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.QuestList.SugQuestFrame:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.QuestList.SugQuestFrame)
+AAP.QuestList.SugQuestFrame.texture = t
+
 	AAP.QuestList.SugQuestFrame:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			AAP.QuestList.SugQuestFrame:StartMoving();
@@ -235,12 +253,17 @@ local function AAP_CreateQuestList()
 	AAP.QuestList.Greetings:SetMovable(true)
 	AAP.QuestList.Greetings:EnableMouse(true)
 	AAP.QuestList.Greetings:SetFrameStrata("LOW")
-	AAP.QuestList.Greetings:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-	AAP.QuestList.Greetings:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+	AAP.QuestList.Greetings:SetPoint("LEFT", UIParent, "LEFT", 300, 0)
+	--AAP.QuestList.Greetings:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.QuestList.Greetings:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.QuestList.Greetings)
+AAP.QuestList.Greetings.texture = t
+
 	AAP.QuestList.Greetings:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			AAP.QuestList.Greetings:StartMoving();
@@ -276,7 +299,7 @@ local function AAP_CreateQuestList()
 	AAP.QuestList.Greetings2FS221:SetHeight(72)
 	AAP.QuestList.Greetings2FS221:SetJustifyH("LEFT")
 	AAP.QuestList.Greetings2FS221:SetFontObject("GameFontNormal")
-	AAP.QuestList.Greetings2FS221:SetText("Horde require 40+ Goblin Glider kits.")
+	AAP.QuestList.Greetings2FS221:SetText("Require 5+ Goblin Glider kits.")
 	AAP.QuestList.Greetings2FS221:SetTextColor(1, 1, 0)
 
 	AAP.QuestList.Greetings2FS2 = AAP.QuestList.Greetings:CreateFontString("AAPGreetingsFS2","ARTWORK", "ChatFontNormal")
@@ -286,7 +309,7 @@ local function AAP_CreateQuestList()
 	AAP.QuestList.Greetings2FS2:SetHeight(72)
 	AAP.QuestList.Greetings2FS2:SetJustifyH("LEFT")
 	AAP.QuestList.Greetings2FS2:SetFontObject("GameFontNormal")
-	AAP.QuestList.Greetings2FS2:SetText("Special thanks to BrutallStatic for helping with 110-120, catch him at:")
+	AAP.QuestList.Greetings2FS2:SetText("Special thanks to BrutallStatic for helping with 50-60, catch him at:")
 	AAP.QuestList.Greetings2FS2:SetTextColor(1, 1, 0)
 
 	AAP.QuestList.Greetings2EB1 = CreateFrame("EditBox", "AAPGreetEBox", AAP.QuestList.Greetings, "InputBoxTemplate")
@@ -303,7 +326,7 @@ local function AAP_CreateQuestList()
 	AAP.QuestList.Greetings2FS3:SetHeight(72)
 	AAP.QuestList.Greetings2FS3:SetJustifyH("LEFT")
 	AAP.QuestList.Greetings2FS3:SetFontObject("GameFontNormal")
-	AAP.QuestList.Greetings2FS3:SetText("Special thanks to DesMephisto for helping with route for 20-100, catch him at:")
+	AAP.QuestList.Greetings2FS3:SetText("Special thanks to DesMephisto for helping with route for 1-50, catch him at:")
 	AAP.QuestList.Greetings2FS3:SetTextColor(1, 1, 0)
 
 	AAP.QuestList.Greetings2EB2 = CreateFrame("EditBox", "AAPGreetEBox2", AAP.QuestList.Greetings, "InputBoxTemplate")
@@ -417,11 +440,16 @@ local function AAP_CreateQuestList()
 	AAP.QuestList.QuestFrames["MyProgress"]:SetWidth(150)
 	AAP.QuestList.QuestFrames["MyProgress"]:SetHeight(22)
 	AAP.QuestList.QuestFrames["MyProgress"]:SetPoint("BOTTOMLEFT", AAP.QuestList.ListFrame, "BOTTOMLEFT",0,0)
-	AAP.QuestList.QuestFrames["MyProgress"]:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.QuestList.QuestFrames["MyProgress"]:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.QuestList.QuestFrames["MyProgress"]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.QuestList.QuestFrames["MyProgress"])
+AAP.QuestList.QuestFrames["MyProgress"].texture = t
+
 	AAP.QuestList.QuestFrames["MyProgress"]:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" and not AAP.QuestList.MainFrame.isMoving and AAP1[AAP.Realm][AAP.Name]["Settings"]["Lock"] == 0 then
 			AAP.QuestList.MainFrame:StartMoving();
@@ -503,11 +531,16 @@ local function AAP_CreateQuestList()
 
 		AAP.QuestList.QuestFrames[CLi]:SetHeight(38)
 		AAP.QuestList.QuestFrames[CLi]:SetPoint("BOTTOMLEFT", AAP.QuestList.ListFrame, "BOTTOMLEFT",0,-((CLi * 38)+CLi))
-		AAP.QuestList.QuestFrames[CLi]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.QuestList.QuestFrames[CLi]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.QuestList.QuestFrames[CLi]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.QuestList.QuestFrames[CLi])
+AAP.QuestList.QuestFrames[CLi].texture = t
+
 		AAP.QuestList.QuestFrames[CLi]:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" and not AAP.QuestList.MainFrame.isMoving and AAP1[AAP.Realm][AAP.Name]["Settings"]["Lock"] == 0 then
 				AAP.QuestList.MainFrame:StartMoving();
@@ -563,17 +596,22 @@ local function AAP_CreateQuestList()
 					AAP.BookingList["PrintQStep"] = 1
 					AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:Hide()
 				else
-					AAP1[AAP.Realm][AAP.Name]["BonusSkips"][tonumber(AAP.QuestList.QuestFrames[CLi]["BQid"])] = 1
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 					AAP.BookingList["PrintQStep"] = 1
 					AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:Hide()
 				end
 			end
 		end)
-		AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.QuestList.QuestFrames["FS"..CLi]["Button"])
+AAP.QuestList.QuestFrames["FS"..CLi]["Button"].texture = t
+
 		AAP.QuestList.QuestFrames["FS"..CLi]["Fontstring1"] = AAP.ArrowFrame:CreateFontString("CLSettingsFS2212","ARTWORK", "ChatFontNormal")
 		AAP.QuestList.QuestFrames["FS"..CLi]["Fontstring1"]:SetParent(AAP.QuestList.QuestFrames["FS"..CLi]["Button"])
 		AAP.QuestList.QuestFrames["FS"..CLi]["Fontstring1"]:SetPoint("CENTER", AAP.QuestList.QuestFrames["FS"..CLi]["Button"], "CENTER", 0, 0)
@@ -621,8 +659,145 @@ local function AAP_CreateQuestList()
 	end
 	
 	
+
+	AAP.QuestList.SweatOfOurBrowBuffFrame = CreateFrame("frame", "AAP_SugQuestFrameFramebufffra", UIParent)
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetWidth(230)
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetHeight(110)
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetMovable(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame:EnableMouse(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetFrameStrata("LOW")
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetPoint("TOPLEFT", UIParent, 300, -300)
+	--AAP.QuestList.SweatOfOurBrowBuffFrame:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+	AAP.QuestList.SweatOfOurBrowBuffFrame:Hide()
+local t = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.QuestList.SweatOfOurBrowBuffFrame)
+AAP.QuestList.SweatOfOurBrowBuffFrame.texture = t
+
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetScript("OnMouseDown", function(self, button)
+		if button == "LeftButton" then
+			AAP.QuestList.SweatOfOurBrowBuffFrame:StartMoving();
+			AAP.QuestList.SweatOfOurBrowBuffFrame.isMoving = true;
+		end
+	end)
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetScript("OnMouseUp", function(self, button)
+		if button == "LeftButton" and AAP.QuestList.SweatOfOurBrowBuffFrame.isMoving then
+			AAP.QuestList.SweatOfOurBrowBuffFrame:StopMovingOrSizing();
+			AAP.QuestList.SweatOfOurBrowBuffFrame.isMoving = false;
+		end
+	end)
+	AAP.QuestList.SweatOfOurBrowBuffFrame:SetScript("OnHide", function(self)
+		if ( AAP.QuestList.SweatOfOurBrowBuffFrame.isMoving ) then
+			AAP.QuestList.SweatOfOurBrowBuffFrame:StopMovingOrSizing();
+			AAP.QuestList.SweatOfOurBrowBuffFrame.isMoving = false;
+		end
+	end)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1 = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateFontString("AAP_QuestList_SweatOfOurBrowBuffFrame_FS1","ARTWORK", "ChatFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetParent(AAP.QuestList.SweatOfOurBrowBuffFrame)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetPoint("TOPLEFT",AAP.QuestList.SweatOfOurBrowBuffFrame,"TOPLEFT",5,0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetWidth(300)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetHeight(38)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetJustifyH("LEFT")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetFontObject("GameFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetText("Needed buffs for Disarming Traps:")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS1:SetTextColor(1, 1, 0)
+
+
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps = CreateFrame("frame", "AAP_SugQuestFrameFramebufffraTraps", AAP.QuestList.SweatOfOurBrowBuffFrame)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps:SetWidth(220)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps:SetHeight(18)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps:SetMovable(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps:EnableMouse(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps:SetFrameStrata("LOW")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps:SetPoint("TOPLEFT",AAP.QuestList.SweatOfOurBrowBuffFrame,"TOPLEFT",2,-40)
+local t = AAP.QuestList.SweatOfOurBrowBuffFrame.Traps:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\Buttons\\WHITE8X8")
+t:SetAllPoints(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps)
+t:SetColorTexture(0.5,0.1,0.1,1)
+AAP.QuestList.SweatOfOurBrowBuffFrame.Traps.texture = t
+
+
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2 = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateFontString("AAP_QuestList_SweatOfOurBrowBuffFrame_FS2","ARTWORK", "ChatFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetParent(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetPoint("LEFT",AAP.QuestList.SweatOfOurBrowBuffFrame.Traps,"LEFT",5,0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetWidth(300)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetHeight(38)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetJustifyH("LEFT")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetFontObject("GameFontNormalSmall")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetText("Soulweb Trap")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS2:SetTextColor(1, 1, 0)
 	
-	
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21 = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateFontString("AAP_QuestList_SweatOfOurBrowBuffFrame_FS21","ARTWORK", "ChatFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetParent(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetPoint("LEFT",AAP.QuestList.SweatOfOurBrowBuffFrame.Traps,"LEFT",85,0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetWidth(300)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetHeight(38)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetJustifyH("LEFT")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetFontObject("GameFontNormalSmall")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetText("Freshleaf buff")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS21:SetTextColor(1, 1, 0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2 = CreateFrame("frame", "AAP_SugQuestFrameFramebufffraTraps2", AAP.QuestList.SweatOfOurBrowBuffFrame)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2:SetWidth(220)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2:SetHeight(18)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2:SetMovable(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2:EnableMouse(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2:SetPoint("TOPLEFT",AAP.QuestList.SweatOfOurBrowBuffFrame,"TOPLEFT",2,-60)
+local t = AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\Buttons\\WHITE8X8")
+t:SetAllPoints(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2)
+t:SetColorTexture(0.5,0.1,0.1,1)
+AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2.texture = t
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3 = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateFontString("AAP_QuestList_SweatOfOurBrowBuffFrame_FS3","ARTWORK", "ChatFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetParent(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetPoint("LEFT",AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2,"LEFT",5,0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetWidth(300)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetHeight(38)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetJustifyH("LEFT")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetFontObject("GameFontNormalSmall")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetText("Harp Trap")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS3:SetTextColor(1, 1, 0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31 = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateFontString("AAP_QuestList_SweatOfOurBrowBuffFrame_FS31","ARTWORK", "ChatFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetParent(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetPoint("LEFT",AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2,"LEFT",85,0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetWidth(300)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetHeight(38)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetJustifyH("LEFT")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetFontObject("GameFontNormalSmall")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetText("Gossamer Thread buff")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS31:SetTextColor(1, 1, 0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3 = CreateFrame("frame", "AAP_SugQuestFrameFramebufffraTraps3", AAP.QuestList.SweatOfOurBrowBuffFrame)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3:SetWidth(220)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3:SetHeight(18)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3:SetMovable(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3:EnableMouse(true)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3:SetPoint("TOPLEFT",AAP.QuestList.SweatOfOurBrowBuffFrame,"TOPLEFT",2,-80)
+local t = AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\Buttons\\WHITE8X8")
+t:SetAllPoints(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3)
+t:SetColorTexture(0.5,0.1,0.1,1)
+AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3.texture = t
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4 = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateFontString("AAP_QuestList_SweatOfOurBrowBuffFrame_FS4","ARTWORK", "ChatFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetParent(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetPoint("LEFT",AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3,"LEFT",5,0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetWidth(300)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetHeight(38)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetJustifyH("LEFT")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetFontObject("GameFontNormalSmall")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetText("Basket Trap")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS4:SetTextColor(1, 1, 0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41 = AAP.QuestList.SweatOfOurBrowBuffFrame:CreateFontString("AAP_QuestList_SweatOfOurBrowBuffFrame_FS41","ARTWORK", "ChatFontNormal")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetParent(AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetPoint("LEFT",AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3,"LEFT",85,0)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetWidth(300)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetHeight(38)
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetJustifyH("LEFT")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetFontObject("GameFontNormalSmall")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetText("Shummerdust pile buff")
+	AAP.QuestList.SweatOfOurBrowBuffFrame.FS41:SetTextColor(1, 1, 0)
 	
 end
 

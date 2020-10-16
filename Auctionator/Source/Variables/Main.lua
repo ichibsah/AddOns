@@ -22,7 +22,7 @@ end
 
 -- All "realms" that are connected together use the same AH database, this
 -- determines which database is in use.
-local function GetConnectedRealmRoot()
+function Auctionator.Variables.GetConnectedRealmRoot()
   local currentRealm = GetRealmName()
   local connections = GetAutoCompleteRealms()
 
@@ -81,7 +81,7 @@ function Auctionator.Variables.InitializeDatabase()
     }
   end
 
-  local realm = GetConnectedRealmRoot()
+  local realm = Auctionator.Variables.GetConnectedRealmRoot()
 
   -- Check for current realm and initialize if not present
   if AUCTIONATOR_PRICE_DATABASE[realm] == nil then

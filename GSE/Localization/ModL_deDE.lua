@@ -58,6 +58,10 @@ L["About GSE"] = "About GSE"
 L["Actions"] = "Aktionen"
 L["Active Version: "] = "Verwendete Version:"
 --[[Translation missing --]]
+L["Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."] = "Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."
+--[[Translation missing --]]
+L["Add Variable"] = "Add Variable"
+--[[Translation missing --]]
 L["Addin Version %s contained versions for the following macros:"] = "Addin Version %s contained versions for the following macros:"
 --[[Translation missing --]]
 L["All macros are now stored as upper case names.  You may need to re-add your old macros to your action bars."] = "All macros are now stored as upper case names.  You may need to re-add your old macros to your action bars."
@@ -87,6 +91,8 @@ L["By setting this value the Sequence Editor will show every macro for every cla
 L["By setting this value the Sequence Editor will show every macro for your class.  Turning this off will only show the class macros for your current specialisation."] = "Wird diese Einstellung gesetzt, so wird der Sequenz Editor alle Makros für alle Klassen zeigen. Wird dies deaktiviert, werden nur die Klassenmakros für Ihre aktuelle Spezialisierung angezeigt"
 L["Cancel"] = "Abbrechen"
 L["CheckMacroCreated"] = "Überprüfe das erstellte Makro"
+--[[Translation missing --]]
+L["Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."] = "Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."
 --[[Translation missing --]]
 L["Choose import action:"] = "Choose import action:"
 L["Choose Language"] = "Wähle die Sprache"
@@ -139,17 +145,27 @@ L["Debug Sequence Execution"] = "Debug Sequence Execution"
 --[[Translation missing --]]
 L["Decompress"] = "Decompress"
 --[[Translation missing --]]
+L["Default Editor Height"] = "Default Editor Height"
+--[[Translation missing --]]
+L["Default Editor Width"] = "Default Editor Width"
+--[[Translation missing --]]
 L["Default Import Action"] = "Default Import Action"
 L["Default Version"] = "Standard Version"
+--[[Translation missing --]]
+L["Del"] = "Del"
 L["Delete"] = "Löschen"
 L["Delete Icon"] = "Lösche Bild"
 L["Delete Orphaned Macros on Logout"] = "Lösche unbenutzte Makros beim Beenden"
 --[[Translation missing --]]
 L["Delete this macro.  This is not able to be undone."] = "Delete this macro.  This is not able to be undone."
 --[[Translation missing --]]
+L["Delete this variable from the sequence."] = "Delete this variable from the sequence."
+--[[Translation missing --]]
 L[ [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=] ] = [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=]
+--[[Translation missing --]]
+L["Delete Variable"] = "Delete Variable"
 L["Delete Version"] = "Lösche Version"
 L["Different helpTxt"] = "Abweichender helpTxt"
 L["Disable"] = "Ausschalten"
@@ -269,6 +285,10 @@ L["Hides the message that GSE is loaded."] = "Versteckt die Nachricht das GSE ge
 --[[Translation missing --]]
 L["History"] = "History"
 --[[Translation missing --]]
+L["How many pixels high should the Editor start at.  Defaults to 700"] = "How many pixels high should the Editor start at.  Defaults to 700"
+--[[Translation missing --]]
+L["How many pixels wide should the Editor start at.  Defaults to 700"] = "How many pixels wide should the Editor start at.  Defaults to 700"
+--[[Translation missing --]]
 L["Icon Colour"] = "Icon Colour"
 --[[Translation missing --]]
 L["If you load Gnome Sequencer - Enhanced and the Sequence Editor and want to create new macros from scratch, this will enable a first cut sequenced template that you can load into the editor as a starting point.  This enables a Hello World macro called Draik01.  You will need to do a /console reloadui after this for this to take effect."] = "If you load Gnome Sequencer - Enhanced and the Sequence Editor and want to create new macros from scratch, this will enable a first cut sequenced template that you can load into the editor as a starting point.  This enables a Hello World macro called Draik01.  You will need to do a /console reloadui after this for this to take effect."
@@ -318,6 +338,8 @@ L["Macro Icon"] = "Makrobild "
 L["Macro Import Successful."] = "Import des Makros erfolgreich."
 L["Macro Reset"] = "Makro zurücksetzen"
 L["Macro unable to be imported."] = "Das Makro kann nicht importiert werden."
+--[[Translation missing --]]
+L["Macro Variables"] = "Macro Variables"
 L["Macro Version %d deleted."] = "Version %d des Makros gelöscht."
 L["Make Active"] = "aktivieren"
 --[[Translation missing --]]
@@ -344,6 +366,8 @@ L["Mythic setting changed to Default."] = "Mythic setting changed to Default."
 L["Mythic+"] = "Mythic+"
 --[[Translation missing --]]
 L["Mythic+ setting changed to Default."] = "Mythic+ setting changed to Default."
+--[[Translation missing --]]
+L["Name"] = "Name"
 L["Neck"] = "Hals"
 L["New"] = "Neu"
 --[[Translation missing --]]
@@ -445,6 +469,8 @@ L["Reset this macro when you exit combat."] = "Reset this macro when you exit co
 L["Resets"] = "zurücksetzen"
 L["Resets macros back to the initial state when out of combat."] = "Außerhalb des Kampfes wird das Makro in den Ausgangszustand zurückgesetzt"
 L["Resume"] = "Wiederaufnehmen"
+--[[Translation missing --]]
+L["Returns your current Global Cooldown value accounting for your haste if that stat is present."] = "Returns your current Global Cooldown value accounting for your haste if that stat is present."
 L["Right Alt Key"] = "Rechte Alt Taste"
 L["Right Control Key"] = "Rechte STRG Taste"
 L["Right Mouse Button"] = "Rechte Maustaste"
@@ -475,6 +501,8 @@ L["Sequence Editor"] = "Sequenzeditor"
 L["Sequence Name"] = "Sequenzname"
 --[[Translation missing --]]
 L["Sequence Name %s is in Use. Please choose a different name."] = "Sequence Name %s is in Use. Please choose a different name."
+--[[Translation missing --]]
+L["Sequence Named %s was not specifically designed for this version of the game.  It may need adjustments."] = "Sequence Named %s was not specifically designed for this version of the game.  It may need adjustments."
 L["Sequence Saved as version "] = "Sequenz gespeichert als Version"
 --[[Translation missing --]]
 L["Sequence specID set to current spec of "] = "Sequence specID set to current spec of "
@@ -508,6 +536,8 @@ L["Store output of debug messages in a Global Variable that can be referrenced b
 L["String Colour"] = "String Colour"
 --[[Translation missing --]]
 L["Supporters"] = "Supporters"
+--[[Translation missing --]]
+L["System Variables"] = "System Variables"
 L["Talents"] = "Talente"
 L["Target"] = "Ziel"
 L["Target language "] = "Zielsprache"
@@ -669,8 +699,14 @@ L["Use Verbose Export Sequence Format"] = "Use Verbose Export Sequence Format"
 --[[Translation missing --]]
 L["Use WLM Export Sequence Format"] = "Use WLM Export Sequence Format"
 --[[Translation missing --]]
+L["Value"] = "Value"
+--[[Translation missing --]]
+L["Variables"] = "Variables"
+--[[Translation missing --]]
 L["Version"] = "Version"
 L["Version="] = "Version="
+--[[Translation missing --]]
+L["WARNING ONLY"] = "WARNING ONLY"
 --[[Translation missing --]]
 L["Website or forum URL where a player can get more information or ask questions about this macro."] = "Website or forum URL where a player can get more information or ask questions about this macro."
 --[[Translation missing --]]

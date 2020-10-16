@@ -303,7 +303,6 @@ L["Help URL"] = true
 L["Copy this link and open it in a Browser."] = true
 L["This will display debug messages for the "] = true
 L[" Deleted Orphaned Macro "] = true
-
 --- GSE2.0.1-2.0.4
 L["Create buttons for Global Macros"] = true
 L["Global Macros are those that are valid for all classes.  GSE2 also imports unknown macros as Global.  This option will create a button for these macros so they can be called for any class.  Having all macros in this space is a performance loss hence having them saved with a the right specialisation is important."] = true
@@ -537,3 +536,27 @@ L["Version"] = true
 -- 2.5.9
 L["The version of this macro to use in Scenarios."] = true
 L["Scenario setting changed to Default."] = true
+
+-- 2.6.01
+L["Sequence Named %s was not specifically designed for this version of the game.  It may need adjustments."] = true
+L["Variables"] = true
+L["Add Variable"] = true
+L["Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."] = true
+L["Name"] = true
+L["Value"] = true
+L["Delete Variable"] = true
+L["Del"] = true
+L["Delete this variable from the sequence."] = true
+L["Default Editor Height"] = true
+L["How many pixels high should the Editor start at.  Defaults to 700"] = true
+L["Default Editor Width"] = true
+L["How many pixels wide should the Editor start at.  Defaults to 700"] = true
+
+--2.6.08
+L["WARNING ONLY"] = true
+
+-- 2.6.11
+L["Returns your current Global Cooldown value accounting for your haste if that stat is present."] = true
+L["Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."] = true
+L["System Variables"] = true
+L["Macro Variables"] = true

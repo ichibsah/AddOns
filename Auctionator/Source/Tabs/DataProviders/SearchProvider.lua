@@ -177,6 +177,7 @@ function AuctionatorSearchDataProviderMixin:ProcessItemResults(itemKey)
       bidPrice = resultInfo.bidAmount,
       level = tostring(resultInfo.itemKey.itemLevel or 0),
       owners = resultInfo.owners,
+      timeLeft = resultInfo.timeLeft,
       quantity = resultInfo.quantity,
       itemLink = resultInfo.itemLink,
       auctionID = resultInfo.auctionID,
@@ -187,6 +188,9 @@ function AuctionatorSearchDataProviderMixin:ProcessItemResults(itemKey)
     if resultInfo.itemKey.battlePetSpeciesID ~= 0 and entry.itemLink ~= nil then
       entry.level = tostring(Auctionator.Utilities.GetPetLevelFromLink(entry.itemLink))
     end
+
+    local qualityColor = Auctionator.Utilities.GetQualityColorFromLink(entry.itemLink)
+    entry.level = "|c" .. qualityColor .. entry.level .. "|r"
 
     if resultInfo.containsOwnerItem then
       -- Test if the auction has been loaded for cancelling

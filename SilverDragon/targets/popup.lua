@@ -7,6 +7,9 @@ local Debug = core.Debug
 local CreateAnimationAlpha
 local escapes = {
 	-- |TTexturePath:size1:size2:xoffset:yoffset:dimx:dimy:coordx1:coordx2:coordy1:coordy2|t
+	-- |A:atlas:height:width[:offsetX:offsetY]|a
+	-- leftClick = [[|A:NPE_LeftClick:19:18:1:|a]],
+	-- rightClick = [[|A:NPE_RightClick:20:20:1:|a]],
 	leftClick = [[|TInterface\TUTORIALFRAME\UI-TUTORIAL-FRAME:19:11:-1:0:512:512:9:67:227:306|t]],
 	rightClick = [[|TInterface\TUTORIALFRAME\UI-TUTORIAL-FRAME:20:12:0:-1:512:512:9:66:332:411|t]],
 	keyDown = [[|TInterface\TUTORIALFRAME\UI-TUTORIAL-FRAME:0:0:0:-1:512:512:9:66:437:490|t]],
@@ -16,7 +19,7 @@ local escapes = {
 
 function module:ApplyLook(popup, look)
 	-- Many values cribbed from AlertFrameSystem.xml
-	(self.Looks[look] or self.Looks.LessAwesome)(self, popup)
+	(self.Looks[look] or self.Looks.SilverDragon)(self, popup)
 end
 module.Looks = {}
 
@@ -30,8 +33,6 @@ function module:ShowFrame(data)
 	if name then
 		local macrotext = "/cleartarget\n/targetexact "..name
 		popup:SetAttribute("macrotext", macrotext)
-	else
-		name = UNKNOWN
 	end
 
 	if popup:IsVisible() then
@@ -51,7 +52,7 @@ end
 
 function module:RefreshMobData(popup)
 	local data = popup.data
-	popup.title:SetText(core:GetMobLabel(data.id) or UNKNOWN)
+	popup.title:SetText(core:GetMobLabel(data.id))
 	popup.source:SetText(data.source or "")
 
 	local achievement, achievement_name, completed = ns:AchievementMobStatus(data.id)
@@ -59,6 +60,18 @@ function module:RefreshMobData(popup)
 		popup.status:SetFormattedText("%s%s|r", completed and escapes.green or escapes.red, achievement_name)
 	else
 		popup.status:SetText("")
+	end
+
+	if ns.mobdb[data.id] and (ns.mobdb[data.id].mount or ns.mobdb[data.id].pet or ns.mobdb[data.id].toy) then
+		popup.lootIcon:Show()
+		local toy, mount, pet = ns:LootStatus(data.id)
+		if (toy or toy == nil) and (mount or mount == nil) and (pet or pet == nil) then
+			popup.lootIcon.complete:Show()
+		else
+			popup.lootIcon.complete:Hide()
+		end
+	else
+		popup.lootIcon:Hide()
 	end
 end
 
@@ -87,7 +100,7 @@ end
 
 do
 	local bad_ids = {
-		[83008] = true, -- Haakun the All-Consuming
+		-- [83008] = true, -- Haakun the All-Consuming
 	}
 	function module:IsModelBlacklisted(id, unit)
 		if not (id or unit) then
@@ -114,7 +127,7 @@ local PopupClassMetatable = {__index = PopupClass}
 
 function module:CreatePopup()
 	-- Set up the frame
-	local popup = CreateFrame("Button", "SilverDragonPopupButton", UIParent, "SecureActionButtonTemplate, SecureHandlerShowHideTemplate")
+	local popup = CreateFrame("Button", "SilverDragonPopupButton", UIParent, "SecureActionButtonTemplate, SecureHandlerShowHideTemplate, BackdropTemplate")
 	module.popup = popup
 	setmetatable(popup, PopupClassMetatable)
 
@@ -151,6 +164,18 @@ function module:CreatePopup()
 	raidIcon:SetTexture([[Interface\TargetingFrame\UI-RaidTargetingIcons]])
 	raidIcon:Hide()
 
+	local lootIcon = CreateFrame("Frame", nil, popup)
+	popup.lootIcon = lootIcon
+	lootIcon:SetSize(40, 40)
+	lootIcon.texture = lootIcon:CreateTexture(nil, "OVERLAY", nil, 0)
+	lootIcon.texture:SetAllPoints(lootIcon)
+	lootIcon.texture:SetAtlas("ShipMissionIcon-Treasure-MapBadge")
+	lootIcon:Hide()
+	lootIcon.complete = lootIcon:CreateTexture(nil, "OVERLAY", nil, 1)
+	lootIcon.complete:SetAllPoints(lootIcon)
+	lootIcon.complete:SetAtlas("pvpqueue-conquestbar-checkmark")
+	lootIcon.complete:Hide()
+
 	local dead = model:CreateTexture(nil, "OVERLAY")
 	popup.dead = dead
 	dead:SetAtlas([[XMarksTheSpot]])
@@ -181,10 +206,15 @@ function module:CreatePopup()
 	close:GetHighlightTexture():SetTexture([[Interface\FriendsFrame\UI-Toast-CloseButton-Highlight]])
 	close:GetNormalTexture():SetTexture([[Interface\FriendsFrame\UI-Toast-CloseButton-Up]])
 	close:GetPushedTexture():SetTexture([[Interface\FriendsFrame\UI-Toast-CloseButton-Down]])
+	close:RegisterForClicks("AnyUp")
+	-- called as onclick(self, button, down):
 	close:SetAttribute("_onclick", [[
-		local button = self:GetParent()
-		button:Disable()
-		button:Hide()
+		local popup = self:GetParent()
+		popup:Disable()
+		popup:Hide()
+		if button == "RightButton" then
+			popup:CallMethod("DoIgnore")
+		end
 	]])
 
 	-- Flashy effects
@@ -250,9 +280,13 @@ function module:CreatePopup()
 	popup:SetScript("OnUpdate", popup.scripts.OnUpdate)
 	popup:SetScript("OnDragStart", popup.scripts.OnDragStart)
 	popup:SetScript("OnDragStop", popup.scripts.OnDragStop)
+	popup:SetScript("OnMouseDown", popup.scripts.OnMouseDown)
 
 	popup.close:SetScript("OnEnter", popup.scripts.CloseOnEnter)
 	popup.close:SetScript("OnLeave", popup.scripts.CloseOnLeave)
+
+	popup.lootIcon:SetScript("OnEnter", popup.scripts.LootOnEnter)
+	popup.lootIcon:SetScript("OnLeave", popup.scripts.LootOnLeave)
 
 	self:ApplyLook(popup, self.db.profile.style)
 
@@ -281,7 +315,13 @@ function PopupClass:SetRaidIcon(icon)
 end
 
 function PopupClass:ShouldBeDraggable()
-	return (not module.db.profile.locked) or IsModifierKeyDown()
+	return (not module.db.profile.locked) or IsAltKeyDown()
+end
+
+function PopupClass:DoIgnore()
+	if self.data and self.data.id then
+		core:SetIgnore(self.data.id, true)
+	end
 end
 
 function PopupClass:HideWhenPossible()
@@ -307,10 +347,15 @@ PopupClass.scripts = {
 		GameTooltip:SetOwner(self, anchor, 0, -60)
 		GameTooltip:AddLine(escapes.leftClick .. " " .. TARGET)
 		if module.db.profile.locked then
-			GameTooltip:AddLine(escapes.keyDown .. "ALT + " .. escapes.leftClick .. " + " .. DRAG_MODEL .. "  " .. MOVE_FRAME)
+			GameTooltip:AddLine(escapes.keyDown .. ALT_KEY_TEXT .. " + " .. escapes.leftClick .. " + " .. DRAG_MODEL .. "  " .. MOVE_FRAME)
 		else
 			GameTooltip:AddLine(escapes.leftClick .. " + " .. DRAG_MODEL .. "  " .. MOVE_FRAME)
 		end
+		GameTooltip:AddLine(escapes.keyDown .. CTRL_KEY_TEXT .. " + " .. escapes.leftClick .. "  " .. MAP_PIN )
+		if C_Map.CanSetUserWaypointOnMap(self.data.zone) and self.data.x > 0 and self.data.y > 0 then
+			GameTooltip:AddLine(escapes.keyDown .. SHIFT_KEY_TEXT .. " + " .. escapes.leftClick .. "  " .. TRADESKILL_POST )
+		end
+		GameTooltip:AddLine(escapes.rightClick .. " " .. CLOSE)
 		GameTooltip:Show()
 
 		self.glow.animIn:Stop() -- in case
@@ -351,6 +396,25 @@ PopupClass.scripts = {
 	OnDragStop = function(self)
 		self:StopMovingOrSizing()
 	end,
+	OnMouseDown = function(self, button)
+		if button == "RightButton" then
+			self:HideWhenPossible()
+		elseif IsControlKeyDown() then
+			module:Point()
+		elseif IsShiftKeyDown() then
+			-- worldmap:uiMapId:x:y
+			ChatEdit_InsertLink(("|cffffff00|Hworldmap:%d:%d:%d|h[%s]|h|r"):format(
+				self.data.zone,
+				self.data.x * 10000,
+				self.data.y * 10000,
+				-- Can't do this:
+				-- core:GetMobLabel(self.data.id) or UNKNOWN
+				-- WoW seems to filter out anything which isn't the standard MAP_PIN_HYPERLINK
+				MAP_PIN_HYPERLINK
+			))
+			PlaySound(SOUNDKIT.UI_MAP_WAYPOINT_CHAT_SHARE)
+		end
+	end,
 	-- hooked:
 	OnShow = function(self)
 		self:SetAlpha(1)
@@ -383,6 +447,7 @@ PopupClass.scripts = {
 		self.animFade:Stop()
 
 		self.raidIcon:Hide()
+		self.lootIcon:Hide()
 		self.dead:SetAlpha(0)
 		self.model:ClearModel()
 
@@ -395,9 +460,23 @@ PopupClass.scripts = {
 	CloseOnEnter = function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_CURSOR", 0, 0)
 		GameTooltip:AddLine(escapes.leftClick .. " " .. CLOSE)
+		GameTooltip:AddLine(escapes.rightClick .. " " .. IGNORE)
 		GameTooltip:Show()
 	end,
 	CloseOnLeave = function(self)
+		GameTooltip:Hide()
+	end,
+	-- Loot icon
+	LootOnEnter = function(self)
+		local id = self:GetParent().data.id
+		if not ns.mobdb[id] then
+			return
+		end
+		GameTooltip:SetOwner(self, "ANCHOR_CURSOR", 0, 0)
+		ns:UpdateTooltipWithLootDetails(GameTooltip, id)
+		GameTooltip:Show()
+	end,
+	LootOnLeave = function(self)
 		GameTooltip:Hide()
 	end,
 	-- Common animations

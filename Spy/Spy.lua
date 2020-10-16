@@ -7,11 +7,12 @@ local fonts = SM:List("font")
 local _
 
 Spy = LibStub("AceAddon-3.0"):NewAddon("Spy", "AceConsole-3.0", "AceEvent-3.0", "AceComm-3.0", "AceTimer-3.0")
-Spy.Version = "3.7.1"
+Spy.Version = "3.8.0"
 Spy.DatabaseVersion = "1.1"
 Spy.Signature = "[Spy]"
 Spy.ButtonLimit = 15
-Spy.MaximumPlayerLevel = MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()]
+--Spy.MaximumPlayerLevel = MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()]
+Spy.MaximumPlayerLevel = GetMaxLevelForLatestExpansion()
 Spy.MapNoteLimit = 20
 Spy.MapProximityThreshold = 0.02
 Spy.CurrentMapNote = 1

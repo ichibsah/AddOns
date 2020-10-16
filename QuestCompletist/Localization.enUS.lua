@@ -451,7 +451,7 @@ qcLocalize = {
 	NYALOTHATHEWALKINGCITY = "Ny'alotha, The Waking City",
 	VISIONSOFNZOTH = "Visions of N'Zoth",
 	BLACKEMPIRECAMPAIGN = "Black Empire Campaign",
-	WORLDQUEST = "World Quests",
+	--WORLDQUEST = "World Quests",
 	-- Shadowlands Code
 	SHADOWLANDS = "Shadowlands",
 	ARDENWEALD = "Ardenweald",

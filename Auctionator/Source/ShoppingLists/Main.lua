@@ -13,6 +13,11 @@ function Auctionator.ShoppingLists.CreateTemporary(listName)
   })
 end
 
+function Auctionator.ShoppingLists.MakePermanent(listName)
+  local list = Auctionator.ShoppingLists.GetListByName(listName)
+  list.isTemporary = false
+end
+
 function Auctionator.ShoppingLists.ListIndex(listName)
   for index, list in ipairs(Auctionator.ShoppingLists.Lists) do
     if list.name == listName then
@@ -45,25 +50,6 @@ function Auctionator.ShoppingLists.GetListByName(listName)
   end
 
   return Auctionator.ShoppingLists.Lists[listIndex]
-end
-
-function Auctionator.ShoppingLists.GetExportString(listName)
-  local list = Auctionator.ShoppingLists.GetListByName(listName)
-
-  local result = ""
-  for _, item in ipairs(list.items) do
-    result = result .. item .. "\n"
-  end
-
-  result = gsub(result, "\n$", "")
-
-  return result
-end
-
-function Auctionator.ShoppingLists.ImportFromString(listName, importString)
-  local list = Auctionator.ShoppingLists.GetListByName(listName)
-
-  list.items = {strsplit("\n", importString)}
 end
 
 function Auctionator.ShoppingLists.Prune()

@@ -18,6 +18,7 @@ function module:OnInitialize()
 				nameplate = true,
 				vignette = true,
 				['point-of-interest'] = true,
+				chat = true,
 				groupsync = true,
 				guildsync = false,
 				fake = true,
@@ -71,6 +72,7 @@ function module:OnInitialize()
 							nameplate = "Nameplates",
 							vignette = "Vignettes",
 							['point-of-interest'] = "Map Points of Interest",
+							chat = "Chat yells",
 							groupsync = "Group Sync",
 							guildsync = "Guild Sync",
 						},
@@ -85,7 +87,7 @@ function module:OnInitialize()
 			},
 		}
 		for key in pairs(self.Looks) do
-			config.options.plugins.clicktarget.clicktarget.args.style.values[key] = key
+			config.options.plugins.clicktarget.clicktarget.args.style.values[key] = key:gsub("_", ": ")
 		end
 	end
 
@@ -103,6 +105,7 @@ function module:Announce(callback, id, zone, x, y, dead, source, unit)
 		end
 	end
 	if not self.db.profile.sources[source] then
+		Debug("Not showing popup, source disabled", source)
 		return
 	end
 	local data = {
@@ -110,14 +113,26 @@ function module:Announce(callback, id, zone, x, y, dead, source, unit)
 		unit = unit,
 		source = source,
 		dead = dead,
+		zone = zone,
+		x = x or 0,
+		y = y or 0,
 	}
 	if InCombatLockdown() then
+		Debug("Queueing popup for out-of-combat")
 		pending = data
 	else
 		self:ShowFrame(data)
 	end
 	FlashClientIcon() -- If you're tabbed out, bounce the WoW icon if we're in a context that supports that
 	data.unit = nil -- can't be trusted to remain the same
+end
+
+function module:Point()
+	local data = self.popup.data
+	if data and data.zone and data.x and data.y then
+		-- point to it, without a timeout, and ignoring whether it'll be replacing an existing waypoint
+		core:GetModule("TomTom"):PointTo(data.id, data.zone, data.x, data.y, 0, true)
+	end
 end
 
 function module:Marked(callback, id, marker, unit)
@@ -128,7 +143,8 @@ end
 
 function module:PLAYER_REGEN_ENABLED()
 	if pending then
-		pending = nil
+		Debug("Showing queued popup")
 		self:ShowFrame(pending)
+		pending = nil
 	end
 end

@@ -60,6 +60,9 @@ function AAP.Testa()
 	end
 end
 function AAP.ZoneQuestOrderList()
+	if (AAP1["Debug"]) then
+		print("Function: AAP.ZoneQuestOrderList()")
+	end
 	AAP.ZoneQuestOrder = CreateFrame("frame", "AAPQOrderList", UIParent)
 	AAP.ZoneQuestOrder:SetWidth(231)
 	AAP.ZoneQuestOrder:SetHeight(440)
@@ -71,11 +74,16 @@ function AAP.ZoneQuestOrderList()
 	AAP.ZoneQuestOrder.ZoneName:SetWidth(100)
 	AAP.ZoneQuestOrder.ZoneName:SetHeight(16)
 	AAP.ZoneQuestOrder.ZoneName:SetPoint("BOTTOM", AAP.ZoneQuestOrder, "TOP",0,0)
-	AAP.ZoneQuestOrder.ZoneName:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.ZoneQuestOrder.ZoneName:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.ZoneQuestOrder.ZoneName:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneQuestOrder.ZoneName)
+AAP.ZoneQuestOrder.ZoneName.texture = t
+
 	AAP.ZoneQuestOrder.ZoneName:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			AAP.ZoneQuestOrder:StartMoving();
@@ -131,11 +139,16 @@ function AAP.ZoneQuestOrderList()
 		AAP.ZoneQuestOrder:Hide()
 		AAP.OptionsFrame.QorderListzCheckButton:SetChecked(false)
 	end)
-	AAP.ZoneQuestOrder:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.ZoneQuestOrder:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.ZoneQuestOrder:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneQuestOrder)
+AAP.ZoneQuestOrder.texture = t
+
 	AAP.ZoneQuestOrder:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			AAP.ZoneQuestOrder:StartMoving();
@@ -169,11 +182,16 @@ function AAP.ZoneQuestOrderList()
 	AAP.ZoneQuestOrder["Current"]:SetWidth(25)
 	AAP.ZoneQuestOrder["Current"]:SetHeight(16)
 	AAP.ZoneQuestOrder["Current"]:SetPoint("RIGHT", AAP.ZoneQuestOrder, "LEFT",0,0)
-	AAP.ZoneQuestOrder["Current"]:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.ZoneQuestOrder["Current"]:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.ZoneQuestOrder["Current"]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneQuestOrder["Current"])
+AAP.ZoneQuestOrder["Current"].texture = t
+
 	AAP.ZoneQuestOrder["Current"]["FS"] = AAP.ZoneQuestOrder["Current"]:CreateFontString("AAPZoneQuestOrderFSCurrent","ARTWORK", "ChatFontNormal")
 	AAP.ZoneQuestOrder["Current"]["FS"]:SetParent(AAP.ZoneQuestOrder["Current"])
 	AAP.ZoneQuestOrder["Current"]["FS"]:SetPoint("CENTER",AAP.ZoneQuestOrder["Current"],"CENTER",1,0)
@@ -199,11 +217,16 @@ function AAP.AddQuestOrderFrame(CLi)
 		AAP.ZoneQuestOrder[CLi]:SetWidth(25)
 		AAP.ZoneQuestOrder[CLi]:SetHeight(16)
 		AAP.ZoneQuestOrder[CLi]:SetPoint("TOPLEFT", AAP.ZoneQuestOrder, "TOPLEFT",5,-((CLPos)-11))
-		AAP.ZoneQuestOrder[CLi]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneQuestOrder[CLi]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneQuestOrder[CLi]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneQuestOrder[CLi])
+AAP.ZoneQuestOrder[CLi].texture = t
+
 		AAP.ZoneQuestOrder[CLi]:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -248,11 +271,16 @@ function AAP.AddQuestOrderFrame(CLi)
 		AAP.ZoneQuestOrder["Order1"][CLi]:SetWidth(100)
 		AAP.ZoneQuestOrder["Order1"][CLi]:SetHeight(16)
 		AAP.ZoneQuestOrder["Order1"][CLi]:SetPoint("TOPLEFT", AAP.ZoneQuestOrder, "TOPLEFT",32,-((CLPos)-11))
-		AAP.ZoneQuestOrder["Order1"][CLi]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneQuestOrder["Order1"][CLi]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneQuestOrder["Order1"][CLi]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneQuestOrder["Order1"][CLi])
+AAP.ZoneQuestOrder["Order1"][CLi].texture = t
+
 		AAP.ZoneQuestOrder["Order1"][CLi]:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -299,11 +327,16 @@ function AAP.AddQuestIdFrame(CLi)
 		AAP.ZoneQuestOrder["Order1iD"][CLi]:SetWidth(50)
 		AAP.ZoneQuestOrder["Order1iD"][CLi]:SetHeight(16)
 		AAP.ZoneQuestOrder["Order1iD"][CLi]:SetPoint("TOPLEFT", AAP.ZoneQuestOrder, "TOPLEFT",65,-((CLPos)-11))
-		AAP.ZoneQuestOrder["Order1iD"][CLi]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneQuestOrder["Order1iD"][CLi]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneQuestOrder["Order1iD"][CLi]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneQuestOrder["Order1iD"][CLi])
+AAP.ZoneQuestOrder["Order1iD"][CLi].texture = t
+
 		AAP.ZoneQuestOrder["Order1iD"][CLi]:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -350,11 +383,16 @@ function AAP.AddQuestNameFrame(CLi)
 		AAP.ZoneQuestOrder["OrderName"][CLi]:SetWidth(50)
 		AAP.ZoneQuestOrder["OrderName"][CLi]:SetHeight(16)
 		AAP.ZoneQuestOrder["OrderName"][CLi]:SetPoint("TOPLEFT", AAP.ZoneQuestOrder, "TOPLEFT",120,-((CLPos)-11))
-		AAP.ZoneQuestOrder["OrderName"][CLi]:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneQuestOrder["OrderName"][CLi]:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneQuestOrder["OrderName"][CLi]:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneQuestOrder["OrderName"][CLi])
+AAP.ZoneQuestOrder["OrderName"][CLi].texture = t
+
 		AAP.ZoneQuestOrder["OrderName"][CLi]:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -395,6 +433,9 @@ function AAP.AddQuestNameFrame(CLi)
 		AAP.ZoneQuestOrder["OrderNameFS"][CLi]:SetTextColor(1, 1, 0)
 end
 function AAP.UpdateZoneQuestOrderList(AAPmod)
+	if (AAP1["Debug"]) then
+		print("Function: AAP.UpdateZoneQuestOrderList()")
+	end
 	if (not AAPQuestNames) then
 		AAPQuestNames = {}
 	end
@@ -475,7 +516,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 						if (not AAP.ActiveQuests[theqid]) then
 							NrLeft = NrLeft + 1
 						end
-						if (IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
+						if (C_QuestLog.IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
 							Flagged = Flagged + 1
 						end
 					end
@@ -487,7 +528,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 							if (not AAP.ActiveQuests[theqid]) then
 								NrLeft2 = NrLeft2 + 1
 							end
-							if (IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
+							if (C_QuestLog.IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
 								Flagged2 = Flagged2 + 1
 							end
 						end
@@ -506,7 +547,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 							if (Pos > 26) then
 								break
 							end
-							if (IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid]) then
+							if (C_QuestLog.IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid]) then
 							else
 								SubQuestId = SubQuestId + 1
 								if (not AAP.ZoneQuestOrder["Order1iD"][SubQuestId]) then
@@ -551,7 +592,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 						for AAP_index2,AAP_value2 in pairs(AAP_value) do
 							Total = Total + 1
 							local qid = AAP_index.."-"..AAP_index2
-							if (IsQuestFlaggedCompleted(AAP_index) or ((UnitLevel("player") == 120) and AAP_BonusObj and AAP_BonusObj[AAP_index]) or AAP1[AAP.Realm][AAP.Name]["BonusSkips"][AAP_index]) then
+							if (C_QuestLog.IsQuestFlaggedCompleted(AAP_index) or ((UnitLevel("player") == 120) and AAP_BonusObj and AAP_BonusObj[AAP_index]) or AAP1[AAP.Realm][AAP.Name]["BonusSkips"][AAP_index]) then
 								Flagged = Flagged + 1
 							elseif (AAP.ActiveQuests[qid] and AAP.ActiveQuests[qid] == "C") then
 								Flagged = Flagged + 1
@@ -649,7 +690,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 						if (AAP.ActiveQuests[theqid]) then
 							NrLeft = NrLeft + 1
 						end
-						if (IsQuestFlaggedCompleted(theqid) or AAP.BreadCrumSkips[theqid]) then
+						if (C_QuestLog.IsQuestFlaggedCompleted(theqid) or AAP.BreadCrumSkips[theqid]) then
 							Flagged = Flagged + 1
 						end
 					end
@@ -699,7 +740,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["CRange"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Run to Waypoint")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["CRange"]) or CurStep > CCLi) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["CRange"]) or CurStep > CCLi) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -709,7 +750,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseDalaHS"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Use Dalaran HS")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseDalaHS"]) or CurStep > CCLi) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseDalaHS"]) or CurStep > CCLi) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -731,7 +772,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 					for AAP_index,AAP_value in pairs(IdList) do
 						for AAP_index2,AAP_value2 in pairs(AAP_value) do
 							Total = Total + 1
-							if (IsQuestFlaggedCompleted(AAP_index)) then
+							if (C_QuestLog.IsQuestFlaggedCompleted(AAP_index)) then
 								Flagged = Flagged + 1
 							end
 							local qid = AAP_index.."-"..AAP_index2
@@ -821,7 +862,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["DropQuest"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Quest Drop")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["DropQuest"]) or AAP.ActiveQuests[AAP.QuestStepList[AAP.ActiveMap][CCLi]["DropQuest"]]) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["DropQuest"]) or AAP.ActiveQuests[AAP.QuestStepList[AAP.ActiveMap][CCLi]["DropQuest"]]) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -832,7 +873,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["SetHS"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Set Hearthstone")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["SetHS"]) or CurStep > CCLi) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["SetHS"]) or CurStep > CCLi) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -842,7 +883,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseHS"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Use Hearthstone")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseHS"]) or CurStep > CCLi) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseHS"]) or CurStep > CCLi) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -850,9 +891,14 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(1, 0, 0)
 					end
 				end
+				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["ZoneDoneSave"]) then
+					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Route Completed")
+					AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(1, 0, 0)
+					AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(1, 0, 0)
+				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["GetFP"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Get Flightpath")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["GetFP"]) or CurStep > CCLi) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["GetFP"]) or CurStep > CCLi) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -862,7 +908,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseFlightPath"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Use Flightpath")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseFlightPath"]) or CurStep > CCLi) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["UseFlightPath"]) or CurStep > CCLi) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -872,7 +918,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["QaskPopup"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Ask for group quest")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["QaskPopup"]) or CurStep > CCLi) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["QaskPopup"]) or CurStep > CCLi) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -916,7 +962,7 @@ function AAP.UpdateZoneQuestOrderList(AAPmod)
 				end
 				if (AAP.QuestStepList[AAP.ActiveMap][CCLi]["Treasure"]) then
 					AAP.ZoneQuestOrder["FS2"][CLi]:SetText("Get Treasure")
-					if (IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["Treasure"])) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP.QuestStepList[AAP.ActiveMap][CCLi]["Treasure"])) then
 						AAP.ZoneQuestOrder["FS"][CLi]:SetTextColor(0, 1, 0)
 						AAP.ZoneQuestOrder["FS2"][CLi]:SetTextColor(0, 1, 0)
 					else
@@ -1025,6 +1071,9 @@ function AAP.MapOrderNumbers()
 	end
 end
 function AAP.PaintZoneOrderButtons()
+	if (AAP1["Debug"]) then
+		print("Function: AAP.PaintZoneOrderButtons()")
+	end
 	if (not AAP.ZoneOrder) then
 		AAP.ZoneOrder = CreateFrame("frame", "AAPQOrderList", AAP.ZoneQuestOrder)
 		AAP.ZoneOrder:SetWidth(1)
@@ -1032,11 +1081,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder:SetPoint("TOPLEFT", AAP.ZoneQuestOrder, "BOTTOMLEFT",0,0)
 		AAP.ZoneOrder:SetMovable(true)
 		AAP.ZoneOrder:EnableMouse(true)
-		AAP.ZoneOrder:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder)
+AAP.ZoneOrder.texture = t
+
 		AAP.ZoneOrder:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1060,11 +1114,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone1:SetWidth(60)
 		AAP.ZoneOrder.Zone1:SetHeight(16)
 		AAP.ZoneOrder.Zone1:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",5,-5)
-		AAP.ZoneOrder.Zone1:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone1:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone1:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone1)
+AAP.ZoneOrder.Zone1.texture = t
+
 		AAP.ZoneOrder.Zone1:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1129,11 +1188,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone2:SetWidth(60)
 		AAP.ZoneOrder.Zone2:SetHeight(16)
 		AAP.ZoneOrder.Zone2:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",78,-5)
-		AAP.ZoneOrder.Zone2:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone2:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone2:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone2)
+AAP.ZoneOrder.Zone2.texture = t
+
 		AAP.ZoneOrder.Zone2:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1198,11 +1262,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone3:SetWidth(60)
 		AAP.ZoneOrder.Zone3:SetHeight(16)
 		AAP.ZoneOrder.Zone3:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",151,-5)
-		AAP.ZoneOrder.Zone3:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone3:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone3:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone3)
+AAP.ZoneOrder.Zone3.texture = t
+
 		AAP.ZoneOrder.Zone3:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1267,11 +1336,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone4:SetWidth(60)
 		AAP.ZoneOrder.Zone4:SetHeight(16)
 		AAP.ZoneOrder.Zone4:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",5,-22)
-		AAP.ZoneOrder.Zone4:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone4:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone4:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone4)
+AAP.ZoneOrder.Zone4.texture = t
+
 		AAP.ZoneOrder.Zone4:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1336,11 +1410,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone5:SetWidth(60)
 		AAP.ZoneOrder.Zone5:SetHeight(16)
 		AAP.ZoneOrder.Zone5:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",78,-22)
-		AAP.ZoneOrder.Zone5:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone5:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone5:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone5)
+AAP.ZoneOrder.Zone5.texture = t
+
 		AAP.ZoneOrder.Zone5:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1405,11 +1484,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone6:SetWidth(60)
 		AAP.ZoneOrder.Zone6:SetHeight(16)
 		AAP.ZoneOrder.Zone6:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",151,-22)
-		AAP.ZoneOrder.Zone6:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone6:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone6:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone6)
+AAP.ZoneOrder.Zone6.texture = t
+
 		AAP.ZoneOrder.Zone6:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1474,11 +1558,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone7:SetWidth(60)
 		AAP.ZoneOrder.Zone7:SetHeight(16)
 		AAP.ZoneOrder.Zone7:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",5,-39)
-		AAP.ZoneOrder.Zone7:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone7:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone7:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone7)
+AAP.ZoneOrder.Zone7.texture = t
+
 		AAP.ZoneOrder.Zone7:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1543,11 +1632,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone8:SetWidth(60)
 		AAP.ZoneOrder.Zone8:SetHeight(16)
 		AAP.ZoneOrder.Zone8:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",78,-39)
-		AAP.ZoneOrder.Zone8:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone8:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone8:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone8)
+AAP.ZoneOrder.Zone8.texture = t
+
 		AAP.ZoneOrder.Zone8:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1612,11 +1706,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone9:SetWidth(60)
 		AAP.ZoneOrder.Zone9:SetHeight(16)
 		AAP.ZoneOrder.Zone9:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",151,-39)
-		AAP.ZoneOrder.Zone9:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone9:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone9:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone9)
+AAP.ZoneOrder.Zone9.texture = t
+
 		AAP.ZoneOrder.Zone9:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1681,11 +1780,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone10:SetWidth(60)
 		AAP.ZoneOrder.Zone10:SetHeight(16)
 		AAP.ZoneOrder.Zone10:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",5,-56)
-		AAP.ZoneOrder.Zone10:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone10:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone10:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone10)
+AAP.ZoneOrder.Zone10.texture = t
+
 		AAP.ZoneOrder.Zone10:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1750,11 +1854,16 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone11:SetWidth(60)
 		AAP.ZoneOrder.Zone11:SetHeight(16)
 		AAP.ZoneOrder.Zone11:SetPoint("TOPLEFT", AAP.ZoneOrder, "TOPLEFT",78,-56)
-		AAP.ZoneOrder.Zone11:SetBackdrop( { 
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-		});
+		--AAP.ZoneOrder.Zone11:SetBackdrop( { 
+		--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+		--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+		--});
+local t = AAP.ZoneOrder.Zone11:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.ZoneOrder.Zone11)
+AAP.ZoneOrder.Zone11.texture = t
+
 		AAP.ZoneOrder.Zone11:SetScript("OnMouseDown", function(self, button)
 			if button == "LeftButton" then
 				AAP.ZoneQuestOrder:StartMoving();
@@ -1840,17 +1949,17 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone11:Show()
 		AAP.ZoneOrder:SetWidth(231)
 		AAP.ZoneOrder:SetHeight(76)
-		if (AAP.ActiveQuests[14129] or IsQuestFlaggedCompleted(14129) == true) then
+		if (AAP.ActiveQuests[14129] or C_QuestLog.IsQuestFlaggedCompleted(14129) == true) then
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(14407)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(14407)) then
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26965)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26965)) then
 			AAP.ZoneOrder.Zone3.FS:SetTextColor(0, 1, 0)
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(0, 1, 0)
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(0, 1, 0)
@@ -1859,37 +1968,38 @@ function AAP.PaintZoneOrderButtons()
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(1, 0, 0)
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(27548) and IsQuestFlaggedCompleted(27547) and IsQuestFlaggedCompleted(27550)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(27548) and C_QuestLog.IsQuestFlaggedCompleted(27547) and C_QuestLog.IsQuestFlaggedCompleted(27550)) then
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(28616)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(28616)) then
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26930)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26930)) then
 			AAP.ZoneOrder.Zone8.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone8.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26955)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26955)) then
 			AAP.ZoneOrder.Zone9.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone9.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(27527)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(27527)) then
 			AAP.ZoneOrder.Zone10.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone10.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26535)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26535)) then
 			AAP.ZoneOrder.Zone11.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone11.FS:SetTextColor(1, 0, 0)
 		end
-		AAP.ZoneOrder:Show()
+		--AAP.ZoneOrder:Show()
+		AAP.ZoneOrder:Hide()
 	end
 	if (AAP.Faction == "Horde" and AAP.Level < 80 and AAP.Level > 59) then
 		AAP.ZoneOrder.next1:Show()
@@ -1917,47 +2027,48 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone8:Show()
 		AAP.ZoneOrder:SetWidth(231)
 		AAP.ZoneOrder:SetHeight(59)
-		if (IsQuestFlaggedCompleted(32674)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(32674)) then
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(11909) and IsQuestFlaggedCompleted(11907)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(11909) and C_QuestLog.IsQuestFlaggedCompleted(11907)) then
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(12188)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(12188)) then
 			AAP.ZoneOrder.Zone3.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone3.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(12802)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(12802)) then
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(12792)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(12792)) then
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(9785) or AAP.ActiveQuests[9785]) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(9785) or AAP.ActiveQuests[9785]) then
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(10096)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(10096)) then
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(9852)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(9852)) then
 			AAP.ZoneOrder.Zone8.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone8.FS:SetTextColor(1, 0, 0)
 		end
-		AAP.ZoneOrder:Show()
+		--AAP.ZoneOrder:Show()
+		AAP.ZoneOrder:Hide()
 	end
 
 	if (AAP.Faction == "Alliance" and AAP.Level < 60 and AAP.Level > 19) then
@@ -1983,42 +2094,43 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone7:Show()
 		AAP.ZoneOrder:SetWidth(231)
 		AAP.ZoneOrder:SetHeight(59)
-		if (AAP.ActiveQuests[26504] or IsQuestFlaggedCompleted(26504) == true) then
+		if (AAP.ActiveQuests[26504] or C_QuestLog.IsQuestFlaggedCompleted(26504) == true) then
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26726)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26726)) then
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26727)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26727)) then
 			AAP.ZoneOrder.Zone3.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone3.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(28749) or AAP.ActiveQuests[28749]) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(28749) or AAP.ActiveQuests[28749]) then
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26955)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26955)) then
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(13659) and IsQuestFlaggedCompleted(13658) and IsQuestFlaggedCompleted(13657) and IsQuestFlaggedCompleted(13660)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(13659) and C_QuestLog.IsQuestFlaggedCompleted(13658) and C_QuestLog.IsQuestFlaggedCompleted(13657) and C_QuestLog.IsQuestFlaggedCompleted(13660)) then
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(26139)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(26139)) then
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(1, 0, 0)
 		end
-		AAP.ZoneOrder:Show()
+		--AAP.ZoneOrder:Show()
+		AAP.ZoneOrder:Hide()
 	end
 	if (AAP.Faction == "Alliance" and AAP.Level < 80 and AAP.Level > 59) then
 		AAP.ZoneOrder.next1:Show()
@@ -2043,42 +2155,43 @@ function AAP.PaintZoneOrderButtons()
 		AAP.ZoneOrder.Zone7:Show()
 		AAP.ZoneOrder:SetWidth(231)
 		AAP.ZoneOrder:SetHeight(59)
-		if (IsQuestFlaggedCompleted(32674)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(32674)) then
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone1.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(11942)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(11942)) then
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone2.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(12511) or AAP.ActiveQuests[12511]) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(12511) or AAP.ActiveQuests[12511]) then
 			AAP.ZoneOrder.Zone3.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone3.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(12802)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(12802)) then
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone4.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(12792)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(12792)) then
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone5.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(9747)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(9747)) then
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone6.FS:SetTextColor(1, 0, 0)
 		end
-		if (IsQuestFlaggedCompleted(9780)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(9780)) then
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(0, 1, 0)
 		else
 			AAP.ZoneOrder.Zone7.FS:SetTextColor(1, 0, 0)
 		end
-		AAP.ZoneOrder:Show()
+		--AAP.ZoneOrder:Show()
+		AAP.ZoneOrder:Hide()
 	end
 
 	

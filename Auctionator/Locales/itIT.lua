@@ -2,12 +2,16 @@ AUCTIONATOR_LOCALES.itIT = function()
   local L = {}
 
 L = L or {}
+--[[Translation missing --]]
+L["ADD_FAVOURITE"] = "Add Favourite"
 L["ADD_ITEM"] = "Aggiungi oggetto"
 L["ADD_TERM_TO_LIST_DIALOG"] = "Inserisci i termini di ricerca da aggiungere:"
 --[[Translation missing --]]
 L["ALT_LEFT_CLICK"] = "Alt Left Click"
 --[[Translation missing --]]
 L["ALT_RIGHT_CLICK"] = "Alt Right Click"
+--[[Translation missing --]]
+L["ANY_LOWER"] = "any"
 L["AUCTION"] = "Aste"
 L["AUCTION_DURATION_12"] = "12 Ore"
 L["AUCTION_DURATION_24"] = "24 Ore"
@@ -39,7 +43,7 @@ L["CANNOT_AUCTION"] = "Cannot Auction"
 --[[Translation missing --]]
 L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
 --[[Translation missing --]]
-L["COMMODITY"] = "Commodity"
+L["CLOSE"] = "Close"
 --[[Translation missing --]]
 L["CONFIG_ADVANCED_CATEGORY"] = "Advanced"
 --[[Translation missing --]]
@@ -74,15 +78,13 @@ L["CONFIG_BAG_SHOW_SELLING_BAG_TOOLTIP_HEADER"] = "Bag Items Listing"
 L["CONFIG_BAG_SHOW_SELLING_BAG_TOOLTIP_TEXT"] = "If this option is off the bag items pane will be hidden."
 L["CONFIG_BASIC_OPTIONS_CATEGORY"] = "Impostazioni di base"
 L["CONFIG_BASIC_OPTIONS_TEXT"] = "Impostazioni di base per abilitare funzioni di Auctionator."
+--[[Translation missing --]]
+L["CONFIG_CANCELLING_CATEGORY"] = "Cancelling"
+--[[Translation missing --]]
+L["CONFIG_CANCELLING_TEXT"] = "Options to change the behaviour of the Cancelling tab."
 L["CONFIG_CHAT_LOG"] = "Mostra le tue nuove aste in chat."
 L["CONFIG_CHAT_LOG_TOOLTIP_HEADER"] = "Chat Log Aste"
 L["CONFIG_CHAT_LOG_TOOLTIP_TEXT"] = "Se questa opzione non è spuntata le tue aste non verranno scansionate per trovare nuove aste."
---[[Translation missing --]]
-L["CONFIG_CLICK_CANCEL"] = "Shift+Click on an auction you own will cancel it"
---[[Translation missing --]]
-L["CONFIG_CLICK_CANCEL_TOOLTIP_HEADER"] = "Click To Cancel"
---[[Translation missing --]]
-L["CONFIG_CLICK_CANCEL_TOOLTIP_TEXT"] = "When enabled clicking on an auction you own in the auctions list in the Selling tab will cancel it."
 L["CONFIG_DEBUG"] = "Attiva/disattiva l'output di debug."
 L["CONFIG_DEBUG_TOOLTIP_HEADER"] = "Auctionator Debug"
 L["CONFIG_DEBUG_TOOLTIP_TEXT"] = "Usato dagli sviluppatori per visualizzare messaggi di debug in chat."
@@ -112,6 +114,12 @@ L["CONFIG_SCAN_SETTINGS"] = "Scan Settings"
 --[[Translation missing --]]
 L["CONFIG_SCANNING"] = "Full Scan Settings"
 --[[Translation missing --]]
+L["CONFIG_SELLING_AUTO_SELECT_NEXT"] = "Automatically select the next item in your bag"
+--[[Translation missing --]]
+L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_HEADER"] = "Automatic item selection"
+--[[Translation missing --]]
+L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_TEXT"] = "When posting automatically select the next item in the bag view."
+--[[Translation missing --]]
 L["CONFIG_SELLING_BAG_SELECT_SHORTCUT"] = "on an item in your bag puts it in the Selling tab"
 --[[Translation missing --]]
 L["CONFIG_SELLING_BUY_SHORTCUT"] = "on an auction you don't own will buy it"
@@ -126,6 +134,12 @@ L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Default Posting Quantity"
 --[[Translation missing --]]
 L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "This lets you change the default amount used when posting an item. Set this to 0 to use the maximum possible amount."
 --[[Translation missing --]]
+L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_SUFFIX"] = "Set to 0 for no price"
+--[[Translation missing --]]
+L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_HEADER"] = "Gear Vendor Price Default"
+--[[Translation missing --]]
+L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_TEXT"] = "This lets you set a default price for gear as a multiple of the vendor price. This is used for any gear Auctionator doesn't have a price for. Set this to 0 to not set a price."
+--[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE"] = "Bag icon size (reload required)"
 --[[Translation missing --]]
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Size of Icons"
@@ -139,7 +153,11 @@ L["CONFIG_SELLING_NOT_LIFO_HEADER"] = "Vendita Equipaggiamento/Mascotte"
 L["CONFIG_SELLING_NOT_LIFO_TEXT"] = "Options to set undercutting percent or values and duration of gear and caged pets. These item categories are listed individually and a buyer can choose which one they want. Undercutting may be useful."
 --[[Translation missing --]]
 L["CONFIG_SELLING_TEXT"] = "Options to change the behaviour of the Selling tab"
+--[[Translation missing --]]
+L["CONFIG_SHOPPING_CATEGORY"] = "Shopping"
 L["CONFIG_SHOPPING_LIST"] = "Impostazioni Shopping List"
+--[[Translation missing --]]
+L["CONFIG_SHOPPING_TEXT"] = "Options to change the behaviour of the Shopping tab."
 L["CONFIG_STACK_TOOLTIP"] = "Visualizza il prezzo della pila quando si preme shift."
 L["CONFIG_TOOLTIPS_CATEGORY"] = "Tooltips"
 L["CONFIG_TOOLTIPS_TEXT"] = "Opzioni per visualizzare diverse informazioni riguardanti la casa d'aste nel tooltips."
@@ -152,10 +170,11 @@ L["CONFIG_UNDERCUT_SCAN_NOT_LIFO_TOOLTIP_TEXT"] = "Leave this on to include any 
 --[[Translation missing --]]
 L["CONFIG_VENDOR_TOOLTIP"] = "Show vendor tooltips."
 L["CONTRIBUTORS_HEADER"] = "Contributi"
+--[[Translation missing --]]
+L["COPY_TEXT_HEADER"] = "Copy Text"
 L["CRAFTED_LEVEL"] = "Livello di creazione"
 L["CREATE"] = "Crea"
 L["CREATE_LIST_DIALOG"] = "Inserisci il nome di una nuova shopping list:"
-L["DATABASE_LOADED"] = "Database caricato con %s voci."
 --[[Translation missing --]]
 L["DATE"] = "Date"
 --[[Translation missing --]]
@@ -173,6 +192,8 @@ L["DAY_6"] = "Friday"
 --[[Translation missing --]]
 L["DAY_7"] = "Saturday"
 L["DEFAULT_AUCTION_DURATION"] = "Durata Asta Default"
+--[[Translation missing --]]
+L["DEFAULT_LIST_HEADER"] = "Default Shopping List"
 --[[Translation missing --]]
 L["DEFAULT_QUANTITY"] = "Default Quantity"
 --[[Translation missing --]]
@@ -192,12 +213,24 @@ L["DISCORD_TOOLTIP_TEXT"] = "Abbiamo un'attiva community d'utenti di Auctionator
 L["DISENCHANT"] = "Disincanta"
 --[[Translation missing --]]
 L["DURATION"] = "Duration"
+--[[Translation missing --]]
+L["EDIT_ITEM"] = "Edit Item"
 L["ENCHANT_TOOLTIP_TOOLTIP_HEADER"] = "Tooltip Informazioni di Incantamento"
 --[[Translation missing --]]
 L["ENCHANT_TOOLTIP_TOOLTIP_TEXT"] = "Show enchant information in tooltip on mouseover."
 --[[Translation missing --]]
 L["ENGAGE_HEADER"] = "Engage With Auctionator"
 L["EXACT_SEARCH"] = "Ricerca Esatta"
+--[[Translation missing --]]
+L["EXPORT"] = "Export"
+--[[Translation missing --]]
+L["EXPORT_AS"] = "Export as:"
+--[[Translation missing --]]
+L["EXPORT_STRING"] = "Shareable string"
+--[[Translation missing --]]
+L["EXPORT_WHISPER"] = "Whisper to"
+--[[Translation missing --]]
+L["FAVOURITES"] = "Favourites"
 L["FETCHING_ITEM_INFO"] = "Recupero informazioni sull'oggetto..."
 L["FINISHED_PROCESSING"] = "Elaborazione di %s oggetti terminata."
 --[[Translation missing --]]
@@ -205,12 +238,14 @@ L["FULL_SCAN_ALTERNATE_FAILED"] = "Full scan (alternate mode) failed to complete
 L["FULL_SCAN_BUTTON"] = "Scansione Completa"
 L["FULL_SCAN_FAILED"] = "Scansione completa fallita."
 --[[Translation missing --]]
+L["GEAR_VENDOR_PRICE_MULTIPLIER"] = "Gear vendor price multiplier"
+--[[Translation missing --]]
 L["HIDE"] = "Hide"
+--[[Translation missing --]]
+L["IMPORT"] = "Import"
 L["INFO_TAB_HEADER"] = "Auctionator - Info"
 --[[Translation missing --]]
 L["IS_UNDERCUT"] = "Undercut?"
---[[Translation missing --]]
-L["ITEM"] = "Item"
 L["ITEM_CLASS"] = "Classe Oggetto"
 L["ITEM_LEVEL"] = "Livello Oggetto"
 --[[Translation missing --]]
@@ -222,6 +257,12 @@ L["LIMITED_FUNCTIONALITY_MESSAGE"] = "Funzionalità limitata a causa dell'aggior
 L["LIST_ADD_ERROR"] = "Si è verificato un errore nel tentativo di aggiungere un oggetto a una lista."
 L["LIST_ADD_ITEM_HEADER"] = "Aggiungi oggetto alla Shopping List"
 L["LIST_DELETE_ERROR"] = "Si è verificato un errore nel tentativo di eliminare una lista."
+--[[Translation missing --]]
+L["LIST_EDIT_ITEM_HEADER"] = "Edit Shopping List Item"
+--[[Translation missing --]]
+L["LIST_EXPORT_HEADER"] = "Export Shopping Lists"
+--[[Translation missing --]]
+L["LIST_IMPORT_HEADER"] = "Import Shopping Lists"
 L["LIST_SEARCH_START"] = "Ricerca di oggetti in %s..."
 L["LIST_SEARCH_STATUS"] = "Ricerca dell'oggetto %s/%s in %s"
 L["MAIL_TOOLTIP_TOOLTIP_HEADER"] = "Tooltips Casetta Postale"
@@ -282,6 +323,10 @@ L["PROFILE_TOGGLE_TOOLTIP_HEADER"] = "Enable per character settings"
 L["PROFILE_TOGGLE_TOOLTIP_TEXT"] = "Makes changes to the Auctionator settings only affect this character."
 --[[Translation missing --]]
 L["QUANTITY"] = "Quantity"
+--[[Translation missing --]]
+L["REAGENT_SEARCH"] = "Reagent Search"
+--[[Translation missing --]]
+L["REMOVE_FAVOURITE"] = "Remove Favourite"
 L["RENAME"] = "Rinomina"
 L["RENAME_LIST_DIALOG"] = "Inserisci un nuovo nome per la shopping list."
 L["RESET_ALL"] = "Resetta tutto"
@@ -295,8 +340,12 @@ L["RIGHT_CLICK"] = "Right Click"
 L["ROADMAP"] = "Tabella di marcia"
 L["ROADMAP_TOOLTIP_TEXT"] = "La tabella di marcia definisce il lavoro che abbiamo pianificato per gli aggiornamenti futuri di Auctionator. Controlla qui i progressi di implementazione per la tua funzione preferita!"
 L["SALES_PREFERENCE"] = "Preferenze di Vendita"
+--[[Translation missing --]]
+L["SAVE_AS"] = "Save As"
 L["SEARCH"] = "Cerca"
 L["SEARCH_TERM"] = "Termine di ricerca"
+--[[Translation missing --]]
+L["SELECT_ALL"] = "Select All"
 --[[Translation missing --]]
 L["SELLING_TAB"] = "Selling"
 --[[Translation missing --]]
@@ -381,6 +430,26 @@ L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "Pets now have their level shown in the
 L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "New option to change the default quantity used when posting items"
 --[[Translation missing --]]
 L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "Selling Tab Improvements"
+--[[Translation missing --]]
+L["SPLASH_834_DESCRIPTION"] = "The highlights of this release are being able to import/export shopping lists and the return of the reagents search from a crafting window."
+--[[Translation missing --]]
+L["SPLASH_834_MISCELLANEOUS_1"] = "Search the AH for reagents from the crafting window (a \"Search\" button appears when both the crafting window and the AH are open)"
+--[[Translation missing --]]
+L["SPLASH_834_MISCELLANEOUS_HEADER"] = "Miscellaneous"
+--[[Translation missing --]]
+L["SPLASH_834_SELLING_1"] = "New favourites section in the selling tab. Right-click an item and click \"Add Favourite\" to use the feature."
+--[[Translation missing --]]
+L["SPLASH_834_SELLING_2"] = "New default quantities for selling are separated for items vs gear/pets."
+--[[Translation missing --]]
+L["SPLASH_834_SELLING_HEADER"] = "Selling Tab"
+--[[Translation missing --]]
+L["SPLASH_834_SHOPPING_1"] = "Added import and export feature to share shopping lists"
+--[[Translation missing --]]
+L["SPLASH_834_SHOPPING_2"] = "You can set a default shopping list to search for when opening the Shopping tab"
+--[[Translation missing --]]
+L["SPLASH_834_SHOPPING_3"] = "Ability to reorder and edit shopping list items"
+--[[Translation missing --]]
+L["SPLASH_834_SHOPPING_HEADER"] = "Shopping Tab"
 L["SPLASH_HIDE_MESSAGE"] = "Non visualizzare fino ad un prossimo aggiornamento"
 L["SPLASH_SCREEN_HEADER"] = "Benvenuto su Auctionator"
 L["STACK_AUCTION_INFO"] = "%s per %s (a %s ognuno)"
@@ -389,7 +458,6 @@ L["STACK_TOOLTIP_TOOLTIP_TEXT"] = "Se selezionato, è necessario tenere premuto 
 L["STARTING_FULL_SCAN"] = "Avvio scansione completa"
 --[[Translation missing --]]
 L["STARTING_FULL_SCAN_ALTERNATE"] = "Starting a full scan (alternate mode)."
-L["STOPPED_PROCESSING"] = "Interrotta l'elaborazione a %s su %s."
 --[[Translation missing --]]
 L["TEMPORARY_LOWER_CASE"] = "temporary"
 --[[Translation missing --]]
@@ -404,28 +472,28 @@ L["TOTAL_ITEMS_COLORED"] = "Total |cFFAAAAFF %s items|r"
 --[[Translation missing --]]
 L["TOTAL_PRICE"] = "Total Price:"
 --[[Translation missing --]]
-L["TRANSLATORS_BRAZIL_PORTUGUEUSE"] = "Brazilian Portuguese:"
+L["TRANSLATORS_BRAZIL_PORTUGUEUSE"] = "Brazilian Portuguese"
 --[[Translation missing --]]
-L["TRANSLATORS_FRENCH"] = "French:"
+L["TRANSLATORS_FRENCH"] = "French"
 --[[Translation missing --]]
-L["TRANSLATORS_GERMAN"] = "German:"
+L["TRANSLATORS_GERMAN"] = "German"
 --[[Translation missing --]]
 L["TRANSLATORS_HEADER"] = "Translators"
 L["TRANSLATORS_HELP"] = "Per favore aiutaci a tradurre!"
 --[[Translation missing --]]
-L["TRANSLATORS_ITALIAN"] = "Italian:"
+L["TRANSLATORS_ITALIAN"] = "Italian"
 --[[Translation missing --]]
-L["TRANSLATORS_KOREAN"] = "Korean:"
+L["TRANSLATORS_KOREAN"] = "Korean"
 --[[Translation missing --]]
-L["TRANSLATORS_LATIN_SPANISH"] = "Latin American Spanish:"
+L["TRANSLATORS_LATIN_SPANISH"] = "Latin American Spanish"
 --[[Translation missing --]]
-L["TRANSLATORS_RUSSIAN"] = "Russian:"
+L["TRANSLATORS_RUSSIAN"] = "Russian"
 --[[Translation missing --]]
-L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Simplified Chinese:"
+L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Simplified Chinese"
 --[[Translation missing --]]
-L["TRANSLATORS_SPANISH"] = "Spanish:"
+L["TRANSLATORS_SPANISH"] = "Spanish"
 --[[Translation missing --]]
-L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Traditional Chinese:"
+L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Traditional Chinese"
 --[[Translation missing --]]
 L["UNDERCUT_NO"] = "No"
 --[[Translation missing --]]
@@ -439,6 +507,8 @@ L["UNDERCUT_YES"] = "Yes"
 --[[Translation missing --]]
 L["UNIT_PRICE"] = "Unit Price"
 L["UNKNOWN"] = "Sconosciuto"
+--[[Translation missing --]]
+L["UNSELECT_ALL"] = "Unselect All"
 --[[Translation missing --]]
 L["VENDOR"] = "Vendor"
 --[[Translation missing --]]

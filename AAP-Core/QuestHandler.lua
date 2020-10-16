@@ -3,16 +3,60 @@ local AAP_ArrowUpdateNr = 0
 local ETAStep = 0
 local AAP_AntiTaxiLoop = 0
 local Updateblock = 0
-local HBDP = LibStub("HereBeDragons-Pins-2.0")
-local HBD = LibStub("HereBeDragons-2.0")
+--local HBDP = LibStub("HereBeDragons-Pins-2.0")
+--local HBD = LibStub("HereBeDragons-2.0")
 local AAPWhereToGo
 local CurMapShown
 local Delaytime = 0
-AAP.HBDP = HBDP
-AAP.HBD = HBD
+local AAPGOSSIPCOUNT = 0
+local QuestSpecial57710 = 0
+local Quest2Special57710 = 0
+AAP.GossipOpen = 0
+AAP.BookingList = {}
+--AAP.HBDP = HBDP
+--AAP.HBD = HBD
+AAP.ProgressbarIgnore = {
+	["60520-2"] = 1,
+	["57724-2"] = 1,
+}
+local AAP_HSSpellIDs = {
+	[8690] = 1,
+	[298068] = 1,
+	[278559] = 1,
+	[278244] = 1,
+	[286331] = 1,
+	[286353] = 1,
+	[94719] = 1,
+	[285424] = 1,
+	[286031] = 1,
+	[285362] = 1,
+	[136508] = 1,
+	[75136] = 1,
+	[39937] = 1,
+	[231504] = 1,
+	[308742] = 1,
+}
+local AAP_GigglingBasket = {
+	["One time, I managed to trick all the sylvari in a grove into thinking I was a member of their court! The other spriggans were all cheering my name for days!"] = "cheer",
+	["Spriggans have our share of heroes too! The great hero Hollain was said to be able to split a mountain with a single thrust of his spear. Oh, to see such a display! How strong he must have been!"] = "flex",
+	["Many seek us for our talents, but few can actually earn them. Some give gifts, always gratefully accepted. Some try to outwit us, usually failing. Some ask permission, and always thank us for our trouble."] = "thank",
+	["The fae courts are very big on manners, you know. The slightest lapse in decorum can have... devastating consequences. Introductions are an important part of first impressions!"] = "introduce",
+	["Oh, my feet are practically jumping with excitement! I could just dance for an eternity! Dance with me!"] = "dance",
+	["We do so much to help out the people of the lands. I'm sure you've heard the stories. Mending shoes, growing fields, reuniting lost loves. But what do we get in return? Not so much as a word of praise! Hmph!"] = "praise",
+}
 local AAP_BonusObj = {
----- WoD Nonus Obj ----
+---- WoD Bonus Obj ----
 	[36473] = 1,
+	[36500] = 1,
+	[36504] = 1,
+	[34724] = 1,
+	[36564] = 1,
+	[34496] = 1,
+	[36603] = 1,
+	[35881] = 1,
+	[37422] = 1,
+	[34667] = 1,
+	[36480] = 1,
 ---- Legion Bonus Obj ----
 	[36811] = 1,
 	[37466] = 1,
@@ -81,10 +125,21 @@ local AAP_BonusObj = {
 	[48181] = 1,
 	[48680] = 1,
 	[50091] = 1,
+---- Shadowlands ----
+	[60840] = 1,
+	[59211] = 1,
+	[62732] = 1,
+	[62735] = 1,
 }
 local MapRects = {};
 local TempVec2D = CreateVector2D(0,0);
 local function GetPlayerMapPos(MapID, dx, dy)
+	if (MapID and MapID == 1726 or AAPt_Zone == 1727) then
+		return
+	end
+	--if (UnitPosition('Player')) then
+	--	return
+	--end
     local R,P,_ = MapRects[MapID],TempVec2D;
     if not R then
         R = {};
@@ -98,10 +153,17 @@ local function GetPlayerMapPos(MapID, dx, dy)
 	else
 		P.x, P.y = UnitPosition('Player');
 	end
-    P:Subtract(R[1]);
-    return (1/R[2].y)*P.y, (1/R[2].x)*P.x;
+	if (P.x) then
+		P:Subtract(R[1]);
+		return (1/R[2].y)*P.y, (1/R[2].x)*P.x;
+	else
+		return
+	end
 end
 function AAP.RemoveIcons()
+	if (1 == 1) then
+		return
+	end
 	for CLi = 1, 20 do
 		if (AAP["Icons"][CLi].A == 1) then
 			AAP["Icons"][CLi].A = 0
@@ -112,6 +174,9 @@ function AAP.RemoveIcons()
 	end
 end
 function AAP.RemoveMapIcons()
+	if (1 == 1) then
+		return
+	end
 	for CLi = 1, 20 do
 		if (AAP["MapIcons"][CLi].A == 1) then
 			AAP["MapIcons"][CLi].A = 0
@@ -122,17 +187,22 @@ function AAP.RemoveMapIcons()
 	end
 end
 function AAP:MoveIcons()
-	if (IsInInstance() or AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowBlobs"] == 0) then
+	if (1 == 1) then
+		return
+	end
+	local d_y, d_x = UnitPosition("player")
+	if (IsInInstance() or AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowBlobs"] == 0 or not d_y) then
 		AAP.RemoveIcons()
 		return
 	end
 	local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 	local ix, iy
-	if (AAP.SettingsOpen == 1) then
+	if (AAP.SettingsOpen == 1 and C_Map.GetBestMapForUnit('player')) then
 		ix, iy = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'), AAP.ArrowActive_Y, AAP.ArrowActive_X)
 	elseif (CurStep and AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
 		local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
-		if (steps and steps["TT"]) then
+		local d_y, d_x = UnitPosition("player")
+		if (steps and steps["TT"] and d_y and C_Map.GetBestMapForUnit('player')) then
 			ix, iy = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'), steps["TT"]["y"],steps["TT"]["x"])
 		else
 			return
@@ -155,7 +225,13 @@ function AAP:MoveIcons()
 		if (AAP.QuestStepList[AAP.ActiveMap][CurStep+1] and AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["CRange"]) then
 			totalCR = 3
 		end
+		if (not C_Map.GetBestMapForUnit('player')) then
+			return
+		end
 		local px, py = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'))
+		if (not px) then
+			return
+		end
 		local CLi, CLi2
 		for CLi = 1, 20 do
 			local px2, py2
@@ -187,38 +263,53 @@ function AAP:MoveIcons()
 				end
 			end
 		end
+		if (not C_Map.GetBestMapForUnit('player')) then
+			return
+		end
 		local px, py = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'), AAP.QuestStepList[AAP.ActiveMap][CurStep]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep]["TT"]["x"])
 		local CLi, CLi2
-		local ix, iy = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'), AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["x"])
-		for CLi = 1, 20 do
-			local px2, py2
-			px2 = px - ix
-			py2 = py - iy
-			if (AAP["Icons"][CLi]["A"] == 1 and (AAP["Icons"][CLi]["D"] == 0 or AAP["Icons"][CLi]["D"] == 2)) then
-				AAP["Icons"][CLi]["P"] = AAP["Icons"][CLi]["P"] + 0.02
-				local test = 0.2
+		if (not AAP.QuestStepList[AAP.ActiveMap][CurStep+1]) then
+			for CLi = 1, 20 do
+				AAP.HBDP:RemoveMinimapIcon("AAP", AAP["Icons"][CLi])
+			end
+		else
+			if (not C_Map.GetBestMapForUnit('player')) then
+				return
+			end
+			local ix, iy = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'), AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["x"])
+			for CLi = 1, 20 do
+				local px2, py2
+				px2 = px - ix
+				py2 = py - iy
+				if (AAP["Icons"][CLi]["A"] == 1 and (AAP["Icons"][CLi]["D"] == 0 or AAP["Icons"][CLi]["D"] == 2)) then
+					AAP["Icons"][CLi]["P"] = AAP["Icons"][CLi]["P"] + 0.02
+					local test = 0.2
 
-				if (AAP["Icons"][CLi].P < 1) then
-					px2 = px - px2 * AAP["Icons"][CLi]["P"]
-					py2 = py - py2 * AAP["Icons"][CLi]["P"]
-					AAP["Icons"][CLi]["D"] = 2
-					AAP.HBDP:AddMinimapIconMap("AAP", AAP["Icons"][CLi], C_Map.GetBestMapForUnit('player'), px2, py2, true, true)
-				else
-					AAP["Icons"][CLi]["A"] = 0
-					AAP["Icons"][CLi]["P"] = 0
-					if (totalCR == 3) then
-						AAP["Icons"][CLi]["A"] = 1
-						AAP["Icons"][CLi]["D"] = 3
-					elseif (totalCR == 2) then
-						AAP["Icons"][CLi]["D"] = 1
-					elseif (totalCR == 1) then
-						AAP["Icons"][CLi]["D"] = 1
+					if (AAP["Icons"][CLi].P < 1) then
+						px2 = px - px2 * AAP["Icons"][CLi]["P"]
+						py2 = py - py2 * AAP["Icons"][CLi]["P"]
+						AAP["Icons"][CLi]["D"] = 2
+						AAP.HBDP:AddMinimapIconMap("AAP", AAP["Icons"][CLi], C_Map.GetBestMapForUnit('player'), px2, py2, true, true)
+					else
+						AAP["Icons"][CLi]["A"] = 0
+						AAP["Icons"][CLi]["P"] = 0
+						if (totalCR == 3) then
+							AAP["Icons"][CLi]["A"] = 1
+							AAP["Icons"][CLi]["D"] = 3
+						elseif (totalCR == 2) then
+							AAP["Icons"][CLi]["D"] = 1
+						elseif (totalCR == 1) then
+							AAP["Icons"][CLi]["D"] = 1
+						end
+						AAP.HBDP:RemoveMinimapIcon("AAP", AAP["Icons"][CLi])
 					end
-					AAP.HBDP:RemoveMinimapIcon("AAP", AAP["Icons"][CLi])
 				end
 			end
 		end
 		if (totalCR == 3) then
+			if (not C_Map.GetBestMapForUnit('player')) then
+				return
+			end
 			local px, py = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'), AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["x"])
 			local CLi, CLi2
 			local ix, iy = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'), AAP.QuestStepList[AAP.ActiveMap][CurStep+2]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+2]["TT"]["x"])
@@ -245,32 +336,41 @@ function AAP:MoveIcons()
 			end
 		end
 	else
+		if (not C_Map.GetBestMapForUnit('player')) then
+			return
+		end
 		local px, py = GetPlayerMapPos(C_Map.GetBestMapForUnit('player'))
 		local CLi, CLi2
 		for CLi = 1, 20 do
-			local px2, py2
-			px2 = px - ix
-			py2 = py - iy
-			if (AAP["Icons"][CLi]["A"] == 1) then
-				AAP["Icons"][CLi]["P"] = AAP["Icons"][CLi]["P"] + 0.02
-				local test = 0.2
-				if (AAP["Icons"][CLi]["P"] > 0.39 and AAP["Icons"][CLi]["P"] < 0.41) then
-					local set = 0
-					for CLi2 = 1, 20 do
-						if (set == 0 and AAP["Icons"][CLi2]["A"] == 0) then
-							AAP["Icons"][CLi2]["A"] = 1
-							set = 1
+			if (not px) then
+				AAP["Icons"][CLi]["A"] = 0
+				AAP["Icons"][CLi]["P"] = 0
+				AAP.HBDP:RemoveMinimapIcon("AAP", AAP["Icons"][CLi])
+			else
+				local px2, py2
+				px2 = px - ix
+				py2 = py - iy
+				if (AAP["Icons"][CLi]["A"] == 1) then
+					AAP["Icons"][CLi]["P"] = AAP["Icons"][CLi]["P"] + 0.02
+					local test = 0.2
+					if (AAP["Icons"][CLi]["P"] > 0.39 and AAP["Icons"][CLi]["P"] < 0.41) then
+						local set = 0
+						for CLi2 = 1, 20 do
+							if (set == 0 and AAP["Icons"][CLi2]["A"] == 0) then
+								AAP["Icons"][CLi2]["A"] = 1
+								set = 1
+							end
 						end
 					end
-				end
-				if (AAP["Icons"][CLi].P < 1) then
-					px2 = px - px2 * AAP["Icons"][CLi]["P"]
-					py2 = py - py2 * AAP["Icons"][CLi]["P"]
-					AAP.HBDP:AddMinimapIconMap("AAP", AAP["Icons"][CLi], C_Map.GetBestMapForUnit('player'), px2, py2, true, true)
-				else
-					AAP["Icons"][CLi]["A"] = 0
-					AAP["Icons"][CLi]["P"] = 0
-					AAP.HBDP:RemoveMinimapIcon("AAP", AAP["Icons"][CLi])
+					if (AAP["Icons"][CLi].P < 1) then
+						px2 = px - px2 * AAP["Icons"][CLi]["P"]
+						py2 = py - py2 * AAP["Icons"][CLi]["P"]
+						AAP.HBDP:AddMinimapIconMap("AAP", AAP["Icons"][CLi], C_Map.GetBestMapForUnit('player'), px2, py2, true, true)
+					else
+						AAP["Icons"][CLi]["A"] = 0
+						AAP["Icons"][CLi]["P"] = 0
+						AAP.HBDP:RemoveMinimapIcon("AAP", AAP["Icons"][CLi])
+					end
 				end
 			end
 		end
@@ -280,7 +380,11 @@ local function AAP_MapDelay()
 	Delaytime = 0
 end
 function AAP:MoveMapIcons()
-	if (IsInInstance() or AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMapBlobs"] == 0) then
+	if (1 == 1) then
+		return
+	end
+	local d_y, d_x = UnitPosition("player")
+	if (IsInInstance() or AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMapBlobs"] == 0 or not d_y) then
 		return
 	end
 	if (Delaytime == 1) then
@@ -306,6 +410,9 @@ function AAP:MoveMapIcons()
 	elseif (CurStep and AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
 		local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 		if (steps and steps["TT"]) then
+			if (not SetMapIDs) then
+				return
+			end
 			ix, iy = GetPlayerMapPos(SetMapIDs, steps["TT"]["y"],steps["TT"]["x"])
 		else
 			return
@@ -325,7 +432,13 @@ function AAP:MoveMapIcons()
 		if (AAP.QuestStepList[AAP.ActiveMap][CurStep+1] and AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["CRange"]) then
 			totalCR = 3
 		end
+		if (not SetMapIDs) then
+			return
+		end
 		local px, py = GetPlayerMapPos(SetMapIDs)
+		if (not px) then
+			return
+		end
 		local CLi, CLi2
 		for CLi = 1, 20 do
 			local px2, py2
@@ -357,38 +470,53 @@ function AAP:MoveMapIcons()
 				end
 			end
 		end
+		if (not SetMapIDs) then
+			return
+		end
 		local px, py = GetPlayerMapPos(SetMapIDs, AAP.QuestStepList[AAP.ActiveMap][CurStep]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep]["TT"]["x"])
 		local CLi, CLi2
-		local ix, iy = GetPlayerMapPos(SetMapIDs, AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["x"])
-		for CLi = 1, 20 do
-			local px2, py2
-			px2 = px - ix
-			py2 = py - iy
-			if (AAP["MapIcons"][CLi]["A"] == 1 and (AAP["MapIcons"][CLi]["D"] == 0 or AAP["MapIcons"][CLi]["D"] == 2)) then
-				AAP["MapIcons"][CLi]["P"] = AAP["MapIcons"][CLi]["P"] + 0.02
-				local test = 0.2
+		if (not AAP.QuestStepList[AAP.ActiveMap][CurStep+1]) then
+			for CLi = 1, 20 do
+				AAP.HBDP:RemoveWorldMapIcon("AAPMap", AAP["MapIcons"][CLi])
+			end
+		else
+			if (not SetMapIDs) then
+				return
+			end
+			local ix, iy = GetPlayerMapPos(SetMapIDs, AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["x"])
+			for CLi = 1, 20 do
+				local px2, py2
+				px2 = px - ix
+				py2 = py - iy
+				if (AAP["MapIcons"][CLi]["A"] == 1 and (AAP["MapIcons"][CLi]["D"] == 0 or AAP["MapIcons"][CLi]["D"] == 2)) then
+					AAP["MapIcons"][CLi]["P"] = AAP["MapIcons"][CLi]["P"] + 0.02
+					local test = 0.2
 
-				if (AAP["MapIcons"][CLi].P < 1) then
-					px2 = px - px2 * AAP["MapIcons"][CLi]["P"]
-					py2 = py - py2 * AAP["MapIcons"][CLi]["P"]
-					AAP["MapIcons"][CLi]["D"] = 2
-					AAP.HBDP:AddWorldMapIconMap("AAPMap", AAP["MapIcons"][CLi], SetMapIDs, px2, py2, HBD_PINS_WORLDMAP_SHOW_PARENT)
-				else
-					AAP["MapIcons"][CLi]["A"] = 0
-					AAP["MapIcons"][CLi]["P"] = 0
-					if (totalCR == 3) then
-						AAP["MapIcons"][CLi]["A"] = 1
-						AAP["MapIcons"][CLi]["D"] = 3
-					elseif (totalCR == 2) then
-						AAP["MapIcons"][CLi]["D"] = 1
-					elseif (totalCR == 1) then
-						AAP["MapIcons"][CLi]["D"] = 1
+					if (AAP["MapIcons"][CLi].P < 1) then
+						px2 = px - px2 * AAP["MapIcons"][CLi]["P"]
+						py2 = py - py2 * AAP["MapIcons"][CLi]["P"]
+						AAP["MapIcons"][CLi]["D"] = 2
+						AAP.HBDP:AddWorldMapIconMap("AAPMap", AAP["MapIcons"][CLi], SetMapIDs, px2, py2, HBD_PINS_WORLDMAP_SHOW_PARENT)
+					else
+						AAP["MapIcons"][CLi]["A"] = 0
+						AAP["MapIcons"][CLi]["P"] = 0
+						if (totalCR == 3) then
+							AAP["MapIcons"][CLi]["A"] = 1
+							AAP["MapIcons"][CLi]["D"] = 3
+						elseif (totalCR == 2) then
+							AAP["MapIcons"][CLi]["D"] = 1
+						elseif (totalCR == 1) then
+							AAP["MapIcons"][CLi]["D"] = 1
+						end
+						AAP.HBDP:RemoveWorldMapIcon("AAPMap", AAP["MapIcons"][CLi])
 					end
-					AAP.HBDP:RemoveWorldMapIcon("AAPMap", AAP["MapIcons"][CLi])
 				end
 			end
 		end
 		if (totalCR == 3) then
+			if (not SetMapIDs) then
+				return
+			end
 			local px, py = GetPlayerMapPos(SetMapIDs, AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+1]["TT"]["x"])
 			local CLi, CLi2
 			local ix, iy = GetPlayerMapPos(SetMapIDs, AAP.QuestStepList[AAP.ActiveMap][CurStep+2]["TT"]["y"],AAP.QuestStepList[AAP.ActiveMap][CurStep+2]["TT"]["x"])
@@ -415,32 +543,41 @@ function AAP:MoveMapIcons()
 			end
 		end
 	else
+		if (not SetMapIDs) then
+			return
+		end
 		local px, py = GetPlayerMapPos(SetMapIDs)
 		local CLi, CLi2
 		for CLi = 1, 20 do
-			local px2, py2
-			px2 = px - ix
-			py2 = py - iy
-			if (AAP["MapIcons"][CLi]["A"] == 1) then
-				AAP["MapIcons"][CLi]["P"] = AAP["MapIcons"][CLi]["P"] + 0.02
-				local test = 0.2
-				if (AAP["MapIcons"][CLi]["P"] > 0.39 and AAP["MapIcons"][CLi]["P"] < 0.41) then
-					local set = 0
-					for CLi2 = 1, 20 do
-						if (set == 0 and AAP["MapIcons"][CLi2]["A"] == 0) then
-							AAP["MapIcons"][CLi2]["A"] = 1
-							set = 1
+			if (not px) then
+				AAP["MapIcons"][CLi]["A"] = 0
+				AAP["MapIcons"][CLi]["P"] = 0
+				AAP.HBDP:RemoveWorldMapIcon("AAPMap", AAP["MapIcons"][CLi])
+			else
+				local px2, py2
+				px2 = px - ix
+				py2 = py - iy
+				if (AAP["MapIcons"][CLi]["A"] == 1) then
+					AAP["MapIcons"][CLi]["P"] = AAP["MapIcons"][CLi]["P"] + 0.02
+					local test = 0.2
+					if (AAP["MapIcons"][CLi]["P"] > 0.39 and AAP["MapIcons"][CLi]["P"] < 0.41) then
+						local set = 0
+						for CLi2 = 1, 20 do
+							if (set == 0 and AAP["MapIcons"][CLi2]["A"] == 0) then
+								AAP["MapIcons"][CLi2]["A"] = 1
+								set = 1
+							end
 						end
 					end
-				end
-				if (AAP["MapIcons"][CLi].P < 1) then
-					px2 = px - px2 * AAP["MapIcons"][CLi]["P"]
-					py2 = py - py2 * AAP["MapIcons"][CLi]["P"]
-					AAP.HBDP:AddWorldMapIconMap("AAPMap", AAP["MapIcons"][CLi], SetMapIDs, px2, py2, HBD_PINS_WORLDMAP_SHOW_PARENT)
-				else
-					AAP["MapIcons"][CLi]["A"] = 0
-					AAP["MapIcons"][CLi]["P"] = 0
-					AAP.HBDP:RemoveWorldMapIcon("AAPMap", AAP["MapIcons"][CLi])
+					if (AAP["MapIcons"][CLi].P < 1) then
+						px2 = px - px2 * AAP["MapIcons"][CLi]["P"]
+						py2 = py - py2 * AAP["MapIcons"][CLi]["P"]
+						AAP.HBDP:AddWorldMapIconMap("AAPMap", AAP["MapIcons"][CLi], SetMapIDs, px2, py2, HBD_PINS_WORLDMAP_SHOW_PARENT)
+					else
+						AAP["MapIcons"][CLi]["A"] = 0
+						AAP["MapIcons"][CLi]["P"] = 0
+						AAP.HBDP:RemoveWorldMapIcon("AAPMap", AAP["MapIcons"][CLi])
+					end
 				end
 			end
 		end
@@ -470,7 +607,7 @@ end
 function AAP.ChkBreadcrums(qids)
 	if (qids and AAP.Breadcrums and AAP.Breadcrums[qids]) then
 		for AAP_index,AAP_value in pairs(AAP.Breadcrums[qids]) do
-			if ((AAP.ActiveQuests[AAP_value] or IsQuestFlaggedCompleted(AAP_value) == true) and (not AAP.ActiveQuests[qids])) then
+			if ((AAP.ActiveQuests[AAP_value] or C_QuestLog.IsQuestFlaggedCompleted(AAP_value) == true) and (not AAP.ActiveQuests[qids])) then
 				AAP.BreadCrumSkips[qids] = qids
 			end
 		end
@@ -483,139 +620,14 @@ local function AAP_SendGroup()
 		AAP.LastSent = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 	end
 end
-local function AAP_CheckZoneSteps()
-	if (AAP.ActiveMap and AAP1 and AAP1[AAP.Realm] and AAP1[AAP.Realm][AAP.Name] and AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and IsInInstance() == false) then
-		if (not AAP1[AAP.Realm][AAP.Name]["CountedZoneSteps"]) then
-			AAP1[AAP.Realm][AAP.Name]["CountedZoneSteps"] = {}
-		end
-		if (not AAP1[AAP.Realm][AAP.Name]["CountedZoneSteps"][AAP.ActiveMap]) then
-			local count = 0
-			for AAP_index,AAP_value in pairs(AAP.QuestStepList[AAP.ActiveMap]) do
-				count = count + 1
-			end
-			AAP1[AAP.Realm][AAP.Name]["CountedZoneSteps"][AAP.ActiveMap] = count
-		end
-		if (AAP1[AAP.Realm][AAP.Name]["CountedZoneSteps"][AAP.ActiveMap] and AAP1[AAP.Realm][AAP.Name]["CountedZoneSteps"][AAP.ActiveMap] > 1 and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
-			AAP.QuestList.QuestFrames["MyProgressFS"]:SetText(AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap].."/"..AAP1[AAP.Realm][AAP.Name]["CountedZoneSteps"][AAP.ActiveMap])
-			local aapwidth = AAP.QuestList.QuestFrames["MyProgressFS"]:GetStringWidth()
-			AAP.QuestList.QuestFrames["MyProgress"]:SetWidth(aapwidth+10)
-			AAP.QuestList.QuestFrames["MyProgressFS"]:SetWidth(aapwidth+10)
-			AAP.QuestList.QuestFrames["MyProgress"]:Show()
-		else
-			for CLi = 1, 5 do
-				AAP.PartyList.PartyFrames[CLi]:Hide()
-				AAP.PartyList.PartyFrames2[CLi]:Hide()
-			end
-			AAP.QuestList.QuestFrames["MyProgress"]:Hide()
-		end
-	else
-		AAP.QuestList.QuestFrames["MyProgress"]:Hide()
-	end
-end
 local function AAP_LeaveQuest(QuestIDs)
-	local tempa = 0
-	for j=1, GetNumQuestLogEntries() do
-		local title, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questID = GetQuestLogTitle(j)
-		if (QuestIDs == questID and not isHeader) then
-			SelectQuestLogEntry(j)
-			SetAbandonQuest()
-			tempa = 1
-		end
-	end
-	if (tempa == 1) then
-		AbandonQuest()
-	end
+	C_QuestLog.SetSelectedQuest(QuestIDs)
+	C_QuestLog.AbandonQuest()
 end
 local function AAP_ExitVhicle()
 	VehicleExit()
 end
-local function AAP_TaxiSearchFunc(AAPMrX, AAPMrY)
-	AAPMrX = floor(AAPMrX + 0.5)
-	AAPMrY = floor(AAPMrY + 0.5)
-	local CLi
-	for CLi = 1, NumTaxiNodes() do
-		if (TaxiNodeGetType(CLi) == "REACHABLE") then
-			local aapx,aapy = TaxiNodePosition(CLi)
-			aapx = floor((floor(aapx * 1000)/10)+0.5)
-			aapy = floor((floor(aapy * 1000)/10)+0.5)
-			if (tonumber(AAPMrX) == tonumber(aapx) and tonumber(AAPMrY) == tonumber(aapy)) then
-				return CLi
-			end
-		end
-	end
 
-end
-local function AAP_UseTaxiFunc()
-	local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
-	local steps
-	if (CurStep and AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
-		steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
-	end
-	if (steps["ETA"]) then
-		AAP.AFK_Timer(steps["ETA"])
-	end
-	local AllyBoatOrNot = "Flight"
-	if (AAP.Faction == "Alliance") then
-		local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
-		if (npc_id and AAP.AllyBoatNpcs[tonumber(npc_id)]) then
-			AllyBoatOrNot = "Boat"
-		end
-	end
-	if (GetLocale() == "enUS") then
-		local CLi
-		for CLi = 1, NumTaxiNodes() do
-			local aapx,aapy = TaxiNodePosition(CLi)
-			aapx = (floor(aapx * 1000)/10)
-			aapy = (floor(aapy * 1000)/10)
-			if (TaxiNodeGetType(CLi) == "REACHABLE") then
-				if (not AAP.FPs) then
-					AAP.FPs = {}
-				end
-				if (not AAP.FPs[AAP.Faction]) then
-					AAP.FPs[AAP.Faction] = {}
-				end
-				if (not AAP.FPs[AAP.Faction][AAP.getContinent()]) then
-					AAP.FPs[AAP.Faction][AAP.getContinent()] = {}
-				end
-				if (AAP.Faction == "Alliance" and 876 == AAP.getContinent()) then
-					if (not AAP.FPs[AAP.Faction][AAP.getContinent()][AllyBoatOrNot]) then
-						AAP.FPs[AAP.Faction][AAP.getContinent()][AllyBoatOrNot] = {}
-					end
-					if (not AAP.FPs[AAP.Faction][AAP.getContinent()][AllyBoatOrNot][TaxiNodeName(CLi)]) then
-						AAP.FPs[AAP.Faction][AAP.getContinent()][AllyBoatOrNot][TaxiNodeName(CLi)] = {}
-					end
-					AAP.FPs[AAP.Faction][AAP.getContinent()][AllyBoatOrNot][TaxiNodeName(CLi)]["x"] = aapx
-					AAP.FPs[AAP.Faction][AAP.getContinent()][AllyBoatOrNot][TaxiNodeName(CLi)]["y"] = aapy
-				else
-					if (not AAP.FPs[AAP.Faction][AAP.getContinent()][TaxiNodeName(CLi)]) then
-						AAP.FPs[AAP.Faction][AAP.getContinent()][TaxiNodeName(CLi)] = {}
-					end
-					AAP.FPs[AAP.Faction][AAP.getContinent()][TaxiNodeName(CLi)]["x"] = aapx
-					AAP.FPs[AAP.Faction][AAP.getContinent()][TaxiNodeName(CLi)]["y"] = aapy
-				end
-			end
-		end
-	end
-	if (AAP.Faction == "Alliance" and 876 == AAP.getContinent()) then
-		local TName = steps["Name"]
-		local TContonent = AAP.getContinent()
-		local TX = AAP.FPs[AAP.Faction][TContonent][AllyBoatOrNot][TName]["x"]
-		local TY = AAP.FPs[AAP.Faction][TContonent][AllyBoatOrNot][TName]["y"]
-		local Nodetotake = AAP_TaxiSearchFunc(TX, TY)
---	TaxiNodeOnButtonEnter(getglobal("TaxiButton"..Nodetotake))
-		TakeTaxiNode(Nodetotake)
-		AAP.BookingList["TestTaxiFunc"] = Nodetotake
-	else
-		local TName = steps["Name"]
-		local TContonent = AAP.getContinent()
-		local TX = AAP.FPs[AAP.Faction][TContonent][TName]["x"]
-		local TY = AAP.FPs[AAP.Faction][TContonent][TName]["y"]
-		local Nodetotake = AAP_TaxiSearchFunc(TX, TY)
---	TaxiNodeOnButtonEnter(getglobal("TaxiButton"..Nodetotake))
-		TakeTaxiNode(Nodetotake)
-		AAP.BookingList["TestTaxiFunc"] = Nodetotake
-	end
-end
 local function AAP_QAskPopWanted()
 	local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 	local steps
@@ -623,7 +635,7 @@ local function AAP_QAskPopWanted()
 		steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 	end
 	local Qid = steps["QaskPopup"]
-	if (IsQuestFlaggedCompleted(Qid) == true) then
+	if (C_QuestLog.IsQuestFlaggedCompleted(Qid) == true) then
 		AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 		AAP.BookingList["PrintQStep"] = 1
 		AAP.QuestList.SugQuestFrame:Hide()
@@ -656,46 +668,50 @@ function AAP.QAskPopWantedAsk(AAP_answer)
 	end
 end
 local function AAP_PrintQStep()
-	if (AAP.InCombat == 1) then
-		AAP.BookUpdAfterCombat = 1
+	if (AAP1["Debug"]) then
+		print("Function: AAP_PrintQStep()")
 	end
-	AAP_CheckZoneSteps()
-	local CLi
-	for CLi = 1, 10 do
-		if (AAP.QuestList.QuestFrames[CLi]:IsShown()) then
-			AAP.QuestList.QuestFrames[CLi]:Hide()
-		end
-		if (not InCombatLockdown()) then
-			if (AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:IsShown()) then
-				AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:Hide()
-			end
-			if (AAP.QuestList2["BF"..CLi]:IsShown() and AAP.SettingsOpen ~= 1) then
-				AAP.QuestList2["BF"..CLi]:Hide()
-			end
-		end
-	end
-	if (IsInInstance() and not AAP.ActiveQuests[26320]) then
+	if (IsInInstance()) then
 		AAP.ZoneQuestOrder:Hide()
 		return
 	elseif (AAP1[AAP.Realm][AAP.Name]["Settings"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQuestListOrder"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQuestListOrder"] == 1) then
 		AAP.ZoneQuestOrder:Show()
+	end
+	if (AAP.ActiveMap and not AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]) then
+		AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = 1
+	end
+	if (AAP.ZoneTransfer == 1) then
+	else
+		if (AAP.InCombat == 1) then
+			AAP.BookUpdAfterCombat = 1
+		end
+		local CLi
+		for CLi = 1, 10 do
+			if (not InCombatLockdown()) then
+				if (AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:IsShown()) then
+					AAP.QuestList.QuestFrames["FS"..CLi]["Button"]:Hide()
+				end
+				if (AAP.QuestList2["BF"..CLi]:IsShown() and AAP.SettingsOpen ~= 1) then
+					AAP.QuestList2["BF"..CLi]:Hide()
+				end
+			end
+		end
 	end
 	local LineNr = 0
 	local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 	-- Extra liners here
 	local MissingQs = {}
 	if (AAP.Level ~= UnitLevel("player")) then
-		AAP.BookingList["Heirloomscheck"] = 1
 		AAP.BookingList["UpdateMapId"] = 1
-		AAP.BookingList["PrintQStep"] = 1
 		AAP.Level = UnitLevel("player")
 	end
 	if (AAP1["Debug"]) then
 		print("AAP_PrintQStep() Step:".. CurStep)
 	end
 	AAP_SendGroup()
+	AAP.FP.QuedFP = nil
 	if (AAP.SettingsOpen == 1) then
-		if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 0) then
+		if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 0 and AAP.ZoneTransfer == 0) then
 			return
 		end
 		LineNr = LineNr + 1
@@ -730,21 +746,41 @@ local function AAP_PrintQStep()
 		end
 		return
 	end
+	if (AAP.ProgressText) then
+		AAP.QuestList.QuestFrames["MyProgress"]:Show()
+		AAP.QuestList.QuestFrames["MyProgressFS"]:SetText(AAP.ProgressText)
+	else
+		AAP.QuestList.QuestFrames["MyProgress"]:Hide()
+	end
 	if (AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
 		local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 		local StepP, IdList
-		if (steps and steps["LoaPick"] and steps["LoaPick"] == 123 and ((AAP.ActiveQuests[47440] or IsQuestFlaggedCompleted(47440)) or (AAP.ActiveQuests[47439] or IsQuestFlaggedCompleted(47439)))) then
+		if (AAPExtraText and AAP.ZoneTransfer == 0) then
+			if (AAPExtraText.Paths and AAPExtraText.Paths[AAP.ActiveMap] and AAPExtraText.Paths[AAP.ActiveMap][CurStep]) then
+				LineNr = LineNr + 1
+				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAPExtraText.Paths[AAP.ActiveMap][CurStep])
+				AAP.QuestList.QuestFrames[LineNr]:Show()
+				AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+				local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+				if (aapwidth and aapwidth > 400) then
+					AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+				else
+					AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+				end
+			end
+		end
+		if (steps and steps["LoaPick"] and steps["LoaPick"] == 123 and ((AAP.ActiveQuests[47440] or C_QuestLog.IsQuestFlaggedCompleted(47440)) or (AAP.ActiveQuests[47439] or C_QuestLog.IsQuestFlaggedCompleted(47439)))) then
 			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 			AAP.BookingList["PrintQStep"] = 1
 			return
-		elseif (steps["PickedLoa"] and steps["PickedLoa"] == 2 and (AAP.ActiveQuests[47440] or IsQuestFlaggedCompleted(47440))) then
+		elseif (steps["PickedLoa"] and steps["PickedLoa"] == 2 and (AAP.ActiveQuests[47440] or C_QuestLog.IsQuestFlaggedCompleted(47440))) then
 			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 			AAP.BookingList["PrintQStep"] = 1
 			if (AAP1["Debug"]) then
 				print("PickedLoa Skip 2 step:".. CurStep)
 			end
 			return
-		elseif (steps["PickedLoa"] and steps["PickedLoa"] == 1 and (AAP.ActiveQuests[47439] or IsQuestFlaggedCompleted(47439))) then
+		elseif (steps["PickedLoa"] and steps["PickedLoa"] == 1 and (AAP.ActiveQuests[47439] or C_QuestLog.IsQuestFlaggedCompleted(47439))) then
 			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 			AAP.BookingList["PrintQStep"] = 1
 			if (AAP1["Debug"]) then
@@ -791,9 +827,9 @@ local function AAP_PrintQStep()
 		if (steps["BreadCrum"]) then
 			AAP.ChkBreadcrums(steps["BreadCrum"])
 		end
-		if (IsQuestFlaggedCompleted(47440) == true) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(47440) == true) then
 			AAP1[AAP.Realm][AAP.Name]["LoaPick"] = 1
-		elseif (IsQuestFlaggedCompleted(47439) == true) then
+		elseif (C_QuestLog.IsQuestFlaggedCompleted(47439) == true) then
 			AAP1[AAP.Realm][AAP.Name]["LoaPick"] = 2
 		end
 		if (steps["LeaveQuest"]) then
@@ -807,6 +843,36 @@ local function AAP_PrintQStep()
 		if (AAP1["Debug"]) then
 			print(StepP)
 		end
+		if (steps["ZoneDoneSave"]) then
+			local zeMApz
+			if (AAP.QuestStepListListing["Shadowlands"][AAP.ActiveMap]) then
+				zeMApz = AAP.QuestStepListListing["Shadowlands"][AAP.ActiveMap]
+			elseif (AAP.QuestStepListListing["Kalimdor"][AAP.ActiveMap]) then
+				zeMApz = AAP.QuestStepListListing["Kalimdor"][AAP.ActiveMap]
+			elseif (AAP.QuestStepListListing["SpeedRun"][AAP.ActiveMap]) then
+				zeMApz = AAP.QuestStepListListing["SpeedRun"][AAP.ActiveMap]
+			elseif (AAP.QuestStepListListing["EasternKingdom"][AAP.ActiveMap]) then
+				zeMApz = AAP.QuestStepListListing["EasternKingdom"][AAP.ActiveMap]
+			elseif (AAP.QuestStepListListingStartAreas["EasternKingdom"] and AAP.QuestStepListListingStartAreas["EasternKingdom"][AAP.ActiveMap]) then
+				zeMApz = AAP.QuestStepListListingStartAreas["EasternKingdom"][AAP.ActiveMap]
+			elseif (AAP.QuestStepListListingStartAreas["Kalimdor"] and AAP.QuestStepListListingStartAreas["Kalimdor"][AAP.ActiveMap]) then
+				zeMApz = AAP.QuestStepListListingStartAreas["Kalimdor"][AAP.ActiveMap]
+			elseif (AAP_Custom[AAP.Name.."-"..AAP.Realm] and AAP_Custom[AAP.Name.."-"..AAP.Realm][AAP.ActiveMap]) then
+				zeMApz = AAP_Custom[AAP.Name.."-"..AAP.Realm][AAP.ActiveMap]
+			end
+			if (zeMApz) then
+				AAP_ZoneComplete[AAP.Name.."-"..AAP.Realm][zeMApz] = 1
+				for CLi = 1, 19 do
+					if (AAP.RoutePlan.FG1["Fxz2Custom"..CLi]["FS"]:GetText() == zeMApz) then
+						AAP.RoutePlan.FG1["Fxz2Custom"..CLi]["FS"]:SetText("")
+						AAP.RoutePlan.FG1["Fxz2Custom"..CLi]:Hide()
+					end
+				end
+				AAP.RoutePlanCheckPos()
+				AAP.CheckCustomEmpty()
+				AAP.BookingList["UpdateMapId"] = 1
+			end
+		end
 		if (steps["SpecialLeaveVehicle"]) then
 			C_Timer.After(1, AAP_ExitVhicle)
 			C_Timer.After(3, AAP_ExitVhicle)
@@ -816,84 +882,7 @@ local function AAP_PrintQStep()
 		if (steps["VehicleExit"]) then
 			VehicleExit()
 		end
-		if (AAP.Heirlooms < 5 and AAP.Level < 110 and AAP1[AAP.Realm][AAP.Name]["Settings"]["DisableHeirloomWarning"] == 0) then
-			LineNr = LineNr + 1
-			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You only got "..AAP.Heirlooms.." xp gaining Heirlooms Equiped!")
-			AAP.QuestList.QuestFrames[LineNr]:Show()
-			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
-			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
-			if (aapwidth and aapwidth > 400) then
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
-			else
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
-			end
-		end
-		if (AAP.Dinged60 == 1) then
-			LineNr = LineNr + 1
-			AAP.Dinged60nr = LineNr
-			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** Time for Northrend! (hearthstone)")
-			AAP.QuestList.QuestFrames[LineNr]:Show()
-			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
-			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
-			if (aapwidth and aapwidth > 400) then
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
-			else
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
-			end
-		end
-		if (AAP.Dinged80 == 1) then
-			LineNr = LineNr + 1
-			AAP.Dinged80nr = LineNr
-			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** Time for Hyjal! (hearthstone)")
-			AAP.QuestList.QuestFrames[LineNr]:Show()
-			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
-			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
-			if (aapwidth and aapwidth > 400) then
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
-			else
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
-			end
-		end
-		if (AAP.Dinged90 == 1) then
-			LineNr = LineNr + 1
-			AAP.Dinged90nr = LineNr
-			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** Time for Draenor! (hearthstone)")
-			AAP.QuestList.QuestFrames[LineNr]:Show()
-			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
-			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
-			if (aapwidth and aapwidth > 400) then
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
-			else
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
-			end
-		end
-		if (AAP.Dinged100 == 1) then
-			LineNr = LineNr + 1
-			AAP.Dinged100nr = LineNr
-			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** Time for Legion! (hearthstone)")
-			AAP.QuestList.QuestFrames[LineNr]:Show()
-			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
-			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
-			if (aapwidth and aapwidth > 400) then
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
-			else
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
-			end
-		end
-		if (AAP.Dinged110 == 1) then
-			LineNr = LineNr + 1
-			AAP.Dinged100nr = LineNr
-			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** Time for BFA! (Dalaran Hearthstone) and go to your Main City")
-			AAP.QuestList.QuestFrames[LineNr]:Show()
-			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
-			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
-			if (aapwidth and aapwidth > 400) then
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
-			else
-				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
-			end
-		end
-		if (steps["SpecialFlight"] and IsQuestFlaggedCompleted(steps["SpecialFlight"])) then
+		if (steps["SpecialFlight"] and C_QuestLog.IsQuestFlaggedCompleted(steps["SpecialFlight"])) then
 			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 			AAP.BookingList["PrintQStep"] = 1
 		end
@@ -908,7 +897,7 @@ local function AAP_PrintQStep()
 				ETAStep = CurStep
 			end
 		end
-		if (steps["UseGlider"]) then
+		if (steps["UseGlider"] and AAP.ZoneTransfer == 0) then
 			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
 				LineNr = LineNr + 1
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Use Item"]..": "..AAP.GliderFunc())
@@ -922,7 +911,7 @@ local function AAP_PrintQStep()
 				end
 			end
 		end
-		if (steps["Bloodlust"]) then
+		if (steps["Bloodlust"] and AAP.ZoneTransfer == 0) then
 			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
 				LineNr = LineNr + 1
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** "..AAP_Locals["Bloodlust"].." **")
@@ -936,7 +925,7 @@ local function AAP_PrintQStep()
 				end
 			end
 		end
-		if (steps["InVehicle"] and not UnitInVehicle("player")) then
+		if (steps["InVehicle"] and not UnitInVehicle("player") and AAP.ZoneTransfer == 0) then
 			LineNr = LineNr + 1
 			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Mount a Horse and scare Spiders")
 			AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -947,7 +936,7 @@ local function AAP_PrintQStep()
 			else
 				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
 			end
-		elseif (steps["InVehicle"] and steps["InVehicle"] == 2 and UnitInVehicle("player")) then
+		elseif (steps["InVehicle"] and steps["InVehicle"] == 2 and UnitInVehicle("player") and AAP.ZoneTransfer == 0) then
 			LineNr = LineNr + 1
 			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Scare Spiders into the Lumbermill")
 			AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -959,13 +948,17 @@ local function AAP_PrintQStep()
 				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
 			end
 		end
-		if (steps["ExtraActionB"]) then
+		if (steps["ExtraActionB"] and AAP.ZoneTransfer == 0) then
 			local isFound, macroSlot = AAP.MacroFinder()
 			if isFound and macroSlot then
-				AAP.MacroUpdater(macroSlot, 123123123)
+				if (steps["ExtraActionB"] == 6666) then
+					AAP.MacroUpdater(macroSlot, 6666666)
+				else
+					AAP.MacroUpdater(macroSlot, 123123123)
+				end
 			end
 		end
-		if (steps["DalaranToOgri"]) then
+		if (steps["DalaranToOgri"] and AAP.ZoneTransfer == 0) then
 			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
 				LineNr = LineNr + 1
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["DalaranToOgri"])
@@ -979,7 +972,33 @@ local function AAP_PrintQStep()
 				end
 			end
 		end
-		if ((steps["ExtraLine"] or steps["ExtraLineText"]) and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+		if (GetSpellBookItemInfo(GetSpellInfo(90265))) then
+		elseif (AAP.Level > 39) then
+			LineNr = LineNr + 1
+			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You can now learn Master Riding!")
+			AAP.QuestList.QuestFrames[LineNr]:Show()
+		elseif (GetSpellBookItemInfo(GetSpellInfo(34090))) then
+		elseif (AAP.Level > 29) then
+			LineNr = LineNr + 1
+			if (AAP.Faction == "Alliance" and AAP.ActiveMap and AAP.ActiveMap == "A543-DesMephisto-Gorgrond") then
+				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("* HS to Stormwind and learn Expert Riding!")
+				AAP.QuestList.QuestFrames[LineNr]:Show()
+			else
+				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You can now learn Expert Riding!")
+				AAP.QuestList.QuestFrames[LineNr]:Show()
+			end
+		elseif (GetSpellBookItemInfo(GetSpellInfo(33391))) then
+		elseif (AAP.Level > 19) then
+			LineNr = LineNr + 1
+			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You can now learn Journeyman Riding!")
+			AAP.QuestList.QuestFrames[LineNr]:Show()
+		elseif (GetSpellBookItemInfo(GetSpellInfo(33388))) then
+		elseif (AAP.Level > 9) then
+			LineNr = LineNr + 1
+			AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You can now learn Apprentice Riding!")
+			AAP.QuestList.QuestFrames[LineNr]:Show()
+		end
+		if ((steps["ExtraLine"] or steps["ExtraLineText"]) and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 			LineNr = LineNr + 1
 			local AAPExtralk = steps["ExtraLine"]
 			if (steps["ExtraLineText"]) then
@@ -1400,6 +1419,108 @@ local function AAP_PrintQStep()
 			if (AAPExtralk == 131) then
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Talk to Sassy Hardwrench for a ride")
 			end
+			if (AAPExtralk == 13544) then
+				local CL_Items, itemLink, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(44886)
+				if (itemLink and GetItemCount(itemLink)) then
+					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Kill Fleetfoot and loot his tail (".. GetItemCount(itemLink) .."/1)")
+					if (GetItemCount(itemLink) and GetItemCount(itemLink) > 0) then
+						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+						AAP.BookingList["UpdateQuest"] = 1
+						AAP.BookingList["PrintQStep"] = 1
+					end
+				end
+			end
+			if (AAPExtralk == 13595) then
+				local CL_Items, itemLink, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(44967)
+				if (itemLink and GetItemCount(itemLink)) then
+					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Loot Bottle of Wildfire from table (".. GetItemCount(itemLink) .."/1)")
+					if (GetItemCount(itemLink) and GetItemCount(itemLink) > 0) then
+						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+						AAP.BookingList["UpdateQuest"] = 1
+						AAP.BookingList["PrintQStep"] = 1
+					end
+				end
+			end
+			
+			if (AAPExtralk == 14358) then
+				local zdsLine = 0
+				local zdsLine2 = 0
+				local zdsLine3 = 0
+				if (GetItemInfo(48106) and GetItemCount(GetItemInfo(48106))) then
+					if (GetItemCount(GetItemInfo(48106)) and GetItemCount(GetItemInfo(48106)) < 8) then
+						AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] ".. GetItemCount(GetItemInfo(48106)) .."/8 Loot Melonfruit")
+						zdsLine = 1
+						AAP.QuestList.QuestFrames[LineNr]:Show()
+						AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+						local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+						if (aapwidth and aapwidth > 400) then
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+						else
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+						end
+					end
+				end
+				if (GetItemCount(GetItemInfo(48857))) then
+					if (GetItemCount(GetItemInfo(48857)) and GetItemCount(GetItemInfo(48857)) < 10) then
+						if (zdsLine == 1) then
+							LineNr = LineNr + 1
+						end
+						AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] ".. GetItemCount(GetItemInfo(48857)) .."/10 Kill Satyrs for Satyr Flesh")
+						zdsLine2 = 1
+						AAP.QuestList.QuestFrames[LineNr]:Show()
+						AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+						local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+						if (aapwidth and aapwidth > 400) then
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+						else
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+						end
+					end
+				end
+				if (GetItemInfo(48943) and GetItemCount(GetItemInfo(48943))) then
+					if (GetItemCount(GetItemInfo(48943)) and GetItemCount(GetItemInfo(48943)) < 20) then
+						if (zdsLine2 == 1) then
+							LineNr = LineNr + 1
+						end
+						AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] ".. GetItemCount(GetItemInfo(48943)) .."/20 Loot weaponracks for Satyr Sabers")
+						zdsLine3 = 1
+						AAP.QuestList.QuestFrames[LineNr]:Show()
+						AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+						local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+						if (aapwidth and aapwidth > 400) then
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+						else
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+						end
+					end
+				end
+				if (zdsLine == 0 and zdsLine2 == 0 and zdsLine3 == 0) then
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+				end
+			end
+			if (AAPExtralk == 25654) then
+				if (GetItemInfo(9530) and GetItemCount(GetItemInfo(9530))) then
+					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Loot Horn from Harpys (".. GetItemCount(GetItemInfo(9530)) .."/1)")
+					if (GetItemCount(GetItemInfo(9530)) and GetItemCount(GetItemInfo(9530)) > 0) then
+						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+						AAP.BookingList["UpdateQuest"] = 1
+						AAP.BookingList["PrintQStep"] = 1
+					end
+				end
+			end
+			if (AAPExtralk == 27237) then
+				local CL_Items, itemLink, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(33044)
+				if (itemLink and GetItemCount(itemLink)) then
+					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Open Bag")
+					if (GetItemCount(itemLink) and GetItemCount(itemLink) > 0) then
+						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+						AAP.BookingList["UpdateQuest"] = 1
+						AAP.BookingList["PrintQStep"] = 1
+					end
+				end
+			end
 			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
 			AAP.QuestList.QuestFrames[LineNr]:Show()
 			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
@@ -1408,24 +1529,122 @@ local function AAP_PrintQStep()
 			else
 				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
 			end
-
+		end
+		if ((steps["ExtraLineText2"]) and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
+			LineNr = LineNr + 1
+			if (steps["ExtraLineText2"]) then
+				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** "..steps["ExtraLineText2"])
+			end
+			AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+			AAP.QuestList.QuestFrames[LineNr]:Show()
+			local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+			if (aapwidth and aapwidth > 400) then
+				AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+			else
+				AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+			end
+		end
+		if (AAP.ActiveQuests and AAP.ActiveQuests[57867] and AAP.ZoneTransfer == 0) then
+			AAP.QuestList.SweatOfOurBrowBuffFrame:Show()
+		else
+			AAP.QuestList.SweatOfOurBrowBuffFrame:Hide()
 		end
 		if (StepP == "Qpart") then
-			IdList = steps["Qpart"]
+			local IdList = steps["Qpart"]
+			if (steps["QpartDB"]) then
+				local ZeIDi = 0
+				for hz=1, getn(steps["QpartDB"]) do
+					local ZeQID = steps["QpartDB"][hz]
+					if (C_QuestLog.IsQuestFlaggedCompleted(ZeQID) or AAP.ActiveQuests[ZeQID]) then
+						ZeIDi = ZeQID
+						break
+					end
+				end
+				local newList = {}
+				for AAP_index,AAP_value in pairs(IdList) do
+					newList = AAP_value
+					break
+				end
+				IdList = nil
+				IdList = {}
+				IdList[ZeIDi] = newList
+			end
+			if (steps["QSpecialz"] and AAP.ActiveQuests["57657-2"]) then
+				for i=1,40 do
+					local name, rank, count, debuffType, duration, expirationTime, unitCaster, isStealable, asd, spellId  = UnitDebuff("player", i)
+					if (spellId and spellId == 309806) then
+						LineNr = LineNr + 1
+						AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..count.."/30 gormlings collected.")
+						AAP.QuestList.QuestFrames[LineNr]:Show()
+						local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+						if (aapwidth and aapwidth > 400) then
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+						else
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+						end
+						if (count == 30) then
+							AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+							AAP.BookingList["UpdateQuest"] = 1
+							AAP.BookingList["PrintQStep"] = 1
+						end
+					end
+				end
+			end
+			if (AAP.ActiveQuests["57710-2"]) then
+				if (Quest2Special57710 ~= AAP.ActiveQuests["57710-2"]) then
+					Quest2Special57710 = AAP.ActiveQuests["57710-2"]
+					QuestSpecial57710 = 0
+				end
+				if (QuestSpecial57710 == 0) then
+					LineNr = LineNr + 1
+					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** Click The Eternal Flame")
+					AAP.QuestList.QuestFrames[LineNr]:Show()
+					local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+					if (aapwidth and aapwidth > 400) then
+						AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+					else
+						AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+					end
+				end
+			end
 			local Flagged = 0
 			local Total = 0
 			for AAP_index,AAP_value in pairs(IdList) do
 				for AAP_index2,AAP_value2 in pairs(AAP_value) do
 					Total = Total + 1
 					local qid = AAP_index.."-"..AAP_index2
-					if (IsQuestFlaggedCompleted(AAP_index) or ((UnitLevel("player") == 120) and AAP_BonusObj[AAP_index]) or AAP1[AAP.Realm][AAP.Name]["BonusSkips"][AAP_index] or AAP.BreadCrumSkips[AAP_index]) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP_index) or ((UnitLevel("player") == 121) and AAP_BonusObj[AAP_index]) or AAP1[AAP.Realm][AAP.Name]["BonusSkips"][AAP_index] or AAP.BreadCrumSkips[AAP_index]) then
 						Flagged = Flagged + 1
 					elseif (AAP.ActiveQuests[qid] and AAP.ActiveQuests[qid] == "C") then
 						Flagged = Flagged + 1
 					elseif (AAP.ActiveQuests[qid]) then
-						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 							LineNr = LineNr + 1
-							AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..AAP.ActiveQuests[qid])
+							local ZeTExt
+							if (AAP.ActiveQuests["57713-4"] and UIWidgetTopCenterContainerFrame and UIWidgetTopCenterContainerFrame["widgetFrames"]) then
+								for AAP_index2,AAP_value2 in AAP.pairsByKeys(UIWidgetTopCenterContainerFrame["widgetFrames"]) do
+									if (UIWidgetTopCenterContainerFrame["widgetFrames"][AAP_index2]["Text"]) then
+										ZeTExt = UIWidgetTopCenterContainerFrame["widgetFrames"][AAP_index2]["Text"]:GetText()
+										if (string.find(ZeTExt, "(%d+)(.*)")) then
+											local _,_,ZeTExt2 = string.find(ZeTExt, "(%d+)(.*)")
+											ZeTExt = ZeTExt2
+										end
+									end
+								end
+							end
+
+
+
+							local checkpbar = C_QuestLog.GetQuestObjectives(AAP_index)
+						--	if (checkpbar and checkpbar[tonumber(AAP_index2)] and checkpbar[tonumber(AAP_index2)]["type"] and checkpbar[tonumber(AAP_index2)]["type"] == "progressbar") then
+						--		AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..GetQuestProgressBarPercent(AAP_index).."/100 "..AAP.ActiveQuests[qid])
+							if (not string.find(AAP.ActiveQuests[qid], "(.*)(%d+)(.*)") and checkpbar and checkpbar[tonumber(AAP_index2)] and checkpbar[tonumber(AAP_index2)]["type"] and checkpbar[tonumber(AAP_index2)]["type"] == "progressbar") then
+								AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] ["..GetQuestProgressBarPercent(AAP_index).."%] "..AAP.ActiveQuests[qid])
+							elseif (ZeTExt) then
+								AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..ZeTExt.."% - "..AAP.ActiveQuests[qid])
+							else
+								AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..AAP.ActiveQuests[qid])
+							end
 							AAP.QuestList.QuestFrames[LineNr]:Show()
 							AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
 							local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
@@ -1448,7 +1667,7 @@ local function AAP_PrintQStep()
 							end
 						end
 					elseif (not AAP.ActiveQuests[AAP_index] and not MissingQs[AAP_index]) then
-						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 							if (AAP_BonusObj[AAP_index]) then
 								LineNr = LineNr + 1
 								AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Do Bonus Objective: "..AAP_index)
@@ -1489,6 +1708,9 @@ local function AAP_PrintQStep()
 						end
 					end
 				end
+				if (steps and steps["Gossip"] and (AAP.GossipOpen == 1) and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoGossip"] == 1 and not IsControlKeyDown()) then
+					C_GossipInfo.SelectOption(steps["Gossip"])
+				end
 			end
 			if (Flagged == Total and Flagged > 0) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
@@ -1497,68 +1719,110 @@ local function AAP_PrintQStep()
 --				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 --				AAP.BookingList["PrintQStep"] = 1
 			end
+			if (steps and steps["Gossip"] and (AAP.GossipOpen == 1) and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoGossip"] == 1 and not IsControlKeyDown()) then
+				if (steps and steps["Gossip"] and steps["Gossip"] == 34398) then
+					C_GossipInfo.SelectOption(1)
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+				end
+			end
 		elseif (StepP == "PickUp") then
 			IdList = steps["PickUp"]
-			local NrLeft = 0
-			local Flagged = 0
-			local Total = 0
-			local NrLeft2 = 0
-			local Flagged2 = 0
-			local Total2 = 0
-			for h=1, getn(IdList) do
-				local theqid = IdList[h]
-				Total = Total + 1
-				if (not AAP.ActiveQuests[theqid] and IsQuestFlaggedCompleted(theqid) == false) then
-					NrLeft = NrLeft + 1
+			if (steps["PickDraenor"]) then
+				if not EncounterJournal then
+					EncounterJournal_LoadUI()
 				end
-				if (IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
-					Flagged = Flagged + 1
-				end
+				ToggleFrame(EncounterJournal)
 			end
-			if (steps["PickUp2"]) then
-				IdList2 = steps["PickUp2"]
-				for h=1, getn(IdList2) do
-					local theqid = IdList2[h]
-					Total2 = Total2 + 1
-					if (not AAP.ActiveQuests[theqid]) then
-						NrLeft2 = NrLeft2 + 1
-					end
-					if (IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
-						Flagged2 = Flagged2 + 1
+			if (steps["PickUpDB"]) then
+				local Flagged = 0
+				for hz=1, getn(steps["PickUpDB"]) do
+					local ZeQID = steps["PickUpDB"][hz]
+					if (C_QuestLog.IsQuestFlaggedCompleted(ZeQID) or AAP.ActiveQuests[ZeQID]) then
+						Flagged = ZeQID
 					end
 				end
-			end
-			if (Total == Flagged) then
-				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-				if (AAP1["Debug"]) then
-					print("AAP.PrintQStep:PickUp:Plus:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+				if (Flagged > 0) then
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+				else
+					if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
+						LineNr = LineNr + 1
+						AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Pick Up Quests"]..": 1")
+						AAP.QuestList.QuestFrames[LineNr]:Show()
+						AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+						local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+						if (aapwidth and aapwidth > 400) then
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+						else
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+						end
+					end
 				end
-				AAP.BookingList["UpdateQuest"] = 1
-				AAP.BookingList["PrintQStep"] = 1
-			elseif (steps["PickUp2"] and Total2 == Flagged2) then
-				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-				if (AAP1["Debug"]) then
-					print("AAP.PrintQStep:PickUp:Plus2:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
-				end
-				AAP.BookingList["UpdateQuest"] = 1
-				AAP.BookingList["PrintQStep"] = 1
 			else
-				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
-					LineNr = LineNr + 1
-					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Pick Up Quests"]..": "..NrLeft)
-					AAP.QuestList.QuestFrames[LineNr]:Show()
-					AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
-					local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
-					if (aapwidth and aapwidth > 400) then
-						AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
-					else
-						AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+				local NrLeft = 0
+				local Flagged = 0
+				local Total = 0
+				local NrLeft2 = 0
+				local Flagged2 = 0
+				local Total2 = 0
+				for h=1, getn(IdList) do
+					local theqid = IdList[h]
+					Total = Total + 1
+					if (not AAP.ActiveQuests[theqid] and C_QuestLog.IsQuestFlaggedCompleted(theqid) == false) then
+						NrLeft = NrLeft + 1
+					end
+					if (C_QuestLog.IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
+						Flagged = Flagged + 1
+					end
+				end
+				if (steps["PickUp2"]) then
+					IdList2 = steps["PickUp2"]
+					for h=1, getn(IdList2) do
+						local theqid = IdList2[h]
+						Total2 = Total2 + 1
+						if (not AAP.ActiveQuests[theqid]) then
+							NrLeft2 = NrLeft2 + 1
+						end
+						if (C_QuestLog.IsQuestFlaggedCompleted(theqid) or AAP.ActiveQuests[theqid] or AAP.BreadCrumSkips[theqid]) then
+							Flagged2 = Flagged2 + 1
+						end
+					end
+				end
+				if (Total == Flagged) then
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					if (AAP1["Debug"]) then
+						print("AAP.PrintQStep:PickUp:Plus:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+					end
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+				elseif (steps["PickUp2"] and Total2 == Flagged2) then
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					if (AAP1["Debug"]) then
+						print("AAP.PrintQStep:PickUp:Plus2:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+					end
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+				else
+					if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
+						LineNr = LineNr + 1
+						AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Pick Up Quests"]..": "..NrLeft)
+						AAP.QuestList.QuestFrames[LineNr]:Show()
+						AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+						local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
+						if (aapwidth and aapwidth > 400) then
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
+						else
+							AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+						end
 					end
 				end
 			end
 		elseif (StepP == "CRange") then
 			IdList = steps["CRange"]
-			if (IsQuestFlaggedCompleted(IdList) or AAP.BreadCrumSkips[IdList]) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(IdList) or AAP.BreadCrumSkips[IdList]) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				if (AAP1["Debug"]) then
 					print("AAP.PrintQStep:CRange:Plus:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
@@ -1566,11 +1830,13 @@ local function AAP_PrintQStep()
 				AAP.BookingList["UpdateQuest"] = 1
 				AAP.BookingList["PrintQStep"] = 1
 			else
-				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 					LineNr = LineNr + 1
 					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP.CheckCRangeText())
 					AAP.QuestList.QuestFrames[LineNr]:Show()
-					AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+--					AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
+					AAP.QuestList.QuestFrames[LineNr]["BQid"] = AAP_index
+					AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Show()
 					local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
 					if (aapwidth and aapwidth > 400) then
 						AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
@@ -1581,7 +1847,7 @@ local function AAP_PrintQStep()
 			end
 		elseif (StepP == "Treasure") then
 			IdList = steps["Treasure"]
-			if (IsQuestFlaggedCompleted(IdList)) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(IdList)) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				if (AAP1["Debug"]) then
 					print("AAP.PrintQStep:Treasure:Plus:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
@@ -1589,7 +1855,7 @@ local function AAP_PrintQStep()
 				AAP.BookingList["UpdateQuest"] = 1
 				AAP.BookingList["PrintQStep"] = 1
 			else
-				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 					LineNr = LineNr + 1
 					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Get the Treasure")
 					AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1604,7 +1870,7 @@ local function AAP_PrintQStep()
 			end
 		elseif (StepP == "DropQuest") then
 			IdList = steps["DropQuest"]
-			if (IsQuestFlaggedCompleted(IdList) or AAP.ActiveQuests[IdList]) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(IdList) or AAP.ActiveQuests[IdList]) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				if (AAP1["Debug"]) then
 					print("AAP.PrintQStep:DropQuest:Plus:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
@@ -1614,6 +1880,18 @@ local function AAP_PrintQStep()
 			end
 		elseif (StepP == "Done") then
 			IdList = steps["Done"]
+			if (steps["DoneDB"]) then
+				local Flagged = 0
+				for hz=1, getn(steps["DoneDB"]) do
+					local zEQID = steps["DoneDB"][hz]
+					if (C_QuestLog.IsQuestFlaggedCompleted(zEQID) or AAP.ActiveQuests[zEQID]) then
+						IdList = nil
+						IdList = {}
+						tinsert(IdList,zEQID)
+						break
+					end
+				end
+			end
 			local NrLeft = 0
 			local Flagged = 0
 			local Total = 0
@@ -1623,7 +1901,7 @@ local function AAP_PrintQStep()
 				if (AAP.ActiveQuests[theqid]) then
 					NrLeft = NrLeft + 1
 				end
-				if (IsQuestFlaggedCompleted(theqid) or AAP.BreadCrumSkips[theqid]) then
+				if (C_QuestLog.IsQuestFlaggedCompleted(theqid) or AAP.BreadCrumSkips[theqid]) then
 					Flagged = Flagged + 1
 				end
 				if (steps["Button"] and steps["Button"][tostring(theqid)]) then
@@ -1637,7 +1915,7 @@ local function AAP_PrintQStep()
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			else
-				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 					LineNr = LineNr + 1
 					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Turn in Quest"]..": "..NrLeft)
 					AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1651,11 +1929,11 @@ local function AAP_PrintQStep()
 				end
 			end
 		elseif (StepP == "WarMode") then
-			if (IsQuestFlaggedCompleted(steps["WarMode"]) or C_PvP.IsWarModeDesired() == true) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["WarMode"]) or C_PvP.IsWarModeDesired() == true) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			else
-				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 					LineNr = LineNr + 1
 					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("*** Turn on WARMODE ***")
 					AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1673,11 +1951,11 @@ local function AAP_PrintQStep()
 				end
 			end
 		elseif (StepP == "UseDalaHS") then
-			if (IsQuestFlaggedCompleted(steps["UseDalaHS"])) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["UseDalaHS"])) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			else
-				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 					LineNr = LineNr + 1
 					if (steps["Button"] and steps["Button"]["12112552-1"]) then
 						if (not AAP.SetButtonVar) then
@@ -1698,11 +1976,11 @@ local function AAP_PrintQStep()
 				end
 			end
 		elseif (StepP == "UseGarrisonHS") then
-			if (IsQuestFlaggedCompleted(steps["UseGarrisonHS"])) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["UseGarrisonHS"])) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			else
-				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+				if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 					LineNr = LineNr + 1
 					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["UseGarrisonHS"])
 					AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1723,7 +2001,7 @@ local function AAP_PrintQStep()
 				end
 			end
 		elseif (StepP == "ZonePick") then
-			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 				LineNr = LineNr + 1
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Pick Zone"])
 				AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1736,7 +2014,7 @@ local function AAP_PrintQStep()
 				end
 			end
 		elseif (StepP == "SetHS") then
-			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 				LineNr = LineNr + 1
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Set Hearthstone"])
 				AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1748,12 +2026,15 @@ local function AAP_PrintQStep()
 					AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
 				end
 			end
-			if (IsQuestFlaggedCompleted(steps["SetHS"])) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["SetHS"])) then
+				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+				AAP.BookingList["PrintQStep"] = 1
+			elseif (steps["HSZone"] and AAP1[AAP.Realm][AAP.Name]["HSLoc"] and AAP1[AAP.Realm][AAP.Name]["HSLoc"] == steps["HSZone"]) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			end
 		elseif (StepP == "UseHS") then
-			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 				LineNr = LineNr + 1
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Use Hearthstone"])
 				AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1769,12 +2050,13 @@ local function AAP_PrintQStep()
 				end
 				AAP.SetButtonVar[steps["UseHS"]] = LineNr
 			end
-			if (IsQuestFlaggedCompleted(steps["UseHS"])) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["UseHS"])) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			end
 		elseif (StepP == "GetFP") then
-			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
+				AAP.FP.GoToZone = nil
 				LineNr = LineNr + 1
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText(AAP_Locals["Get Flight Point"])
 				AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1786,12 +2068,12 @@ local function AAP_PrintQStep()
 					AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
 				end
 			end
-			if (IsQuestFlaggedCompleted(steps["GetFP"])) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["GetFP"])) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			end
 		elseif (StepP == "UseFlightPath") then
-			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 				LineNr = LineNr + 1
 				if (steps["Boat"]) then
 					if (steps["Name"]) then
@@ -1820,12 +2102,12 @@ local function AAP_PrintQStep()
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			end
-			if (IsQuestFlaggedCompleted(steps["UseFlightPath"])) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["UseFlightPath"])) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			end
 		elseif (StepP == "QaskPopup") then
-			if (IsQuestFlaggedCompleted(steps["QaskPopup"])) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(steps["QaskPopup"])) then
 				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 				AAP.BookingList["PrintQStep"] = 1
 			else
@@ -1838,14 +2120,14 @@ local function AAP_PrintQStep()
 			for AAP_index,AAP_value in pairs(IdList) do
 				for AAP_index2,AAP_value2 in pairs(AAP_value) do
 					Total = Total + 1
-					if (IsQuestFlaggedCompleted(AAP_index)) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP_index)) then
 						Flagged = Flagged + 1
 					end
 					local qid = AAP_index.."-"..AAP_index2
 					if (AAP.ActiveQuests[qid] and AAP.ActiveQuests[qid] == "C") then
 						Flagged = Flagged + 1
 					elseif (AAP.ActiveQuests[qid]) then
-						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 							LineNr = LineNr + 1
 							AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..AAP.ActiveQuests[qid])
 							AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1856,9 +2138,15 @@ local function AAP_PrintQStep()
 							else
 								AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
 							end
+							if (steps["Button"] and steps["Button"][qid]) then
+								if (not AAP.SetButtonVar) then
+									AAP.SetButtonVar = {}
+								end
+								AAP.SetButtonVar[qid] = LineNr
+							end
 						end
 					elseif (not AAP.ActiveQuests[AAP_index] and not MissingQs[AAP_index]) then
-						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+						if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 							if (AAP_BonusObj[AAP_index]) then
 								LineNr = LineNr + 1
 								AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Do Bonus Objective: "..AAP_index)
@@ -1877,7 +2165,7 @@ local function AAP_PrintQStep()
 								else
 									AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
 								end
-							else
+							elseif (AAP.ZoneTransfer == 0) then
 								LineNr = LineNr + 1
 								AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Error - Missing Quest: "..AAP_index)
 								AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1907,14 +2195,20 @@ local function AAP_PrintQStep()
 							if (string.find(AAP.ActiveQuests[AAP_index.."-"..tonumber(AAP_index2)], steps["TrigText"])) then
 								AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 								AAP.BookingList["PrintQStep"] = 1
+							elseif (steps["TrigText2"] and string.find(AAP.ActiveQuests[AAP_index.."-"..tonumber(AAP_index2)], steps["TrigText2"])) then
+								AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+								AAP.BookingList["PrintQStep"] = 1
+							elseif (steps["TrigText3"] and string.find(AAP.ActiveQuests[AAP_index.."-"..tonumber(AAP_index2)], steps["TrigText3"])) then
+								AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+								AAP.BookingList["PrintQStep"] = 1
 							end
 						end
 					end
 				end
 			end
 		end
-		if (steps["DroppableQuest"] and not IsQuestFlaggedCompleted(steps["DroppableQuest"]["Qid"]) and not AAP.ActiveQuests[steps["DroppableQuest"]["Qid"]]) then
-			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+		if (steps["DroppableQuest"] and not C_QuestLog.IsQuestFlaggedCompleted(steps["DroppableQuest"]["Qid"]) and not AAP.ActiveQuests[steps["DroppableQuest"]["Qid"]]) then
+			if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 				LineNr = LineNr + 1
 				local MobName = steps["DroppableQuest"]["Text"]
 				if (AAP.NPCList[steps["DroppableQuest"]["MobId"]]) then
@@ -1935,13 +2229,18 @@ local function AAP_PrintQStep()
 			IdList = steps["Fillers"]
 			for AAP_index,AAP_value in pairs(IdList) do
 				for AAP_index2,AAP_value2 in pairs(AAP_value) do
-					if (IsQuestFlaggedCompleted(AAP_index) == false and not AAP1[AAP.Realm][AAP.Name]["BonusSkips"][AAP_index]) then
-						if ((UnitLevel("player") ~= 120) or (UnitLevel("player") == 120 and not AAP_BonusObj[AAP_index])) then
+					if (C_QuestLog.IsQuestFlaggedCompleted(AAP_index) == false and not AAP1[AAP.Realm][AAP.Name]["BonusSkips"][AAP_index]) then
+						if ((UnitLevel("player") ~= 121) or (UnitLevel("player") == 121 and not AAP_BonusObj[AAP_index])) then
 							local qid = AAP_index.."-"..AAP_index2
 							if (AAP.ActiveQuests[qid] and AAP.ActiveQuests[qid] == "C") then
-							elseif (AAP.ActiveQuests[qid]) then
+							elseif (AAP.ActiveQuests[qid] and AAP.ZoneTransfer == 0) then
 								LineNr = LineNr + 1
-								AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..AAP.ActiveQuests[qid])
+								local checkpbar = C_QuestLog.GetQuestObjectives(AAP_index)
+								if (not string.find(AAP.ActiveQuests[qid], "(.*)(%d+)(.*)") and checkpbar and checkpbar[tonumber(AAP_index2)] and checkpbar[tonumber(AAP_index2)]["type"] and checkpbar[tonumber(AAP_index2)]["type"] == "progressbar") then
+									AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] ["..GetQuestProgressBarPercent(AAP_index).."%] "..AAP.ActiveQuests[qid])
+								else
+									AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("["..LineNr.."] "..AAP.ActiveQuests[qid])
+								end
 								AAP.QuestList.QuestFrames[LineNr]:Show()
 								AAP.QuestList.QuestFrames["FS"..LineNr]["Button"]:Hide()
 								local aapwidth = AAP.QuestList.QuestFrames["FS"..LineNr]:GetStringWidth()
@@ -1978,13 +2277,15 @@ local function AAP_PrintQStep()
 				local CLi
 				for CLi = 1, FrameHideNr do
 					NewLine = NewLine + CLi
-					AAP.QuestList.QuestFrames[NewLine]:Hide()
-					if (not InCombatLockdown()) then
-						AAP.QuestList.QuestFrames["FS"..NewLine]["Button"]:Hide()
-						AAP.QuestList2["BF"..NewLine]:Hide()
-					end
-					if (AAP1["Debug"]) then
-						print("Hide:"..NewLine)
+					if (AAP.QuestList.QuestFrames[NewLine]) then
+						AAP.QuestList.QuestFrames[NewLine]:Hide()
+						if (not InCombatLockdown()) then
+							AAP.QuestList.QuestFrames["FS"..NewLine]["Button"]:Hide()
+							AAP.QuestList2["BF"..NewLine]:Hide()
+						end
+						if (AAP1["Debug"]) then
+							print("Hide:"..NewLine)
+						end
 					end
 				end
 			end
@@ -2008,7 +2309,7 @@ local function AAP_PrintQStep()
 		if (AAP.ZoneQuestOrder:IsShown() == true) then
 			AAP.UpdateZoneQuestOrderList("LoadIn")
 		end
-	elseif (AAPWhereToGo and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1) then
+	elseif (AAPWhereToGo and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 		LineNr = LineNr + 1
 		AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** AAP: GoTo ".. AAPWhereToGo)
 		AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -2018,6 +2319,13 @@ local function AAP_PrintQStep()
 			AAP.QuestList.QuestFrames[LineNr]:SetWidth(aapwidth+10)
 		else
 			AAP.QuestList.QuestFrames[LineNr]:SetWidth(410)
+		end
+	end
+	for CLi = 1, 10 do
+		if (CLi > LineNr) then
+			if (AAP.QuestList.QuestFrames[CLi]:IsShown()) then
+				AAP.QuestList.QuestFrames[CLi]:Hide()
+			end
 		end
 	end
 end
@@ -2030,6 +2338,9 @@ function AAP.TrimPlayerServer(CLPName)
 	end
 end
 function AAP.SetButton()
+	if (AAP1["Debug"]) then
+		print("Function: AAP.SetButton()")
+	end
 	if (AAP.SettingsOpen == 1) then
 		local CLi
 		for CLi = 1, 3 do
@@ -2045,7 +2356,7 @@ function AAP.SetButton()
 	if (CurStep and AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
 		steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 	end
-	if (steps and steps["Button"] or (AAP.Dinged60 == 1 and AAP.Dinged60nr > 0) or (AAP.Dinged80 == 1 and AAP.Dinged80nr > 0) or (AAP.Dinged90 == 1 and AAP.Dinged90nr > 0) or (AAP.Dinged100 == 1 and AAP.Dinged100nr > 0)) then
+	if (steps and steps["Button"] or (AAP.Dinged100 == 1 and AAP.Dinged100nr > 0)) then
 		if (not InCombatLockdown()) then
 			if (AAP.SetButtonVar) then
 				if (AAP1["Debug"]) then
@@ -2112,120 +2423,6 @@ function AAP.SetButton()
 						AAP.QuestList2["BF"..i]:Hide()
 					end
 				end
-				if (AAP.Dinged60 == 1 and AAP.Dinged60nr > 0) then
-					local CL_Items, clt2, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(6948)
-					if (CL_Items and string.sub(CL_Items, 1, 1) and CL_ItemTex) then
-						HideVar[AAP.Dinged60nr] = AAP.Dinged60nr
-						AAP.ButtonList[123451234] = AAP.Dinged60nr
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Buttonptex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Buttonntex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetNormalTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetText("")
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetAttribute("type", "item");
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetAttribute("item", "item:6948");
-						AAP.QuestList2["BF"..AAP.Dinged60nr]:Show()
-							AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR"); GameTooltip:SetItemByID(6948); GameTooltip:Show() end)
-							AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
-						local Topz = AAP1[AAP.Realm][AAP.Name]["Settings"]["left"]
-						local Topz2 = AAP1[AAP.Realm][AAP.Name]["Settings"]["top"]
-						AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", Topz, Topz2)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]:SetPoint("BOTTOMLEFT", AAP.QuestList21, "BOTTOMLEFT",0,-((AAP.Dinged60nr * 38)+AAP.Dinged60nr))
-						if (not AAP.ButtonVisual) then
-							AAP.ButtonVisual = {}
-						end
-						AAP.ButtonVisual[AAP.Dinged60nr] = AAP.Dinged60nr
-						local isFound, macroSlot = AAP.MacroFinder()
-						if isFound and macroSlot then
-							if (steps and steps["SpecialDubbleMacro"]) then
-								if (not AAP.DubbleMacro[1]) then
-									AAP.DubbleMacro[1] = CL_Items
-								elseif (AAP.DubbleMacro and AAP.DubbleMacro[1] and not AAP.DubbleMacro[2]) then
-									AAP.DubbleMacro[2] = CL_Items
-								end
-							else
-								AAP.DubbleMacro = nil
-								AAP.DubbleMacro = {}
-							end
-							AAP.MacroUpdater(macroSlot, CL_Items)
-						end
-					end
-				end
-				if (AAP.Dinged80 == 1 and AAP.Dinged80nr > 0) then
-					local CL_Items, clt2, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(6948)
-					if (CL_Items and string.sub(CL_Items, 1, 1) and CL_ItemTex) then
-						HideVar[AAP.Dinged80nr] = AAP.Dinged80nr
-						AAP.ButtonList[123451234] = AAP.Dinged80nr
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Buttonptex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Buttonntex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetNormalTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetText("")
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetAttribute("type", "item");
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetAttribute("item", "item:6948");
-						AAP.QuestList2["BF"..AAP.Dinged80nr]:Show()
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR"); GameTooltip:SetItemByID(6948); GameTooltip:Show() end)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
-						local Topz = AAP1[AAP.Realm][AAP.Name]["Settings"]["left"]
-						local Topz2 = AAP1[AAP.Realm][AAP.Name]["Settings"]["top"]
-						AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", Topz, Topz2)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]:SetPoint("BOTTOMLEFT", AAP.QuestList21, "BOTTOMLEFT",0,-((AAP.Dinged80nr * 38)+AAP.Dinged80nr))
-						if (not AAP.ButtonVisual) then
-							AAP.ButtonVisual = {}
-						end
-						AAP.ButtonVisual[AAP.Dinged80nr] = AAP.Dinged80nr
-						local isFound, macroSlot = AAP.MacroFinder()
-						if isFound and macroSlot then
-							if (steps and steps["SpecialDubbleMacro"]) then
-								if (not AAP.DubbleMacro[1]) then
-									AAP.DubbleMacro[1] = CL_Items
-								elseif (AAP.DubbleMacro and AAP.DubbleMacro[1] and not AAP.DubbleMacro[2]) then
-									AAP.DubbleMacro[2] = CL_Items
-								end
-							else
-								AAP.DubbleMacro = nil
-								AAP.DubbleMacro = {}
-							end
-							AAP.MacroUpdater(macroSlot, CL_Items)
-						end
-					end
-				end
-				if (AAP.Dinged90 == 1 and AAP.Dinged90nr > 0) then
-					local CL_Items, clt2, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(6948)
-					if (CL_Items and string.sub(CL_Items, 1, 1) and CL_ItemTex) then
-						HideVar[AAP.Dinged90nr] = AAP.Dinged90nr
-						AAP.ButtonList[123451234] = AAP.Dinged90nr
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Buttonptex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Buttonntex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetNormalTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetText("")
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetAttribute("type", "item");
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetAttribute("item", "item:6948");
-						AAP.QuestList2["BF"..AAP.Dinged90nr]:Show()
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR"); GameTooltip:SetItemByID(6948); GameTooltip:Show() end)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
-						local Topz = AAP1[AAP.Realm][AAP.Name]["Settings"]["left"]
-						local Topz2 = AAP1[AAP.Realm][AAP.Name]["Settings"]["top"]
-						AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", Topz, Topz2)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]:SetPoint("BOTTOMLEFT", AAP.QuestList21, "BOTTOMLEFT",0,-((AAP.Dinged90nr * 38)+AAP.Dinged90nr))
-						if (not AAP.ButtonVisual) then
-							AAP.ButtonVisual = {}
-						end
-						AAP.ButtonVisual[AAP.Dinged90nr] = AAP.Dinged90nr
-						local isFound, macroSlot = AAP.MacroFinder()
-						if isFound and macroSlot then
-							if (steps and steps["SpecialDubbleMacro"]) then
-								if (not AAP.DubbleMacro[1]) then
-									AAP.DubbleMacro[1] = CL_Items
-								elseif (AAP.DubbleMacro and AAP.DubbleMacro[1] and not AAP.DubbleMacro[2]) then
-									AAP.DubbleMacro[2] = CL_Items
-								end
-							else
-								AAP.DubbleMacro = nil
-								AAP.DubbleMacro = {}
-							end
-							AAP.MacroUpdater(macroSlot, CL_Items)
-						end
-					end
-				end
 				if (AAP.Dinged100 == 1 and AAP.Dinged100nr > 0) then
 					local CL_Items, clt2, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(6948)
 					if (CL_Items and string.sub(CL_Items, 1, 1) and CL_ItemTex) then
@@ -2268,93 +2465,6 @@ function AAP.SetButton()
 				if (steps and not steps["Button"] and AAP.SettingsOpen ~= 1) then
 					for i=1, 10 do
 						AAP.QuestList2["BF"..i]:Hide()
-					end
-				end
-				if (AAP.Dinged60 == 1 and AAP.Dinged60nr > 0) then
-					local CL_Items, clt2, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(6948)
-					if (CL_Items and string.sub(CL_Items, 1, 1) and CL_ItemTex) then
-						AAP.ButtonList[123451234] = AAP.Dinged60nr
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Buttonptex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Buttonntex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetNormalTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetText("")
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetAttribute("type", "item");
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetAttribute("item", "item:6948");
-						AAP.QuestList2["BF"..AAP.Dinged60nr]:Show()
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR"); GameTooltip:SetItemByID(6948); GameTooltip:Show() end)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]["AAP_Button"]:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
-						local Topz = AAP1[AAP.Realm][AAP.Name]["Settings"]["left"]
-						local Topz2 = AAP1[AAP.Realm][AAP.Name]["Settings"]["top"]
-						AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", Topz, Topz2)
-						AAP.QuestList2["BF"..AAP.Dinged60nr]:SetPoint("BOTTOMLEFT", AAP.QuestList21, "BOTTOMLEFT",0,-((AAP.Dinged60nr * 38)+AAP.Dinged60nr))
-						if (not AAP.ButtonVisual) then
-							AAP.ButtonVisual = {}
-						end
-						AAP.ButtonVisual[AAP.Dinged60nr] = AAP.Dinged60nr
-						local isFound, macroSlot = AAP.MacroFinder()
-						if isFound and macroSlot then
-							AAP.DubbleMacro = nil
-							AAP.DubbleMacro = {}
-							AAP.MacroUpdater(macroSlot, CL_Items)
-						end
-					end
-				end
-				if (AAP.Dinged80 == 1 and AAP.Dinged80nr > 0) then
-					local CL_Items, clt2, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(6948)
-					if (CL_Items and string.sub(CL_Items, 1, 1) and CL_ItemTex) then
-						AAP.ButtonList[123451234] = AAP.Dinged80nr
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Buttonptex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Buttonntex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetNormalTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetText("")
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetAttribute("type", "item");
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetAttribute("item", "item:6948");
-						AAP.QuestList2["BF"..AAP.Dinged80nr]:Show()
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR"); GameTooltip:SetItemByID(6948); GameTooltip:Show() end)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]["AAP_Button"]:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
-						local Topz = AAP1[AAP.Realm][AAP.Name]["Settings"]["left"]
-						local Topz2 = AAP1[AAP.Realm][AAP.Name]["Settings"]["top"]
-						AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", Topz, Topz2)
-						AAP.QuestList2["BF"..AAP.Dinged80nr]:SetPoint("BOTTOMLEFT", AAP.QuestList21, "BOTTOMLEFT",0,-((AAP.Dinged80nr * 38)+AAP.Dinged80nr))
-						if (not AAP.ButtonVisual) then
-							AAP.ButtonVisual = {}
-						end
-						AAP.ButtonVisual[AAP.Dinged80nr] = AAP.Dinged80nr
-						local isFound, macroSlot = AAP.MacroFinder()
-						if isFound and macroSlot then
-							AAP.DubbleMacro = nil
-							AAP.DubbleMacro = {}
-							AAP.MacroUpdater(macroSlot, CL_Items)
-						end
-					end
-				end
-				if (AAP.Dinged90 == 1 and AAP.Dinged90nr > 0) then
-					local CL_Items, clt2, clt3, clt4, clt5, clt6, clt7, clt8, clt9, CL_ItemTex = GetItemInfo(6948)
-					if (CL_Items and string.sub(CL_Items, 1, 1) and CL_ItemTex) then
-						AAP.ButtonList[123451234] = AAP.Dinged90nr
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Buttonptex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Buttonntex"]:SetTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetNormalTexture(CL_ItemTex)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetText("")
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetAttribute("type", "item");
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetAttribute("item", "item:6948");
-						AAP.QuestList2["BF"..AAP.Dinged90nr]:Show()
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR"); GameTooltip:SetItemByID(6948); GameTooltip:Show() end)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]["AAP_Button"]:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
-						local Topz = AAP1[AAP.Realm][AAP.Name]["Settings"]["left"]
-						local Topz2 = AAP1[AAP.Realm][AAP.Name]["Settings"]["top"]
-						AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", Topz, Topz2)
-						AAP.QuestList2["BF"..AAP.Dinged90nr]:SetPoint("BOTTOMLEFT", AAP.QuestList21, "BOTTOMLEFT",0,-((AAP.Dinged90nr * 38)+AAP.Dinged90nr))
-						if (not AAP.ButtonVisual) then
-							AAP.ButtonVisual = {}
-						end
-						AAP.ButtonVisual[AAP.Dinged90nr] = AAP.Dinged90nr
-						local isFound, macroSlot = AAP.MacroFinder()
-						if isFound and macroSlot then
-							AAP.DubbleMacro = nil
-							AAP.DubbleMacro = {}
-							AAP.MacroUpdater(macroSlot, CL_Items)
-						end
 					end
 				end
 				if (AAP.Dinged100 == 1 and AAP.Dinged100nr > 0) then
@@ -2405,30 +2515,30 @@ function AAP.CheckCRangeText()
 		CurStep = CurStep + 1
 		steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 		if (steps and steps["FlightPath"]) then
-			local Derp2 = AAP_Locals["Get Flight Point"]
+			local Derp2 = "[WayPoint] - "..AAP_Locals["Get Flight Point"]
 			return Derp2
 		elseif (steps and steps["UseFlightPath"]) then
 			if (steps["Boat"]) then
-				local Derp2 = AAP_Locals["Boat to"]
+				local Derp2 = "[WayPoint] - "..AAP_Locals["Boat to"]
 				return Derp2
 			else
-				local Derp2 = AAP_Locals["Fly to"]
+				local Derp2 = "[WayPoint] - "..AAP_Locals["Fly to"]
 				return Derp2
 			end
 		elseif (steps and steps["PickUp"]) then
-			local Derp2 = AAP_Locals["Accept Quest"]
+			local Derp2 = "[WayPoint] - Accept Quest"
 			return Derp2
 		elseif (steps and steps["Done"]) then
-			local Derp2 = AAP_Locals["Turn in Quest"]
+			local Derp2 = "[WayPoint] - Turn in Quest"
 			return Derp2
 		elseif (steps and steps["Qpart"]) then
-			local Derp2 = AAP_Locals["Complete Quest"]
+			local Derp2 ="[WayPoint] - Complete Quest"
 			return Derp2
 		elseif (steps and steps["SetHS"]) then
-			local Derp2 = AAP_Locals["Set Hearthstone"]
+			local Derp2 = "[WayPoint] - Set Hearthstone"
 			return Derp2
 		elseif (steps and steps["QpartPart"]) then
-			local Derp2 = AAP_Locals["Complete Quest"]
+			local Derp2 = "[WayPoint] - Complete Quest"
 			return Derp2
 		end
 
@@ -2438,87 +2548,101 @@ function AAP.CheckCRangeText()
 	return Derp2
 end
 local function AAP_UpdateQuest()
+	if (AAP1["Debug"]) then
+		print("Function: AAP_UpdateQuest()")
+	end
 	local i = 1
 	local UpdateQpart = 0
 	if (not AAPQuestNames) then
 		AAPQuestNames = {}
 	end
-	while GetQuestLogTitle(i) do
-		local questTitle, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questID = GetQuestLogTitle(i)
-		if (questID > 0) then
-			if (not isHeader) then
-				AAPQuestNames[questID] = questTitle
-				local numObjectives = GetNumQuestLeaderBoards(SelectQuestLogEntry(i))
-				if (not AAP.ActiveQuests[questID]) then
-					if (AAP1["Debug"]) then
-						print("New Q:"..questID)
-					end
-				end
-				if (not isComplete) then
-					isComplete = 0
-					AAP.ActiveQuests[questID] = "P"
-				else
-					isComplete = 1
-					AAP.ActiveQuests[questID] = "C"
-				end
-				if (numObjectives == 0) then
-					if (isComplete == 1) then
-						AAP.ActiveQuests[questID.."-".."1"] = "C"
-					else
-						AAP.ActiveQuests[questID.."-".."1"] = questTitle
-					end
-				else
-					for h=1, numObjectives do
-						local text = 0
-						local text, type, finished = GetQuestLogLeaderBoard(h, SelectQuestLogEntry(i))
-						if (finished == true) then
-							finished = 1
-						else
-							finished = 0
+	while C_QuestLog.GetTitleForLogIndex(i) do
+		local ZeInfoz = C_QuestLog.GetInfo(i)
+		if (ZeInfoz) then
+			local questID = ZeInfoz["questID"]
+			if (questID > 0) then
+				local isHeader = ZeInfoz["isHeader"]
+				local questTitle = C_QuestLog.GetTitleForQuestID(questID)
+				local isComplete = C_QuestLog.IsComplete(questID)
+				if (not isHeader) then
+					AAPQuestNames[questID] = questTitle
+					local numObjectives = C_QuestLog.GetNumQuestObjectives(questID)
+					if (not AAP.ActiveQuests[questID]) then
+						if (AAP1["Debug"]) then
+							print("New Q:"..questID)
 						end
-						if (finished == 1) then
-							if (AAP.ActiveQuests[questID.."-"..h] and AAP.ActiveQuests[questID.."-"..h] ~= "C") then
-								if (AAP1["Debug"]) then
-									print("Update:".."C")
-								end
-								Update = 1
-							end
-							AAP.ActiveQuests[questID.."-"..h] = "C"
-						elseif ((select(2,GetQuestObjectiveInfo(questID, 1, false)) == "progressbar") and text) then
-							local AAP_Mathstuff = tonumber(GetQuestProgressBarPercent(questID))
-							AAP_Mathstuff = floor((AAP_Mathstuff + 0.5))
-							text = "["..AAP_Mathstuff.."%] " .. text
-							if (not AAP.ActiveQuests[questID.."-"..h]) then
-								if (AAP1["Debug"]) then
-									print("New1:"..text)
-								end
-							end
-							if (AAP.ActiveQuests[questID.."-"..h] and AAP.ActiveQuests[questID.."-"..h] ~= text) then
-								if (AAP1["Debug"]) then
-									print("Update:"..text)
-								end
-								Update = 1
-								AAP.ActiveQuests[questID.."-"..h] = text
-							else
-								AAP.ActiveQuests[questID.."-"..h] = text
-							end
+					end
+					if (not isComplete) then
+						isComplete = 0
+						AAP.ActiveQuests[questID] = "P"
+					else
+						isComplete = 1
+						AAP.ActiveQuests[questID] = "C"
+					end
+					if (numObjectives == 0) then
+						if (isComplete == 1) then
+							AAP.ActiveQuests[questID.."-".."1"] = "C"
 						else
-							if (not AAP.ActiveQuests[questID.."-"..h]) then
-								--print("New2:"..text)
-							end
-							if (AAP.ActiveQuests[questID.."-"..h] and AAP.ActiveQuests[questID.."-"..h] ~= text) then
-								if (AAP1["Debug"]) then
-									print("Update:"..text)
-								end
-								Update = 1
-								AAP.ActiveQuests[questID.."-"..h] = text
+							AAP.ActiveQuests[questID.."-".."1"] = questTitle
+						end
+					else
+						local ZeObject = C_QuestLog.GetQuestObjectives(questID)
+						for h=1, numObjectives do
+							local finished = ZeObject[h]["finished"]
+							local text = ZeObject[h]["text"]
+							if (finished == true) then
+								finished = 1
 							else
-								AAP.ActiveQuests[questID.."-"..h] = text
+								finished = 0
+							end
+							if (finished == 1) then
+								if (AAP.ActiveQuests[questID.."-"..h] and AAP.ActiveQuests[questID.."-"..h] ~= "C") then
+									if (AAP1["Debug"]) then
+										print("Update:".."C")
+									end
+									Update = 1
+								end
+								AAP.ActiveQuests[questID.."-"..h] = "C"
+							elseif ((select(2,GetQuestObjectiveInfo(questID, 1, false)) == "progressbar") and text) then
+								if (not AAP.ProgressbarIgnore[questID.."-"..h]) then
+									local AAP_Mathstuff = tonumber(GetQuestProgressBarPercent(questID))
+									AAP_Mathstuff = floor((AAP_Mathstuff + 0.5))
+									text = "["..AAP_Mathstuff.."%] " .. text
+									if (not AAP.ActiveQuests[questID.."-"..h]) then
+										if (AAP1["Debug"]) then
+											print("New1:"..text)
+										end
+									end
+								end
+								if (AAP.ActiveQuests[questID.."-"..h] and AAP.ActiveQuests[questID.."-"..h] ~= text) then
+									if (AAP1["Debug"]) then
+										print("Update:"..text)
+									end
+									Update = 1
+									AAP.ActiveQuests[questID.."-"..h] = text
+								else
+									AAP.ActiveQuests[questID.."-"..h] = text
+								end
+							else
+								if (not AAP.ActiveQuests[questID.."-"..h]) then
+									--print("New2:"..text)
+								end
+								if (AAP.ActiveQuests[questID.."-"..h] and AAP.ActiveQuests[questID.."-"..h] ~= text) then
+									if (AAP1["Debug"]) then
+										print("Update:"..text)
+									end
+									Update = 1
+									AAP.ActiveQuests[questID.."-"..h] = text
+								else
+									AAP.ActiveQuests[questID.."-"..h] = text
+								end
 							end
 						end
 					end
 				end
 			end
+		else
+			break
 		end
 	i = i + 1
 	end
@@ -2527,6 +2651,9 @@ local function AAP_UpdateQuest()
 	end
 end
 function AAP.MacroFinder()
+	if (AAP1["Debug"]) then
+		print("Function: AAP.MacroFinder()")
+	end
 	local found = false
 	local global, character = GetNumMacros()
 	for i=1, global do
@@ -2559,9 +2686,19 @@ function AAP.CreateMacro()
 	end
 end
 function AAP.MacroUpdater(macroSlot,itemName,aapextra)
+	AAP.MacroUpdaterVar[1] = macroSlot
+	AAP.MacroUpdaterVar[2] = itemName
+	AAP.MacroUpdaterVar[3] = aapextra
+end
+function AAP.MacroUpdater2(macroSlot,itemName,aapextra)
+	if (AAP1["Debug"]) then
+		print("Function: AAP.MacroUpdater()")
+	end
 	if (itemName) then
 		if (itemName == 123123123) then
 			EditMacro(macroSlot, "AAP_MACRO","INV_MISC_QUESTIONMARK","#showtooltip\n/click ExtraActionButton1",nil,nil)
+		elseif (itemName == 6666666) then
+			EditMacro(macroSlot, "AAP_MACRO","INV_MISC_QUESTIONMARK","#showtooltip\n/cast Summon Steward",nil,nil)
 		elseif (aapextra == 65274) then
 			EditMacro(macroSlot, "AAP_MACRO","INV_MISC_QUESTIONMARK","#showtooltip\n/script AAP.SaveOldSlot()\n/use "..itemName,nil,nil)
 		else
@@ -2582,6 +2719,9 @@ function AAP.MacroUpdater(macroSlot,itemName,aapextra)
 	end
 end
 function AAP.GliderFunc()
+	if (AAP1["Debug"]) then
+		print("Function: AAP.GliderFunc()")
+	end
 	if (AAP1["GliderName"]) then
 		return AAP1["GliderName"]
 	else
@@ -2641,7 +2781,7 @@ local function AAP_RemoveQuest(questID)
 	if (StepP == "Done") then
 		local NrLeft = 0
 		for AAP_index,AAP_value in pairs(IdList) do
-			if (IsQuestFlaggedCompleted(AAP_value) or questID == AAP_value) then
+			if (C_QuestLog.IsQuestFlaggedCompleted(AAP_value) or questID == AAP_value) then
 			else
 				NrLeft = NrLeft + 1
 			end
@@ -2680,6 +2820,9 @@ local function AAP_AddQuest(questID)
 	AAP.BookingList["PrintQStep"] = 1
 end
 local function AAP_UpdateMapId()
+	if (AAP1["Debug"]) then
+		print("Function: AAP_UpdateMapId()")
+	end
 	local OldMap = AAP.ActiveMap
 	local levelcheck = 0
 	local levelcheck80 = 0
@@ -2697,6 +2840,19 @@ local function AAP_UpdateMapId()
 	else
 		AAP.ActiveMap = C_Map.GetBestMapForUnit("player")
 	end
+	AAPt_Zone = AAP.ActiveMap
+	if (AAP.ActiveMap == 1671) then
+		AAP.ActiveMap = 1670
+	elseif (AAPt_Zone == 578) then
+		AAPt_Zone = 577
+	elseif (AAP.ActiveMap == "A543-DesMephisto-Gorgrond" and AAPt_Zone == 535) then
+		AAPt_Zone = 543
+	elseif (AAPt_Zone == 1726 or AAPt_Zone == 1727) then
+		AAPt_Zone = 1409
+	end
+	if (AAP.ActiveQuests and AAP.ActiveQuests[59974] and AAP.ActiveMap == 1536) then
+		AAP.ActiveMap = 1670
+	end
 	if (OldMap and OldMap ~= AAP.ActiveMap) then
 		AAP.BookingList["PrintQStep"] = 1
 	end
@@ -2707,1964 +2863,48 @@ local function AAP_UpdateMapId()
 	if (AAP.Faction == "Alliance") then
 		AAP.ActiveMap = "A"..AAP.ActiveMap
 	end
-	if (AAP.ActiveMap == 194 and AAP.Gender == 2) then
-		AAP.ActiveMap = "194-male"
+	if (AAP.ActiveQuests and AAP.ActiveQuests[32675] and AAPt_Zone == 84 and AAP.Faction == "Alliance") then
+		AAP.ActiveMap = "A84-LearnFlying"
 	end
-	if (AAP.ActiveMap == 194 and AAP.Gender == 3) then
-		AAP.ActiveMap = "194-female"
+	--if (AAP.Race == "Goblin" and AAP.ActiveMap == 194) then
+	--	if (AAP.Gender == 2) then
+	--		AAP.ActiveMap = "194-male"
+	--	else
+	--		AAP.ActiveMap = "194-female"
+	--	end
+	--end
+--	local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+	--if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
+	--else
+	--	AAP.BookingList["ClosedSettings"] = 1
+	--end
+	if (AAP.QuestStepListListingZone) then
+		AAP.BookingList["GetMeToNextZone"] = 1
 	end
-	if (AAP.ActiveMap == 23 and AAP.Class[3] == 6 and IsQuestFlaggedCompleted(13189) == false) then
-		AAP.ActiveMap = "DK23-H"
-	end
-	if (AAP.ActiveMap == "A23" and AAP.Class[3] == 6 and IsQuestFlaggedCompleted(13188) == false) then
-		AAP.ActiveMap = "DK23-A"
-	end
-
-	if (not AAP1[AAP.Realm][AAP.Name]["SavedVer"]) then
-		if (AAP1[AAP.Realm][AAP.Name]["A895-110-120-3"]) then
-			AAP1[AAP.Realm][AAP.Name]["A895-110-120-3"] = 1
-		end
-		if (AAP1[AAP.Realm][AAP.Name]["A942-110-120"]) then
-			AAP1[AAP.Realm][AAP.Name]["A942-110-120"] = 1
-		end
-		AAP1[AAP.Realm][AAP.Name]["SavedVer"] = AAP.Version
-	end
-
-	local AAPZoneActiveCheck = 0
---------------------------------
----- DH Start Area - Alliance ----
-	if (("A630" == AAP.ActiveMap or "A673" == AAP.ActiveMap or "A672" == AAP.ActiveMap) and AAP.Class and AAP.Class[3] and AAP.Class[3] == 12 and IsQuestFlaggedCompleted(39689) == false) then
-		AAP.ActiveMap = "A672-DH-Start"
-	end
----- DH Start Area - Horde ----
-	if ((630 == AAP.ActiveMap or 673 == AAP.ActiveMap or 672 == AAP.ActiveMap) and AAP.Class and AAP.Class[3] and AAP.Class[3] == 12 and IsQuestFlaggedCompleted(39689) == false) then
-		AAP.ActiveMap = "A672-DH-Start"
-	end
----- Vanilla - Horde -----------
-	if (AAP.Faction == "Horde" and AAP.Level == 20) then
-		if (AAP.ActiveMap == 85 and AAP.Race == "MagharOrc") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "1-MagharOrc"
-		elseif (AAP.ActiveMap == 85 and AAP.Race == "HighmountainTauren") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "1-HighmountainTauren"
-		elseif (AAP.ActiveMap == 85 and AAP.Race == "Nightborne") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "1-Nightborne"
-		end
-	end
-	if (AAP.Faction == "Horde" and AAP.Level > 19 and AAP.Level < 60) then
-		if (AAP.ActiveMap == 85) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (IsQuestFlaggedCompleted(26965) == false) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "1-20-60"
-				if (IsQuestFlaggedCompleted(14258)) then
-					AAP.ActiveMap = "1-20-60-1"
-				end
-			end
-		end
-		if (AAP.ActiveMap == 76) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "76-20-60"
-		end
-		if (AAP.ActiveMap == 90) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (IsQuestFlaggedCompleted(26965) == false and IsQuestFlaggedCompleted(14258)) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "90-20Silverpine"
-			end
-		end
-		if (AAP.ActiveMap == 18) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (IsQuestFlaggedCompleted(26965) == false and IsQuestFlaggedCompleted(14258)) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "18-20Silverpine"
-			end
-			if (IsQuestFlaggedCompleted(28616) and IsQuestFlaggedCompleted(14258) and IsQuestFlaggedCompleted(26979) == false) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "18-20-1"
-			end
-			if (IsQuestFlaggedCompleted(27530) and IsQuestFlaggedCompleted(26278) == false) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "18-20-1-STV"
-			end
-		end
-	end
-	if (AAP.Faction == "Horde" and AAP.Level > 19 and AAP.Level < 63) then
-		if (AAP.ActiveMap == 22) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (IsQuestFlaggedCompleted(28605) and not (IsQuestFlaggedCompleted(26955) and IsQuestFlaggedCompleted(27367))) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "22-20-63"
-			end
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == 23) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (AAP.ActiveQuests[26955]) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "23-20-63"
-			elseif (IsQuestFlaggedCompleted(26955)) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "23-20-63-1"
-			end
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == 217) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "217-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == 21) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (IsQuestFlaggedCompleted(14258)) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "21-20-63"
-			end
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == 25) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (AAP.ActiveQuests[27483]) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "25-20-63"
-			end
-			if (IsQuestFlaggedCompleted(27483)) then
-				AAPZoneActiveCheck = 1
-				AAP.ActiveMap = "25-20-63-1"
-			end
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == 224) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "224-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-	end
-	if (AAPZoneActiveCheck == 0 and IsInInstance() == false and AAP.Faction == "Horde" and AAP.Level > 19 and AAP.Level < 60) then
-		if (IsQuestFlaggedCompleted(14258) == false) then
-			AAPWhereToGo = "Azshara"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(27290) == true and IsQuestFlaggedCompleted(27438) == false) then
-			AAPWhereToGo = "Ruins of Gilneas"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(27548) == false) then
-			AAPWhereToGo = "Silverpine Forest"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(28616) == false) then
-			AAPWhereToGo = "Hillsbrad Foothills"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(26955) == false) then
-			AAPWhereToGo = "Western Plaguelands"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(27527) == false) then
-			AAPWhereToGo = "Eastern Plaguelands"
-			AAP.BookingList["PrintQStep"] = 1
-		else
-			AAPWhereToGo = nil
-		end
-	elseif (AAPZoneActiveCheck == 1) then
-		AAPWhereToGo = nil
-	end
---------------------------------
----- Vanilla - Alliance --------
-	if (AAP.Faction == "Alliance" and AAP.Level == 20) then
-		if (AAP.ActiveMap == "A830" and AAP.Race == "LightforgedDraenei") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A830-20"
-		end
-	end
-	if (AAP.Faction == "Alliance" and AAP.Level > 19 and AAP.Level < 60) then
-		if (AAP.ActiveMap == "A84" and (IsQuestFlaggedCompleted(26504) == false) and (IsQuestFlaggedCompleted(26726) == false)) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A84-LF-20"
-		end
-		if (AAP.ActiveMap == "A37" and (IsQuestFlaggedCompleted(26504) == false) and (IsQuestFlaggedCompleted(26726) == false)) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A37-20"
-		end
-	end
-	if (AAP.Faction == "Alliance" and AAP.Level > 19 and AAP.Level < 63) then
-		if (AAP.ActiveMap == "A49") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A49-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == "A47") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A47-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == "A224") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A224-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == "A22") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A22-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == "A23") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A23-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == "A48") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A48-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == "A56") then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A56-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-		if (AAP.ActiveMap == "A14" and (AAP.ActiveQuests[26139] or IsQuestFlaggedCompleted(26139) == true)) then
-			if (IsAddOnLoaded("AAP-Vanilla") == false) then
-				local loaded, reason = LoadAddOn("AAP-Vanilla")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Vanilla is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A14-20-63"
-			if (AAP.Level >	59) then
-				levelcheck = 1
-			end
-		end
-	end
-	if (AAPZoneActiveCheck == 0 and IsInInstance() == false and AAP.Faction == "Alliance" and AAP.Level > 19 and AAP.Level < 60) then
-		if (IsQuestFlaggedCompleted(26504) == false) then
-			AAPWhereToGo = "Stormwind"
-		elseif (IsQuestFlaggedCompleted(26726) == false) then
-			AAPWhereToGo = "Redridge Mountains"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(26727) == false) then
-			AAPWhereToGo = "Duskwood"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(28749) == false) then
-			AAPWhereToGo = "Northern Stranglethorn"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(26955) == false) then
-			AAPWhereToGo = "Western Plaguelands"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(26137) == false) then
-			AAPWhereToGo = "Loch Modan"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(26139) == false) then
-			AAPWhereToGo = "Wetlands"
-			AAP.BookingList["PrintQStep"] = 1
-		else
-			AAPWhereToGo = nil
-		end
-	elseif (AAPZoneActiveCheck == 1) then
-		AAPWhereToGo = nil
-	end
---------------------------------
----- TBC - WotLK - Horde -------
-	if (AAP.Faction == "Horde" and AAP.Level > 59 and AAP.Level < 80) then
-		if (AAP.ActiveMap == 85 and IsQuestFlaggedCompleted(11585) == false) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "1-60to80"
-		end
-		if (AAP.ActiveMap == 85 and IsQuestFlaggedCompleted(12792)) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "1-60to80-2"
-		end
-		if (AAP.ActiveMap == 18) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "18-60-80"
-		end
-		if (AAP.ActiveMap == 17) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "17-60-80"
-		end
-		
-	end
-	if (AAP.Faction == "Horde" and AAP.Level > 59 and AAP.Level < 83) then
-		if (AAP.ActiveMap == 114) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "114-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 127) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "127-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 115) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "115-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 116) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "116-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 121) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "121-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 100) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "100-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 102) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "102-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 108) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "108-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == 107) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "107-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-	end
-	if (AAPZoneActiveCheck == 0 and IsInInstance() == false and AAP.Faction == "Horde" and AAP.Level > 59 and AAP.Level < 80) then
-		if (IsQuestFlaggedCompleted(11585) == false) then
-			AAPWhereToGo = "Orgrimmar"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(12859) == true and IsQuestFlaggedCompleted(9785) == false) then
-			AAPWhereToGo = "Orgrimmar"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(11907) == false) then
-			AAPWhereToGo = "Borean Tundra"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(11991) == false) then
-			AAPWhereToGo = "Dragonblight"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(12802) == false) then
-			AAPWhereToGo = "Gryzzly Hills"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(12859) == false) then
-			AAPWhereToGo = "Zul'Drak"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(10096) == false) then
-			AAPWhereToGo = "Zangarmarsh"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(9888) == true and IsQuestFlaggedCompleted(9890) == false) then
-			AAPWhereToGo = "Terokkar Forest"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(9852) == false) then
-			AAPWhereToGo = "Nagrand"
-			AAP.BookingList["PrintQStep"] = 1
-		else
-			AAPWhereToGo = nil
-		end
-	elseif (AAPZoneActiveCheck == 1) then
-		AAPWhereToGo = nil
-	end
---------------------------------
----- TBC - WotLK - Alliance ----
-	if (AAP.Faction == "Alliance" and AAP.Level > 59 and AAP.Level < 80) then
-		if (AAP.ActiveMap == "A84" and IsQuestFlaggedCompleted(12792)) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A84-Hellfire"
-		end
-		if (AAP.ActiveMap == "A84" and IsQuestFlaggedCompleted(11672) == false) then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A84-Flight-Northrend"
-		end
-		if (AAP.ActiveMap == "A17") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A17-60-80"
-		end
-	end
-	if (AAP.Faction == "Alliance" and AAP.Level > 59 and AAP.Level < 83) then
-		if (AAP.ActiveMap == "A114") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A114-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A115") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A115-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A127") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A127-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A116") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A116-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A121") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A121-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A100") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A100-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A102") then
-			if (IsAddOnLoaded("AAP-TBC-WotLK") == false) then
-				local loaded, reason = LoadAddOn("AAP-TBC-WotLK")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-TBC-WotLK is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A102-60-83"
-			if (AAP.Level >	79) then
-				levelcheck80 = 1
-			end
-		end
-	end
-	if (AAPZoneActiveCheck == 0 and IsInInstance() == false and AAP.Faction == "Alliance" and AAP.Level > 59 and AAP.Level < 80) then
-		if (IsQuestFlaggedCompleted(11672) == false) then
-			AAPWhereToGo = "Stormwind"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(11672) == true and IsQuestFlaggedCompleted(9747) == false) then
-			AAPWhereToGo = "Stormwind"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(12157) == false) then
-			AAPWhereToGo = "Borean Tundra"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(12511) == false) then
-			AAPWhereToGo = "Dragonblight"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(12802) == false) then
-			AAPWhereToGo = "Grizzly Hills"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(12859) == false) then
-			AAPWhereToGo = "Zul'Drak"
-			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(9780) == false) then
-			AAPWhereToGo = "Zangarmarsh"
-			AAP.BookingList["PrintQStep"] = 1
-		else
-			AAPWhereToGo = nil
-		end
-	elseif (AAPZoneActiveCheck == 1) then
-		AAPWhereToGo = nil
-	end
---------------------------------
----- Cata - MoP - Horde --------
-	if (AAP.Faction == "Horde" and AAP.Level > 79 and AAP.Level < 90) then
-		if (AAP.ActiveMap == 85) then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "1-80to90"
-		end
-		if (AAP.ActiveMap == 18) then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "18-80-90"
-		end
-		if (AAP.ActiveMap == 12) then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "12-80-90"
-		end
-	end
-	if (AAP.Faction == "Horde" and AAP.Level > 79 and AAP.Level < 93) then
-		if (AAP.ActiveMap == 198) then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "198-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == 371) then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "371-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == 433) then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "433-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == 379) then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "379-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-	end
-	if (AAPZoneActiveCheck == 0 and IsInInstance() == false and AAP.Faction == "Horde" and AAP.Level > 79 and AAP.Level < 90) then
-		if (IsQuestFlaggedCompleted(25460) == false) then
-			AAPWhereToGo = "Orgrimmar"
-		elseif (IsQuestFlaggedCompleted(25928) == true and IsQuestFlaggedCompleted(31853) == false) then
-			AAPWhereToGo = "Orgrimmar"
-		elseif (IsQuestFlaggedCompleted(25928) == false) then
-			AAPWhereToGo = "Mount Hyjal"
-		elseif (IsQuestFlaggedCompleted(29971) == false) then
-			AAPWhereToGo = "The Jade Forest"
-		elseif (IsQuestFlaggedCompleted(30692) == false) then
-			AAPWhereToGo = "Kun-Lai Summit"
-		else
-			AAPWhereToGo = nil
-		end
-	elseif (AAPZoneActiveCheck == 1) then
-		AAPWhereToGo = nil
-	end
---------------------------------
----- Cata - MoP - Alliance -----
-	if (AAP.Faction == "Alliance" and AAP.Level > 79 and AAP.Level < 90) then
-		if (AAP.ActiveMap == "A84") then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A84-80-90"
-		end
-	end
-	if (AAP.Faction == "Alliance" and AAP.Level > 79 and AAP.Level < 93) then
-		if (AAP.ActiveMap == "A198") then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A198-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A13") then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A13-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A371") then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A371-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A433") then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A433-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A379") then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A379-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A388") then
-			if (IsAddOnLoaded("AAP-Cata-MoP") == false) then
-				local loaded, reason = LoadAddOn("AAP-Cata-MoP")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Cata-MoP is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAPZoneActiveCheck = 1
-			AAP.ActiveMap = "A388-80-93"
-			if (AAP.Level >	89) then
-				levelcheck90 = 1
-			end
-		end
-	end
-	if (AAPZoneActiveCheck == 0 and IsInInstance() == false and AAP.Faction == "Alliance" and AAP.Level > 79 and AAP.Level < 90) then
-		if (IsQuestFlaggedCompleted(25370) == false) then
-			AAPWhereToGo = "Stormwind"
-		elseif (IsQuestFlaggedCompleted(25928) == true and IsQuestFlaggedCompleted(29548) == false) then
-			AAPWhereToGo = "Stormwind"
-		elseif (IsQuestFlaggedCompleted(25928) == false) then
-			AAPWhereToGo = "Mount Hyjal"
-		elseif (IsQuestFlaggedCompleted(29587) == false) then
-			AAPWhereToGo = "The Jade Forest"
-		elseif (IsQuestFlaggedCompleted(31695) == false) then
-			AAPWhereToGo = "Kun-Lai Summit"
-		elseif (IsQuestFlaggedCompleted(30891) == false) then
-			AAPWhereToGo = "Townlong Steppes"
-		else
-			AAPWhereToGo = nil
-		end
-	elseif (AAPZoneActiveCheck == 1) then
-		AAPWhereToGo = nil
-	end
---------------------------------
----- WoD - Horde ---------------
-	if (AAP.Faction == "Horde" and AAP.Level > 89 and AAP.Level < 100) then
-		if (AAP.ActiveMap == 18) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "18-90-100"
-		end
-		if (AAP.ActiveMap == 85) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "1-90to100"
-		end
-		if (AAP.ActiveMap == 17) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "17-90-100"
-		end
-	end
-	if (AAP.Faction == "Horde" and AAP.Level > 89 and AAP.Level < 103) then
-		if (AAP.ActiveMap == 578) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "578-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == 577) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "577-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == 525) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "525-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == 543) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "543-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == 535) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "535-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == 582) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "582-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == 539) then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "539-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-	end
---------------------------------
----- WoD - Alliance ------------
-	if (AAP.Faction == "Alliance" and AAP.Level > 89 and AAP.Level < 100) then
-		if (AAP.ActiveMap == "A84") then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A84-90-100"
-		end
-	end
-	if (AAP.Level > 89 and AAP.Level < 103) then
-		if (AAP.ActiveMap == "A17") then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A17-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A578") then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A578-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A577") then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A577-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A539") then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A539-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A543") then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A543-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A535") then
-			if (IsAddOnLoaded("AAP-WoD") == false) then
-				local loaded, reason = LoadAddOn("AAP-WoD")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-WoD is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A535-90-100"
-			if (AAP.Level >	99) then
-				levelcheck100 = 1
-			end
-		end
-	end
---------------------------------
----- Legion - Horde ------------
-	if ((AAP.Faction == "Horde" and AAP.Level > 99 and AAP.Level < 110) or (AAP1[AAP.Realm][AAP.Name]["Settings"]["Legion"] == 1 and AAP.Faction == "Horde")) then
-		if (AAP.ActiveMap == 18) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "18-100-110"
-		end
-		if (AAP.ActiveMap == 85) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "1-100to110"
-		end
-		if (AAP.ActiveMap == 627) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "627-100-110"
-		end
-	end
-	if ((AAP.Faction == "Horde" and AAP.Level > 97 and AAP.Level < 113) or (AAP1[AAP.Realm][AAP.Name]["Settings"]["Legion"] == 1 and AAP.Faction == "Horde")) then
-		if (AAP.ActiveMap == 634) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "634-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == 630) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "630-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == 641) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "641-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == 76) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "76-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == 650) then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "650-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-	end
---------------------------------
----- Legion - Alliance ---------
-	if ((AAP.Faction == "Alliance" and AAP.Level > 99 and AAP.Level < 110) or (AAP1[AAP.Realm][AAP.Name]["Settings"]["Legion"] == 1 and AAP.Faction == "Alliance")) then
-		if (AAP.ActiveMap == "A84") then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			if (AAP.ActiveQuests[40519] or AAP.ActiveQuests[42782]) then
-				AAP.ActiveMap = "A84-100-110"
-			end
-		end
-		if (AAP.ActiveMap == "A627") then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A627-100-110"
-		end
-	end
-	if ((AAP.Faction == "Alliance" and AAP.Level > 97 and AAP.Level < 113) or (AAP1[AAP.Realm][AAP.Name]["Settings"]["Legion"] == 1 and AAP.Faction == "Alliance")) then
-		if (AAP.ActiveMap == "A634") then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A634-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A630") then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A630-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A641") then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A641-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A76") then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A76-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-		if (AAP.ActiveMap == "A650") then
-			if (IsAddOnLoaded("AAP-Legion") == false) then
-				local loaded, reason = LoadAddOn("AAP-Legion")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-Legion is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "A650-100-110"
-			if (AAP.Level >	109) then
-				levelcheck110 = 1
-			end
-		end
-	end
---------------------------------
----- BFA - Horde ---------------
-	if (AAP.Faction == "Horde" and AAP.Level > 109 and AAP.Level < 120) then
-		if (AAP.ActiveMap == 627) then
-			if (IsAddOnLoaded("AAP-BfA") == false) then
-				local loaded, reason = LoadAddOn("AAP-BfA")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-BfA is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "627-110"
-		end
-		if (AAP.ActiveMap == 81) then
-			if (IsAddOnLoaded("AAP-BfA") == false) then
-				local loaded, reason = LoadAddOn("AAP-BfA")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-BfA is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "81-110"
-		end
-		if (AAP.ActiveMap == 249) then
-			if (IsAddOnLoaded("AAP-BfA") == false) then
-				local loaded, reason = LoadAddOn("AAP-BfA")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-BfA is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "249-110"
-		end
-		if (AAP.ActiveMap == 85 and (AAP.ActiveQuests[53372] or IsQuestFlaggedCompleted(53372) == true)) then
-			if (IsAddOnLoaded("AAP-BfA") == false) then
-				local loaded, reason = LoadAddOn("AAP-BfA")
-				if (not loaded) then
-					if (reason == "DISABLED") then
-						print("AAP: AAP-BfA is Disabled in your Addon-List!")
-					end
-				end
-			end
-			AAP.ActiveMap = "1-110"
-		end
-	end
-	if (AAP.Faction == "Horde" and AAP.Level > 109 and AAP.Level < 123) then
-		if (AAP.ActiveMap == 862) then
-			if ((AAP.ActiveQuests[47514] or IsQuestFlaggedCompleted(47514) == true) and IsQuestFlaggedCompleted(50963) == false) then
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "862-110-120-3"
-			elseif ((AAP.ActiveQuests[47513] or IsQuestFlaggedCompleted(47513) == true) and IsQuestFlaggedCompleted(47315) == false) then
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "862-110-120-1"
-			elseif ((AAP.ActiveQuests[47512] or IsQuestFlaggedCompleted(47512) == true) and IsQuestFlaggedCompleted(47105) == false) then
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "862-110-120-2"
-			elseif (IsQuestFlaggedCompleted(47105) == true and IsQuestFlaggedCompleted(47315) == true and IsQuestFlaggedCompleted(50963) == true) then
-				AAP1[AAP.Realm][AAP.Name]["HordeD"] = 1
-				AAP.ActiveMap = "862-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "862-110-120"
-			end
-		end
-		if (AAP.ActiveMap == 863) then
-			if (IsQuestFlaggedCompleted(50808)) then
-				AAP.ActiveMap = "863-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "863-110-120"
-			end
-		end
-		if (AAP.ActiveMap == 864) then
-			if (IsQuestFlaggedCompleted(50703)) then
-				AAP.ActiveMap = "864-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "864-110-120"
-			end
-		end
-		if (AAP.ActiveMap == 895) then
-			if (IsQuestFlaggedCompleted(51984)) then
-				AAP.ActiveMap = "895-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "895-110-120"
-			end
-		end
-		if (AAP.ActiveMap == 896) then
-			if (IsQuestFlaggedCompleted(51985)) then
-				AAP.ActiveMap = "896-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "896-110-120"
-			end
-		end
-		if (AAP.ActiveMap == 942) then
-			if (IsQuestFlaggedCompleted(51986)) then
-				AAP.ActiveMap = "942-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "942-110-120"
-			end
-		end
-	end
---------------------------------
----- BFA - Alliance ------------
-	if (AAP.Faction == "Alliance" and AAP.Level > 109 and AAP.Level < 120) then
-		if (AAP.ActiveMap == "A84") then
-			if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-			end
-			AAP.ActiveMap = "A84-110-120"
-		end
-		if (AAP.ActiveMap == "A249") then
-			if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-			end
-			AAP.ActiveMap = "A249-110-120"
-		end
-		if (AAP.ActiveMap == "A81") then
-			if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-			end
-			AAP.ActiveMap = "A81-110-120"
-		end
-	end
-	if (AAP.Faction == "Alliance" and AAP.Level > 109 and AAP.Level < 123) then
-		if (AAP.ActiveMap == "A895") then
-			if ((AAP.ActiveQuests[47961] or IsQuestFlaggedCompleted(47961) == true) and not IsQuestFlaggedCompleted(48622)) then
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A895-110-120-1"
-			elseif ((AAP.ActiveQuests[47962] or IsQuestFlaggedCompleted(47962) == true) and not IsQuestFlaggedCompleted(51490)) then
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A895-110-120-2"
-			elseif ((AAP.ActiveQuests[47960] or IsQuestFlaggedCompleted(47960) == true) and not IsQuestFlaggedCompleted(50972)) then
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A895-110-120-3"
-			else
-				if (IsQuestFlaggedCompleted(48622) and IsQuestFlaggedCompleted(51490) and IsQuestFlaggedCompleted(50972)) then
-					AAP.ActiveMap = "A895-99"
-				else
-					if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-					end
-					AAP.ActiveMap = "A895-110-120"
-				end
-			end
-		end
-		if (AAP.ActiveMap == "A942") then
-			if (IsQuestFlaggedCompleted(49908)) then
-				AAP.ActiveMap = "A942-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A942-110-120"
-			end
-		end
-		if (AAP.ActiveMap == "A876") then
-			if (IsQuestFlaggedCompleted(47098)) then
-				AAP.ActiveMap = "A876-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A876-110-120"
-			end
-		end
-		if (AAP.ActiveMap == "A863") then
-			if (IsQuestFlaggedCompleted(51967)) then
-				AAP.ActiveMap = "A863-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A863-110-120"
-			end
-		end
-		if (AAP.ActiveMap == "A862") then
-			if (IsQuestFlaggedCompleted(51968)) then
-				AAP.ActiveMap = "A862-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A862-110-120"
-			end
-		end
-		if (AAP.ActiveMap == "A864") then
-			if (IsQuestFlaggedCompleted(51969)) then
-				AAP.ActiveMap = "A864-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A864-110-120"
-			end
-		end
-		if (AAP.ActiveMap == "A896") then
-			if (IsQuestFlaggedCompleted(50639)) then
-				AAP.ActiveMap = "A896-99"
-			else
-				if (IsAddOnLoaded("AAP-BfA") == false) then
-					local loaded, reason = LoadAddOn("AAP-BfA")
-					if (not loaded) then
-						if (reason == "DISABLED") then
-							print("AAP: AAP-BfA is Disabled in your Addon-List!")
-						end
-					end
-				end
-				AAP.ActiveMap = "A896-110-120"
-			end
-		end
-	end
---------------------------------
-	if (AAP.Faction == "Horde" and AAP.Level == 120 and AAP1[AAP.Realm][AAP.Name]["Settings"]["WQs"] == 1) then
-		AAP.WQFunc()
-	end
-	
-	--levelcheck = 1
-	if (levelcheck == 1) then
-		AAP.Dinged60 = 1
-	else
-		AAP.Dinged60 = 0
-	end
-	if (levelcheck80 == 1) then
-		AAP.Dinged80 = 1
-	else
-		AAP.Dinged80 = 0
-	end
-	if (levelcheck90 == 1) then
-		AAP.Dinged90 = 1
-	else
-		AAP.Dinged90 = 0
-	end
-	if (levelcheck100 == 1) then
-		AAP.Dinged100 = 1
-	else
-		AAP.Dinged100 = 0
-	end
-	if (levelcheck110 == 1) then
-		AAP.Dinged110 = 1
-	else
-		AAP.Dinged110 = 0
-	end
-	if (AAP.ActiveQuests and AAP.ActiveQuests[26320] and (C_Map.GetBestMapForUnit("player") == 291 or C_Map.GetBestMapForUnit("player") == 292)) then
-		AAP.ActiveMap = "ADeadmines"
+	if (AAP.ZoneTransfer == 1) then
+		AAP.BookingList["ZoneTransfer"] = 1
 	end
 	if (not AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]) then
 		AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = 1
 	end
-	local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
-	if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
-	else
-		AAP.BookingList["ClosedSettings"] = 1
-	end
 	if (AAP.ZoneQuestOrder:IsShown() == true) then
 		AAP.UpdateZoneQuestOrderList("LoadIn")
 	end
-	AAP_CheckZoneSteps()
+	AAP.BookingList["PrintQStep"] = 1
+	C_Timer.After(0.1, AAP_BookQStep)
 end
 local function AAP_CheckZonePick()
 	if (AAP.ActiveMap == 862) then
-		if (IsQuestFlaggedCompleted(50963) == false and (AAP.ActiveQuests[47514] or IsQuestFlaggedCompleted(47514) == true)) then
+		if (C_QuestLog.IsQuestFlaggedCompleted(50963) == false and (AAP.ActiveQuests[47514] or C_QuestLog.IsQuestFlaggedCompleted(47514) == true)) then
 			AAP.BookingList["UpdateMapId"] = 1
 			AAP.BookingList["PrintQStep"] = 1
-		elseif ((AAP.ActiveQuests[47513] or IsQuestFlaggedCompleted(47513) == true) and IsQuestFlaggedCompleted(47315) == false) then
+		elseif ((AAP.ActiveQuests[47513] or C_QuestLog.IsQuestFlaggedCompleted(47513) == true) and C_QuestLog.IsQuestFlaggedCompleted(47315) == false) then
 			AAP.BookingList["UpdateMapId"] = 1
 			AAP.BookingList["PrintQStep"] = 1
-		elseif ((AAP.ActiveQuests[47512] or IsQuestFlaggedCompleted(47512) == true) and IsQuestFlaggedCompleted(47105) == false) then
+		elseif ((AAP.ActiveQuests[47512] or C_QuestLog.IsQuestFlaggedCompleted(47512) == true) and C_QuestLog.IsQuestFlaggedCompleted(47105) == false) then
 			AAP.BookingList["UpdateMapId"] = 1
 			AAP.BookingList["PrintQStep"] = 1
-		elseif (IsQuestFlaggedCompleted(47105) == true and IsQuestFlaggedCompleted(47315) == true and IsQuestFlaggedCompleted(50963) == true) then
+		elseif (C_QuestLog.IsQuestFlaggedCompleted(47105) == true and C_QuestLog.IsQuestFlaggedCompleted(47315) == true and C_QuestLog.IsQuestFlaggedCompleted(50963) == true) then
 			AAP.BookingList["UpdateMapId"] = 1
 			AAP.BookingList["PrintQStep"] = 1
 		end
@@ -4710,6 +2950,9 @@ local function AAP_CheckDistance()
 	return 0
 end
 local function AAP_SetQPTT()
+	if (AAP1["Debug"]) then
+		print("Function: AAP_SetQPTT()")
+	end
 	if (AAP.SettingsOpen == 1) then
 		return
 	end
@@ -4723,23 +2966,12 @@ local function AAP_SetQPTT()
 		AAP["MapIcons"][1].A = 1
 	end
 end
-local function AAP_Heirloomscheck()
-	AAP.Heirlooms = 0
-	for slots2 = 0,18 do
-		if (slots2 == 1 or slots2 == 3 or slots2 == 5 or slots2 == 7 or slots2 == 11 or slots2 == 12 or slots2 == 15) then
-			local itemLink = GetInventoryItemLink("player", slots2)
-			if (itemLink) then
-				local _, _, quality, _, _, _, _, _, SpotName = GetItemInfo(itemLink)
-				if (quality and quality == 7) then
-					AAP.Heirlooms = AAP.Heirlooms + 1
-				end
-			end
-		end
-	end
-	AAP.BookingList["PrintQStep"] = 1
-end
 local function AAP_PosTest()
-	if (AAP1 and AAP1[AAP.Realm][AAP.Name] and AAP1[AAP.Realm][AAP.Name]["Settings"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowArrow"] == 0) then
+	local d_y, d_x = UnitPosition("player")
+	if (not d_y) then
+		AAP.ArrowFrame:Hide()
+		AAP.RemoveIcons()
+	elseif (AAP1 and AAP1[AAP.Realm][AAP.Name] and AAP1[AAP.Realm][AAP.Name]["Settings"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowArrow"] == 0) then
 		AAP.ArrowActive = 0
 		AAP.ArrowFrame:Hide()
 		
@@ -4747,7 +2979,6 @@ local function AAP_PosTest()
 	else
 		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 		if (AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep] and AAP.QuestStepList[AAP.ActiveMap][CurStep]["AreaTriggerZ"]) then
-			local d_y, d_x = UnitPosition("player")
 			x = AAP.QuestStepList[AAP.ActiveMap][CurStep]["AreaTriggerZ"]["x"]
 			y = AAP.QuestStepList[AAP.ActiveMap][CurStep]["AreaTriggerZ"]["y"]
 			local deltaX, deltaY = d_x - x, y - d_y
@@ -4759,15 +2990,17 @@ local function AAP_PosTest()
 				AAP.BookingList["PrintQStep"] = 1
 			end
 		end
-		if ((AAP.ArrowActive == 0) or (AAP.ArrowActive_X == 0) or (IsInInstance()) or not AAP.QuestStepList) then
-			AAP.ArrowActive = 0
-			AAP.ArrowFrame:Hide()
-			AAP.RemoveIcons()
+		if (((AAP.ArrowActive == 0) or (AAP.ArrowActive_X == 0) or (IsInInstance()) or not AAP.QuestStepList) or (AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep] and AAP.QuestStepList[AAP.ActiveMap][CurStep]["NoArrows"])) then
+			if (AAP.ArrowFrame) then
+				AAP.ArrowActive = 0
+				AAP.ArrowFrame:Hide()
+				AAP.RemoveIcons()
+			end
 		else
 			AAP.ArrowFrame:Show()
 			AAP.ArrowFrame.Button:Hide()
 			local d_y, d_x = UnitPosition("player")
-			if (d_x and d_y) then
+			if (d_x and d_y and GetPlayerFacing()) then
 				x = AAP.ArrowActive_X
 				y = AAP.ArrowActive_Y
 				local AAP_ArrowActive_TrigDistance
@@ -4825,17 +3058,25 @@ local function AAP_PosTest()
 end
 local function AAP_LoopBookingFunc()
 	local TestaAAP = 0
+	if (not AAP.BookingList) then
+		AAP.BookingList = {}
+	end
 	if (AAP.BookingList["OpenedSettings"]) then
 		AAP.BookingList["OpenedSettings"] = nil
 		AAP.ArrowActive = 1
 		AAP.ArrowActive_Y, AAP.ArrowActive_X = UnitPosition("player")
 		QNumberLocal = 0
 		AAP_SettingsButtons()
-		AAP.ArrowActive_Y = AAP.ArrowActive_Y + 150
-		AAP.ArrowActive_X = AAP.ArrowActive_X + 150
-		AAP["Icons"][1].A = 1
+		if (AAP.ArrowActive_Y) then
+			AAP.ArrowActive_Y = AAP.ArrowActive_Y + 150
+			AAP.ArrowActive_X = AAP.ArrowActive_X + 150
+			AAP["Icons"][1].A = 1
+		end
 		AAP.BookingList["PrintQStep"] = 1
 		TestaAAP = "OpenedSettings"
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:OpenedSettings")
+		end
 	elseif (AAP.BookingList["ClosedSettings"]) then
 		if (not InCombatLockdown()) then
 			AAP.BookingList["ClosedSettings"] = nil
@@ -4852,6 +3093,15 @@ local function AAP_LoopBookingFunc()
 			AAP.BookingList["PrintQStep"] = 1
 		end
 		TestaAAP = "ClosedSettings"
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:ClosedSettings")
+		end
+	elseif (AAP.BookingList["GetMeToNextZone"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:GetMeToNextZone:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+		end
+		AAP.BookingList["GetMeToNextZone"] = nil
+		AAP.FP.GetMeToNextZone()
 	elseif (AAP.BookingList["UpdateMapId"]) then
 		AAP.BookingList["UpdateMapId"] = nil
 		AAP_UpdateMapId()
@@ -4860,14 +3110,23 @@ local function AAP_LoopBookingFunc()
 		end
 		TestaAAP = "UpdateMapId"
 	elseif (AAP.BookingList["AcceptQuest"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:AcceptQuest")
+		end
 		AAP.BookingList["AcceptQuest"] = nil
 		C_Timer.After(0.2, AAP_AcceptQuester)
 		TestaAAP = "AcceptQuest"
 	elseif (AAP.BookingList["CompleteQuest"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:CompleteQuest")
+		end
 		AAP.BookingList["CompleteQuest"] = nil
 		CompleteQuest()
 		TestaAAP = "CompleteQuest"
 	elseif (AAP.BookingList["CreateMacro"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:CreateMacro")
+		end
 		AAP.BookingList["CreateMacro"] = nil
 		AAP_CreateMacro()
 		TestaAAP = "CreateMacro"
@@ -4889,14 +3148,14 @@ local function AAP_LoopBookingFunc()
 		TestaAAP = "RemoveQuest"
 	elseif (AAP.BookingList["UpdateQuest"]) then
 		if (AAP1["Debug"]) then
-			print("LoopBookingFunc:UpdateQuest:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+			print("LoopBookingFunc:UpdateQuest:")
 		end
 		AAP.BookingList["UpdateQuest"] = nil
 		AAP_UpdateQuest()
 		TestaAAP = "UpdateQuest"
 	elseif (AAP.BookingList["PrintQStep"]) then
 		if (AAP1["Debug"]) then
-			print("LoopBookingFunc:PrintQStep:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+			print("LoopBookingFunc:PrintQStep:")
 		end
 		AAP.BookingList["PrintQStep"] = nil
 		AAP_PrintQStep()
@@ -4905,32 +3164,53 @@ local function AAP_LoopBookingFunc()
 		AAP.BookingList["UpdateILVLGear"] = nil
 		AAP_UpdateILVLGear()
 		TestaAAP = "UpdateILVLGear"
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:UpdateILVLGear")
+		end
 	elseif (AAP.BookingList["CheckSaveOldSlot"]) then
 		AAP.BookingList["CheckSaveOldSlot"] = nil
 		AAP_CheckSaveOldSlot()
 		TestaAAP = "CheckSaveOldSlot"
 	elseif (AAP.BookingList["CheckZonePick"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:CheckZonePick:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+		end
 		AAP.BookingList["CheckZonePick"] = nil
 		AAP_CheckZonePick()
 		TestaAAP = "CheckZonePick"
+	elseif (AAP.BookingList["ZoneTransfer"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:ZoneTransfer:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+		end
+		AAP.BookingList["ZoneTransfer"] = nil
+		AAP.FP.GetMeToNextZone()
+		TestaAAP = "ZoneTransfer"
 	elseif (AAP.BookingList["SetQPTT"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:SetQPTT:"..AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap])
+		end
 		AAP.BookingList["SetQPTT"] = nil
 		AAP_SetQPTT()
 		TestaAAP = "SetQPTT"
-	elseif (AAP.BookingList["UseTaxiFunc"]) then
-		AAP.BookingList["UseTaxiFunc"] = nil
-		AAP_UseTaxiFunc()
-		TestaAAP = "UseTaxiFunc"
 	elseif (AAP.BookingList["TestTaxiFunc"]) then
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:TestTaxiFunc")
+		end
 		AAP_AntiTaxiLoop = AAP_AntiTaxiLoop + 1
 		if (UnitOnTaxi("player")) then
 			AAP.BookingList["TestTaxiFunc"] = nil
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+			local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+			local steps
+			if (CurStep and AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
+				steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+			end
+			if (steps and steps["UseFlightPath"]) then
+				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+			end
 			AAP.BookingList["PrintQStep"] = 1
 			AAP_AntiTaxiLoop = 0
 		elseif (AAP_AntiTaxiLoop == 50 or AAP_AntiTaxiLoop == 100 or AAP_AntiTaxiLoop == 150) then
-			--TaxiNodeOnButtonEnter(getglobal("TaxiButton"..AAP.BookingList["TestTaxiFunc"]))
-			TakeTaxiNode(AAP.BookingList["TestTaxiFunc"])
+			AAP.BookingList["TestTaxiFunc"] = nil
 		end
 		if (AAP_AntiTaxiLoop > 200) then
 			print ("AAP: Error - AntiTaxiLoop")
@@ -4940,10 +3220,16 @@ local function AAP_LoopBookingFunc()
 		TestaAAP = "TestTaxiFunc"
 	elseif (AAP.BookingList["SkipCutscene"]) then
 		AAP.BookingList["SkipCutscene"] = nil
-		CinematicFrame_CancelCinematic()
+		--CinematicFrame_CancelCinematic()
 		C_Timer.After(1, CinematicFrame_CancelCinematic)
 		C_Timer.After(3, CinematicFrame_CancelCinematic)
 		TestaAAP = "SkipCutscene"
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:SkipCutscene")
+		end
+	elseif (AAP.BookingList["GetMeToNextZone2"]) then
+		AAP.BookingList["GetMeToNextZone2"] = nil
+		AAP.FP.GetMeToNextZone2()
 	elseif (AAP.BookingList["ButtonSpellidchk"]) then
 		for AAP_index,AAP_value in pairs(AAP.BookingList["ButtonSpellidchk"]) do
 			if (AAP_value) then
@@ -4955,10 +3241,9 @@ local function AAP_LoopBookingFunc()
 		end
 		AAP.BookingList["ButtonSpellidchk"] = nil
 		TestaAAP = "ButtonSpellidchk"
-	elseif (AAP.BookingList["Heirloomscheck"]) then
-		AAP.BookingList["Heirloomscheck"] = nil
-		AAP_Heirloomscheck()
-		TestaAAP = "Heirloomscheck"
+		if (AAP1["Debug"]) then
+			print("LoopBookingFunc:ButtonSpellidchk")
+		end
 	end
 	if (AAP1 and AAP1[AAP.Realm][AAP.Name] and AAP1[AAP.Realm][AAP.Name]["Settings"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["ArrowFPS"] and AAP_ArrowUpdateNr >= AAP1[AAP.Realm][AAP.Name]["Settings"]["ArrowFPS"]) then
 		AAP_PosTest()
@@ -4989,9 +3274,11 @@ local function AAP_PopupFunc()
 	if (GetNumAutoQuestPopUps() > 0) then
 		local questID, popUpType = GetAutoQuestPopUp(1)
 		if(popUpType == "OFFER") then
-			ShowQuestOffer(GetQuestLogIndexByID(questID))
-		else
-			ShowQuestComplete(GetQuestLogIndexByID(questID))
+			ShowQuestOffer(1)
+			ShowQuestOffer(questID)
+		elseif (popUpType == "COMPLETE") then
+			ShowQuestOffer(1)
+			ShowQuestComplete(questID)
 		end
 	else
 		C_Timer.After(1, AAP_PopupFunc)
@@ -5004,8 +3291,25 @@ function AAP_BookQStep()
 		print("Extra BookQStep")
 	end
 end
+function AAP_UpdMapIDz()
+	AAP.BookingList["UpdateMapId"] = 1
+end
 function AAP_UpdQuestThing()
+	if (UnitGUID("target") and UnitName("target")) then
+		local guid, name = UnitGUID("target"), UnitName("target")
+		local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+		if (npc_id and name) then
+			if (AAP.ActiveQuests and AAP.ActiveQuests["55981-3"] and AAP.ActiveQuests["55981-3"] ~= "C" and tonumber(npc_id) == 153580) then
+				DoEmote("hug")
+			elseif (AAP.ActiveQuests and AAP.ActiveQuests["55981-4"] and AAP.ActiveQuests["55981-4"] ~= "C" and tonumber(npc_id) == 153580) then
+				DoEmote("wave")
+			elseif (AAP.ActiveQuests and AAP.ActiveQuests["59978-4"] and AAP.ActiveQuests["59978-4"] ~= "C" and tonumber(npc_id) == 153580) then
+				DoEmote("wave")
+			end
+		end
+	end
 	AAP.BookingList["UpdateQuest"] = 1
+	AAP.BookingList["PrintQStep"] = 1
 	Updateblock = 0
 	if (AAP1["Debug"]) then
 		print("Extra UpdQuestThing")
@@ -5104,7 +3408,25 @@ function AAP.RepaintGroups()
 		end
 	end
 end
-
+function AAP.CheckSweatBuffz()
+	for i=1,20 do
+		local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId = UnitBuff("player", i)
+		if (spellId and name) then
+			if (spellId == 311103) then
+				AAP.SweatBuff[1] = 1
+				AAP.QuestList.SweatOfOurBrowBuffFrame.Traps.texture:SetColorTexture(0.1,0.5,0.1,1)
+			end
+			if (spellId == 311107) then
+				AAP.SweatBuff[2] = 1
+				AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2.texture:SetColorTexture(0.1,0.5,0.1,1)
+			end
+			if (spellId == 311058) then
+				AAP.SweatBuff[3] = 1
+				AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3.texture:SetColorTexture(0.1,0.5,0.1,1)
+			end
+		end
+	end
+end
 AAP.LoopBooking = CreateFrame("frame")
 AAP.LoopBooking:SetScript("OnUpdate", AAP_LoopBookingFunc)
 
@@ -5112,11 +3434,11 @@ AAP_QH_EventFrame = CreateFrame("Frame")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_REMOVED")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_ACCEPTED")
 AAP_QH_EventFrame:RegisterEvent ("UNIT_QUEST_LOG_CHANGED")
-AAP_QH_EventFrame:RegisterEvent ("PLAYER_EQUIPMENT_CHANGED")
 AAP_QH_EventFrame:RegisterEvent ("ZONE_CHANGED")
 AAP_QH_EventFrame:RegisterEvent ("ZONE_CHANGED_NEW_AREA")
 AAP_QH_EventFrame:RegisterEvent ("UPDATE_MOUSEOVER_UNIT")
 AAP_QH_EventFrame:RegisterEvent ("GOSSIP_SHOW")
+AAP_QH_EventFrame:RegisterEvent ("GOSSIP_CLOSED")
 AAP_QH_EventFrame:RegisterEvent ("UI_INFO_MESSAGE")
 AAP_QH_EventFrame:RegisterEvent ("HEARTHSTONE_BOUND")
 AAP_QH_EventFrame:RegisterEvent ("UNIT_SPELLCAST_SUCCEEDED")
@@ -5124,6 +3446,7 @@ AAP_QH_EventFrame:RegisterEvent ("UNIT_SPELLCAST_START")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_PROGRESS")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_DETAIL")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_COMPLETE")
+AAP_QH_EventFrame:RegisterEvent ("QUEST_FINISHED")
 AAP_QH_EventFrame:RegisterEvent ("TAXIMAP_OPENED")
 AAP_QH_EventFrame:RegisterEvent ("MERCHANT_SHOW")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_GREETING")
@@ -5131,21 +3454,59 @@ AAP_QH_EventFrame:RegisterEvent ("ITEM_PUSH")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_AUTOCOMPLETE")
 AAP_QH_EventFrame:RegisterEvent ("QUEST_ACCEPT_CONFIRM")
 AAP_QH_EventFrame:RegisterEvent ("UNIT_ENTERED_VEHICLE")
-AAP_QH_EventFrame:RegisterEvent ("QUEST_CHOICE_UPDATE")
+AAP_QH_EventFrame:RegisterEvent ("CHROMIE_TIME_OPEN")
+AAP_QH_EventFrame:RegisterEvent ("QUEST_LOG_UPDATE")
+AAP_QH_EventFrame:RegisterEvent ("PLAYER_TARGET_CHANGED")
 AAP_QH_EventFrame:RegisterEvent ("PLAYER_REGEN_ENABLED")
 AAP_QH_EventFrame:RegisterEvent ("PLAYER_REGEN_DISABLED")
 AAP_QH_EventFrame:RegisterEvent ("CHAT_MSG_ADDON")
+AAP_QH_EventFrame:RegisterEvent ("CHAT_MSG_MONSTER_SAY")
 AAP_QH_EventFrame:RegisterEvent ("CHAT_MSG_COMBAT_XP_GAIN")
-AAP_QH_EventFrame:RegisterEvent ("UNIT_ENTERED_VEHICLE")
+AAP_QH_EventFrame:RegisterEvent ("LEARNED_SPELL_IN_TAB")
 AAP_QH_EventFrame:RegisterEvent ("UNIT_AURA")
+AAP_QH_EventFrame:RegisterEvent ("PLAYER_CHOICE_UPDATE")
+AAP_QH_EventFrame:RegisterEvent ("REQUEST_CEMETERY_LIST_RESPONSE")
+AAP_QH_EventFrame:RegisterEvent ("AJ_REFRESH_DISPLAY")
+AAP_QH_EventFrame:RegisterEvent ("UPDATE_UI_WIDGET")
 
 AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
+	if (event=="UPDATE_UI_WIDGET") then
+		if (AAP.ActiveQuests and AAP.ActiveQuests["57713-4"]) then
+			AAP.BookingList["PrintQStep"] = 1
+		end
+	end
+	if (event=="AJ_REFRESH_DISPLAY") then
+	end
+	if (event=="REQUEST_CEMETERY_LIST_RESPONSE") then
+		AAP.BookingList["UpdateMapId"] = 1
+		C_Timer.After(1, AAP_ZoneResetQnumb)
+		C_Timer.After(1, AAP_BookQStep)
+	end
+	if (event=="LEARNED_SPELL_IN_TAB") then
+		local arg1, arg2, arg3, arg4 = ...;
+		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+		local steps
+		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+		end
+		if (steps and steps["SpellInTab"] and (arg1 == steps["SpellInTab"] or arg2 == steps["SpellInTab"])) then
+			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+			AAP.BookingList["UpdateQuest"] = 1
+			AAP.BookingList["PrintQStep"] = 1
+		end
+	end
+	if (event=="QUEST_LOG_UPDATE") then
+		C_Timer.After(0.1, AAP_UpdQuestThing)
+	end
 	if (event=="UNIT_AURA") then
 		local arg1, arg2, arg3, arg4 = ...;
 		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 		local steps
 		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
 			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+		end
+		if (steps and steps["QSpecialz"] and AAP.ActiveQuests and AAP.ActiveQuests["57657-2"]) then
+			AAP.BookingList["PrintQStep"] = 1
 		end
 		if (arg1 == "player" and steps and steps["Debuffcount"]) then
 			for i=1,20 do
@@ -5156,6 +3517,60 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 						AAP.BookingList["UpdateQuest"] = 1
 						AAP.BookingList["PrintQStep"] = 1
 					end
+				end
+			end
+		end
+		if (AAP.SweatBuff[1] == 1 or AAP.SweatBuff[2] == 1 or AAP.SweatBuff[3] == 1) then
+			local gotbuff1 = 0
+			local gotbuff2 = 0
+			local gotbuff3 = 0
+			for i=1,20 do
+				local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId = UnitBuff("player", i)
+				if (spellId and name) then
+					if (spellId == 311103) then
+						gotbuff1 = 1
+					elseif (spellId == 311107) then
+						gotbuff2 = 1
+					elseif (spellId == 311058) then
+						gotbuff3 = 1
+					end
+				end
+			end
+			if (AAP.SweatBuff[1] == 1) then
+				if (gotbuff1 == 0) then
+					AAP.SweatBuff[1] = 0
+					AAP.QuestList.SweatOfOurBrowBuffFrame.Traps.texture:SetColorTexture(0.5,0.1,0.1,1)
+				end
+			end
+			if (AAP.SweatBuff[2] == 1) then
+				if (gotbuff2 == 0) then
+					AAP.SweatBuff[2] = 0
+					AAP.QuestList.SweatOfOurBrowBuffFrame.Traps2.texture:SetColorTexture(0.5,0.1,0.1,1)
+				end
+			end
+			if (AAP.SweatBuff[3] == 1) then
+				if (gotbuff3 == 0) then
+					AAP.SweatBuff[3] = 0
+					AAP.QuestList.SweatOfOurBrowBuffFrame.Traps3.texture:SetColorTexture(0.5,0.1,0.1,1)
+				end
+			end
+		end
+		if (arg1 == "player" and AAP.ActiveQuests and AAP.ActiveQuests[57867]) then
+			AAP.CheckSweatBuffz()
+			C_Timer.After(2, AAP.CheckSweatBuffz)
+		end
+	end
+	if (event=="PLAYER_TARGET_CHANGED") then
+		if (UnitGUID("target") and UnitName("target")) then
+			local guid, name = UnitGUID("target"), UnitName("target")
+			local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+			if (npc_id and name) then
+				if (AAP.ActiveQuests and AAP.ActiveQuests["55981-3"] and AAP.ActiveQuests["55981-3"] ~= "C" and tonumber(npc_id) == 153580) then
+					DoEmote("hug")
+				elseif (AAP.ActiveQuests and AAP.ActiveQuests["55981-4"] and AAP.ActiveQuests["55981-4"] ~= "C" and tonumber(npc_id) == 153580) then
+					DoEmote("wave")
+				elseif (AAP.ActiveQuests and AAP.ActiveQuests["59978-4"] and AAP.ActiveQuests["59978-4"] ~= "C" and tonumber(npc_id) == 153580) then
+					DoEmote("wave")
 				end
 			end
 		end
@@ -5200,23 +3615,45 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			AAP.GroupListingFunc(tonumber(arg2), AAP.TrimPlayerServer(arg4))
 		end
 	end
-	if (event=="QUEST_CHOICE_UPDATE") then
+	if (event=="PLAYER_CHOICE_UPDATE") then
 		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 		local steps
 		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
 			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 		end
-		local choiceID, questionText, numOptions = GetQuestChoiceInfo()
-		if (numOptions and numOptions > 1 and steps and steps["LumberYard"]) then
-			local CLi
-			for CLi = 1, numOptions do
-				local optionID, buttonText, description, artFile = GetQuestChoiceOptionInfo(CLi)
-				if (steps["LumberYard"] == optionID) then
-					SendQuestChoiceResponse(GetQuestChoiceOptionInfo(CLi))
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["UpdateQuest"] = 1
-					AAP.BookingList["PrintQStep"] = 1
-					break
+		local Choizs = C_PlayerChoice.GetPlayerChoiceInfo()
+		if (Choizs) then
+			local choiceID = Choizs["choiceID"]
+			local questionText = Choizs["questionText"]
+			local numOptions = Choizs["numOptions"]
+			if (numOptions and numOptions > 1 and steps and steps["Brewery"]) then
+				local CLi
+				for CLi = 1, numOptions do
+					local opzios = C_PlayerChoice.GetPlayerChoiceOptionInfo(CLi)
+					local optionID = opzios["id"]
+					if (steps["Brewery"] == optionID) then
+						--C_PlayerChoice.SendQuestChoiceResponse(GetQuestChoiceOptionInfo(CLi))
+						PlayerChoiceFrame["Option"..CLi]["OptionButtonsContainer"]["button1"]:Click()
+						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+						AAP.BookingList["UpdateQuest"] = 1
+						AAP.BookingList["PrintQStep"] = 1
+						break
+					end
+				end
+			end
+			if (numOptions and numOptions > 1 and steps and steps["SparringRing"]) then
+				local CLi
+				for CLi = 1, numOptions do
+					local opzios = C_PlayerChoice.GetPlayerChoiceOptionInfo(CLi)
+					local optionID = opzios["id"]
+					if (steps["SparringRing"] == optionID) then
+						--C_PlayerChoice.SendQuestChoiceResponse(GetQuestChoiceOptionInfo(CLi))
+						PlayerChoiceFrame["Option"..CLi]["OptionButtonsContainer"]["button1"]:Click()
+						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+						AAP.BookingList["UpdateQuest"] = 1
+						AAP.BookingList["PrintQStep"] = 1
+						break
+					end
 				end
 			end
 		end
@@ -5260,6 +3697,27 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	
+	if (event=="CHROMIE_TIME_OPEN") then
+		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+		local steps
+		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+		end
+		if (steps and steps["ChromiePick"]) then
+			local AAPChromie = C_ChromieTime.GetChromieTimeExpansionOptions()
+			for AAP_index,AAP_value in pairs(AAPChromie) do
+				if (steps["ChromiePick"] == AAPChromie[AAP_index]["id"]) then
+					C_ChromieTime.SelectChromieTimeOption(AAPChromie[AAP_index]["id"])
+					print("AAP: Switched to "..AAPChromie[AAP_index]["name"].." time.")
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+					break
+				end
+			end
+		end
+	end
 	if (event=="QUEST_ACCEPT_CONFIRM") then
 		if (AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoAccept"] == 1 and not IsControlKeyDown()) then
 			AcceptQuest()
@@ -5270,6 +3728,17 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		local steps
 		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
 			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+		end
+		if (steps and steps["DenyNPC"]) then
+			if (UnitGUID("target") and UnitName("target")) then
+				local guid, name = UnitGUID("target"), UnitName("target")
+				local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+				if (npc_id and name) then
+					if (tonumber(npc_id) == steps["DenyNPC"]) then
+						C_GossipInfo.CloseGossip()
+					end
+				end
+			end
 		end
 		if (steps and steps["SpecialNoAutoHandin"]) then
 			return
@@ -5310,16 +3779,24 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			local TempQList = {}
 			local i = 1
 			local UpdateQpart = 0
-			while GetQuestLogTitle(i) do
-				local questTitle, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questID = GetQuestLogTitle(i)
-				if (questID > 0) then
-					if (not isHeader) then
-						TempQList[questID] = {}
-						if (isComplete) then
-							TempQList[questID]["C"] = 1
+			while C_QuestLog.GetTitleForLogIndex(i) do
+				local ZeInfoz = C_QuestLog.GetInfo(i)
+				if (ZeInfoz) then
+					local questID = ZeInfoz["questID"]
+					if (questID > 0) then
+						local isHeader = ZeInfoz["isHeader"]
+						local questTitle = C_QuestLog.GetTitleForQuestID(questID)
+						local isComplete = C_QuestLog.IsComplete(questID)
+						if (not isHeader) then
+							TempQList[questID] = {}
+							if (isComplete) then
+								TempQList[questID]["C"] = 1
+							end
+							TempQList[questID]["T"] = questTitle
 						end
-						TempQList[questID]["T"] = questTitle
 					end
+				else
+					break
 				end
 				i = i + 1
 			end
@@ -5339,42 +3816,6 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		local steps
 		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
 			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
-		end
-		if (AAP1["Debug"]) then
-			print(arg2)
-		end
-		if (steps and 133717 == arg2 and steps["ExtraLine"] == 89) then		
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-			AAP.BookingList["UpdateQuest"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
-		if (steps and 134754 == arg2 and steps["ExtraLine"] == 81) then		
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-			AAP.BookingList["UpdateQuest"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
-		if (steps and 133798 == arg2 and steps["ExtraLine"] == 79) then		
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-			AAP.BookingList["UpdateQuest"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
-		if (steps and 132394 == arg2 and steps["ExtraLine"] == 67) then		
-			AAP.BookingList["PrintQStep"] = 1
-			C_Timer.After(1, AAP_BookQStep)
-		end
-		if (steps and 237425 == arg2 and steps["ExtraLine"] == 43) then
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-			AAP.BookingList["UpdateQuest"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
-		if (steps and 134241 == arg2 and steps["ExtraLine"] == 58) then
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-			AAP.BookingList["UpdateQuest"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
-		if (steps and 134241 == arg2 and steps["ExtraLine"] == 38) then
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-			AAP.BookingList["UpdateQuest"] = 1
 		end
 		AAP.BookingList["PrintQStep"] = 1
 		C_Timer.After(1, AAP_BookQStep)
@@ -5445,26 +3886,41 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 				AAP.BookingList["PrintQStep"] = 1
 			end
 		end
+		if (arg1 == 281) then
+			local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+			local steps
+			if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+				steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+			end
+			if (steps and steps["GetFP"]) then
+				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+				AAP.BookingList["PrintQStep"] = 1
+			end
+		end
+		if (arg1 == 282) then
+			local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+			local steps
+			if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+				steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+			end
+			if (steps and steps["GetFP"]) then
+				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+				AAP.BookingList["PrintQStep"] = 1
+			end
+		end
+		if (arg1 == 283) then
+			local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+			local steps
+			if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+				steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+			end
+			if (steps and steps["GetFP"]) then
+				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+				AAP.BookingList["PrintQStep"] = 1
+			end
+		end
 	end
 	if (event=="TAXIMAP_OPENED") then
-	
-	--local CLi
-	--AAPHFiller4 = nil
-	--AAPHFiller4 = {}
-	--for CLi = 1, NumTaxiNodes() do
-	--	local aapx,aapy = TaxiNodePosition(CLi)
-	--	aapx = (floor(aapx * 1000)/10)
-	--	aapy = (floor(aapy * 1000)/10)
-	--	if (TaxiNodeGetType(CLi) == "REACHABLE") then
-	--	AAPHFiller4["A"..CLi] = TaxiNodeName(CLi).."-X:"..aapx.."-Y:"..aapy
-	--		print(CLi .. "-" .. TaxiNodeName(CLi).."-X:"..aapx.."-Y:"..aapy.." Status: "..TaxiNodeGetType(CLi))
-	--	end
-	--end
-	
-	
-	
-	
-	
 		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 		local steps
 		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
@@ -5474,31 +3930,10 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 			AAP.BookingList["PrintQStep"] = 1
 		end
-		if (steps and not IsControlKeyDown()) then
-			if (steps["UseFlightPath"]) then
-				AAP.BookingList["UseTaxiFunc"] = 1
-			end
-		end
 	end
 	if (event=="UNIT_SPELLCAST_SUCCEEDED") then
 		local arg1, arg2, arg3, arg4, arg5 = ...;
-		if (arg1 == "player" and arg3 == 85141) then
-			local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
-			local steps
-			if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
-				steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
-			end
-			if (steps and steps["ExtraLine"] and steps["ExtraLine"] == 55) then
-				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-				AAP.BookingList["PrintQStep"] = 1
-			end
-		end
-		--print(arg3)
-		if (arg1 == "player" and arg3 == 82788) then
-			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
-		if ((arg1 == "player") and (arg3 == 8690)) then
+		if ((arg1 == "player") and (AAP_HSSpellIDs[arg3])) then
 			local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 			local steps
 			if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
@@ -5515,6 +3950,12 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			if (CurStep and AAP.QuestStepList and AAP.ActiveMap and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
 				steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 			end
+			
+			if (QuestSpecial57710 == 0 and arg3 == 310061) then
+				QuestSpecial57710 = 1
+				AAP.BookingList["PrintQStep"] = 1
+			end
+			
 			if (steps and steps["ButtonSpellId"]) then
 				for AAP_index,AAP_value in pairs(steps["ButtonSpellId"]) do
 					if (arg3 == AAP_index) then
@@ -5527,6 +3968,13 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 							end
 						end
 					end
+				end
+			end
+			
+			if (steps and steps["SpellTrigger"]) then
+				if (arg3 == steps["SpellTrigger"]) then
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["PrintQStep"] = 1
 				end
 			end
 		end
@@ -5560,6 +4008,17 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
 			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 		end
+		local ZeMap = C_Map.GetBestMapForUnit("player")
+		local currentMapId, TOP_MOST = C_Map.GetBestMapForUnit('player'), true
+		if (Enum and Enum.UIMapType and Enum.UIMapType.Continent and currentMapId) then
+			ZeMap = MapUtil.GetMapParentInfo(currentMapId, Enum.UIMapType.Continent+1, TOP_MOST)
+		end
+		if (ZeMap and ZeMap["mapID"]) then
+			ZeMap = ZeMap["mapID"]
+		else
+			ZeMap = C_Map.GetBestMapForUnit("player")
+		end
+		AAP1[AAP.Realm][AAP.Name]["HSLoc"] = ZeMap
 		if (steps and steps["SetHS"]) then
 			AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 			AAP.BookingList["PrintQStep"] = 1
@@ -5568,8 +4027,10 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 	if (event=="QUEST_ACCEPTED") then
 		local arg1, arg2, arg3, arg4, arg5 = ...;
 		if (AAP1["Debug"]) then
-			print("QUEST_ACCEPTED: ".. arg2)
+			print("QUEST_ACCEPTED: ".. arg1)
 		end
+		C_Timer.After(0.1, AAP_UpdMapIDz)
+		C_Timer.After(3, AAP_UpdMapIDz)
 		if (arg2 and arg2 > 0 and not AAP.ActiveQuests[arg2]) then
 			AAP.BookingList["AddQuest"] = arg2
 		end
@@ -5584,12 +4045,8 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 				AAP.BookingList["PrintQStep"] = 1
 			end
 		end
+		C_Timer.After(0.1, AAP_BookQStep)
 		C_Timer.After(3, AAP_BookQStep)
-		if (AAP.HordeWQList and AAP.HordeWQList[arg2] and AAP.Faction == "Horde" and AAP.Level == 120 and AAP.WQActive == 0 and AAP1[AAP.Realm][AAP.Name]["Settings"]["WQs"] == 1) then
-			AAP.WQFunc()
-			AAP.BookingList["UpdateMapId"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
 	end
 	if (event=="QUEST_REMOVED") then
 		if (AAP1["Debug"]) then
@@ -5600,30 +4057,34 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		if (AAP.ActiveMap == arg1 and AAP1[AAP.Realm][AAP.Name]["Settings"]["WQs"] == 1) then
 			AAP.WQFunc()
 			AAP.BookingList["UpdateMapId"] = 1
-			AAP.BookingList["PrintQStep"] = 1
 			AAP1[AAP.Realm][AAP.Name][arg1] = nil
 			AAP.RemoveMapIcons()
 		end
+		AAP1[AAP.Realm][AAP.Name]["QuestCounter2"] = AAP1[AAP.Realm][AAP.Name]["QuestCounter2"] + 1
 	end
 	if (event=="UNIT_QUEST_LOG_CHANGED") then
 		local arg1, arg2, arg3, arg4, arg5 = ...;
 		if (arg1 == "player" and Updateblock == 0) then
 			Updateblock = 1
-			C_Timer.After(0.3, AAP_UpdQuestThing)
+			C_Timer.After(1, AAP_UpdQuestThing)
 		end
-	end
-	if (event=="PLAYER_EQUIPMENT_CHANGED") then
-		AAP.BookingList["Heirloomscheck"] = 1
 	end
 	if (event=="ZONE_CHANGED") then
 		QNumberLocal = 0
-		C_Timer.After(2, AAP_UpdatezeMapId)
-		C_Timer.After(3, AAP_ZoneResetQnumb)
+		if (AAP.ZoneTransfer == 0) then
+			C_Timer.After(2, AAP_UpdatezeMapId)
+			C_Timer.After(3, AAP_ZoneResetQnumb)
+			AAP.BookingList["UpdateMapId"] = 1
+		end
 	end
 	if (event=="ZONE_CHANGED_NEW_AREA") then
-		C_Timer.After(2, AAP_UpdatezeMapId)
+		if (AAP.ZoneTransfer == 0) then
+			C_Timer.After(2, AAP_UpdatezeMapId)
+			AAP.BookingList["UpdateMapId"] = 1
+		end
 	end
 	if (event=="GOSSIP_SHOW") then
+		AAP.GossipOpen = 1
 		if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
 			local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
 			if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
@@ -5634,22 +4095,34 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 		if (CurStep and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
+			local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 			if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
 				local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
 				if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400) or (tonumber(npc_id) == 25809))) then
 					local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 					if (steps and steps["Gossip"] and steps["Gossip"] == 27373) then
-						SelectGossipOption(1)
+						C_GossipInfo.SelectOption(1)
 						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 						AAP.BookingList["PrintQStep"] = 1
 					end
 					return
 				end
+				if (steps and steps["Gossip"] and steps["Gossip"] == 34398) then
+					C_GossipInfo.SelectOption(1)
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+				end
+				if (steps and steps["Gossip"] and steps["Gossip"] == 3433398) then
+					C_GossipInfo.SelectOption(2)
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["UpdateQuest"] = 1
+					AAP.BookingList["PrintQStep"] = 1
+				end
 				if (npc_id and (tonumber(npc_id) == 43733) and (tonumber(npc_id) == 45312)) then
 					Dismount()
 				end
 			end
-			local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 			local AAPDenied = 0
 			if (steps and steps["DenyNPC"]) then
 				if (UnitGUID("target") and UnitName("target")) then
@@ -5666,102 +4139,95 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 				return
 			end
 			if (AAPDenied == 1) then
-				CloseGossip()
+				C_GossipInfo.CloseGossip()
 				print("AAP: Not Yet!")
-			elseif (steps and steps["Gossip"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoGossip"] == 1 and not IsControlKeyDown()) then
-				if (steps["Gossip"] == 99) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 39516) then
-					if (UnitGUID("target") and UnitName("target")) then
-						local guid, name = UnitGUID("target"), UnitName("target")
-						local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
-						if (npc_id and name and tonumber(npc_id) == 93127) then
-							SelectGossipOption(2)
-						else
-							SelectGossipOption(1)
-						end
+			elseif (steps and steps["Gossip"] and steps["Gossip"] == 28202 and not IsControlKeyDown()) then
+				AAPGOSSIPCOUNT = AAPGOSSIPCOUNT + 1
+				print(AAPGOSSIPCOUNT)
+				if (AAPGOSSIPCOUNT == 1) then
+					C_GossipInfo.SelectOption(1)
+				elseif (AAPGOSSIPCOUNT == 2) then
+					if (AAP.Race == "Gnome") then
+						C_GossipInfo.SelectOption(1)
+					elseif (AAP.Race == "Human" or AAP.Race == "Dwarf") then
+						C_GossipInfo.SelectOption(2)
+					elseif (AAP.Race == "NightElf") then
+						C_GossipInfo.SelectOption(3)
+					elseif (AAP.Race == "Draenei" or AAP.Race == "Worgen") then
+						C_GossipInfo.SelectOption(4)
 					end
-				elseif (steps["Gossip"] == 12255) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 38872) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 39456) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 39387) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 12097) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 11984) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 26773) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-				elseif (steps["Gossip"] == 26359) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-				elseif (steps["Gossip"] == 26301) then
-					SelectGossipOption(2)
-				elseif (steps["Gossip"] == 999) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				elseif (steps["Gossip"] == 101) then
-					SelectGossipOption(1)
-					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-					AAP.BookingList["PrintQStep"] = 1
-				else
-					SelectGossipOption(steps["Gossip"])
-					if (steps["ExtraLine"] == 39) then
-						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
-						AAP.BookingList["PrintQStep"] = 1
+				elseif (AAPGOSSIPCOUNT == 3) then
+					if (AAP.Race == "Gnome") then
+						C_GossipInfo.SelectOption(3)
+					elseif (AAP.Race == "Human" or AAP.Race == "Dwarf") then
+						C_GossipInfo.SelectOption(4)
+					elseif (AAP.Race == "NightElf") then
+						C_GossipInfo.SelectOption(2)
+					elseif (AAP.Race == "Draenei" or AAP.Race == "Worgen") then
+						C_GossipInfo.SelectOption(1)
 					end
+				elseif (AAPGOSSIPCOUNT == 4) then
+					if (AAP.Race == "Gnome") then
+						C_GossipInfo.SelectOption(4)
+					elseif (AAP.Race == "Human" or AAP.Race == "Dwarf") then
+						C_GossipInfo.SelectOption(2)
+					elseif (AAP.Race == "NightElf") then
+						C_GossipInfo.SelectOption(1)
+					elseif (AAP.Race == "Draenei" or AAP.Race == "Worgen") then
+						C_GossipInfo.SelectOption(3)
+					end
+				elseif (AAPGOSSIPCOUNT == 5) then
+					AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+					AAP.BookingList["PrintQStep"] = 1
 				end
+			elseif (steps and steps["Gossip"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoGossip"] == 1 and not IsControlKeyDown()) then
+				C_GossipInfo.SelectOption(steps["Gossip"])
 			end
 		end
 		local arg1, arg2, arg3, arg4 = ...;
-		local ActiveQuests = {GetGossipActiveQuests()}
-		local ActiveQNr = GetNumGossipActiveQuests()
+		local ActiveQuests = C_GossipInfo.GetActiveQuests()
+		local ActiveQNr = C_GossipInfo.GetNumActiveQuests()
 		local CLi
-		local NumAvailableQuests = GetNumGossipAvailableQuests()
-		local AvailableQuests = {GetGossipAvailableQuests()}
+		local NumAvailableQuests = C_GossipInfo.GetNumAvailableQuests()
+		local AvailableQuests = {C_GossipInfo.GetAvailableQuests()}
 		if (ActiveQuests and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoHandIn"] == 1 and not IsControlKeyDown()) then
 			for CLi = 1, ActiveQNr do
-				if (ActiveQuests[(((CLi-1) * 6)+4)] == true) then
-					SelectGossipActiveQuest(CLi)
+				if (ActiveQuests[CLi] and ActiveQuests[CLi]["isComplete"] == true) then
+					C_GossipInfo.SelectActiveQuest(CLi)
 				end
 			end
 		end
 		if (NumAvailableQuests > 0 and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoAccept"] == 1 and not IsControlKeyDown()) then
 			if (steps and steps["SpecialPickupOrder"]) then
-				SelectGossipAvailableQuest(2)
+				C_GossipInfo.SelectAvailableQuest(2)
 			else
-				SelectGossipAvailableQuest(1)
+				C_GossipInfo.SelectAvailableQuest(1)
 			end
 		end
 	end
+	if (event=="GOSSIP_CLOSED") then
+		AAPGOSSIPCOUNT = 0
+		AAP.GossipOpen = 0
+	end
 	if (event=="QUEST_DETAIL") then
+		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+		local steps
+		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+		end
+		if (steps and steps["DenyNPC"]) then
+			if (UnitGUID("target") and UnitName("target")) then
+				local guid, name = UnitGUID("target"), UnitName("target")
+				local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+				if (npc_id and name) then
+					if (tonumber(npc_id) == steps["DenyNPC"]) then
+						C_GossipInfo.CloseGossip()
+					end
+				end
+			end
+		end
 		if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
 			local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
-			if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400))) then
-				return
-			end
-			if (npc_id and (tonumber(npc_id) == 43733)) then
-				Dismount()
-			end
 			local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 			if (CurStep and AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
 				local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
@@ -5783,10 +4249,7 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
-		if (GetQuestID() and (AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoAccept"] == 1) and (not IsControlKeyDown()) and (GetQuestID() ~= 50476) and (GetQuestID() ~= 52058) and (53372 ~= GetQuestID()) and (52946 ~= GetQuestID())) then
-			if (27406 == GetQuestID()) then
-				Dismount()
-			end
+		if (GetQuestID() and (AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoAccept"] == 1) and (not IsControlKeyDown())) then
 			if (QuestGetAutoAccept()) then
 				CloseQuest()
 			else
@@ -5800,16 +4263,21 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		if (AAP1["Debug"]) then
 			print("QUEST_PROGRESS")
 		end
-		if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
-			local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
-			if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400))) then
-				return
-			end
-		end
 		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
 		local steps
 		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
 			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+		end
+		if (steps and steps["DenyNPC"]) then
+			if (UnitGUID("target") and UnitName("target")) then
+				local guid, name = UnitGUID("target"), UnitName("target")
+				local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+				if (npc_id and name) then
+					if (tonumber(npc_id) == steps["DenyNPC"]) then
+						C_GossipInfo.CloseGossip()
+					end
+				end
+			end
 		end
 		if (AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoHandIn"] == 1 and not IsControlKeyDown()) then
 			if (steps and steps["SpecialNoAutoHandin"]) then
@@ -5821,11 +4289,22 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+
 	if (event=="QUEST_COMPLETE") then
-		if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
-			local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
-			if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400))) then
-				return
+		local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+		local steps
+		if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+		end
+		if (steps and steps["DenyNPC"]) then
+			if (UnitGUID("target") and UnitName("target")) then
+				local guid, name = UnitGUID("target"), UnitName("target")
+				local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+				if (npc_id and name) then
+					if (tonumber(npc_id) == steps["DenyNPC"]) then
+						C_GossipInfo.CloseGossip()
+					end
+				end
 			end
 		end
 		if (GetNumQuestChoices() > 1) then
@@ -5844,6 +4323,9 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 							if (SpotName == "INVTYPE_WEAPONMAINHAND") then
 								SpotName = "INVTYPE_WEAPON"
 							end
+							if (SpotName == "INVTYPE_WEAPON" or SpotName == "INVTYPE_SHIELD" or SpotName == "INVTYPE_2HWEAPON" or SpotName == "INVTYPE_WEAPONMAINHAND" or SpotName == "INVTYPE_WEAPONOFFHAND" or SpotName == "INVTYPE_HOLDABLE" or SpotName == "INVTYPE_RANGED" or SpotName == "INVTYPE_THROWN" or SpotName == "INVTYPE_RANGEDRIGHT" or SpotName == "INVTYPE_RELIC") then
+								SpotName = "INVTYPE_WEAPON"
+							end
 							if (AAP_GearIlvlList[SpotName]) then
 								if (AAP_GearIlvlList[SpotName] > itemLevel) then
 									AAP_GearIlvlList[SpotName] = itemLevel
@@ -5860,20 +4342,32 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 				for h=1, GetNumQuestChoices() do
 					local _, _, ItemRarityz, _, _, _, _, _, SpotName = GetItemInfo(GetQuestItemLink("choice", h))
 					local ilvl = GetDetailedItemLevelInfo(GetQuestItemLink("choice", h))
+					if (SpotName == "INVTYPE_WEAPONOFFHAND") then
+						SpotName = "INVTYPE_WEAPON"
+					end
+					if (SpotName == "INVTYPE_WEAPONMAINHAND") then
+						SpotName = "INVTYPE_WEAPON"
+					end
+					if (SpotName == "INVTYPE_WEAPON" or SpotName == "INVTYPE_SHIELD" or SpotName == "INVTYPE_2HWEAPON" or SpotName == "INVTYPE_WEAPONMAINHAND" or SpotName == "INVTYPE_WEAPONOFFHAND" or SpotName == "INVTYPE_HOLDABLE" or SpotName == "INVTYPE_RANGED" or SpotName == "INVTYPE_THROWN" or SpotName == "INVTYPE_RANGEDRIGHT" or SpotName == "INVTYPE_RELIC") then
+						SpotName = "INVTYPE_WEAPON"
+						print(SpotName)
+					end
 					if (AAP_GearIlvlList[SpotName]) then
 						if (ItemRarityz > 2) then
-							AAPColorof = ItemRarityz
+							--AAPColorof = ItemRarityz
 						end
 						AAPTempGearList[h] = ilvl - AAP_GearIlvlList[SpotName]
-						--print("Qilvl: "..ItemRarityz.." - "..SpotName.." - MySpot: "..AAP_GearIlvlList[SpotName])
+						print("Qilvl: "..ItemRarityz.." - "..SpotName.." - MySpot: "..AAP_GearIlvlList[SpotName])
 						if (SpotName == "INVTYPE_WEAPON" or SpotName == "INVTYPE_SHIELD" or SpotName == "INVTYPE_2HWEAPON" or SpotName == "INVTYPE_WEAPONMAINHAND" or SpotName == "INVTYPE_WEAPONOFFHAND" or SpotName == "INVTYPE_HOLDABLE" or SpotName == "INVTYPE_RANGED" or SpotName == "INVTYPE_THROWN" or SpotName == "INVTYPE_RANGEDRIGHT" or SpotName == "INVTYPE_RELIC") then
-							isweaponz = 1
+							--isweaponz = 1
 						end
 					end
 				end
+				-- temp remove
+				isweaponz = 0
+				AAPColorof = 0
 				if (AAPColorof > 2) then
 				elseif (isweaponz == 1) then
-
 				else
 					local PickOne = 0
 					local PickOne2 = -99999
@@ -5906,6 +4400,21 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 					end
 				end
 				GetQuestReward(1)
+			end
+		end
+	end
+	if (event=="CHAT_MSG_MONSTER_SAY") then
+		local arg1, arg2, arg3, arg4 = ...;
+		if (UnitGUID("target") and UnitName("target")) then
+			local guid, name = UnitGUID("target"), UnitName("target")
+			local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+			if (npc_id and name) then
+				if (tonumber(npc_id) == 159477) then
+					if (AAP_GigglingBasket[arg1]) then
+						print("AAP: Doing Emote: "..AAP_GigglingBasket[arg1])
+						DoEmote(AAP_GigglingBasket[arg1])
+					end
+				end
 			end
 		end
 	end

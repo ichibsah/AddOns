@@ -2,40 +2,40 @@ AUCTIONATOR_LOCALES.zhCN = function()
   local L = {}
 
 L = L or {}
+--[[Translation missing --]]
+L["ADD_FAVOURITE"] = "Add Favourite"
 L["ADD_ITEM"] = "加入物品"
 L["ADD_TERM_TO_LIST_DIALOG"] = "输入搜寻关键字来加入:"
+L["ALT_LEFT_CLICK"] = "Alt + 左键点击"
+L["ALT_RIGHT_CLICK"] = "Alt + 右键点击"
 --[[Translation missing --]]
-L["ALT_LEFT_CLICK"] = "Alt Left Click"
---[[Translation missing --]]
-L["ALT_RIGHT_CLICK"] = "Alt Right Click"
+L["ANY_LOWER"] = "any"
 L["AUCTION"] = "拍卖"
 L["AUCTION_DURATION_12"] = "12小时"
 L["AUCTION_DURATION_24"] = "24小时"
 L["AUCTION_DURATION_48"] = "48小时"
 L["AUCTION_TOOLTIP_TOOLTIP_HEADER"] = "拍卖滑鼠提示资讯"
 L["AUCTION_TOOLTIP_TOOLTIP_TEXT"] = "滑鼠指向时，在滑鼠提示中显示拍卖资讯。"
---[[Translation missing --]]
-L["AUCTIONATOR"] = "Auctionator"
+L["AUCTIONATOR"] = "拍卖小帮手"
 L["AUTHOR_HEADER"] = "作者"
---[[Translation missing --]]
-L["BID_PRICE"] = "Bid Price"
+L["BID_PRICE"] = "竞标价"
 L["BIDDING_AUCTION_INFO"] = "%s 竞标于 %s"
 L["BUG_REPORT"] = "回报 Bug"
 L["BUG_TOOLTIP_HEADER"] = "在 Github 回报 Bug"
 L["BUG_TOOLTIP_TEXT"] = "如果你在使用拍卖小帮手时发生错误，请到 Github 回报。请提供足够的细节以便让我们能够重复产生出相同的 Bug! 使用错误收集插件 !BugGrabber 和 BugSack，并附上所提供的详细错误讯息也能够帮助我们除错。"
-L["BUYOUT_AUCTION_INFO"] = "%s 直购于 %s"
+L["BUYOUT_AUCTION_INFO"] = "%s 直购价为 %s"
 L["BUYOUT_PRICE"] = "直购价"
 L["CANCEL"] = "取消"
 L["CANCEL_UNDERCUT"] = "取消有更低价的"
 L["CANCELLING_TAB"] = "取消"
 L["CANCELLING_TAB_HEADER"] = "拍卖小帮手 - 取消"
 L["CANNOT_AUCTION"] = "无法拍卖"
+L["CLASSIC_SUPPORT_ERROR"] = "这个版本的拍卖小帮手不支援经典版，功能可能会坏掉无法运作。"
 --[[Translation missing --]]
-L["CLASSIC_SUPPORT_ERROR"] = "This version of Auctionator DOES NOT support Classic. Stuff may break and not work."
-L["COMMODITY"] = "商品"
+L["CLOSE"] = "Close"
 L["CONFIG_ADVANCED_CATEGORY"] = "进阶"
 L["CONFIG_ADVANCED_TEXT"] = "只有你知道自己在做什么的时候，才看这里。"
-L["CONFIG_ALTERNATE_SCAN"] = "改为预设使用另一种速度较慢的扫描模式。"
+L["CONFIG_ALTERNATE_SCAN"] = "预设改成使用另一种速度较慢的扫描模式"
 L["CONFIG_ALTERNATE_SCAN_HEADER"] = "慢速扫描模式"
 L["CONFIG_ALTERNATE_SCAN_TEXT"] = "在忙碌的伺服器上，快速扫描模式可能会造成断线。此设定使用速度较慢、较不容易断线的扫描模式。"
 L["CONFIG_AUCTION_TOOLTIP"] = "显示拍卖滑鼠提示"
@@ -45,71 +45,72 @@ L["CONFIG_AUTO_LIST_SEARCH_TOOLTIP_TEXT"] = "选择清单后，自动在拍卖�
 L["CONFIG_AUTOSCAN"] = "打开拍卖场时执行自动扫描"
 L["CONFIG_AUTOSCAN_TOOLTIP_HEADER"] = "自动扫描"
 L["CONFIG_AUTOSCAN_TOOLTIP_TEXT"] = "打开拍卖场时执行自动扫描。停用此选项时，可以按下拍卖场的 '完整扫描' 按钮来执行完整扫描。"
---[[Translation missing --]]
-L["CONFIG_BAG"] = "Bag"
-L["CONFIG_BAG_COLLAPSED"] = "一开始先关闭背包 (需要重新载入)"
-L["CONFIG_BAG_COLLAPSED_TOOLTIP_HEADER"] = "一开始先关闭背包"
-L["CONFIG_BAG_COLLAPSED_TOOLTIP_TEXT"] = "启用时，开始使用拍卖场时不会打开背包。"
---[[Translation missing --]]
-L["CONFIG_BAG_SHOW_SELLING_BAG"] = "Bag items list is shown (reload required)"
---[[Translation missing --]]
-L["CONFIG_BAG_SHOW_SELLING_BAG_TOOLTIP_HEADER"] = "Bag Items Listing"
---[[Translation missing --]]
-L["CONFIG_BAG_SHOW_SELLING_BAG_TOOLTIP_TEXT"] = "If this option is off the bag items pane will be hidden."
+L["CONFIG_BAG"] = "背包"
+L["CONFIG_BAG_COLLAPSED"] = "背包物品列表预设为收合状态 (需要重新载入)"
+L["CONFIG_BAG_COLLAPSED_TOOLTIP_HEADER"] = "开始时收合背包"
+L["CONFIG_BAG_COLLAPSED_TOOLTIP_TEXT"] = "启用此选项时，开始使用的时候背包区块会是收合起来的状态，而不是展开的。"
+L["CONFIG_BAG_SHOW_SELLING_BAG"] = "显示背包物品列表 (需要重新载入)"
+L["CONFIG_BAG_SHOW_SELLING_BAG_TOOLTIP_HEADER"] = "背包物品列表"
+L["CONFIG_BAG_SHOW_SELLING_BAG_TOOLTIP_TEXT"] = "关闭此选项时，将会隐藏背包物品区块。"
 L["CONFIG_BASIC_OPTIONS_CATEGORY"] = "基本选项"
 L["CONFIG_BASIC_OPTIONS_TEXT"] = "一些基本选项，可以启用拍卖小帮手的功能。"
+--[[Translation missing --]]
+L["CONFIG_CANCELLING_CATEGORY"] = "Cancelling"
+--[[Translation missing --]]
+L["CONFIG_CANCELLING_TEXT"] = "Options to change the behaviour of the Cancelling tab."
 L["CONFIG_CHAT_LOG"] = "在聊天视窗显示拍卖讯息"
 L["CONFIG_CHAT_LOG_TOOLTIP_HEADER"] = "拍卖聊天记录"
 L["CONFIG_CHAT_LOG_TOOLTIP_TEXT"] = "停用此选项时，将不会扫描你的拍卖看是否有新的变化。"
---[[Translation missing --]]
-L["CONFIG_CLICK_CANCEL"] = "Shift+Click on an auction you own will cancel it"
---[[Translation missing --]]
-L["CONFIG_CLICK_CANCEL_TOOLTIP_HEADER"] = "Click To Cancel"
---[[Translation missing --]]
-L["CONFIG_CLICK_CANCEL_TOOLTIP_TEXT"] = "When enabled clicking on an auction you own in the auctions list in the Selling tab will cancel it."
 L["CONFIG_DEBUG"] = "输出除错讯息"
 L["CONFIG_DEBUG_TOOLTIP_HEADER"] = "拍卖小帮手除错"
 L["CONFIG_DEBUG_TOOLTIP_TEXT"] = "仅供维护人员使用，将除错讯息输出到聊天视窗。"
 L["CONFIG_DEVELOPER"] = "开发者设定"
 L["CONFIG_ENCHANT_TOOLTIP"] = "显示附魔滑鼠提示 (只有德拉诺、军临天下和决战艾泽拉斯)"
 L["CONFIG_FULL_SCAN_STEP_SIZE"] = "完整扫描步骤大小"
-L["CONFIG_LIFO_CATEGORY"] = "卖出"
+L["CONFIG_LIFO_CATEGORY"] = "销售: 物品"
 L["CONFIG_MAIL_TOOLTIP"] = "显示邮箱滑鼠提示"
-L["CONFIG_NOT_LIFO_CATEGORY"] = "装备/宠物"
+L["CONFIG_NOT_LIFO_CATEGORY"] = "销售: 装备/宠物"
 L["CONFIG_PET_TOOLTIP"] = "显示宠物滑鼠提示"
-L["CONFIG_PRICE_HISTORY"] = "在卖出标签页面中显示历史价格 (需要重新载入)"
+L["CONFIG_PRICE_HISTORY"] = "在销售标签页面中显示历史价格 (需要重新载入)"
 L["CONFIG_PRICE_HISTORY_TOOLTIP_HEADER"] = "价格历史记录"
-L["CONFIG_PRICE_HISTORY_TOOLTIP_TEXT"] = "关闭时，将会隐藏卖出标签页面中的价格历史记录。"
+L["CONFIG_PRICE_HISTORY_TOOLTIP_TEXT"] = "停用此选项时，将会隐藏销售标签页面中的价格历史记录。"
 L["CONFIG_PROFILE_CATEGORY"] = "设定档"
 L["CONFIG_PROFILE_TEXT"] = "角色专用设定"
 L["CONFIG_PROFILE_TOGGLE"] = "设定只会套用到这个角色"
 L["CONFIG_SCAN_SETTINGS"] = "扫描设定"
 L["CONFIG_SCANNING"] = "完整扫描设定"
 --[[Translation missing --]]
-L["CONFIG_SELLING_BAG_SELECT_SHORTCUT"] = "on an item in your bag puts it in the Selling tab"
+L["CONFIG_SELLING_AUTO_SELECT_NEXT"] = "Automatically select the next item in your bag"
 --[[Translation missing --]]
-L["CONFIG_SELLING_BUY_SHORTCUT"] = "on an auction you don't own will buy it"
+L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_HEADER"] = "Automatic item selection"
 --[[Translation missing --]]
-L["CONFIG_SELLING_CANCEL_SHORTCUT"] = "on an auction you own will cancel it"
-L["CONFIG_SELLING_CATEGORY"] = "卖出"
+L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_TEXT"] = "When posting automatically select the next item in the bag view."
+L["CONFIG_SELLING_BAG_SELECT_SHORTCUT"] = "背包中的物品，会将它放到销售标签页面"
+L["CONFIG_SELLING_BUY_SHORTCUT"] = "不是你拍卖的物品，会直接购买"
+L["CONFIG_SELLING_CANCEL_SHORTCUT"] = "你拍卖的物品，会取消拍卖"
+L["CONFIG_SELLING_CATEGORY"] = "销售"
+L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "设为 0 表示最大数量"
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "预设张贴数量"
+L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "更改张贴拍卖物品时的预设数量，设为 0 表示尽可能使用最多数量。"
 --[[Translation missing --]]
-L["CONFIG_SELLING_DEFAULT_QUANTITY_SUFFIX"] = "Set to 0 for maximum amount"
+L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_SUFFIX"] = "Set to 0 for no price"
 --[[Translation missing --]]
-L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_HEADER"] = "Default Posting Quantity"
+L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_HEADER"] = "Gear Vendor Price Default"
 --[[Translation missing --]]
-L["CONFIG_SELLING_DEFAULT_QUANTITY_TOOLTIP_TEXT"] = "This lets you change the default amount used when posting an item. Set this to 0 to use the maximum possible amount."
---[[Translation missing --]]
-L["CONFIG_SELLING_ICON_SIZE"] = "Bag icon size (reload required)"
---[[Translation missing --]]
-L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Size of Icons"
---[[Translation missing --]]
-L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_TEXT"] = "This lets you make the bag item icons in the selling tab larger (up to 50) or smaller (down to 10). Default size is 42."
-L["CONFIG_SELLING_LIFO_HEADER"] = "卖出: 物品"
+L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_TEXT"] = "This lets you set a default price for gear as a multiple of the vendor price. This is used for any gear Auctionator doesn't have a price for. Set this to 0 to not set a price."
+L["CONFIG_SELLING_ICON_SIZE"] = "背包图示大小 (需要重新载入介面)"
+L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "图示大小"
+L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_TEXT"] = "让销售标签页面中的背包物品图示大一点 (最大 50) 或小一点 (最小 10)。预设大小是 42。"
+L["CONFIG_SELLING_LIFO_HEADER"] = "销售: 物品"
 L["CONFIG_SELLING_LIFO_TEXT"] = "设定大部分物品的压低价格百分比或数值，以及拍卖有效时限的选项。不压低价格时，这些类别中价格相同的物品会组合在一起，最后加入的物品会第一个卖出，所以不一定要压低价格。"
-L["CONFIG_SELLING_NOT_LIFO_HEADER"] = "卖出: 装备/宠物"
+L["CONFIG_SELLING_NOT_LIFO_HEADER"] = "销售: 装备/宠物"
 L["CONFIG_SELLING_NOT_LIFO_TEXT"] = "设定装备或宠物笼的压低价格百分比或数值，以及拍卖有效时限的选项。这些类别中的物品会一个个的列出，买家可以选择要买哪一个。压低价格便很有帮助。"
-L["CONFIG_SELLING_TEXT"] = "更改卖出标签页面行为的选项。"
+L["CONFIG_SELLING_TEXT"] = "更改销售标签页面行为的选项。"
+--[[Translation missing --]]
+L["CONFIG_SHOPPING_CATEGORY"] = "Shopping"
 L["CONFIG_SHOPPING_LIST"] = "购物清单设定"
+--[[Translation missing --]]
+L["CONFIG_SHOPPING_TEXT"] = "Options to change the behaviour of the Shopping tab."
 L["CONFIG_STACK_TOOLTIP"] = "按住 Shift 键时显示堆叠总价"
 L["CONFIG_TOOLTIPS_CATEGORY"] = "滑鼠提示"
 L["CONFIG_TOOLTIPS_TEXT"] = "在游戏滑鼠提示中显示拍卖场相关的各类资讯的选项。"
@@ -118,10 +119,11 @@ L["CONFIG_UNDERCUT_SCAN_NOT_LIFO_TOOLTIP_HEADER"] = "装备/宠物低价格扫�
 L["CONFIG_UNDERCUT_SCAN_NOT_LIFO_TOOLTIP_TEXT"] = "启用时，使用低价格扫描的时候会包含任何装备和宠物的拍卖。关闭时会排除装备和宠物。"
 L["CONFIG_VENDOR_TOOLTIP"] = "显示商人滑鼠提示"
 L["CONTRIBUTORS_HEADER"] = "贡献者"
+--[[Translation missing --]]
+L["COPY_TEXT_HEADER"] = "Copy Text"
 L["CRAFTED_LEVEL"] = "制作等级"
 L["CREATE"] = "建立"
 L["CREATE_LIST_DIALOG"] = "输入新购物清单的名称:"
-L["DATABASE_LOADED"] = "资料库已载入，包含 %s 个项目。"
 L["DATE"] = "日期"
 L["DAY_1"] = "星期日"
 L["DAY_2"] = "星期一"
@@ -132,45 +134,63 @@ L["DAY_6"] = "星期五"
 L["DAY_7"] = "星期六"
 L["DEFAULT_AUCTION_DURATION"] = "预设拍卖有效时限"
 --[[Translation missing --]]
-L["DEFAULT_QUANTITY"] = "Default Quantity"
-L["DEFAULT_TAB"] = "预设标签"
---[[Translation missing --]]
-L["DEFAULT_TAB_TEXT"] = "shows as the default tab"
+L["DEFAULT_LIST_HEADER"] = "Default Shopping List"
+L["DEFAULT_QUANTITY"] = "预设数量"
+L["DEFAULT_TAB"] = "预设标签页"
+L["DEFAULT_TAB_TEXT"] = "显示为预设的标签页面"
 L["DELETE"] = "删除"
 L["DELETE_LIST_CONFIRM"] = "是否确定要删除 '%s'?"
 L["DELETE_LIST_NONE_SELECTED"] = "请先选择要删除的清单。"
-L["DEPOSIT"] = "存入:"
---[[Translation missing --]]
-L["DISABLED"] = "Disabled"
+L["DEPOSIT"] = "保证金:"
+L["DISABLED"] = "停用"
 L["DISCORD"] = "Discord"
 L["DISCORD_TOOLTIP_HEADER"] = "在 Discord 加入我们!"
 L["DISCORD_TOOLTIP_TEXT"] = "我们有个活耀的拍卖小帮手使用者社群，可以帮忙回答你可能遇到的任何问题。"
 L["DISENCHANT"] = "分解"
 L["DURATION"] = "有效时限"
+--[[Translation missing --]]
+L["EDIT_ITEM"] = "Edit Item"
 L["ENCHANT_TOOLTIP_TOOLTIP_HEADER"] = "附魔滑鼠提示资讯"
 L["ENCHANT_TOOLTIP_TOOLTIP_TEXT"] = "滑鼠指向时，在滑鼠提示中显示附魔资讯。"
 L["ENGAGE_HEADER"] = "参与拍卖小帮手"
 L["EXACT_SEARCH"] = "精确搜寻"
+--[[Translation missing --]]
+L["EXPORT"] = "Export"
+--[[Translation missing --]]
+L["EXPORT_AS"] = "Export as:"
+--[[Translation missing --]]
+L["EXPORT_STRING"] = "Shareable string"
+--[[Translation missing --]]
+L["EXPORT_WHISPER"] = "Whisper to"
+--[[Translation missing --]]
+L["FAVOURITES"] = "Favourites"
 L["FETCHING_ITEM_INFO"] = "正在取得物品资讯..."
 L["FINISHED_PROCESSING"] = "已处理完成 %s 个物品。"
 L["FULL_SCAN_ALTERNATE_FAILED"] = "完整扫描 (替代模式) 失败，没有完成。"
 L["FULL_SCAN_BUTTON"] = "完整扫描"
 L["FULL_SCAN_FAILED"] = "完整扫描失败，没有完成。"
 --[[Translation missing --]]
-L["HIDE"] = "Hide"
+L["GEAR_VENDOR_PRICE_MULTIPLIER"] = "Gear vendor price multiplier"
+L["HIDE"] = "隐藏"
+--[[Translation missing --]]
+L["IMPORT"] = "Import"
 L["INFO_TAB_HEADER"] = "拍卖小帮手 - 资讯"
-L["IS_UNDERCUT"] = "有更低价格?"
-L["ITEM"] = "物品"
+L["IS_UNDERCUT"] = "有更低价?"
 L["ITEM_CLASS"] = "物品类别"
 L["ITEM_LEVEL"] = "物品等级"
 L["ITEM_LEVEL_COLUMN"] = "物品等级"
---[[Translation missing --]]
-L["LEFT_CLICK"] = "Left Click"
+L["LEFT_CLICK"] = "左键点击"
 L["LEVEL"] = "等级"
 L["LIMITED_FUNCTIONALITY_MESSAGE"] = "因为 8.3 拍卖场改版，目前提供的功能有限。"
 L["LIST_ADD_ERROR"] = "尝试将物品加入清单时发生错误。"
 L["LIST_ADD_ITEM_HEADER"] = "加入购物清单物品"
 L["LIST_DELETE_ERROR"] = "尝试删除清单时发生错误。"
+--[[Translation missing --]]
+L["LIST_EDIT_ITEM_HEADER"] = "Edit Shopping List Item"
+--[[Translation missing --]]
+L["LIST_EXPORT_HEADER"] = "Export Shopping Lists"
+--[[Translation missing --]]
+L["LIST_IMPORT_HEADER"] = "Import Shopping Lists"
 L["LIST_SEARCH_START"] = "正在 %s 中搜寻物品..."
 L["LIST_SEARCH_STATUS"] = "搜寻物品 %s/%s 在 %s"
 L["MAIL_TOOLTIP_TOOLTIP_HEADER"] = "邮箱滑鼠提示"
@@ -194,42 +214,46 @@ L["NEXT_SCAN_MESSAGE"] = "再过 %s 分 %s 秒可以开始完整扫描。"
 L["NO_RESULTS"] = "没有找到结果。"
 L["NONE"] = "无"
 L["OPEN_ADDON_OPTIONS"] = "打开插件设定选项"
-L["OWNED_COLUMN"] = "已拥有?"
+L["OWNED_COLUMN"] = "我卖的?"
 L["PERCENTAGE"] = "百分比"
 L["PERCENTAGE_SUFFIX"] = "% 压低价格"
 L["PERCENTAGE_TOOLTIP_HEADER"] = "压低价格百分比"
 L["PERCENTAGE_TOOLTIP_TEXT"] = "压低价格百分比会用来计算卖出价格。例如: 数值 5 表示你的物品会比目前最低价再低 5% 来卖出。"
 L["PET_TOOLTIP_TOOLTIP_HEADER"] = "宠物滑鼠提示"
 L["PET_TOOLTIP_TOOLTIP_TEXT"] = "放入笼子的宠物显示拍卖小帮手资讯。"
-L["POST"] = "张贴"
-L["POST_BUTTON_MACRO"] = "张贴按钮巨集"
+L["POST"] = "开始拍卖"
+L["POST_BUTTON_MACRO"] = "开始拍卖按钮巨集"
 L["PRICE"] = "价格"
 L["PROFILE_TOGGLE_TOOLTIP_HEADER"] = "启用角色专用设定"
 L["PROFILE_TOGGLE_TOOLTIP_TEXT"] = "更改拍卖小帮手的设定只会影响这个角色。"
 L["QUANTITY"] = "数量"
+--[[Translation missing --]]
+L["REAGENT_SEARCH"] = "Reagent Search"
+--[[Translation missing --]]
+L["REMOVE_FAVOURITE"] = "Remove Favourite"
 L["RENAME"] = "重新命名"
 L["RENAME_LIST_DIALOG"] = "输入购物清单的新名称:"
 L["RESET_ALL"] = "全部重置"
---[[Translation missing --]]
-L["RESTORE_ALL"] = "Restore All"
-L["RESULTS_AVAILABLE_COLUMN"] = "可用"
+L["RESTORE_ALL"] = "全部回复"
+L["RESULTS_AVAILABLE_COLUMN"] = "可购买"
 L["RESULTS_NAME_COLUMN"] = "名称"
 L["RESULTS_PRICE_COLUMN"] = "价格"
---[[Translation missing --]]
-L["RIGHT_CLICK"] = "Right Click"
+L["RIGHT_CLICK"] = "右键点击"
 L["ROADMAP"] = "开发计划"
 L["ROADMAP_TOOLTIP_TEXT"] = "开发计划定义了我们计划在即将发布的拍卖小帮手中进行的工作。 请在此处查看你喜欢的功能的实现进度!"
 L["SALES_PREFERENCE"] = "特价偏好设定"
+--[[Translation missing --]]
+L["SAVE_AS"] = "Save As"
 L["SEARCH"] = "搜寻"
 L["SEARCH_TERM"] = "搜寻关键字"
-L["SELLING_TAB"] = "卖出"
-L["SELLING_TAB_HEADER"] = "拍卖小帮手 - 卖出"
+--[[Translation missing --]]
+L["SELECT_ALL"] = "Select All"
+L["SELLING_TAB"] = "销售"
+L["SELLING_TAB_HEADER"] = "拍卖小帮手 - 销售"
 L["SET_VALUE"] = "固定值"
 L["SET_VALUE_SUFFIX"] = "压低价格"
---[[Translation missing --]]
-L["SHIFT_LEFT_CLICK"] = "Shift Left Click"
---[[Translation missing --]]
-L["SHIFT_RIGHT_CLICK"] = "Shift Right Click"
+L["SHIFT_LEFT_CLICK"] = "Shift + 左键点击"
+L["SHIFT_RIGHT_CLICK"] = "Shift + 右键点击"
 L["SHOPPING_TAB"] = "购物清单"
 L["SHOPPING_TAB_HEADER"] = "拍卖小帮手 - 购物清单"
 L["SPLASH_830_BUGS_1"] = "加入我们请到拍卖小帮手的 Discord 伺服器 %s "
@@ -250,87 +274,96 @@ L["SPLASH_831_CANCELLING"] = "新增取消标签页面"
 L["SPLASH_831_CANCELLING_1"] = "点一下任何拍卖物品便可以取消拍卖。"
 L["SPLASH_831_CANCELLING_2"] = "点一下 \"低价格扫描\"，在你的拍卖中扫描所有被压低价格的物品。"
 L["SPLASH_831_CANCELLING_3"] = "重复点击 \"取消有更低价的\" 来取消所有被压低价格的拍卖。"
+L["SPLASH_832_CUSTOMISATION_1"] = "可以停用价格历史记录和背包区域"
+L["SPLASH_832_CUSTOMISATION_2"] = "背包区域可以在启动时就展开 (此为预设值)，或是设定为启动时先收合"
+L["SPLASH_832_CUSTOMISATION_3"] = "聊天讯息告诉你刚建立的拍卖可以关闭了"
+L["SPLASH_832_CUSTOMISATION_4"] = "装备/宠物可以设定自己的压低价格和拍卖时限，和其他大多数的物品设定是分开的"
+L["SPLASH_832_CUSTOMISATION_5"] = "购买物品、取消拍卖和选择背包中物品的快速键都可以更改"
+L["SPLASH_832_CUSTOMISATION_HEADER"] = "自订销售标签页面"
+L["SPLASH_832_DESCRIPTION"] = "这次改版新增了销售标签页面，用来取代在先前的版本中直接修改游戏内建的卖出标签页面。要使用压低价格或不同的预设拍卖时限功能，请改用新的 \"销售\" 标签页面 (游戏内建的卖出标签页面不再有这些功能)。"
+L["SPLASH_832_FEATURES_1"] = "自动压低价格 (自订价格或百分比来压价)"
+L["SPLASH_832_FEATURES_2"] = "自订预设拍卖时限 (12/24/48 小时)"
+L["SPLASH_832_FEATURES_3"] = "价格历史记录 (来自最近 21 天内的完整扫描)"
+L["SPLASH_832_FEATURES_4"] = "标签页面中就可以看到背包物品，不需要另外打开背包"
+L["SPLASH_832_FEATURES_5"] = "可以透过右键点击拍卖清单来取消已经开始拍卖的物品"
+L["SPLASH_832_FEATURES_6"] = "按住 Alt + 右键点击不是你拍卖的物品，便能够将它买下来"
+L["SPLASH_832_FEATURES_7"] = "按住 Alt 键点击背包中的物品，便会将它放到销售标签页面中，准备好来拍卖 (也可以在设定中改为右键)"
+L["SPLASH_832_FEATURES_HEADER"] = "销售标签页面的功能"
+L["SPLASH_833_CONNECTED_REALMS_1"] = "现在连结的伺服器群组会共享完整扫描价格。"
+L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "连结的伺服器"
+L["SPLASH_833_DESCRIPTION"] = "这是小型的发布版本，有多项品质改善和错误修正。"
+L["SPLASH_833_SELLING_IMPROVEMENTS_1"] = [=[可以从背包检视隐藏特定物品 (在物品图示点一下右键选择 "隐藏")
+]=]
+L["SPLASH_833_SELLING_IMPROVEMENTS_2"] = "现在会显示卖家对拍卖物品的竞标价 (如果有的话)"
+L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "现在会在 \"物品等级\" 栏位显示宠物的等级"
+L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "新增选项可以更改张贴物品时的预设数量"
+L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "卖出标签页面增强"
 --[[Translation missing --]]
-L["SPLASH_832_CUSTOMISATION_1"] = "The price history pane and the bag pane can be disabled"
+L["SPLASH_834_DESCRIPTION"] = "The highlights of this release are being able to import/export shopping lists and the return of the reagents search from a crafting window."
 --[[Translation missing --]]
-L["SPLASH_832_CUSTOMISATION_2"] = "The bag pane sections can start expanded (the default) or be configured to start collapsed"
+L["SPLASH_834_MISCELLANEOUS_1"] = "Search the AH for reagents from the crafting window (a \"Search\" button appears when both the crafting window and the AH are open)"
 --[[Translation missing --]]
-L["SPLASH_832_CUSTOMISATION_3"] = "The message in your chat telling you what auction you just created can be turned off"
+L["SPLASH_834_MISCELLANEOUS_HEADER"] = "Miscellaneous"
 --[[Translation missing --]]
-L["SPLASH_832_CUSTOMISATION_4"] = "Gear/Pets have their own undercutting and duration settings to configure, separate from the settings for most items"
+L["SPLASH_834_SELLING_1"] = "New favourites section in the selling tab. Right-click an item and click \"Add Favourite\" to use the feature."
 --[[Translation missing --]]
-L["SPLASH_832_CUSTOMISATION_5"] = "The shortcuts to buy auctions, cancel auctions and select an item from your bag can be changed"
+L["SPLASH_834_SELLING_2"] = "New default quantities for selling are separated for items vs gear/pets."
 --[[Translation missing --]]
-L["SPLASH_832_CUSTOMISATION_HEADER"] = "Customising the Selling Tab"
+L["SPLASH_834_SELLING_HEADER"] = "Selling Tab"
 --[[Translation missing --]]
-L["SPLASH_832_DESCRIPTION"] = "This release adds a new selling tab which replaces the modifications to the Blizzard Sell tab found in previous releases. To use undercutting or the different default duration features please use the \"Selling\" tab (the \"Sell\" tab no longer has those features)."
+L["SPLASH_834_SHOPPING_1"] = "Added import and export feature to share shopping lists"
 --[[Translation missing --]]
-L["SPLASH_832_FEATURES_1"] = "Automatic undercutting (set a custom price or percentage to undercut with)"
+L["SPLASH_834_SHOPPING_2"] = "You can set a default shopping list to search for when opening the Shopping tab"
 --[[Translation missing --]]
-L["SPLASH_832_FEATURES_2"] = "Custom default auction duration (12/24/48 hours)"
+L["SPLASH_834_SHOPPING_3"] = "Ability to reorder and edit shopping list items"
 --[[Translation missing --]]
-L["SPLASH_832_FEATURES_3"] = "Price histories (derived from the last 21 days of full scans)"
---[[Translation missing --]]
-L["SPLASH_832_FEATURES_4"] = "A bag view inside the tab to avoid needing to open your bags"
---[[Translation missing --]]
-L["SPLASH_832_FEATURES_5"] = "Existing owned auctions for the item being posted can be cancelled by right clicking on the auction listing"
---[[Translation missing --]]
-L["SPLASH_832_FEATURES_6"] = "Auctions which you don't own can be purchased by holding Alt and right clicking on the auction"
---[[Translation missing --]]
-L["SPLASH_832_FEATURES_7"] = "Holding the Alt key while clicking on an item in your bag puts it in the Selling tab ready to post (this can be changed to a right click in the settings)"
---[[Translation missing --]]
-L["SPLASH_832_FEATURES_HEADER"] = "Features of the Selling Tab"
---[[Translation missing --]]
-L["SPLASH_833_CONNECTED_REALMS_1"] = "Full scan prices are now shared between connected realms"
---[[Translation missing --]]
-L["SPLASH_833_CONNECTED_REALMS_HEADER"] = "Connected Realms"
---[[Translation missing --]]
-L["SPLASH_833_DESCRIPTION"] = "This is a small release, with various quality of life improvements and bugfixes"
---[[Translation missing --]]
-L["SPLASH_833_SELLING_IMPROVEMENTS_1"] = "Specific items can be hidden from the bag view (right-click the item icon and click \"Hide\")"
---[[Translation missing --]]
-L["SPLASH_833_SELLING_IMPROVEMENTS_2"] = "The bid price (if any) for auctions from other sellers is now shown"
---[[Translation missing --]]
-L["SPLASH_833_SELLING_IMPROVEMENTS_3"] = "Pets now have their level shown in the \"Item Level\" column"
---[[Translation missing --]]
-L["SPLASH_833_SELLING_IMPROVEMENTS_4"] = "New option to change the default quantity used when posting items"
---[[Translation missing --]]
-L["SPLASH_833_SELLING_IMPROVEMENTS_HEADER"] = "Selling Tab Improvements"
+L["SPLASH_834_SHOPPING_HEADER"] = "Shopping Tab"
 L["SPLASH_HIDE_MESSAGE"] = "下次更新前不要再显示"
 L["SPLASH_SCREEN_HEADER"] = "欢迎使用拍卖小帮手 Auctionator"
-L["STACK_AUCTION_INFO"] = "%s 个共 %s (每个 %s)"
+L["STACK_AUCTION_INFO"] = "%s 总共 %s (每个 %s)"
 L["STACK_TOOLTIP_TOOLTIP_HEADER"] = "堆叠总价"
 L["STACK_TOOLTIP_TOOLTIP_TEXT"] = "启用时，必须按住 Shift 键才能看到堆叠总价。停用时，预设就会显示堆叠总价。"
 L["STARTING_FULL_SCAN"] = "开始完整扫描。"
 L["STARTING_FULL_SCAN_ALTERNATE"] = "开始完整扫描 (替代模式)。"
-L["STOPPED_PROCESSING"] = "停止处理于 %s/%s。"
 L["TEMPORARY_LOWER_CASE"] = "暂时"
 L["TIME_LEFT_H"] = "剩余时间 (小时)"
 L["TOO_BIG_PERCENTAGE"] = "%% 必须 <= 100 (目前是 %s)"
 L["TOO_MANY_SEARCH_RESULTS"] = "搜寻结果过多，只显示部分。"
 L["TOO_SMALL_PERCENTAGE"] = "%% 必须 >= 0 (目前是 %s)"
 L["TOTAL_ITEMS_COLORED"] = "总共|cFFAAAAFF %s 个物品|r"
-L["TOTAL_PRICE"] = "总价:"
-L["TRANSLATORS_BRAZIL_PORTUGUEUSE"] = "巴西葡萄牙文:"
-L["TRANSLATORS_FRENCH"] = "法文:"
-L["TRANSLATORS_GERMAN"] = "德文:"
+L["TOTAL_PRICE"] = "总金额:"
+--[[Translation missing --]]
+L["TRANSLATORS_BRAZIL_PORTUGUEUSE"] = "Brazilian Portuguese"
+--[[Translation missing --]]
+L["TRANSLATORS_FRENCH"] = "French"
+--[[Translation missing --]]
+L["TRANSLATORS_GERMAN"] = "German"
 L["TRANSLATORS_HEADER"] = "翻译者"
 L["TRANSLATORS_HELP"] = "请帮忙翻译!"
-L["TRANSLATORS_ITALIAN"] = "义大利文:"
-L["TRANSLATORS_KOREAN"] = "韩文:"
-L["TRANSLATORS_LATIN_SPANISH"] = "拉丁美洲西班牙文:"
-L["TRANSLATORS_RUSSIAN"] = "俄文:"
-L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "简体中文"
-L["TRANSLATORS_SPANISH"] = "西班牙文:"
-L["TRANSLATORS_TRADITIONAL_CHINESE"] = "繁体中文:"
+--[[Translation missing --]]
+L["TRANSLATORS_ITALIAN"] = "Italian"
+--[[Translation missing --]]
+L["TRANSLATORS_KOREAN"] = "Korean"
+--[[Translation missing --]]
+L["TRANSLATORS_LATIN_SPANISH"] = "Latin American Spanish"
+--[[Translation missing --]]
+L["TRANSLATORS_RUSSIAN"] = "Russian"
+--[[Translation missing --]]
+L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Simplified Chinese"
+--[[Translation missing --]]
+L["TRANSLATORS_SPANISH"] = "Spanish"
+--[[Translation missing --]]
+L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Traditional Chinese"
 L["UNDERCUT_NO"] = "否"
 L["UNDERCUT_SCAN"] = "低价格扫描"
 L["UNDERCUT_TOOLTIP_HEADER"] = "压低价格数值"
 L["UNDERCUT_TOOLTIP_TEXT"] = "压低价格数值会用来计算卖出价格。"
 L["UNDERCUT_UNKNOWN"] = "?"
 L["UNDERCUT_YES"] = "是"
-L["UNIT_PRICE"] = "单位价格"
+L["UNIT_PRICE"] = "单价"
 L["UNKNOWN"] = "未知"
+--[[Translation missing --]]
+L["UNSELECT_ALL"] = "Unselect All"
 L["VENDOR"] = "商人"
 L["VENDOR_TOOLTIP_TOOLTIP_HEADER"] = "商人滑鼠提示资讯"
 L["VENDOR_TOOLTIP_TOOLTIP_TEXT"] = "滑鼠指向时，在滑鼠提示中显示商人资讯。"

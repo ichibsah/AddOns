@@ -1,6 +1,6 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: Auctionator
-## Version: 8.3.3.2
+## Version: 9.0.0
 ## Author: Borjamacare, plusmouse
 ## X-Website: http://mods.curse.com/addons/wow/auctionator
 ## X-Localizations: enUS, itIT, deDE, ruRU, koKR, frFR, esES, esMX, zhTW, ptBR, zhCN
@@ -9,6 +9,7 @@
 ## Notes-esMX: Un addon liviano que hace que comprar, vender y administrar subastas sea fácil y rápido
 ## SavedVariables: AUCTIONATOR_CONFIG, AUCTIONATOR_SAVEDVARS, AUCTIONATOR_SHOPPING_LISTS, AUCTIONATOR_PRICE_DATABASE
 ## SavedVariablesPerCharacter: AUCTIONATOR_CHARACTER_CONFIG
+
 
 zcUtils.lua
 

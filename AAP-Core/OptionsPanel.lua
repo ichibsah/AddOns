@@ -44,11 +44,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame:SetPoint("CENTER",  UIParent, "CENTER",0,0)
 	AAP.OptionsFrame.MainFrame:SetMovable(true)
 	AAP.OptionsFrame.MainFrame:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame)
+AAP.OptionsFrame.MainFrame.texture = t
+
 	AAP.OptionsFrame.MainFrame:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" and not AAP.OptionsFrame.MainFrame.isMoving then
 			AAP.OptionsFrame.MainFrame:StartMoving();
@@ -77,11 +82,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame.Options:SetPoint("LEFT",  AAP_OptionsMainFrame, "LEFT",0,-20)
 	AAP.OptionsFrame.MainFrame.Options:SetMovable(true)
 	AAP.OptionsFrame.MainFrame.Options:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame.Options:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame.Options:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame.Options:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame.Options)
+AAP.OptionsFrame.MainFrame.Options.texture = t
+
 	AAP.OptionsFrame.MainFrame.Options:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" and not AAP.OptionsFrame.MainFrame.isMoving then
 			AAP.OptionsFrame.MainFrame:StartMoving();
@@ -116,11 +126,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame.OptionsB1:SetPoint("TOPLEFT",  AAP_OptionsMainFrame, "TOPLEFT",0,-40)
 	AAP.OptionsFrame.MainFrame.OptionsB1:SetMovable(true)
 	AAP.OptionsFrame.MainFrame.OptionsB1:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame.OptionsB1:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame.OptionsB1:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame.OptionsB1:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame.OptionsB1)
+AAP.OptionsFrame.MainFrame.OptionsB1.texture = t
+
 	AAP.OptionsFrame.MainFrame.OptionsB1:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			AAP.OptionsFrame.MainFrame.OptionsQuests:Show()
@@ -156,11 +171,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame.OptionsQuests:SetPoint("LEFT",  AAP_OptionsMainFrame, "LEFT",155,-20)
 	AAP.OptionsFrame.MainFrame.OptionsQuests:SetMovable(true)
 	AAP.OptionsFrame.MainFrame.OptionsQuests:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame.OptionsQuests:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame.OptionsQuests:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame.OptionsQuests:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame.OptionsQuests)
+AAP.OptionsFrame.MainFrame.OptionsQuests.texture = t
+
 	AAP.OptionsFrame.MainFrame.OptionsQuests:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" and not AAP.OptionsFrame.MainFrame.isMoving then
 			AAP.OptionsFrame.MainFrame:StartMoving();
@@ -358,26 +378,6 @@ function AAP.LoadOptionsFrame()
 		end
 	end)
 	
-	AAP.OptionsFrame.LegionCheckButton = CreateFrame("CheckButton", "AAP_LegionCheckButton", AAP.OptionsFrame.MainFrame.OptionsQuests, "ChatConfigCheckButtonTemplate");
-	AAP.OptionsFrame.LegionCheckButton:SetPoint("TOPLEFT", AAP.OptionsFrame.MainFrame.OptionsQuests, "TOPLEFT", 10, -235)
-	if (AAP1[AAP.Realm][AAP.Name]["Settings"]["Legion"] == 0) then
-		AAP.OptionsFrame.LegionCheckButton:SetChecked(false)
-	else
-		AAP.OptionsFrame.LegionCheckButton:SetChecked(true)
-	end
-	getglobal(AAP.OptionsFrame.LegionCheckButton:GetName() .. 'Text'):SetText(": Enable Legion Questroutes")
-	getglobal(AAP.OptionsFrame.LegionCheckButton:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-	AAP.OptionsFrame.LegionCheckButton:SetScript("OnClick", function()
-		if (AAP.OptionsFrame.LegionCheckButton:GetChecked() == true) then
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["Legion"] = 1
-			AAP.BookingList["UpdateMapId"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		else
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["Legion"] = 0
-			AAP.BookingList["UpdateMapId"] = 1
-			AAP.BookingList["PrintQStep"] = 1
-		end
-	end)
 	
 	
 	
@@ -389,11 +389,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame.OptionsB2:SetPoint("TOPLEFT",  AAP_OptionsMainFrame, "TOPLEFT",0,-70)
 	AAP.OptionsFrame.MainFrame.OptionsB2:SetMovable(true)
 	AAP.OptionsFrame.MainFrame.OptionsB2:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame.OptionsB2:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame.OptionsB2:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame.OptionsB2:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame.OptionsB2)
+AAP.OptionsFrame.MainFrame.OptionsB2.texture = t
+
 	AAP.OptionsFrame.MainFrame.OptionsB2:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			AAP.OptionsFrame.MainFrame.OptionsQuests:Hide()
@@ -429,11 +434,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame.OptionsArrow:SetPoint("LEFT",  AAP_OptionsMainFrame, "LEFT",155,-20)
 	AAP.OptionsFrame.MainFrame.OptionsArrow:SetMovable(true)
 	AAP.OptionsFrame.MainFrame.OptionsArrow:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame.OptionsArrow:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame.OptionsArrow:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame.OptionsArrow:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame.OptionsArrow)
+AAP.OptionsFrame.MainFrame.OptionsArrow.texture = t
+
 	AAP.OptionsFrame.MainFrame.OptionsArrow:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" and not AAP.OptionsFrame.MainFrame.isMoving then
 			AAP.OptionsFrame.MainFrame:StartMoving();
@@ -545,11 +555,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame.OptionsB3:SetPoint("TOPLEFT",  AAP_OptionsMainFrame, "TOPLEFT",0,-100)
 	AAP.OptionsFrame.MainFrame.OptionsB3:SetMovable(true)
 	AAP.OptionsFrame.MainFrame.OptionsB3:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame.OptionsB3:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame.OptionsB3:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame.OptionsB3:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame.OptionsB3)
+AAP.OptionsFrame.MainFrame.OptionsB3.texture = t
+
 	AAP.OptionsFrame.MainFrame.OptionsB3:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			AAP.OptionsFrame.MainFrame.OptionsQuests:Hide()
@@ -585,11 +600,16 @@ function AAP.LoadOptionsFrame()
 	AAP.OptionsFrame.MainFrame.OptionsGeneral:SetPoint("LEFT",  AAP_OptionsMainFrame, "LEFT",155,-20)
 	AAP.OptionsFrame.MainFrame.OptionsGeneral:SetMovable(true)
 	AAP.OptionsFrame.MainFrame.OptionsGeneral:EnableMouse(true)
-	AAP.OptionsFrame.MainFrame.OptionsGeneral:SetBackdrop( { 
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
-	});
+	--AAP.OptionsFrame.MainFrame.OptionsGeneral:SetBackdrop( { 
+	--	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
+	--	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	--	tile = true, tileSize = 10, edgeSize = 10, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	--});
+local t = AAP.OptionsFrame.MainFrame.OptionsGeneral:CreateTexture(nil,"BACKGROUND")
+t:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+t:SetAllPoints(AAP.OptionsFrame.MainFrame.OptionsGeneral)
+AAP.OptionsFrame.MainFrame.OptionsGeneral.texture = t
+
 	AAP.OptionsFrame.MainFrame.OptionsGeneral:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" and not AAP.OptionsFrame.MainFrame.isMoving then
 			AAP.OptionsFrame.MainFrame:StartMoving();
@@ -693,153 +713,20 @@ function AAP.LoadOptionsFrame()
 			AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoGossip"] = 0
 		end
 	end)
-	AAP.OptionsFrame.BannerShowCheckButton = CreateFrame("CheckButton", "AAP_BannerShowCheckButton", AAP.OptionsFrame.MainFrame.OptionsGeneral, "ChatConfigCheckButtonTemplate");
-	AAP.OptionsFrame.BannerShowCheckButton:SetPoint("TOPLEFT", AAP.OptionsFrame.MainFrame.OptionsGeneral, "TOPLEFT", 10, -110)
-	if (AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerShow"] == 0) then
-		AAP.OptionsFrame.BannerShowCheckButton:SetChecked(false)
-	else
-		AAP.OptionsFrame.BannerShowCheckButton:SetChecked(true)
-	end
-	getglobal(AAP.OptionsFrame.BannerShowCheckButton:GetName() .. 'Text'):SetText(": "..AAP_Locals["BannerShow"])
-	getglobal(AAP.OptionsFrame.BannerShowCheckButton:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-	AAP.OptionsFrame.BannerShowCheckButton:SetScript("OnClick", function()
-		if (AAP.OptionsFrame.BannerShowCheckButton:GetChecked() == true) then
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerShow"] = 1
-			AAP.Banners.BannersFrame.Frame:Show()
-		else
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerShow"] = 0
-			AAP.Banners.BannersFrame.Frame:Hide()
-		end
-	end)
-	AAP.OptionsFrame.BannerScaleSlider = CreateFrame("Slider", "AAP_BannerScaleSlider",AAP.OptionsFrame.MainFrame.OptionsGeneral, "OptionsSliderTemplate")
-	AAP.OptionsFrame.BannerScaleSlider:SetWidth(160)
-	AAP.OptionsFrame.BannerScaleSlider:SetHeight(15)
-	AAP.OptionsFrame.BannerScaleSlider:SetPoint("TOPLEFT", AAP.OptionsFrame.MainFrame.OptionsGeneral, "TOPLEFT", 50, -145)
-	AAP.OptionsFrame.BannerScaleSlider:SetOrientation("HORIZONTAL")
-	AAP.OptionsFrame.BannerScaleSlider:SetMinMaxValues(1, 200)
-	AAP.OptionsFrame.BannerScaleSlider.minValue, AAP.OptionsFrame.BannerScaleSlider.maxValue = AAP.OptionsFrame.BannerScaleSlider:GetMinMaxValues() 
-	getglobal(AAP.OptionsFrame.BannerScaleSlider:GetName() .. 'Low'):SetText("1%")
-	getglobal(AAP.OptionsFrame.BannerScaleSlider:GetName() .. 'High'):SetText("200%")
-	getglobal(AAP.OptionsFrame.BannerScaleSlider:GetName() .. 'Text'):SetText(AAP_Locals["BannerScale"])
-	AAP.OptionsFrame.BannerScaleSlider:SetValueStep(1)
-	AAP.OptionsFrame.BannerScaleSlider:SetValue(100)
-	AAP.OptionsFrame.BannerScaleSlider:SetScript("OnValueChanged", function(self,event) 
-		event = event - event%1
-		AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerScale"] = event / 100
-		AAP.Banners.BannersFrame.Frame:SetScale(AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerScale"])
-		AAP.Banners.BannersFrame["Frame1"]:SetScale(AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerScale"])
-		AAP.Banners.BannersFrame["Frame2"]:SetScale(AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerScale"])
-		AAP.Banners.BannersFrame["Frame3"]:SetScale(AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerScale"])
-		AAP.Banners.BannersFrame["Frame4"]:SetScale(AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerScale"])
-	end)
-	AAP.OptionsFrame.BannerScaleSlider:SetScript("OnMouseWheel", function(self,delta) 
-		if tonumber(self:GetValue()) == nil then return end
-		self:SetValue(tonumber(self:GetValue())+delta)
-	end)
-	AAP.OptionsFrame.BannerScaleSlider:SetValue(AAP1[AAP.Realm][AAP.Name]["Settings"]["BannerScale"] * 100)
+
 
 
 	
-	AAP.OptionsFrame.BlobsShowCheckButton = CreateFrame("CheckButton", "AAP_BlobsShowCheckButton", AAP.OptionsFrame.MainFrame.OptionsGeneral, "ChatConfigCheckButtonTemplate");
-	AAP.OptionsFrame.BlobsShowCheckButton:SetPoint("TOPLEFT", AAP.OptionsFrame.MainFrame.OptionsGeneral, "TOPLEFT", 10, -170)
-	if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowBlobs"] == 0) then
-		AAP.OptionsFrame.BlobsShowCheckButton:SetChecked(false)
-	else
-		AAP.OptionsFrame.BlobsShowCheckButton:SetChecked(true)
-	end
-	getglobal(AAP.OptionsFrame.BlobsShowCheckButton:GetName() .. 'Text'):SetText(": "..AAP_Locals["ShowBlobs"])
-	getglobal(AAP.OptionsFrame.BlobsShowCheckButton:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-	AAP.OptionsFrame.BlobsShowCheckButton:SetScript("OnClick", function()
-		if (AAP.OptionsFrame.BlobsShowCheckButton:GetChecked() == true) then
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowBlobs"] = 1
-			AAP.OptionsFrame.MiniMapBlobAlphaSlider:Show()
-		else
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowBlobs"] = 0
-			AAP.RemoveIcons()
-			AAP.OptionsFrame.MiniMapBlobAlphaSlider:Hide()
-		end
-	end)
-	
-	
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider = CreateFrame("Slider", "AAP_MiniMapBlobAlphaSlider",AAP.OptionsFrame.MainFrame.OptionsGeneral, "OptionsSliderTemplate")
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetWidth(160)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetHeight(15)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetPoint("TOPLEFT", AAP.OptionsFrame.MainFrame.OptionsGeneral, "TOPLEFT", 50, -205)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetOrientation("HORIZONTAL")
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetMinMaxValues(1, 100)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider.minValue, AAP.OptionsFrame.MiniMapBlobAlphaSlider.maxValue = AAP.OptionsFrame.MiniMapBlobAlphaSlider:GetMinMaxValues() 
-	getglobal(AAP.OptionsFrame.MiniMapBlobAlphaSlider:GetName() .. 'Low'):SetText("1%")
-	getglobal(AAP.OptionsFrame.MiniMapBlobAlphaSlider:GetName() .. 'High'):SetText("100%")
-	getglobal(AAP.OptionsFrame.MiniMapBlobAlphaSlider:GetName() .. 'Text'):SetText("Set Minimap blobs alpha")
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetValueStep(1)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetValue(100)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetScript("OnValueChanged", function(self,event) 
-		event = event - event%1
-		AAP1[AAP.Realm][AAP.Name]["Settings"]["MiniMapBlobAlpha"] = event / 100
-		AAP.Banners.BannersFrame.Frame:SetAlpha(AAP1[AAP.Realm][AAP.Name]["Settings"]["MiniMapBlobAlpha"])
-		local CLi
-		for CLi = 1, 20 do
-			AAP["Icons"][CLi].texture:SetAlpha(AAP1[AAP.Realm][AAP.Name]["Settings"]["MiniMapBlobAlpha"])
-		end
-	end)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetScript("OnMouseWheel", function(self,delta) 
-		if tonumber(self:GetValue()) == nil then return end
-		self:SetValue(tonumber(self:GetValue())+delta)
-	end)
-	AAP.OptionsFrame.MiniMapBlobAlphaSlider:SetValue(AAP1[AAP.Realm][AAP.Name]["Settings"]["MiniMapBlobAlpha"] * 100)
-	if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowBlobs"] == 0) then
-		AAP.OptionsFrame.MiniMapBlobAlphaSlider:Hide()
-	end
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	AAP.OptionsFrame.MapBlobsShowCheckButton = CreateFrame("CheckButton", "AAP_MapBlobsShowCheckButton", AAP.OptionsFrame.MainFrame.OptionsGeneral, "ChatConfigCheckButtonTemplate");
-	AAP.OptionsFrame.MapBlobsShowCheckButton:SetPoint("TOPLEFT", AAP.OptionsFrame.MainFrame.OptionsGeneral, "TOPLEFT", 10, -225)
-	if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMapBlobs"] == 0) then
-		AAP.OptionsFrame.MapBlobsShowCheckButton:SetChecked(false)
-	else
-		AAP.OptionsFrame.MapBlobsShowCheckButton:SetChecked(true)
-	end
-	getglobal(AAP.OptionsFrame.MapBlobsShowCheckButton:GetName() .. 'Text'):SetText(": "..AAP_Locals["ShowMapBlobs"])
-	getglobal(AAP.OptionsFrame.MapBlobsShowCheckButton:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-	AAP.OptionsFrame.MapBlobsShowCheckButton:SetScript("OnClick", function()
-		if (AAP.OptionsFrame.MapBlobsShowCheckButton:GetChecked() == true) then
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMapBlobs"] = 1
-		else
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMapBlobs"] = 0
-			AAP:MoveMapIcons()
-		end
-	end)
 	
 	
 	
 
-	
-	AAP.OptionsFrame.ShowMap10sCheckButton = CreateFrame("CheckButton", "AAP_ShowMap10sCheckButton", AAP.OptionsFrame.MainFrame.OptionsGeneral, "ChatConfigCheckButtonTemplate");
-	AAP.OptionsFrame.ShowMap10sCheckButton:SetPoint("TOPLEFT", AAP.OptionsFrame.MainFrame.OptionsGeneral, "TOPLEFT", 10, -245)
-	if (AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMap10s"] == 0) then
-		AAP.OptionsFrame.ShowMap10sCheckButton:SetChecked(false)
-	else
-		AAP.OptionsFrame.ShowMap10sCheckButton:SetChecked(true)
-	end
-	getglobal(AAP.OptionsFrame.ShowMap10sCheckButton:GetName() .. 'Text'):SetText(": Show 10 steps on map")
-	getglobal(AAP.OptionsFrame.ShowMap10sCheckButton:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-	AAP.OptionsFrame.ShowMap10sCheckButton:SetScript("OnClick", function()
-		if (AAP.OptionsFrame.ShowMap10sCheckButton:GetChecked() == true) then
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMap10s"] = 1
-		else
-			AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMap10s"] = 0
-			AAP.HBDP:RemoveAllWorldMapIcons("AAPMapOrder")
-		end
-	end)
+
 	
 	
 	AAP.OptionsFrame.DisableHeirloomWarningCheckButton = CreateFrame("CheckButton", "AAP_DisableHeirloomWarningCheckButton", AAP.OptionsFrame.MainFrame.OptionsGeneral, "ChatConfigCheckButtonTemplate");
@@ -958,6 +845,36 @@ function AAP.LoadOptionsFrame()
 		AAP.BookingList["ClosedSettings"] = 1
 	end)
 
+	AAP.OptionsFrame["ShowStuffs"] = CreateFrame("Button", "AAP_RoutePlan_FG1_ShowStuffs", AAP.OptionsFrame.MainFrame, "UIPanelButtonTemplate")
+	AAP.OptionsFrame["ShowStuffs"]:SetWidth(140)
+	AAP.OptionsFrame["ShowStuffs"]:SetHeight(30)
+	AAP.OptionsFrame["ShowStuffs"]:SetFrameStrata("HIGH")
+	AAP.OptionsFrame["ShowStuffs"]:SetText("Custom Path")
+	AAP.OptionsFrame["ShowStuffs"]:SetPoint("BOTTOMRIGHT",AAP.OptionsFrame.MainFrame,"BOTTOMRIGHT",-300,5)
+	AAP.OptionsFrame["ShowStuffs"]:SetNormalFontObject("GameFontNormalLarge")
+	AAP.OptionsFrame["ShowStuffs"]:SetScript("OnMouseUp", function(self, button)
+		if button == "LeftButton" then
+			AAP.RoutePlan.FG1:Show()
+			AAP.OptionsFrame.MainFrame:Hide()
+			AAP.SettingsOpen = 0
+			AAP.BookingList["ClosedSettings"] = 1
+		end
+	end)
+	AAP.OptionsFrame["ShowStuffs2"] = CreateFrame("Button", "AAP_RoutePlan_FG1_ShowStuffs2", AAP.OptionsFrame.MainFrame, "UIPanelButtonTemplate")
+	AAP.OptionsFrame["ShowStuffs2"]:SetWidth(150)
+	AAP.OptionsFrame["ShowStuffs2"]:SetHeight(30)
+	AAP.OptionsFrame["ShowStuffs2"]:SetFrameStrata("HIGH")
+	AAP.OptionsFrame["ShowStuffs2"]:SetText("Auto Path Helper")
+	AAP.OptionsFrame["ShowStuffs2"]:SetPoint("BOTTOMRIGHT",AAP.OptionsFrame.MainFrame,"BOTTOMRIGHT",-300,35)
+	AAP.OptionsFrame["ShowStuffs2"]:SetNormalFontObject("GameFontNormalLarge")
+	AAP.OptionsFrame["ShowStuffs2"]:SetScript("OnMouseUp", function(self, button)
+		if button == "LeftButton" then
+			AAP.LoadInOptionFrame:Show()
+			AAP.OptionsFrame.MainFrame:Hide()
+			AAP.SettingsOpen = 0
+			AAP.BookingList["ClosedSettings"] = 1
+		end
+	end)
 
 
 	AAP.OptionsFrame["Button2"] = CreateFrame("Button", "AAP_OptionsButtons2", AAP.OptionsFrame.MainFrame, "SecureActionButtonTemplate")

@@ -1297,9 +1297,25 @@ NugComboBar.Create = function(self)
                 self.selectTex:SetPoint("TOPLEFT", self, "TOPLEFT",0,0)
                 self.selectTex:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT",0,0)
                 self.selectTex:SetScale(0.8)
+
+                local bgt = self.selectTex.texture
+                bgt:SetBlendMode("ADD")
+                local bgt2 = self.selectTex:CreateTexture(nil, "BACKGROUND", nil, -4)
+                bgt2:SetAlpha(1)
+                bgt2:SetTexture("Interface\\AddOns\\NugComboBar\\tex\\selectBG")
+                bgt2:SetAllPoints(bgt)
+
                 selectTex = self.selectTex
             end
+            selectTex:Show()
             selectTex.ag:Play()
+        end
+
+        f.Deselect = function(self)
+            if self.selectTex then
+                -- self.selectTex.ag:Stop()
+                self.selectTex:Hide()
+            end
         end
 
         f.Activate = ActivateFunc

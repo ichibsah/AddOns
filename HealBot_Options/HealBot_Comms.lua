@@ -76,13 +76,13 @@ function HealBot_Comms_About()
         end
     end
 
-	HealBot_Options_SetLabel("HealBot_Error_Clientx",HEALBOT_WORD_CLIENT.."="..GetLocale())
+	HealBot_Options_SetLabel("HealBot_Error_Clientx",HEALBOT_WORD_CLIENT..": "..GetLocale())
     if HealBot_Globals.localLang then
-		HealBot_Options_SetLabel("HealBot_Error_Versionx",HEALBOT_OPTIONS_LANG.."="..HealBot_Globals.localLang)
+		HealBot_Options_SetLabel("HealBot_Error_Versionx",HEALBOT_OPTIONS_LANG..": "..HealBot_Globals.localLang)
     else
-		HealBot_Options_SetLabel("HealBot_Error_Versionx",HEALBOT_OPTIONS_LANG.."="..GetLocale())
+		HealBot_Options_SetLabel("HealBot_Error_Versionx",HEALBOT_OPTIONS_LANG..": "..GetLocale())
     end
-	HealBot_Options_SetLabel("HealBot_Error_Classx",HEALBOT_SORTBY_CLASS.."="..UnitClass("player"))
+	HealBot_Options_SetLabel("HealBot_Error_Classx",HEALBOT_WORD_VERSION..": "..HEALBOT_VERSION)
     HealBot_Comms_MacroSuppressError()
     HealBot_Comms_MacroSuppressSound()
 end
@@ -130,8 +130,9 @@ function HealBot_Comms_Zone()
     HealBot_AddChat(HEALBOT_CHAT_ADDONID.."#Group="..GetNumGroupMembers())
 end
 
+local mult=0
 function HealBot_Comm_round(num, idp)
-    local mult = 10^(idp or 0)
+    mult = 10^(idp or 0)
     return math.floor(num * mult + 0.5) / mult
 end
 

@@ -1,8 +1,11 @@
 ------------------------------------------------------------------------
-r14 | andols | 2020-07-15 21:58:56 +0000 (Wed, 15 Jul 2020) | 1 line
+r16 | andols | 2020-10-13 19:47:17 +0000 (Tue, 13 Oct 2020) | 2 lines
 Changed paths:
+   M /trunk/Cs.lua
+   M /trunk/Cs.xml
    M /trunk/CurrencySorter.toc
 
-Toc update
+Update for shadowlands.
+More or less complete rewrite.
 ------------------------------------------------------------------------
 

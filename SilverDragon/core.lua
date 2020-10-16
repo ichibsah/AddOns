@@ -9,7 +9,7 @@ addon.events = LibStub("CallbackHandler-1.0"):New(addon)
 local Debug
 do
 	local TextDump = LibStub("LibTextDump-1.0")
-	local debuggable = GetAddOnMetadata(myname, "Version") == 'v80300.2'
+	local debuggable = GetAddOnMetadata(myname, "Version") == 'v90001.1'
 	local _window
 	local function GetDebugWindow()
 		if not _window then
@@ -113,8 +113,9 @@ do
 			end
 		end
 		-- In the olden days, we had one mob per quest and/or vignette. Alas...
-		if mobdata.quest then
-			local questMobs = questMobLookup[mobdata.quest]
+		local quest = addon:QuestForMob(mobid)
+		if quest then
+			local questMobs = questMobLookup[quest]
 			if not questMobs then
 				questMobs = {}
 				questMobLookup[mobdata.quest] = questMobs
@@ -226,11 +227,6 @@ function addon:OnInitialize()
 
 		_G["SilverDragon2DB"] = nil
 	end
-
-	-- TODO: move to miner, remove at the source
-	-- Total hack. I'm very disappointed in myself. Blood Seeker is flagged as tamemable, but really isn't.
-	-- (It despawns in 10-ish seconds, and shows up high in the sky.)
-	-- globaldb.mob_tameable[3868] = nil
 end
 
 function addon:OnEnable()
@@ -238,6 +234,34 @@ function addon:OnEnable()
 	if self.db.profile.scan > 0 then
 		self:ScheduleRepeatingTimer("CheckNearby", self.db.profile.scan)
 	end
+end
+
+-- returns true if the change had an effect
+function addon:SetIgnore(id, ignore, quiet)
+	if not id then return false end
+	if (ignore and globaldb.ignore[id]) or (not ignore and not globaldb.ignore[id]) then
+		-- to avoid the nil/false issue
+		return false
+	end
+	globaldb.ignore[id] = ignore
+	if not quiet then
+		self.events:Fire("IgnoreChanged", id, globaldb.ignore[id])
+	end
+	return true
+end
+
+-- returns true if the change had an effect
+function addon:SetCustom(id, watch, quiet)
+	if not id then return false end
+	if (watch and globaldb.always[id]) or (not watch and not globaldb.always[id]) then
+		-- to avoid the nil/false issue
+		return false
+	end
+	globaldb.always[id] = watch or nil
+	if not quiet then
+		self.events:Fire("CustomChanged", id, globaldb.always[id])
+	end
+	return true
 end
 
 do
@@ -274,7 +298,8 @@ do
 	end
 	function addon:NameForQuest(id)
 		if not self.db.locale.quest_name[id] then
-			local name = TextFromHyperlink(("quest:%d"):format(id))
+			-- TODO: after 9.0.1 this check can be removed
+			local name = C_QuestLog.GetTitleForQuestID and C_QuestLog.GetTitleForQuestID(id) or C_QuestLog.GetQuestInfo(id)
 			if name then
 				name = name:gsub("Vignette: ", "")
 				self.db.locale.quest_name[id] = name
@@ -294,8 +319,8 @@ end
 function addon:GetMobInfo(id)
 	if mobdb[id] then
 		local m = mobdb[id]
-		local name = addon:NameForMob(id)
-		return name, m.quest, m.vignette or name, m.tameable, globaldb.mob_seen[id], globaldb.mob_count[id]
+		local name = self:NameForMob(id)
+		return name, self:QuestForMob(id), m.vignette or name, m.tameable, globaldb.mob_seen[id], globaldb.mob_count[id]
 	end
 end
 function addon:IsMobInZone(id, zone)
@@ -345,26 +370,21 @@ do
 	end
 end
 -- Returns id, addon:GetMobInfo(id)
-function addon:GetMobByCoord(zone, coord)
+function addon:GetMobByCoord(zone, coord, include_ignored)
 	if not mobsByZone[zone] then return end
 	for id, locations in pairs(mobsByZone[zone]) do
-		for _, mob_coord in ipairs(locations) do
-			if coord == mob_coord then
-				return id, self:GetMobInfo(id)
+		if self:IsMobInPhase(id, zone) and include_ignored or not self:ShouldIgnoreMob(id) then
+			for _, mob_coord in ipairs(locations) do
+				if coord == mob_coord then
+					return id, self:GetMobInfo(id)
+				end
 			end
 		end
 	end
 end
 
 function addon:GetMobLabel(id)
-	local name = self:NameForMob(id)
-	if not name then
-		return UNKNOWN
-	end
-	if not mobdb[id] then
-		return name
-	end
-	return name .. (mobdb[id].notes and (" (" .. mobdb[id].notes .. ")") or "")
+	return self:NameForMob(id) or UNKNOWN
 end
 
 do
@@ -391,7 +411,7 @@ do
 		globaldb.mob_count[id] = globaldb.mob_count[id] + 1
 		globaldb.mob_seen[id] = time()
 		lastseen[id..zone] = time()
-		self.events:Fire("Seen", id, zone, x, y, is_dead, source, unit)
+		self.events:Fire("Seen", id, zone, x or 0, y or 0, is_dead, source, unit)
 	end
 end
 do
@@ -420,6 +440,15 @@ do
 			if mobdb[id].source and globaldb.ignore_datasource[mobdb[id].source] then
 				return true
 			end
+		end
+	end
+	function addon:QuestForMob(id)
+		if mobdb[id] and mobdb[id].quest then
+			if type(mobdb[id].quest) == "table" then
+				-- some mobs have faction-based questids; they get stored as {alliance, horde}
+				return mobdb[id].quest[faction == "Alliance" and 1 or 2]
+			end
+			return mobdb[id].quest
 		end
 	end
 end

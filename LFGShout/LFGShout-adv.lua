@@ -89,24 +89,24 @@ function LFGShout.Dialogs.Advert:Show(advertind)
 	LFGShout.Dialogs.Advert.txtName:SetCallback("OnTextChanged", function(widget, event, text) LFGShout.Dialogs.Advert.AdvertName=text end)
 	
 	----Spacer
-	LFGShout.Dialogs.Advert.spacer1 = LFGShout.Dialogs.GUI:Create("Heading")
+	---LFGShout.Dialogs.Advert.spacer1 = LFGShout.Dialogs.GUI:Create("Heading")
 
-	LFGShout.Dialogs.Advert.spacer1:SetText("Trade to advertise")
-	LFGShout.Dialogs.Advert.spacer1:SetFullWidth(true)
-	LFGShout.Dialogs.Advert.frame:AddChild(LFGShout.Dialogs.Advert.spacer1)
+	---LFGShout.Dialogs.Advert.spacer1:SetText("Trade to advertise")
+---	LFGShout.Dialogs.Advert.spacer1:SetFullWidth(true)
+---	LFGShout.Dialogs.Advert.frame:AddChild(LFGShout.Dialogs.Advert.spacer1)
 	
 	----List of Trades
-	LFGShout.Dialogs.Advert.skilllist = LFGShout.Dialogs.GUI:Create("Dropdown")
+---	LFGShout.Dialogs.Advert.skilllist = LFGShout.Dialogs.GUI:Create("Dropdown")
 		
-	LFGShout.Dialogs.Advert.skilllist:SetFullWidth(true)
+	---LFGShout.Dialogs.Advert.skilllist:SetFullWidth(true)
 		
 			
-	LFGShout.Dialogs.Advert.skilllist:SetList(LFGShout.Dialogs.Advert.skilldata);
+---	LFGShout.Dialogs.Advert.skilllist:SetList(LFGShout.Dialogs.Advert.skilldata);
 		
-	LFGShout.Dialogs.Advert.skilllist:SetValue(LFGShout.Dialogs.Advert.SelSkill);
+---	LFGShout.Dialogs.Advert.skilllist:SetValue(LFGShout.Dialogs.Advert.SelSkill);
 		
-	LFGShout.Dialogs.Advert.frame:AddChild(LFGShout.Dialogs.Advert.skilllist)
-	LFGShout.Dialogs.Advert.skilllist:SetCallback("OnValueChanged", function(widget, event, key) LFGShout.Dialogs.Advert.SelSkill=key end)
+---	LFGShout.Dialogs.Advert.frame:AddChild(LFGShout.Dialogs.Advert.skilllist)
+--	LFGShout.Dialogs.Advert.skilllist:SetCallback("OnValueChanged", function(widget, event, key) LFGShout.Dialogs.Advert.SelSkill=key end)
 	----Spacer
 	LFGShout.Dialogs.Advert.spacer0 = LFGShout.Dialogs.GUI:Create("Heading")
 
@@ -116,7 +116,7 @@ function LFGShout.Dialogs.Advert:Show(advertind)
 	----LABEL/iNSTR
 	LFGShout.Dialogs.Advert.lab02 = LFGShout.Dialogs.GUI:Create("Label")
 	LFGShout.Dialogs.Advert.lab02:SetFont(tFontName,15,"")
-	LFGShout.Dialogs.Advert.lab02:SetText("|cffC0E0FFDefine upto 2 lines of the advert below. Supported Macros are |cffFFF000#tradelink#, #tradename#, #tradelevel#,  #link:<spell id>#, #zone#, #ilvl#, #class#")
+	LFGShout.Dialogs.Advert.lab02:SetText("|cffC0E0FFDefine upto 2 lines of the advert below. Supported Macros are |cffFFF000#link:<spell id>#, #zone#, #ilvl#, #class#")
 	LFGShout.Dialogs.Advert.lab02:SetFullWidth(true)
 	LFGShout.Dialogs.Advert.frame:AddChild(LFGShout.Dialogs.Advert.lab02)
 	
@@ -211,6 +211,10 @@ end
 
 
 function LFGShout.Dialogs.Advert:SaveMessage()
+
+	if (LFGShout.Dialogs.Advert.line1==nil or LFGShout_Global.MyAdverts[LFGShout.Dialogs.Advert.AdvertIndex]==nil) then
+		return
+	end
 
 ----Save Data to Globals
 	LFGShout_Global.MyAdverts[LFGShout.Dialogs.Advert.AdvertIndex].lines[1]=LFGShout.Dialogs.Advert.line1;

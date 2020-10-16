@@ -98,7 +98,7 @@ local makeRCP = function(anticipation, subtlety, maxFill, maxCP)
 end
 
 NugComboBar:RegisterConfig("ComboPointsRogue", {
-    triggers = { GetSpecialization, GetSpell(193531) }, -- Shadow Dance, Deeper Stratagem, Enveloping Shadows
+    triggers = { GetSpecialization, GetSpell(193531) }, -- Deeper Stratagem,
     setup = function(self, spec)
         self.eventProxy:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
         self.eventProxy.UNIT_POWER_UPDATE = COMBO_POINTS_UNIT_POWER_UPDATE
@@ -117,6 +117,24 @@ NugComboBar:RegisterConfig("ComboPointsRogue", {
 
         self:SetMaxPoints(maxCP)
         self:SetPointGetter(RogueGetComboPoints)
+
+        if not isClassic then -- Kyrian Covenant Ability
+            self.eventProxy:RegisterUnitEvent("UNIT_POWER_POINT_CHARGE", "player")
+            local selectedPoint = nil
+            self.eventProxy.UNIT_POWER_POINT_CHARGE = function(self, event, unit)
+                local chargedPoints = GetUnitChargedPowerPoints("player") -- returns table or nil
+                local echoingReprimand = chargedPoints and chargedPoints[1]
+                if echoingReprimand ~= selectedPoint then
+                    selectedPoint = echoingReprimand
+                    if selectedPoint ~= nil then
+                        self:SelectPoint(selectedPoint)
+                    else
+                        self:DeselectAllPoints()
+                    end
+                end
+            end
+            self.eventProxy.UNIT_POWER_POINT_CHARGE(self, nil, "player")
+        end
     end,
 }, "ROGUE")
 
@@ -129,8 +147,8 @@ NugComboBar:RegisterConfig("ComboPointsAndShadowdance", {
         local isAnticipation = false -- IsPlayerSpell(114015)
         local maxCP = IsPlayerSpell(193531) and 6 or 5 -- Deeper Stratagem
         local maxFill = NugComboBarDB.maxFill
-        if isSub then
-            local maxShadowDance = IsPlayerSpell(238104) and 3 or 2
+        local maxShadowDance = IsPlayerSpell(238104) and 2 or 1
+        if isSub and maxShadowDance == 2 then
             local barSetup = "ROGUE"..maxCP..maxShadowDance
             self.eventProxy:RegisterEvent("SPELL_UPDATE_COOLDOWN")
             self.eventProxy:RegisterEvent("SPELL_UPDATE_CHARGES")
@@ -290,7 +308,7 @@ local HOLY_POWER_UNIT_POWER_UPDATE = function(self,event,unit,ptype)
 end
 
 NugComboBar:RegisterConfig("HolyPower", {
-    triggers = { GetSpecialization },
+    triggers = { GetSpecialization, GetSpell(203316) },
     setup = function(self, spec)
         self.eventProxy:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
         self.eventProxy.UNIT_POWER_UPDATE = HOLY_POWER_UNIT_POWER_UPDATE
@@ -309,21 +327,6 @@ NugComboBar:RegisterConfig("HolyPower", {
     end
 }, "PALADIN")
 
-NugComboBar:RegisterConfig("ShieldOfTheRighteousness", {
-    triggers = { GetSpecialization },
-    setup = function(self, spec)
-        self.eventProxy:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-        self.eventProxy:RegisterEvent("SPELL_UPDATE_CHARGES")
-        self.eventProxy.SPELL_UPDATE_COOLDOWN = GENERAL_UPDATE
-        self.eventProxy.SPELL_UPDATE_CHARGES = GENERAL_UPDATE
-        self:SetMaxPoints(3)
-        self:SetDefaultValue(3)
-        self.flags.showEmpty = true
-        self:EnableBar(0, 6,"Small", "Timer")
-        self:SetPointGetter(MakeGetChargeFunc(53600)) -- Shield of the Righteous
-    end
-}, "PALADIN", 2)
-
 ---------------------
 -- MONK
 ---------------------
@@ -339,7 +342,7 @@ local CHI_UNIT_POWER_UPDATE = function(self,event,unit,ptype)
 end
 
 NugComboBar:RegisterConfig("Chi", {
-    triggers = { GetSpecialization },
+    triggers = { GetSpecialization, GetSpell(115396) },
     setup = function(self, spec)
         self.eventProxy:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
         self.eventProxy.UNIT_POWER_UPDATE = CHI_UNIT_POWER_UPDATE
@@ -354,24 +357,19 @@ NugComboBar:RegisterConfig("Chi", {
 }, "MONK", 3)
 
 
-NugComboBar:RegisterConfig("IronskinBrew", {
+NugComboBar:RegisterConfig("PurifyingBrew", {
     triggers = { GetSpecialization },
     setup = function(self, spec)
         self.eventProxy:RegisterEvent("SPELL_UPDATE_COOLDOWN")
         self.eventProxy:RegisterEvent("SPELL_UPDATE_CHARGES")
         self.eventProxy.SPELL_UPDATE_COOLDOWN = GENERAL_UPDATE
         self.eventProxy.SPELL_UPDATE_CHARGES = GENERAL_UPDATE
-        if IsPlayerSpell(196721) then -- Light Brewing
-            self:SetMaxPoints(4)
-            self:SetDefaultValue(4)
-        else
-            self:SetMaxPoints(3)
-            self:SetDefaultValue(3)
-        end
+        self:SetMaxPoints(2)
+        self:SetDefaultValue(2)
         self.flags.showEmpty = true
         self.flags.soundFullEnabled = true
         self:EnableBar(0, 6,"Small", "Timer")
-        self:SetPointGetter(MakeGetChargeFunc(115308)) -- Ironskin Brew
+        self:SetPointGetter(MakeGetChargeFunc(119582)) -- Purifying Brew
     end
 }, "MONK", 1)
 
@@ -460,7 +458,7 @@ NugComboBar:RegisterConfig("SoulFragments", {
         self.flags.soundFullEnabled = true
         self:SetPointGetter(GetAuraStack(203981, "HELPFUL", "player")) -- Soul Fragments
     end
-})
+}, "DEMONHUNTER")
 
 
 ---------------------
@@ -623,7 +621,11 @@ NugComboBar:RegisterConfig("Meatcleaver", {
         self:SetMaxPoints(4)
         self:SetDefaultValue(0)
         self.flags.soundFullEnabled = true
-        self:SetPointGetter(GetMeatcleaver)
+        if IsPlayerSpell(280392) then
+            self:SetPointGetter(GetAuraStack(85739, "HELPFUL", "player"))
+        else
+            self:SetPointGetter(GetMeatcleaver)
+        end
     end
 }, "WARRIOR", 2)
 
