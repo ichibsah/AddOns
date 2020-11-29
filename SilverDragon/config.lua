@@ -3,7 +3,7 @@ local module = core:NewModule("Config", "AceConsole-3.0")
 
 local db
 
-local function toggle(name, desc, order, inline)
+local function toggle(name, desc, order, inline, disabled)
 	return {
 		type = "toggle",
 		name = name,
@@ -11,6 +11,7 @@ local function toggle(name, desc, order, inline)
 		order = order,
 		descStyle = (inline or (inline == nil)) and "inline" or nil,
 		width = (inline or (inline == nil)) and "full" or nil,
+		disabled = disabled,
 	}
 end
 module.toggle = toggle
@@ -101,6 +102,6 @@ function module:OnInitialize()
 	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("SilverDragon", "SilverDragon")
 end
 
-function module:ShowConfig()
-	LibStub("AceConfigDialog-3.0"):Open("SilverDragon")
+function module:ShowConfig(...)
+	LibStub("AceConfigDialog-3.0"):Open("SilverDragon", ...)
 end

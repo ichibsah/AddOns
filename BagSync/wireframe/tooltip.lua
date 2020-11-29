@@ -20,7 +20,13 @@ local function Debug(...)
 	end
 end
 
+local function CanAccessObject(obj)
+    return issecure() or not obj:IsForbidden();
+end
+
 local function comma_value(n)
+	if not n then return "?" end
+	n = tostring(n)
 	local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
 	return left..(num:reverse():gsub('(%d%d%d)','%1,'):reverse())..right
 end
@@ -276,7 +282,9 @@ end
 
 function Tooltip:TallyUnits(objTooltip, link, source, isBattlePet)
 	if not BSYC.options.enableTooltips then return end
-	if not (issecure() or not objTooltip:IsForbidden()) then return end
+	if not CanAccessObject(objTooltip) then return end
+	
+	--Debug(link, source)
 	
 	--only show tooltips in search frame if the option is enabled
 	if BSYC.options.tooltipOnlySearch and objTooltip:GetOwner() and objTooltip:GetOwner():GetName() and not string.find(objTooltip:GetOwner():GetName(), "BagSyncSearchRow") then
@@ -468,8 +476,10 @@ function Tooltip:TallyUnits(objTooltip, link, source, isBattlePet)
 	end
 end
 
-function Tooltip:CurrencyTooltip(objTooltip, currencyName, currencyIcon, currencyID)
+function Tooltip:CurrencyTooltip(objTooltip, currencyName, currencyIcon, currencyID, source)
 	if not currencyID then return end
+	
+	--Debug(currencyName, currencyIcon, currencyID, source)
 	
 	--loop through our characters
 	local usrData = {}
@@ -497,7 +507,9 @@ function Tooltip:CurrencyTooltip(objTooltip, currencyName, currencyIcon, currenc
 	end
 
 	for i=1, table.getn(usrData) do
-		objTooltip:AddDoubleLine(usrData[i].colorized, comma_value(usrData[i].count), 1, 1, 1, 1, 1, 1)
+		if usrData[i].count then
+			objTooltip:AddDoubleLine(usrData[i].colorized, comma_value(usrData[i].count), 1, 1, 1, 1, 1, 1)
+		end
 	end
 
 	objTooltip.__tooltipUpdated = true
@@ -526,6 +538,11 @@ function Tooltip:HookTooltip(objTooltip)
 		if self.__tooltipUpdated then return end
 		local name, link = self:GetItem()
 		if link then
+			--sometimes the link is an empty link with the name being |h[]|h, its a bug with GetItem()
+			--so lets check for that
+			local linkName = string.match(link, "|h%[(.-)%]|h")
+			if not linkName or string.len(linkName) < 1 then return nil end  -- we don't want to store or process it
+			
 			Tooltip:TallyUnits(self, link, "OnTooltipSetItem")
 		end
 	end)
@@ -570,7 +587,7 @@ function Tooltip:HookTooltip(objTooltip)
 			
 			if currencyData.name and currencyData.iconFileID and link then
 				local currencyID = BSYC:GetCurrencyID(link)
-				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID)
+				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID, "SetCurrencyToken")
 			end
 			
 		end)
@@ -580,7 +597,7 @@ function Tooltip:HookTooltip(objTooltip)
 			local currencyData = C_CurrencyInfo.GetCurrencyInfo(currencyID)
 			
 			if currencyData.name and currencyData.iconFileID then
-				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID)
+				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID, "SetCurrencyTokenByID")
 			end
 		end)
 		hooksecurefunc(objTooltip, "SetCurrencyByID", function(self, currencyID)
@@ -589,7 +606,7 @@ function Tooltip:HookTooltip(objTooltip)
 			local currencyData = C_CurrencyInfo.GetCurrencyInfo(currencyID)
 			
 			if currencyData.name and currencyData.iconFileID then
-				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID)
+				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID, "SetCurrencyByID")
 			end
 		end)
 		hooksecurefunc(objTooltip, "SetBackpackToken", function(self, index)
@@ -598,7 +615,7 @@ function Tooltip:HookTooltip(objTooltip)
 			local currencyData = C_CurrencyInfo.GetBackpackCurrencyInfo(index)
 			
 			if currencyData.name and currencyData.iconFileID and currencyData.currencyTypesID then
-				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyData.currencyTypesID)
+				Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyData.currencyTypesID, "SetBackpackToken")
 			end
 		end)
 		hooksecurefunc(objTooltip, "SetMerchantCostItem", function(self, index, currencyIndex)
@@ -611,7 +628,7 @@ function Tooltip:HookTooltip(objTooltip)
 				local currencyData = C_CurrencyInfo.GetCurrencyInfo(currencyID)
 				
 				if currencyData.name and currencyData.iconFileID then
-					Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID)
+					Tooltip:CurrencyTooltip(self, currencyData.name, currencyData.iconFileID, currencyID, "SetMerchantCostItem")
 				end
 			end
 			

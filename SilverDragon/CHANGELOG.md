@@ -1,5 +1,98 @@
 # Changelog
 
+## Changed in v90002.1
+
+* Make sure the ping animation is stopped when the pin frames are reused
+* Remove the Death Rising rares, since the event is done
+* Fix up various Bastion mobs, including making sure they're flagged as being part of the achievement
+* A few past-expansion fixes: some missing positions and a toy in Pandaria, overlapping locations in Hyjal
+
+## Changed in v90002.0
+
+* This one is just a TOC bump, y'all
+
+## Changed in v90001.7
+
+* There's a ping highlight on the world map for:
+    * the last seen mob when you open the map (within 30 seconds of seeing it)
+    * a focused mob right when you focus it
+* Mobs on the map overlay can be shift-right-clicked to immediately hide them
+* Options for whether to show mobs on the edge of the minimap; by default, only focused ones are shown there
+* Mobs on the map which are completed but shown anyway get slightly smaller icons (the "stars" theme did this already, but now it's consistent)
+* The "ignore mobs that an alt has completed the achievement for" option was being ignored for mobs that had a vignette
+* Some mobs (Basten) couldn't be hidden from the map... but now they can!
+* Chat and vignette scanning now respect the "don't scan in instances" setting
+
+## Changed in v90001.6
+
+* Mobs in the broker tooltip now get click actions and informational tooltips
+    * Click a line to open the map with that mob focused
+    * Control-click a line to set a waypoint for the closest location for that mob
+    * Shift-click a line to link the closest location for that mob in chat
+    * Mousing over them triggers the highlights on the map, if it's open
+* Minimap pins update their focus state immediately
+* Fix a spawn location for Krik'thir the Gatewatcher
+
+## Changed in v90001.5
+
+* Refined waypoint options:
+    * Blizzard waypoints are now equivalent to TomTom/DBM, not just a fallback, and you can choose all/none of them independently
+    * Blizzard waypoints weren't being auto-removed on timeout correctly
+    * An error could happen on auto-removal if you had TomTom *and* DBM enabled simultaneously
+* Map overlay improvements:
+    * Hover over a mob to show a highlight over all locations for that mob on the map
+    * Click a pin (or the mob's name in the broker dropdown) to focus it so it always shows a highlight... now you can easily find a mob after seeing its name in the broker dropdown!
+    * Shift-click a pin to link to it in chat (using your target popup settings)
+    * Alt-click a pin to set a waypoint for it
+* Add notes on Death Rising rares about their spawn order
+* Fix a spawn location for Prince Keleseth
+
+## Changed in v90001.4
+
+* The Death Rising pre-launch rares in Icecrown are added temporarily; they won't actually spawn before the appropriate point in the event is reached
+* Improve shift-clicking the popup to add a chat link:
+    * New default: immediately send the link to the /general channel
+    * Which channel to send to can be configured
+    * Old behavior of just opening the default chatbox is available in options
+* Map icons no longer require HandyNotes
+* Right-clicking the LDB icon on the world map will immediately show the options for the map icons
+* Right-clicking the target popup to close it will now happen immediately in combat
+* Performance improvements when editing the mob ignore list
+* Galleon's chat announcement wasn't being noticed, because Chief Salyis isn't Galleon
+
+## Changed in v90001.3
+
+* Improve shift-clicking the popup to add a chat link:
+    * Don't require you to have an open chatbox before pasting it there; open the default chatbox if you have nothing else open
+    * Include the health for the mob if we can work it out (if it's a target or its nameplate is visible)
+    * For sources that don't include the location (chat yells), link to the player's current location
+* Option to hide the target popup when the mob dies
+* Option to hide the waypoint arrow when you manually close the popup
+* Mobs that you've added to the "custom" section will now bypass most "should I announce this?" checks (e.g. you can ignore the entire Warlords source, and manually-add Rukhmar)
+* Unchecking "Got the loot" in the outputs config will now only affect mobs for which we know any drops
+* Some _very timely_ improvements on Argus
+* Achievement tooltip in the broker tooltip will now show your criteria-completion
+* Rukhmar's questid added
+* The highlight on the "store" popup theme was covering up the loot icon
+* The X on the target popup wasn't appearing when the mob died
+* Fixed `/silverdragon add` with no parameter causing an error
+* Some more Shadowlands questids
+* Some missing pets / toys
+* Sha of Anger has only had one spawn point since 7.2 (thanks frumpymoons)
+
+## Changed in v90001.2
+
+* Special map icons for mobs with toys and pets as well
+* Broker dropdown added to the mount journal, will show all known mobs that drop mounts (and whether you've looted them)
+* Show mob variants in the dropdown, for things like the Mechagon Data Anomalies, Madexx, and the Zandalari Warbringers
+* Chat-scanner: looks for mobs in the current zone with that name before checking globally in case of a name-collision
+* Chat-scanner: only announce coordinates if it's from a chat event which implies the mob is anywhere near you (yells are zone-wide...)
+* Waypoint integration with DeadlyBossMods
+* If data on a toy/mount/pet is still loading, say that in the tooltip rather than not showing anything about it at all
+* Mists: Nalak and Oondasta questids
+* Fixed broken N'zoth and Azerite loot popup target themes
+* Included updated version of LibQTip-1.0 which won't error if you have a broken pre-9.0 addon installed with an older version of LibQTip-1.0
+
 ## Changed in v90001.1
 
 * Fixed a backdrop error in the "classic" popup target theme

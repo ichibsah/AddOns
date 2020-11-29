@@ -193,9 +193,6 @@ AuctionHouseWrapper:OnModuleLoad(function()
 		Event.Register("AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED", private.UnusedEventHandler)
 		Event.Register("AUCTION_HOUSE_THROTTLED_MESSAGE_QUEUED", private.UnusedEventHandler)
 		Event.Register("AUCTION_HOUSE_THROTTLED_MESSAGE_SENT", private.UnusedEventHandler)
-		if not TSM.IsShadowlands() then
-			Event.Register("AUCTION_HOUSE_THROTTLED_SPECIFIC_SEARCH_READY", private.UnusedEventHandler)
-		end
 		Event.Register("AUCTION_HOUSE_THROTTLED_SYSTEM_READY", private.UnusedEventHandler)
 	end
 end)
@@ -613,6 +610,9 @@ function private.ArgToStr(arg)
 		elseif count == 0 then
 			return "{}"
 		elseif count == #arg then
+			if type(arg[1]) == "table" and arg[1].sortOrder then
+				return format("{sorts=%s}", private.SortsToStr(arg))
+			end
 			return format("{<%d items>}", count)
 		else
 			return "{...}"

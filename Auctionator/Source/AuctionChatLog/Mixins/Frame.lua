@@ -29,6 +29,7 @@ local function ComposeAuctionInfoMessage(auctionInfo)
       )
     end
   end
+
   return result
 end
 

@@ -560,3 +560,30 @@ L["Returns your current Global Cooldown value accounting for your haste if that 
 L["Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."] = true
 L["System Variables"] = true
 L["Macro Variables"] = true
+
+-- 2.6.16
+L["Your sequence name was longer than 27 characters.  It has been shortened from %s to %s so that your macro will work."] = true
+
+-- 2.6.19
+L["Current GCD: %s"] = true
+L["Current GCD"] = true
+
+-- 2.6.20
+L["WeakAuras"] = true
+L["WeakAuras is a mod that watches for certain conditions and actions and they alerts the player to them occuring.  These are included for convenience and still need to be copied from here and imported to the WeakAuras mod via the command /wa."] = true
+L["Add WeakAura"] = true
+L["Delete WeakAura"] = true
+L["Delete this WeakAura from the sequence."] = true
+
+-- 2.6.21
+L["Load WeakAura"] = true
+L["Load or update this WeakAura into WeakAuras."] = true
+L["Actions"] = true
+L["WeakAuras was not found."] = true
+L["WeakAuras was not found.  Reported error was %s"] = true
+L["Auras included in GSE Macros"] = true
+
+--2.6.28
+L["The current result of variable |cff0000ff~~%s~~|r is |cFF00D1FF%s|r"] = true
+L["Test Variable"] = true
+L["Show the current value of this variable."] = true

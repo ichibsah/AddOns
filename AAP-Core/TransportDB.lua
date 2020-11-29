@@ -1055,12 +1055,17 @@
 						["y"] = 6161.6,
 						["x"] = 5053.8,
 						["name"] = "Stonefang Outpost, Frostfire Ridge",
-						["Starter"] = 1,
 					},
 					[1389] = {
 						["y"] = 7401.3,
 						["x"] = 4359.8,
 						["name"] = "Bloodmaul Slag Mines, Frostfire Ridge",
+					},
+					[1432] = {
+						["name"] = "Frostwall Garrison, Frostfire Ridge",
+						["y"] = 5565.3,
+						["x"] = 4517.8,
+						["Starter"] = 1,
 					},
 				},
 			},
@@ -1188,6 +1193,194 @@
 						["x"] = 4902.6,
 						["name"] = "Prospectus Bay, Mechagon",
 						["Starter"] = 1,
+					},
+				},
+			},
+			[619] = {
+				[630] = {
+					[1860] = {
+						["y"] = -1802.9,
+						["x"] = 6420.3,
+						["name"] = "Watchers' Aerie, Azsuna",
+					},
+					[1622] = {
+						["y"] = -118.1,
+						["x"] = 6892.2,
+						["name"] = "Illidari Stand, Azsuna",
+						["Starter"] = 1,
+					},
+					[1633] = {
+						["y"] = -783.3,
+						["x"] = 6129.1,
+						["name"] = "Shackle's Den, Azsuna",
+					},
+					[1861] = {
+						["y"] = -227.7,
+						["x"] = 7735,
+						["name"] = "Illidari Perch, Azsuna",
+					},
+					[1613] = {
+						["y"] = 574.9,
+						["x"] = 6641.8,
+						["name"] = "Azurewing Repose, Azsuna",
+					},
+					[1615] = {
+						["y"] = 1410,
+						["x"] = 7142,
+						["name"] = "Challiane's Terrace, Azsuna",
+					},
+					[1859] = {
+						["y"] = 555.5,
+						["x"] = 5627.3,
+						["name"] = "Felblaze Ingress, Azsuna",
+					},
+					[1837] = {
+						["y"] = -1400.3,
+						["x"] = 6657.3,
+						["name"] = "Wardens' Redoubt, Azsuna",
+					},
+				},
+				[646] = {
+					[1941] = {
+						["y"] = -1649,
+						["x"] = 3179.1,
+						["name"] = "Deliverance Point, Broken Shore",
+						["Starter"] = 1,
+					},
+					[1942] = {
+						["y"] = -1225.5,
+						["x"] = 2194.6,
+						["name"] = "Aalgen Point, Broken Shore",
+					},
+					[1856] = {
+						["y"] = -544.7,
+						["x"] = 3003.9,
+						["name"] = "Vengeance Point, Broken Shore",
+					},
+				},
+				[627] = {
+					[1774] = {
+						["y"] = -862.7,
+						["x"] = 4299.7,
+						["name"] = "Dalaran",
+						["Starter"] = 1,
+					},
+				},
+				[650] = {
+					[1758] = {
+						["y"] = 2973.4,
+						["x"] = 4347.7,
+						["name"] = "Obsidian Overlook, Highmountain",
+					},
+					[1756] = {
+						["y"] = 6469.8,
+						["x"] = 4727.6,
+						["name"] = "Shipwreck Cove, Highmountain",
+					},
+					[1777] = {
+						["y"] = 3854.6,
+						["x"] = 5153.6,
+						["name"] = "Sylvan Falls, Highmountain",
+					},
+					[1767] = {
+						["y"] = 4481.3,
+						["x"] = 4844.3,
+						["name"] = "Nesingwary, Highmountain",
+					},
+					[1778] = {
+						["y"] = 3895.5,
+						["x"] = 3502.1,
+						["name"] = "Stonehoof Watch, Highmountain",
+					},
+					[1719] = {
+						["y"] = 4158.3,
+						["x"] = 4380.8,
+						["name"] = "Thunder Totem, Highmountain",
+						["Starter"] = 1,
+					},
+					[1753] = {
+						["y"] = 4832.6,
+						["x"] = 3970.9,
+						["name"] = "Skyhorn, Highmountain",
+					},
+				},
+				[680] = {
+					[1858] = {
+						["y"] = 1617.4,
+						["x"] = 4751.8,
+						["name"] = "Meredil, Suramar",
+						["Starter"] = 1,
+					},
+					[1880] = {
+						["y"] = 2270.5,
+						["x"] = 5244.2,
+						["name"] = "Irongrove Retreat, Suramar",
+					},
+				},
+				[641] = {
+					[1713] = {
+						["y"] = 2815.6,
+						["x"] = 7277.3,
+						["name"] = "Bradensbrook, Val'sharah",
+					},
+					[1885] = {
+						["y"] = 2522.1,
+						["x"] = 8177.3,
+						["name"] = "Gloaming Reef, Val'sharah",
+					},
+					[1764] = {
+						["y"] = 3097.1,
+						["x"] = 5803.6,
+						["name"] = "Starsong Refuge, Val'sharah",
+					},
+					[1766] = {
+						["y"] = 2842.3,
+						["x"] = 6482.8,
+						["name"] = "Garden of the Moon, Val'sharah",
+					},
+					[1673] = {
+						["y"] = 2302.8,
+						["x"] = 6577.5,
+						["name"] = "Lorlathil, Val'sharah",
+						["Starter"] = 1,
+					},
+				},
+				[634] = {
+					[1863] = {
+						["y"] = 1795.5,
+						["x"] = 1806.9,
+						["name"] = "Hafr Fjall, Stormheim",
+					},
+					[1857] = {
+						["y"] = 3832.1,
+						["x"] = 2017.4,
+						["name"] = "Stormtorn Foothills, Stormheim",
+					},
+					[1742] = {
+						["y"] = 3209.4,
+						["x"] = 1512,
+						["name"] = "Valdisdall, Stormheim",
+					},
+					[1745] = {
+						["y"] = 2702.9,
+						["x"] = 2863.6,
+						["name"] = "Lorna's Watch, Stormheim",
+					},
+					[1855] = {
+						["y"] = 4764.6,
+						["x"] = -182,
+						["name"] = "Shield's Rest, Stormheim",
+					},
+					[1747] = {
+						["y"] = 3218.1,
+						["x"] = 3084.6,
+						["name"] = "Skyfire Triage Camp, Stormheim",
+						["Starter"] = 1,
+					},
+					[1744] = {
+						["y"] = 2862.3,
+						["x"] = 847.7,
+						["name"] = "Greywatch, Stormheim",
 					},
 				},
 			},
@@ -6914,8 +7107,8 @@
 					["x"] = -4499.5,
 				},
 				["WarspearWoD"] = {
-					["y"] = 1423.8,
-					["x"] = -4484.9,
+					["y"] = 1422.3,
+					["x"] = -4466.8,
 				},
 				["AzsunaLegion"] = {
 					["y"] = 1423.8,

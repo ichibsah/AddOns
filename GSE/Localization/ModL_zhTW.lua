@@ -50,6 +50,8 @@ L["Active Version: "] = "活動版本:"
 L["Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."] = "Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."
 --[[Translation missing --]]
 L["Add Variable"] = "Add Variable"
+--[[Translation missing --]]
+L["Add WeakAura"] = "Add WeakAura"
 L["Addin Version %s contained versions for the following macros:"] = "加載版本 %s 包含於以下巨集:"
 L["All macros are now stored as upper case names.  You may need to re-add your old macros to your action bars."] = "所有的巨集現在被儲存為大寫.你也許需要重新添加舊的巨集到動作欄."
 L["Alt Keys."] = "Alt鍵."
@@ -60,6 +62,8 @@ L["Are you sure you want to delete %s?  This will delete the macro and all versi
 L["Arena"] = "競技場"
 L["Arena setting changed to Default."] = "競技場設置更改為默認."
 L["As GS-E is updated, there may be left over macros that no longer relate to sequences.  This will check for these automatically on logout.  Alternatively this check can be run via /gs cleanorphans"] = "GS-E已更新,可能會有遺留的不再使用的巨集. 登出時會自動檢查. 另外這個檢查可以通過輸入 / GS cleanorphans 運行"
+--[[Translation missing --]]
+L["Auras included in GSE Macros"] = "Auras included in GSE Macros"
 L["Author"] = "作者"
 L["Author Colour"] = "作者顏色"
 L["Auto Create Class Macro Stubs"] = "自動創建職業巨集存根"
@@ -109,6 +113,10 @@ L["Create Macro"] = "創建巨集"
 L[ [=[Create or remove a Macro stub in /macro that can be dragged to your action bar so that you can use this macro.
 GSE can store an unlimited number of macros however WOW's /macro interface can only store a limited number of macros.]=] ] = "在 /巨集 中創建或刪除可以拖動到操作欄的巨集存根.以便您可以使用此巨集. GSE可以存儲無限數量的巨集，但是WOW /巨集 接口只能存儲有限數量的巨集。"
 L["Creating New Sequence."] = "創建新序列."
+--[[Translation missing --]]
+L["Current GCD"] = "Current GCD"
+--[[Translation missing --]]
+L["Current GCD: %s"] = "Current GCD: %s"
 L["Debug"] = "調試"
 L["Debug Mode Options"] = "調試模式設置"
 L["Debug Output Options"] = "調試輸出設置"
@@ -132,8 +140,12 @@ L["Delete this variable from the sequence."] = "Delete this variable from the se
 L[ [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=] ] = "刪除此版本的巨集. 關閉此窗口而不保存更改可以取消此操作. 這與下面的刪除按鈕不同.刪除按鈕將刪除整個巨集。"
 --[[Translation missing --]]
+L["Delete this WeakAura from the sequence."] = "Delete this WeakAura from the sequence."
+--[[Translation missing --]]
 L["Delete Variable"] = "Delete Variable"
 L["Delete Version"] = "刪除版本"
+--[[Translation missing --]]
+L["Delete WeakAura"] = "Delete WeakAura"
 L["Different helpTxt"] = "不同的幫助腳本"
 L["Disable"] = "禁用"
 --[[Translation missing --]]
@@ -255,7 +267,11 @@ L["Left Shift Key"] = "左Shift鍵"
 L["Legacy GS/GSE1 Macro"] = "遺留的 GS/GSE1 巨集"
 L["Like a /castsequence macro, it cycles through a series of commands when the button is pushed. However, unlike castsequence, it uses macro text for the commands instead of spells, and it advances every time the button is pushed instead of stopping when it can't cast something."] = "像一個/castsequence 巨集, 它在按下按鈕時循環執行一系列命令. 然而, 與/castsequence 不同, 它嚴格使用巨集文本作為命令而不是根據法術狀態, 並且它每次按下按鈕時都會前進而不在它不能釋放時停止."
 L["Load"] = "讀取"
+--[[Translation missing --]]
+L["Load or update this WeakAura into WeakAuras."] = "Load or update this WeakAura into WeakAuras."
 L["Load Sequence"] = "讀取序列"
+--[[Translation missing --]]
+L["Load WeakAura"] = "Load WeakAura"
 L["Local Macro"] = "本地巨集"
 L["Macro Collection to Import."] = "巨集集合導入."
 --[[Translation missing --]]
@@ -406,6 +422,8 @@ L["Show Class Macros in Editor"] = "在編輯器顯示職業巨集"
 L["Show Global Macros in Editor"] = "在編輯器顯示全局巨集"
 L["Show GSE Users in LDB"] = "在LDB中顯示GSE用戶"
 L["Show OOC Queue in LDB"] = "在LDB中顯示OOC隊列"
+--[[Translation missing --]]
+L["Show the current value of this variable."] = "Show the current value of this variable."
 L["Source Language "] = "語言來源"
 L["Specialisation / Class ID"] = "專精 / 職業 ID"
 L["Specialization Specific Macro"] = "專精特定巨集"
@@ -424,8 +442,12 @@ L["Talents"] = "天賦"
 L["Target"] = "目標"
 L["Target language "] = "目標語言"
 L["Target protection is currently %s"] = "目前保護目標是 %s"
+--[[Translation missing --]]
+L["Test Variable"] = "Test Variable"
 L["The author of this macro."] = "這個巨集的作者."
 L["The command "] = "命令"
+--[[Translation missing --]]
+L["The current result of variable |cff0000ff~~%s~~|r is |cFF00D1FF%s|r"] = "The current result of variable |cff0000ff~~%s~~|r is |cFF00D1FF%s|r"
 L["The Custom StepFunction Specified is not recognised and has been ignored."] = "指定的自定義步驟方法無法識別,並已被忽略."
 L["The following people donate monthly via Patreon for the ongoing maintenance and development of GSE.  Their support is greatly appreciated."] = "以下人員每月通過Patreon捐贈GSE的持續維護和開發. 非常感謝他們的支持."
 L["The GSE Out of Combat queue is %s"] = "GSE插件退出戰鬥序列於 %s"
@@ -535,6 +557,14 @@ L["Version"] = "Version"
 L["Version="] = "版本="
 --[[Translation missing --]]
 L["WARNING ONLY"] = "WARNING ONLY"
+--[[Translation missing --]]
+L["WeakAuras"] = "WeakAuras"
+--[[Translation missing --]]
+L["WeakAuras is a mod that watches for certain conditions and actions and they alerts the player to them occuring.  These are included for convenience and still need to be copied from here and imported to the WeakAuras mod via the command /wa."] = "WeakAuras is a mod that watches for certain conditions and actions and they alerts the player to them occuring.  These are included for convenience and still need to be copied from here and imported to the WeakAuras mod via the command /wa."
+--[[Translation missing --]]
+L["WeakAuras was not found."] = "WeakAuras was not found."
+--[[Translation missing --]]
+L["WeakAuras was not found.  Reported error was %s"] = "WeakAuras was not found.  Reported error was %s"
 L["Website or forum URL where a player can get more information or ask questions about this macro."] = "網站或論壇網址.玩家可以獲取更多信息或詢問有關此巨集的問題."
 L[ [=[What are the preferred talents for this macro?
 '1,2,3,1,2,3,1' means First row choose the first talent, Second row choose the second talent etc]=] ] = "這個巨集的首選天賦是什麼？ '1,2,3,1,2,3,1'表示第一排選擇第一天賦，第二排選擇第二天賦等"
@@ -554,6 +584,8 @@ L["You need to reload the User Interface for the change in StepFunction to take 
 L["You need to reload the User Interface to complete this task.  Would you like to do this now?"] = "你需要重新加載用戶界面以完成此任務. 你現在想這樣做嗎?"
 L["Your ClassID is "] = "你的 Class ID 是"
 L["Your current Specialisation is "] = "你當前的專精是"
+--[[Translation missing --]]
+L["Your sequence name was longer than 27 characters.  It has been shortened from %s to %s so that your macro will work."] = "Your sequence name was longer than 27 characters.  It has been shortened from %s to %s so that your macro will work."
 
 
 

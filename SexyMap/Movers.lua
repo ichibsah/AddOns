@@ -1,4 +1,8 @@
 
+if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	return
+end
+
 local _, sm = ...
 sm.movers = {}
 
@@ -9,61 +13,163 @@ local options = {
 	type = "group",
 	name = L["Movers"],
 	args = {
-		--desc = {
-		--	order = 0.5,
-		--	name = L["Movers Warning"],
-		--	type = "description",
-		--},
-		enable = {
+		desc = {
 			order = 1,
-			name = L["Enable Movers"],
+			name = L.moversDescription,
+			type = "description",
+			width = "full",
+		},
+		moveDurability = {
+			order = 2,
+			name = L.enableObject:format(L["Armored Man"]),
 			type = "toggle",
+			width = "full",
 			confirm = function(info, v)
 				if not v then
-					return L["Disabling the movers will make them reset next time you relog, are you sure?"]
+					return L.disableWarning
 				end
 			end,
 			get = function()
-				return mod.db.enabled
+				return mod.db.moveDurability
 			end,
 			set = function(info, v)
-				mod.db.enabled = v
-				mod:SetMovers()
+				mod.db.moveDurability = v
 				if v then
-					mod:Start()
+					mod:EnableDurabilityMover()
+				else
+					mod.db.lockDurability = false
+					mod.db.moverPositions.durability = nil
+					ReloadUI()
 				end
 			end,
 		},
-		lock = {
-			order = 2,
-			name = L["Lock Movers"],
+		lockDurability = {
+			order = 3,
+			name = L.lockObject:format(L["Armored Man"]),
 			type = "toggle",
+			width = "full",
 			get = function()
-				return mod.db.lock
+				return mod.db.lockDurability
 			end,
 			set = function(info, v)
-				mod.db.lock = v
-				mod:SetMovers()
+				mod.db.lockDurability = v
+				if v then
+					SexyMapDurabilityMover:Hide()
+				else
+					SexyMapDurabilityMover:Show()
+				end
 			end,
-			disabled = function() return not mod.db.enabled end,
+			disabled = function() return not mod.db.moveDurability end,
+		},
+		spacer = {
+			order = 4,
+			name = " ",
+			type = "description",
+			width = "full",
+		},
+		moveVehicle = {
+			order = 5,
+			name = L.enableObject:format(L["Vehicle Seat"]),
+			type = "toggle",
+			width = "full",
+			confirm = function(info, v)
+				if not v then
+					return L.disableWarning
+				end
+			end,
+			get = function()
+				return mod.db.moveVehicle
+			end,
+			set = function(info, v)
+				mod.db.moveVehicle = v
+				if v then
+					mod:EnableVehicleMover()
+				else
+					mod.db.lockVehicle = false
+					mod.db.moverPositions.vehicle = nil
+					ReloadUI()
+				end
+			end,
+		},
+		lockVehicle = {
+			order = 6,
+			name = L.lockObject:format(L["Vehicle Seat"]),
+			type = "toggle",
+			width = "full",
+			get = function()
+				return mod.db.lockVehicle
+			end,
+			set = function(info, v)
+				mod.db.lockVehicle = v
+				if v then
+					SexyMapVehicleMover:Hide()
+				else
+					SexyMapVehicleMover:Show()
+				end
+			end,
+			disabled = function() return not mod.db.moveVehicle end,
+		},
+		spacer2 = {
+			order = 7,
+			name = " ",
+			type = "description",
+			width = "full",
+		},
+		moveObjectives = {
+			order = 8,
+			name = L.enableObject:format(L["Objectives Tracker"]),
+			type = "toggle",
+			width = "full",
+			confirm = function(info, v)
+				if not v then
+					return L.disableWarning
+				end
+			end,
+			get = function()
+				return mod.db.moveObjectives
+			end,
+			set = function(info, v)
+				mod.db.moveObjectives = v
+				if v then
+					mod:EnableObjectivesMover()
+				else
+					mod.db.lockObjectives = false
+					mod.db.moverPositions.objectives = nil
+					ReloadUI()
+				end
+			end,
+		},
+		lockObjectives = {
+			order = 9,
+			name = L.lockObject:format(L["Objectives Tracker"]),
+			type = "toggle",
+			width = "full",
+			get = function()
+				return mod.db.lockObjectives
+			end,
+			set = function(info, v)
+				mod.db.lockObjectives = v
+				if v then
+					SexyMapObjectivesMover:Hide()
+				else
+					SexyMapObjectivesMover:Show()
+				end
+			end,
+			disabled = function() return not mod.db.moveObjectives end,
 		},
 	},
 }
 
-local movables = {
-	["DurabilityFrame"] = L["Armored Man"],
-	["ObjectiveTrackerFrame"] = L["Objectives Tracker"],
-	["VehicleSeatIndicator"] = L["Vehicle Seat"],
-	--["Boss1TargetFrame"] = L["Boss Frames"],
-}
-local movers = {}
-
 function mod:OnInitialize(profile)
-	if type(profile.movers) ~= "table" then
+	if type(profile.movers) ~= "table" or not profile.movers.moverPositions then
 		profile.movers = {
-			enabled = false,
-			lock = false,
-			framePositions = {},
+			moveObjectives = false,
+			lockObjectives = false,
+			moveDurability = false,
+			lockDurability = false,
+			moveVehicle = false,
+			lockVehicle = false,
+			moverPositions = {},
 		}
 	end
 	self.db = profile.movers
@@ -71,100 +177,170 @@ end
 
 function mod:OnEnable()
 	sm.core:RegisterModuleOptions("Movers", options, L["Movers"])
-	if self.db.enabled then
-		self:SetMovers()
-		self:Start()
+	if self.db.moveDurability then
+		self:EnableDurabilityMover()
+	end
+	if self.db.moveVehicle then
+		self:EnableVehicleMover()
+	end
+	if self.db.moveObjectives then
+		self:EnableObjectivesMover()
 	end
 end
 
-do
-	local started = nil
-	function mod:Start()
-		if started then return end
-		started = true
+function mod:EnableDurabilityMover()
+	if SexyMapDurabilityMover then return end
+	local DurabilityFrame = DurabilityFrame
 
-		hooksecurefunc("UpdateContainerFrameAnchors", self.CreateMoversAndSetMovables)
-
-		self:CreateMoversAndSetMovables()
-	end
-end
-
-do
-	local function start(self)
-		local f = self:GetParent()
-		f:StartMoving()
-	end
-
-	local function stop(self)
-		local f = self:GetParent()
-		f:StopMovingOrSizing()
-
-		local x, y = f:GetLeft(), f:GetTop()
-		local n = f:GetName()
-
-		mod.db.framePositions[n] = mod.db.framePositions[n] or {}
-		mod.db.framePositions[n].x = x
-		mod.db.framePositions[n].y = y
-	end
-
-	function mod:CreateMoversAndSetMovables()
-		for frame, text in pairs(movables) do
-			local pf = _G[frame]
-			if pf then
-				local name = "SexyMapMover" .. frame
-				local f = _G[name]
-				if not f then
-					f = CreateFrame("Frame", name, pf, "BackdropTemplate")
-					tinsert(movers, f)
-					local l = f:CreateFontString(nil, nil, "GameFontNormalSmall")
-					f:EnableMouse(true)
-					pf:SetMovable(true)
-					f:SetScript("OnMouseDown", start)
-					f:SetScript("OnMouseUp", stop)
-					f:SetScript("OnLeave", stop)
-					l:SetText(("%s mover"):format(text))
-					l:SetPoint("BOTTOM", f, "TOP")
-					f:SetBackdrop(sm.backdrop)
-					f:SetBackdropColor(0, 0.6, 0, 1)
-				end
-
-				f:ClearAllPoints()
-				f:SetAllPoints()
-
-				if not mod.db.lock then
-					f:Hide()
-				end
-
-				if mod.db.framePositions[frame] then
-					local x, y = mod.db.framePositions[frame].x, mod.db.framePositions[frame].y
-					pf:ClearAllPoints()
-					pf:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
-					if frame == "ObjectiveTrackerFrame" then
-						pf:SetPoint("BOTTOM", UIParent, "BOTTOM")
-					end
-				end
-			end
-		end
-		mod:SetMovers()
-	end
-end
-
-function mod:SetMovers()
-	local v = mod.db.enabled and (not mod.db.lock)
-	if v then
-		for _, f in ipairs(movers) do
-			f.showParent = not not f:GetParent():IsVisible() -- convert nil -> false
-			f:GetParent():Show()
-			f:Show()
-		end
+	local frame = CreateFrame("Frame", "SexyMapDurabilityMover")
+	if self.db.moverPositions.durability then
+		local tbl = self.db.moverPositions.durability
+		frame:SetPoint(tbl[1], UIParent, tbl[2], tbl[3], tbl[4])
 	else
-		for _, f in ipairs(movers) do
-			if f.showParent == false then
-				f:GetParent():Hide()
-			end
-			f.showParent = nil
-			f:Hide()
-		end
+		frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 	end
+	frame:SetSize(65, 80) -- defaults: 60, 75
+	if self.db.lockDurability then
+		frame:Hide()
+	else
+		frame:Show()
+	end
+	frame:EnableMouse(true)
+	frame:RegisterForDrag("LeftButton")
+	frame:SetMovable(true)
+
+	hooksecurefunc(DurabilityFrame, "SetWidth", function(self)
+		local width = self:GetWidth()
+		frame:SetWidth(width + 5)
+	end)
+
+	local function SetPoint(self)
+		sm.core.frame.ClearAllPoints(self)
+		-- TOPRIGHT is our only choice or we'd create SetPoint errors in UIParent.lua
+		-- Where SetPoint is called by Blizz without performing a ClearAllPoints first
+		sm.core.frame.SetPoint(self, "TOPRIGHT", frame, "TOPRIGHT")
+	end
+	hooksecurefunc(DurabilityFrame, "SetPoint", SetPoint)
+	SetPoint(DurabilityFrame)
+
+	frame:SetScript("OnDragStart", function(self) self:StartMoving() end)
+	frame:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing()
+		local a, _, b, c, d = self:GetPoint()
+		mod.db.moverPositions.durability = {a, b, c, d}
+	end)
+
+	local bg = frame:CreateTexture()
+	bg:SetAllPoints(frame)
+	bg:SetColorTexture(0, 1, 0, 0.3)
+	bg:Show()
+
+	local header = frame:CreateFontString(nil, "OVERLAY", "TextStatusBarText")
+	header:SetPoint("BOTTOM", frame, "TOP")
+	header:SetText(L["Armored Man"])
+	header:Show()
 end
 
+function mod:EnableVehicleMover()
+	if SexyMapVehicleMover then return end
+
+	local VehicleSeatIndicator = VehicleSeatIndicator
+
+	local frame = CreateFrame("Frame", "SexyMapVehicleMover")
+	if self.db.moverPositions.vehicle then
+		local tbl = self.db.moverPositions.vehicle
+		frame:SetPoint(tbl[1], UIParent, tbl[2], tbl[3], tbl[4])
+	else
+		frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	end
+	frame:SetSize(100, 100) -- defaults: 128, 128
+	if self.db.lockVehicle then
+		frame:Hide()
+	else
+		frame:Show()
+	end
+	frame:EnableMouse(true)
+	frame:RegisterForDrag("LeftButton")
+	frame:SetMovable(true)
+
+	local function SetPoint(self)
+		sm.core.frame.ClearAllPoints(self)
+		-- TOPRIGHT is our only choice or we'd create SetPoint errors in UIParent.lua
+		-- Where SetPoint is called by Blizz without performing a ClearAllPoints first
+		sm.core.frame.SetPoint(self, "TOPRIGHT", frame, "TOPRIGHT")
+	end
+	hooksecurefunc(VehicleSeatIndicator, "SetPoint", SetPoint)
+	SetPoint(VehicleSeatIndicator)
+
+	frame:SetScript("OnDragStart", function(self) self:StartMoving() end)
+	frame:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing()
+		local a, _, b, c, d = self:GetPoint()
+		mod.db.moverPositions.vehicle = {a, b, c, d}
+	end)
+
+	local bg = frame:CreateTexture()
+	bg:SetAllPoints(frame)
+	bg:SetColorTexture(0, 1, 0, 0.3)
+	bg:Show()
+
+	local header = frame:CreateFontString(nil, "OVERLAY", "TextStatusBarText")
+	header:SetPoint("BOTTOM", frame, "TOP")
+	header:SetText(L["Vehicle Seat"])
+	header:Show()
+end
+
+function mod:EnableObjectivesMover()
+	if SexyMapObjectivesMover then return end
+
+	local ObjectiveTrackerFrame = ObjectiveTrackerFrame
+
+	local frame = CreateFrame("Frame", "SexyMapObjectivesMover")
+	if self.db.moverPositions.objectives then
+		local tbl = self.db.moverPositions.objectives
+		frame:SetPoint(tbl[1], UIParent, tbl[2], tbl[3], tbl[4])
+	else
+		frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	end
+	frame:SetSize(235, 600) -- defaults: 235, 140
+	if self.db.lockObjectives then
+		frame:Hide()
+	else
+		frame:Show()
+	end
+	frame:EnableMouse(true)
+	frame:RegisterForDrag("LeftButton")
+	frame:SetMovable(true)
+
+	local function SetPoint(self)
+		sm.core.frame.ClearAllPoints(self)
+		sm.core.frame.SetPoint(self, "TOPRIGHT", frame, "TOPRIGHT")
+		sm.core.frame.SetPoint(self, "BOTTOMRIGHT", frame, "BOTTOMRIGHT")
+	end
+	hooksecurefunc(ObjectiveTrackerFrame, "SetPoint", SetPoint)
+	SetPoint(ObjectiveTrackerFrame)
+
+	-- Allows the sorting that occurs in UIParent.lua to skip the ObjectiveTrackerFrame
+	ObjectiveTrackerFrame:SetMovable(true)
+	ObjectiveTrackerFrame:SetUserPlaced(true)
+	ObjectiveTrackerFrame:SetMovable(false)
+
+	frame:SetScript("OnDragStart", function(self)
+		self:StartMoving()
+	end)
+	frame:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing()
+		local a, _, b, c, d = self:GetPoint()
+		mod.db.moverPositions.objectives = {a, b, c, d}
+	end)
+
+	local bg = frame:CreateTexture()
+	bg:SetAllPoints(frame)
+	bg:SetColorTexture(0, 1, 0, 0.3)
+	bg:Show()
+
+	local header = frame:CreateFontString(nil, "OVERLAY", "TextStatusBarText")
+	header:SetPoint("BOTTOM", frame, "TOP")
+	header:SetText(L["Objectives Tracker"])
+	header:Show()
+end

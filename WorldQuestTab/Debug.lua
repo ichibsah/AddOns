@@ -2,7 +2,6 @@
 local WQT = addon.WQT;
 local _L = addon.L
 local _V = addon.variables;
-local ADD = LibStub("AddonDropDown-1.0");
 local WQT_Utils = addon.WQT_Utils;
 
 
@@ -150,7 +149,8 @@ local function bts(bool)
 end
 
 local function GetQuestDump()
-	local counted, limit = WQT_Utils:GetQuestLogInfo()
+	local removedQuests = {};
+	local counted, limit = WQT_Utils:GetQuestLogInfo(removedQuests);
 	local output = FORMAT_QUEST_HEADER:format(counted, limit);
 	
 	local numEntries = C_QuestLog.GetNumQuestLogEntries();

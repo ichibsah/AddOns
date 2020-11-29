@@ -1,7 +1,7 @@
-## Interface: 90001
+## Interface: 90002
 ## Title: Garrison and Order Hall Report
 ## Notes: Allows you to see older Garrison Reports on Right Click.
 ## Author: Vampyr78
-## Version: 2.3
+## Version: 2.3.1
 ## SavedVariables: GarrisonOrderHallReportButton
 GarrisonOrderHallReport.lua

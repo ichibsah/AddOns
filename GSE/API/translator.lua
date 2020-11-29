@@ -7,17 +7,19 @@ local L = GSE.L
 
 --- GSE.TranslateSequence will translate from local spell name to spell id and back again.\
 -- Mode of "STRING" will return local names where mode "ID" will return id's
-function GSE.TranslateSequence(sequence, sequenceName, mode)
+-- dropAbsolute will remove "$$" from the start of lines.
+function GSE.TranslateSequence(sequence, sequenceName, mode, dropAbsolute)
+
     GSE.PrintDebugMessage("GSE.TranslateSequence  Mode: " .. mode, GNOME)
 
     for k, v in ipairs(sequence) do
         -- Translate Sequence
-        sequence[k] = GSE.TranslateString(v, mode)
+        sequence[k] = GSE.TranslateString(v, mode,nil,  dropAbsolute)
     end
 
     if not GSE.isEmpty(sequence.KeyRelease) then
         for k, v in pairs(sequence.KeyRelease) do
-            sequence.KeyRelease[k] = GSE.TranslateString(v, mode)
+            sequence.KeyRelease[k] = GSE.TranslateString(v, mode, nil, dropAbsolute)
         end
     else
         GSE.PrintDebugMessage("empty Keyrelease in translate", Statics.Translate)
@@ -26,7 +28,7 @@ function GSE.TranslateSequence(sequence, sequenceName, mode)
         GSE.PrintDebugMessage("Keypress has stuff in translate", Statics.Translate)
         for k, v in pairs(sequence.KeyPress) do
             -- Translate KeyRelease
-            sequence.KeyPress[k] = GSE.TranslateString(v, mode)
+            sequence.KeyPress[k] = GSE.TranslateString(v, mode, nil, dropAbsolute)
         end
     else
         GSE.PrintDebugMessage("empty Keypress in translate", Statics.Translate)
@@ -35,7 +37,7 @@ function GSE.TranslateSequence(sequence, sequenceName, mode)
         GSE.PrintDebugMessage("Keypress has stuff in translate", Statics.Translate)
         for k, v in pairs(sequence.PreMacro) do
             -- Translate KeyRelease
-            sequence.PreMacro[k] = GSE.TranslateString(v, mode)
+            sequence.PreMacro[k] = GSE.TranslateString(v, mode, nil, dropAbsolute)
         end
     else
         GSE.PrintDebugMessage("empty Keypress in translate", Statics.Translate)
@@ -44,7 +46,7 @@ function GSE.TranslateSequence(sequence, sequenceName, mode)
         GSE.PrintDebugMessage("Keypress has stuff in translate", Statics.Translate)
         for k, v in pairs(sequence.PostMacro) do
             -- Translate KeyRelease
-            sequence.PostMacro[k] = GSE.TranslateString(v, mode)
+            sequence.PostMacro[k] = GSE.TranslateString(v, mode, nil, dropAbsolute)
         end
     else
         GSE.PrintDebugMessage("empty Keypress in translate", Statics.Translate)
@@ -61,9 +63,9 @@ end
 
 --- This function interates through each line in lines and does a string replace on each varible in the variableTable
 function GSE.ProcessVariables(lines, variableTable)
-
+    --print("GSE.ProcessVariables(lines, variableTable)")
     local returnLines = {}
-
+    --print(GSE.isEmpty(variableTable))
     for _, line in ipairs(lines) do
         if not GSE.isEmpty(variableTable) then
             for key,value in pairs(variableTable) do
@@ -71,13 +73,16 @@ function GSE.ProcessVariables(lines, variableTable)
                     local functline = value
                     if string.sub(functline, 1, 10) == "function()" then
                         functline = string.sub(functline, 11)
-                         functline = functline:gsub("end end", "end")
+                        functline = functline:sub(1, -4)
                         functline = loadstring(functline)
+                        --print(type(functline))
                         if functline ~= nil then
                             value = functline
                         end
                     end
                 end
+                --print("updated Type: ".. type(value))
+                --print(value)
                 if type(value) == "function" then
                     value = value()
                 end
@@ -86,11 +91,6 @@ function GSE.ProcessVariables(lines, variableTable)
         end
 
         for key,value in pairs(Statics.SystemVariables) do
-            if type(value) == "string" then
-                if string.match(value, "function") then
-                    value = loadstring(value)
-                end
-            end
             if type(value) == "function" then
                 value = value()
             end
@@ -102,11 +102,16 @@ function GSE.ProcessVariables(lines, variableTable)
     return returnLines
 end
 
-function GSE.TranslateString(instring, mode, cleanNewLines)
+function GSE.TranslateString(instring, mode, cleanNewLines, dropAbsolute)
     instring = GSE.UnEscapeString(instring)
     GSE.PrintDebugMessage("Entering GSE.TranslateString with : \n" .. instring .. "\n " .. mode, GNOME)
     local output = ""
     if not GSE.isEmpty(instring) then
+        local absolute = false
+        if instring:find('$$', 1, true) then
+            GSE.PrintDebugMessage("Setting Absolute", GNOME)
+            absolute = true
+        end
         if GSE.isEmpty(string.find(instring, '--', 1, true)) then
             for cmd, etc in string.gmatch(instring or '', '/(%w+)%s+([^\n]+)') do
                 GSE.PrintDebugMessage("cmd : \n" .. cmd .. " etc: " .. etc, GNOME)
@@ -130,7 +135,7 @@ function GSE.TranslateString(instring, mode, cleanNewLines)
                         output = output .. "!"
                     end
                     local foundspell, returnval = GSE.TranslateSpell(etc, mode,
-                                                      (cleanNewLines and cleanNewLines or false))
+                                                      (cleanNewLines and cleanNewLines or false), absolute)
                     if foundspell then
                         output = output .. GSEOptions.KEYWORD .. returnval .. Statics.StringReset
                     else
@@ -156,7 +161,7 @@ function GSE.TranslateString(instring, mode, cleanNewLines)
                                 output = output .. "!"
                             end
                             local foundspell, returnval = GSE.TranslateSpell(uetc, mode,
-                                                              (cleanNewLines and cleanNewLines or false))
+                                                              (cleanNewLines and cleanNewLines or false), asbolute)
                             output = output .. GSEOptions.KEYWORD .. returnval .. Statics.StringReset .. ", "
                         end
                         output = output .. ";"
@@ -192,6 +197,13 @@ function GSE.TranslateString(instring, mode, cleanNewLines)
                 output = string.gsub(output, "/" .. v, GSEOptions.WOWSHORTCUTS .. "/" .. v .. Statics.StringReset)
             end
         end
+
+        if GSE.isEmpty(dropAbsolute) then
+            dropAbsolute = false
+        end
+        if  absolute and not dropAbsolute then
+            output = "$$" .. output
+        end
     elseif cleanNewLines then
         output = output .. instring
     end
@@ -206,7 +218,7 @@ function GSE.TranslateString(instring, mode, cleanNewLines)
     return output
 end
 
-function GSE.TranslateSpell(str, mode, cleanNewLines)
+function GSE.TranslateSpell(str, mode, cleanNewLines, absolute)
     local output = ""
     local found = false
     -- Check for cases like /cast [talent:7/1] Bladestorm;[talent:7/3] Dragon Roar
@@ -238,7 +250,7 @@ function GSE.TranslateSpell(str, mode, cleanNewLines)
             etc = string.match(etc, "^%s*(.-)%s*$")
         end
 
-        local foundspell = GSE.GetSpellId(etc, mode)
+        local foundspell = GSE.GetSpellId(etc, mode, absolute)
         -- print("Foudn Spell: " .. foundspell .. " etc:" .. etc .. " mode:" .. mode .. " str:" .. str)
         if foundspell then
             GSE.PrintDebugMessage("Translating Spell ID : " .. etc .. " to " .. foundspell, GNOME)
@@ -692,7 +704,7 @@ function GSE.ClassicGetSpellInfo(spellID)
 end
 
 --- Converts a string spell name to an id and back again.
-function GSE.GetSpellId(spellstring, mode)
+function GSE.GetSpellId(spellstring, mode, absolute)
     if GSE.isEmpty(mode) then
         mode = ""
     end
@@ -709,8 +721,14 @@ function GSE.GetSpellId(spellstring, mode)
         if GSE.GameMode ~= 1 then
             -- If we are not in classic
             -- Check for overrides like Crusade and Avenging Wrath.
-            if not GSE.isEmpty(Statics.BaseSpellTable[returnval]) then
-                returnval = Statics.BaseSpellTable[returnval]
+            if not absolute and not GSE.isEmpty(returnval) then
+                if FindBaseSpellByID(returnval) then
+                    returnval = FindBaseSpellByID(returnval)
+                end
+                -- Still need Heart of Azeroth overrides.
+                if not GSE.isEmpty(Statics.BaseSpellTable[returnval]) then
+                    returnval = Statics.BaseSpellTable[returnval]
+                end
             end
         end
     end

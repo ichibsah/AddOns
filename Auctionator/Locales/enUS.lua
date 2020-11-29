@@ -255,6 +255,7 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["COPY_TEXT_HEADER"] = "Copy Text"
   L["SELECT_ALL"] = "Select All"
   L["UNSELECT_ALL"] = "Unselect All"
+  L["CONFIRM"] = "Confirm"
 
   L["ANY_LOWER"] = "any"
 
@@ -262,6 +263,7 @@ AUCTIONATOR_LOCALES.enUS = function()
 
   L["UNDERCUT_SCAN"] = "Undercut Scan"
   L["CANCEL_UNDERCUT"] = "Cancel Undercut"
+  L["CANCEL_UNDERCUT_BUTTON_MACRO"] = "Cancel Undercut Button Macro"
   L["NAME"] = "Name"
   L["QUANTITY"] = "Quantity"
   L["MAX"] = "Max"
@@ -366,6 +368,7 @@ AUCTIONATOR_LOCALES.enUS = function()
   L["DEFAULT_LIST_HEADER"] = "Default Shopping List"
 
   L["REAGENT_SEARCH"] = "Reagent Search"
+  L["NUMBER_SEPARATOR"] = ","
 
   return L
 end

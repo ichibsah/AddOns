@@ -27,6 +27,7 @@ local UnitChannelInfo  = UnitChannelInfo
 local UnitPlayerControlled = UnitPlayerControlled
 local GetCVar, Lerp, CombatLogGetCurrentEventInfo = GetCVar, Lerp, CombatLogGetCurrentEventInfo
 local GetPlayerInfoByGUID, RAID_CLASS_COLORS = GetPlayerInfoByGUID, RAID_CLASS_COLORS
+local UnitNameplateShowsWidgetsOnly = UnitNameplateShowsWidgetsOnly
 
 -- ThreatPlates APIs
 local TidyPlatesThreat = TidyPlatesThreat
@@ -74,6 +75,9 @@ if Addon.CLASSIC then
 
     return text, text, texture, startTime or 0, endTime or 0, false, nil, false, spellID
   end
+
+  -- Not available in Classic, introduced in patch 9.0.1
+  UnitNameplateShowsWidgetsOnly = function() return false end
 else
   GetNameForNameplate = function(plate) return plate:GetName() end
 
@@ -915,26 +919,35 @@ do
 	end
 
   local function FrameOnShow(UnitFrame)
+    local unitid = UnitFrame.unit
+
     -- Hide nameplates that have not yet an unit added
-    if not UnitFrame.unit then
+    if not unitid then
       UnitFrame:Hide()
+      return
+    end
+
+    if UnitNameplateShowsWidgetsOnly(unitid) then
+      -- Don't show ThreatPlates for widget-only nameplates (since Shadowlands)
+      return
     end
 
     local db = TidyPlatesThreat.db.profile
 
     -- Skip the personal resource bar of the player character, don't unhook scripts as nameplates, even the personal
     -- resource bar, get re-used
-    if UnitIsUnit(UnitFrame.unit, "player") then -- or: ns.PlayerNameplate == GetNamePlateForUnit(UnitFrame.unit)
+    if UnitIsUnit(unitid, "player") then -- or: ns.PlayerNameplate == GetNamePlateForUnit(UnitFrame.unit)
       if db.PersonalNameplate.HideBuffs then
         UnitFrame.BuffFrame:Hide()
---      else
---        UnitFrame.BuffFrame:Show()
+      --      else
+      --        UnitFrame.BuffFrame:Show()
       end
+      -- Just an else with the part below should work also
       return
     end
 
     -- Hide ThreatPlates nameplates if Blizzard nameplates should be shown for friendly units
-    if UnitReaction(UnitFrame.unit, "player") > 4 then
+    if UnitReaction(unitid, "player") > 4 then
       UnitFrame:SetShown(SettingsShowFriendlyBlizzardNameplates)
     else
       UnitFrame:SetShown(SettingsShowEnemyBlizzardNameplates)
@@ -1020,7 +1033,7 @@ do
 	function CoreEvents:NAME_PLATE_UNIT_ADDED(unitid)
     -- Player's personal resource bar is currently not handled by Threat Plates
     -- OnShowNameplate is not called on it, therefore plate.TPFrame.Active is nil
-    if UnitIsUnit("player", unitid) then return end
+    if UnitIsUnit("player", unitid) or UnitNameplateShowsWidgetsOnly(unitid) then return end
 
     OnShowNameplate(GetNamePlateForUnit(unitid), unitid)
 	end
@@ -1168,7 +1181,7 @@ do
     end
   end
 
-  function CoreEvents:UNIT_HEALTH(unitid)
+  local function UNIT_HEALTH(event, unitid)
     local plate = GetNamePlateForUnit(unitid)
 
     if plate and plate.TPFrame.Active then
@@ -1436,6 +1449,7 @@ do
     Addon.UNIT_SPELLCAST_CHANNEL_START = UNIT_SPELLCAST_CHANNEL_START
     Addon.UNIT_SPELLCAST_CHANNEL_STOP = UNIT_SPELLCAST_CHANNEL_STOP
     Addon.UnitSpellcastMidway = UnitSpellcastMidway
+    CoreEvents.UNIT_HEALTH_FREQUENT = UNIT_HEALTH
   else
     -- The following events should not have worked before adjusting UnitSpellcastMidway
     CoreEvents.UNIT_SPELLCAST_START = UNIT_SPELLCAST_START
@@ -1456,6 +1470,8 @@ do
     CoreEvents.UNIT_ABSORB_AMOUNT_CHANGED = UNIT_ABSORB_AMOUNT_CHANGED
     CoreEvents.UNIT_HEAL_ABSORB_AMOUNT_CHANGED = UNIT_HEAL_ABSORB_AMOUNT_CHANGED
     CoreEvents.PLAYER_FOCUS_CHANGED = PLAYER_FOCUS_CHANGED
+    -- UNIT_HEALTH_FREQUENT no longer supported in Retail since 9.0.1
+    CoreEvents.UNIT_HEALTH = UNIT_HEALTH
   end
 
 	CoreEvents.UNIT_LEVEL = UnitConditionChanged

@@ -1,4 +1,8 @@
 
+if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	return
+end
+
 local _, sm = ...
 sm.shapes = {}
 
@@ -309,6 +313,15 @@ local shapeOptions = {
 
 function mod:OnInitialize(profile)
 	db = profile.core
+
+	-- Global function for other addons
+	GetMinimapShape = function()
+		--if HudMapCluster and HudMapCluster:IsShown() then -- HudMap module compat
+		--	return "ROUND"
+		--else
+			return shapes[db.shape] and shapes[db.shape].shape or "ROUND"
+		--end
+	end
 end
 
 function mod:OnEnable()
@@ -338,16 +351,23 @@ function mod:ApplyShape(shape)
 	if shape or db.shape then
 		db.shape = shape or db.shape
 		Minimap:SetMaskTexture(db.shape)
+		if HybridMinimap then
+			HybridMinimap.MapCanvas:SetUseMaskTexture(false)
+			HybridMinimap.CircleMask:SetTexture(db.shape)
+			HybridMinimap.MapCanvas:SetUseMaskTexture(true)
+		end
 	end
 	sm.buttons:UpdateDraggables()
 end
 
--- Global function for other addons
-GetMinimapShape = function()
-	if HudMapCluster and HudMapCluster:IsShown() then -- HudMap module compat
-		return "ROUND"
-	else
-		return shapes[db.shape] and shapes[db.shape].shape or "ROUND"
-	end
+if not HybridMinimap then
+	local frame = CreateFrame("Frame")
+	frame:SetScript("OnEvent", function(self, event, addon)
+		if addon == "Blizzard_HybridMinimap" then
+			self:UnregisterEvent(event)
+			mod:ApplyShape()
+			self:SetScript("OnEvent", nil)
+		end
+	end)
+	frame:RegisterEvent("ADDON_LOADED")
 end
-

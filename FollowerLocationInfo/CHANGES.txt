@@ -1,12 +1,12 @@
-tag cff1cb461597f6d509e0510e6dbecda98d293238 1.6.0-release
+tag a91d41213ee2b5e216457e2812e24c167e15d329 1.6.2-release
 Author:	Hizuro <hizuro@gmx.net>
-Date:	Wed Sep 30 15:48:18 2020 +0200
+Date:	Thu Nov 19 22:22:31 2020 +0100
 
-Tagging as 1.6.0-release
+Tagging as 1.6.2-release
 
-commit 6d0f3b9deeed6394d7bb889492995c1f72d38095
+commit c04a70fa32f81c013511dda8de6b6ed73feca84f
 Author: Hizuro <hizuro@gmx.net>
-Date:   Wed Sep 30 15:47:35 2020 +0200
+Date:   Thu Nov 19 22:22:14 2020 +0100
 
-    update for shadowlands prepatch compatibility
+    update toc files
 

@@ -1,4 +1,10 @@
 
+if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	print("|cFF33FF99SexyMap|r: You're trying to run the Retail version of SexyMap on a Classic server. Delete SexyMap and install the correct version.")
+	error("You're trying to run the Retail version of SexyMap on a Classic server. Delete SexyMap and install the correct version.")
+	return
+end
+
 local name, sm = ...
 sm.core = {}
 
@@ -8,13 +14,16 @@ local L = sm.L
 sm.backdrop = {
 	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
 	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-	insets = {left = 4, top = 4, right = 4, bottom = 4},
+	insets = {left = 4, top = 4, right = 4, bottom = 4}, -- Change the Clock/Coords/ZoneText clamp if this is changed
 	edgeSize = 16,
 	tile = true,
 }
 
 mod.frame = CreateFrame("Frame")
-mod.frame:Show()
+mod.button = CreateFrame("Button")
+mod.font = mod.button:CreateFontString()
+mod.frame:Hide()
+mod.button:Hide()
 mod.deepCopyHash = function(t)
 	local nt = {}
 	for k, v in pairs(t) do
@@ -26,6 +35,9 @@ mod.deepCopyHash = function(t)
 	end
 	return nt
 end
+mod.frame:SetScript("OnEvent", function(_, event, ...)
+	mod[event](sm, ...)
+end)
 
 mod.options = {
 	type = "group",
@@ -302,199 +314,40 @@ mod.options = {
 
 function mod:ADDON_LOADED(addon)
 	if addon == "SexyMap" then
+		mod.frame:UnregisterEvent("ADDON_LOADED")
+
 		if type(SexyMap2DB) ~= "table" then
 			SexyMap2DB = {}
 		end
-		if type(SexyMap82) ~= "table" then -- XXX 8.2
-			SexyMap82 = {}
-			SexyMap82.backup = SexyMap2DB
-			SexyMap82.convert = {}
-		end
 
-		if C_RaidLocks then -- XXX 8.2
-			local upgradeTBL = {
-				["SPELLS\\AURARUNE256.BLP"] = 165630,
-				["SPELLS\\AuraRune_A.blp"] = 165638,
-				["SPELLS\\T_VFX_HERO_CIRCLE.BLP"] = 167062,
-				["ENVIRONMENTS\\STARS\\AUCHINDOUN_VORTEXCLOUD01.BLP"] = 130444,
-				["ENVIRONMENTS\\STARS\\DEATHWINGFIGHTSKY_CLOUDSMASK03.BLP"] = 527512,
-				["ENVIRONMENTS\\STARS\\ICECROWN_CLOUDSA02_MASK02.BLP"] = 130540,
-				["ENVIRONMENTS\\STARS\\DEATHWINGFIGHTSKY_PARTICLECLOUD.BLP"] = 536776,
-				["ENVIRONMENTS\\STARS\\ICECROWN_CLOUDSA02_MASK01.BLP"] = 130539,
-				["ENVIRONMENTS\\STARS\\WINTERGRASP_CLOUDMASK01.BLP"] = 235378,
-				["INTERFACE\\GLUES\\MODELS\\UI_WORGEN\\UI_WORGENCLOUDS01.BLP"] = 313249,
-				["Spells\\lightning_new.blp"] = 240948,
-				["environments\\stars\\deepholmsky_nebula01.blp"] = 378269,
-				["environments\\stars\\galaxy_02.blp"] = 130505,
-				["environments\\stars\\hellfireplanet_blue01.blp"] = 130521,
-				["environments\\stars\\hellfireplanet_red01.blp"] = 130523,
-				["environments\\stars\\bladesedgeplanet04.blp"] = 130472,
-				["environments\\stars\\deathsky_vortexcloud01"] = 235312,
-				["environments\\stars\\hellfireplanet03.blp"] = 130518,
-				["SPELLS\\AuraRune256b.blp"] = 165631,
-				["Interface\\GLUES\\MODELS\\UI_Tauren\\gradientCircle.blp"] = 132039,
-				["PARTICLES\\GENERICGLOW5.BLP"] = 165423,
-				["TILESET\\EXPANSION01\\EVERSONG\\SwathSmallStones.blp"] = 187303,
-				["Interface\\Minimap\\Ping\\ping5.blp"] = 136439,
-				["SPELLS\\T_VFX_BORDER"] = 167013,
-				["Interface\\BUTTONS\\WHITE8X8"] = 130871,
-				["World\\GENERIC\\ACTIVEDOODADS\\WORLDTREEPORTALS\\TWISTEDNETHER8.BLP"] = 197067,
-				["World\\GENERIC\\ACTIVEDOODADS\\INSTANCEPORTAL\\GENERICGLOW2.BLP"] = 197006,
-				["Interface\\AchievementFrame\\UI-Achievement-Parchment.blp"] = 130662,
-				["Interface\\BUTTONS\\WHITE8X8.BLP"] = 130871,
-				["Interface\\AchievementFrame\\UI-Achievement-Parchment-Horizontal.blp"] = 130661,
-				["SPELLS\\AuraRune_B.blp"] = 165639,
-				["SPELLS\\RogueRune2.blp"] = 241004,
-				["SPELLS\\White-Circle.blp"] = 167203,
-				["XTEXTURES\\splash\\splash.blp"] = 220021,
-				["Textures\\moonglare.blp"] = 186182,
-				["Textures\\Moon02Glare.blp"] = 186181,
-				["SPELLS\\AURA_01.blp"] = 165623,
-				["SPELLS\\Nature_Rune_128.blp"] = 166606,
-				["SPELLS\\SHOCKWAVE_INVERTGREY.BLP"] = 166870,
-				["SPELLS\\TREANTLEAVES.BLP"] = 167138,
-				["World\\GENERIC\\PASSIVEDOODADS\\ShamanStone\\SHAMANSTONEEARTH.blp"] = 200026,
-				["World\\GENERIC\\PASSIVEDOODADS\\ShamanStone\\ShamanStoneAir.blp"] = 200025,
-				["World\\GENERIC\\PASSIVEDOODADS\\ShamanStone\\ShamanStoneWater.blp"] = 200029,
-				["World\\GENERIC\\PASSIVEDOODADS\\ShamanStone\\ShamanStoneFlame.blp"] = 200027,
-				["SPELLS\\Shockwave4.blp"] = 166863,
-				["World\\ENVIRONMENT\\DOODAD\\GENERALDOODADS\\ELEMENTALRIFTS\\Shockwave_blue.blp"] = 191091,
-				["SPELLS\\GENERICGLOW64.BLP"] = 166232,
-			}
-			for character, tbl in next, SexyMap2DB do
-				if tbl.borders and tbl.borders.borders then
-					for i = 1, #tbl.borders.borders do
-						local tex = tbl.borders.borders[i].texture
-						if type(tex) == "string" then
-							local id = SexyMap82.convert[tex]
-							if id and id > 0 then
-								tbl.borders.borders[i].texture = id
-							elseif upgradeTBL[tex] then
-								tbl.borders.borders[i].texture = upgradeTBL[tex]
-							end
-						end
-					end
-				end
-				if tbl.core and type(tbl.core.shape) == "string" and upgradeTBL[tbl.core.shape] then
-					tbl.core.shape = upgradeTBL[tbl.core.shape]
-				end
-				if tbl.borders and tbl.borders.backdrop and tbl.borders.backdrop.settings then
-					local tex = tbl.borders.backdrop.settings.bgFile
-					if type(tex) == "string" then
-						if tex == "World\\EXPANSION02\\DOODADS\\Ulduar\\UL_SpinningRoomRings_Ring07.blp" then
-							tbl.borders.backdrop.settings.bgFile = "Interface\\Addons\\SexyMap\\media\\rusticbg"
-						elseif tex == "World\\ENVIRONMENT\\DOODAD\\STRANGLETHORN\\TROLLRUINS\\TEX\\GARY\\GP_SNKNTMP_ATARBORDER.blp" then
-							tbl.borders.backdrop.settings.bgFile = "Interface\\Addons\\SexyMap\\media\\ruinsbg"
-						end
-					end
-					--local tex = tbl.borders.backdrop.settings.edgeFile
-					--if type(tex) == "string" then
-					--	local id = GetFileIDFromPath(tex)
-					--	if id and not SexyMap82.convert[tex] then
-					--		SexyMap82.convert[tex] = id
-					--	end
-					--end
-				end
-			end
-			if SexyMap2DB.presets then
-				for name, tbl in next, SexyMap2DB.presets do
-					if tbl.borders then
-						for i = 1, #tbl.borders do
-							local tex = tbl.borders[i].texture
-							if type(tex) == "string" then
-								local id = SexyMap82.convert[tex]
-								if id and id > 0 then
-									tbl.borders[i].texture = id
-								elseif upgradeTBL[tex] then
-									tbl.borders[i].texture = upgradeTBL[tex]
-								end
-							end
-						end
-					end
-					if type(tbl.shape) == "string" and upgradeTBL[tbl.shape] then
-						tbl.shape = upgradeTBL[tbl.shape]
-					end
-					if tbl.backdrop and tbl.backdrop.settings then
-						local tex = tbl.backdrop.settings.bgFile
-						if type(tex) == "string" then
-							if tex == "World\\EXPANSION02\\DOODADS\\Ulduar\\UL_SpinningRoomRings_Ring07.blp" then
-								tbl.backdrop.settings.bgFile = "Interface\\Addons\\SexyMap\\media\\rusticbg"
-							elseif tex == "World\\ENVIRONMENT\\DOODAD\\STRANGLETHORN\\TROLLRUINS\\TEX\\GARY\\GP_SNKNTMP_ATARBORDER.blp" then
-								tbl.backdrop.settings.bgFile = "Interface\\Addons\\SexyMap\\media\\ruinsbg"
-							end
-						end
-						--local tex = tbl.backdrop.settings.edgeFile
-						--if type(tex) == "string" then
-						--	local id = GetFileIDFromPath(tex)
-						--	if id and not SexyMap82.convert[tex] then
-						--		SexyMap82.convert[tex] = id
-						--	end
-						--end
+		-- XXX 9.0.1
+		for character, tbl in next, SexyMap2DB do
+			if tbl.borders and tbl.borders.backdrop and tbl.borders.backdrop.settings then
+				local tex = tbl.borders.backdrop.settings.bgFile
+				if type(tex) == "string" then
+					if tex == "Interface\\Addons\\SexyMap\\media\\rusticbg" then
+						tbl.borders.backdrop.settings.bgFile = 249644
+					elseif tex == "Interface\\Addons\\SexyMap\\media\\ruinsbg" then
+						tbl.borders.backdrop.settings.bgFile = 191258
 					end
 				end
 			end
-		else
-			for character, tbl in next, SexyMap2DB do
-				if tbl.borders and tbl.borders.borders then
-					for i = 1, #tbl.borders.borders do
-						local tex = tbl.borders.borders[i].texture
-						if type(tex) == "string" then
-							local id = GetFileIDFromPath(tex)
-							if id and not SexyMap82.convert[tex] then
-								SexyMap82.convert[tex] = id
-							end
-						end
-					end
-				end
-				if tbl.borders and tbl.borders.backdrop and tbl.borders.backdrop.settings then
-					local tex = tbl.borders.backdrop.settings.bgFile
+		end
+		if SexyMap2DB.presets then
+			for name, tbl in next, SexyMap2DB.presets do
+				if tbl.backdrop and tbl.backdrop.settings then
+					local tex = tbl.backdrop.settings.bgFile
 					if type(tex) == "string" then
-						local id = GetFileIDFromPath(tex)
-						if id and not SexyMap82.convert[tex] then
-							SexyMap82.convert[tex] = id
-						end
-					end
-					local tex = tbl.borders.backdrop.settings.edgeFile
-					if type(tex) == "string" then
-						local id = GetFileIDFromPath(tex)
-						if id and not SexyMap82.convert[tex] then
-							SexyMap82.convert[tex] = id
-						end
-					end
-				end
-			end
-			if SexyMap2DB.presets then
-				for name, tbl in next, SexyMap2DB.presets do
-					if tbl.borders then
-						for i = 1, #tbl.borders do
-							local tex = tbl.borders[i].texture
-							if type(tex) == "string" then
-								local id = GetFileIDFromPath(tex)
-								if id and not SexyMap82.convert[tex] then
-									SexyMap82.convert[tex] = id
-								end
-							end
-						end
-					end
-					if tbl.backdrop and tbl.backdrop.settings then
-						local tex = tbl.backdrop.settings.bgFile
-						if type(tex) == "string" then
-							local id = GetFileIDFromPath(tex)
-							if id and not SexyMap82.convert[tex] then
-								SexyMap82.convert[tex] = id
-							end
-						end
-						local tex = tbl.backdrop.settings.edgeFile
-						if type(tex) == "string" then
-							local id = GetFileIDFromPath(tex)
-							if id and not SexyMap82.convert[tex] then
-								SexyMap82.convert[tex] = id
-							end
+						if tex == "Interface\\Addons\\SexyMap\\media\\rusticbg" then
+							tbl.backdrop.settings.bgFile = 249644
+						elseif tex == "Interface\\Addons\\SexyMap\\media\\ruinsbg" then
+							tbl.backdrop.settings.bgFile = 191258
 						end
 					end
 				end
 			end
 		end
+		-- XXX end
 
 		local char = UnitName("player").."-"..GetRealmName()
 		if not SexyMap2DB[char] then
@@ -532,13 +385,14 @@ function mod:ADDON_LOADED(addon)
 			end
 		end
 
-		mod.frame:UnregisterEvent("ADDON_LOADED")
-		mod.frame:RegisterEvent("PLAYER_LOGIN")
 		mod.ADDON_LOADED = nil
 	end
 end
+mod.frame:RegisterEvent("ADDON_LOADED")
 
 function mod:PLAYER_LOGIN()
+	mod.frame:UnregisterEvent("PLAYER_LOGIN")
+
 	-- Setup config
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(name, mod.options, true)
 	LibStub("AceConfigDialog-3.0"):AddToBlizOptions(name)
@@ -568,16 +422,47 @@ function mod:PLAYER_LOGIN()
 		sm[mod.loadModules[i]]:OnEnable()
 		sm[mod.loadModules[i]].OnEnable = nil
 	end
-	mod.loadModules = nil
 
-	mod.frame:UnregisterEvent("PLAYER_LOGIN")
 	mod.PLAYER_LOGIN = nil
 end
+mod.frame:RegisterEvent("PLAYER_LOGIN")
+
+-- Hopefully temporary workaround for string size functions returning 0 for foreign fonts at PLAYER_LOGIN on a cold boot
+function mod:LOADING_SCREEN_DISABLED()
+	mod.frame:UnregisterEvent("LOADING_SCREEN_DISABLED")
+
+	for i=1, #mod.loadModules do
+		local module = sm[mod.loadModules[i]]
+		if module and module.OnLoadingScreenOver then
+			sm[mod.loadModules[i]]:OnLoadingScreenOver()
+			sm[mod.loadModules[i]].OnLoadingScreenOver = nil
+		end
+	end
+	mod.loadModules = nil
+
+	mod.LOADING_SCREEN_DISABLED = nil
+end
+mod.frame:RegisterEvent("LOADING_SCREEN_DISABLED")
+
+if mod.frame.GetFrameStrata(Minimap) ~= "LOW" then
+	mod.frame.SetFrameStrata(Minimap, "LOW") -- Blizz Defaults patch 9.0.1 Minimap.xml
+end
+if mod.frame.GetFrameLevel(Minimap) ~= 2 then
+	mod.frame.SetFrameLevel(Minimap, 2) -- Blizz Defaults patch 9.0.1 Minimap.xml
+end
+
+-- Prevent the damage caused by automagic fuckery when a frame changes parent by locking the strata/level in place
+mod.frame.SetFixedFrameStrata(Minimap, true)
+mod.frame.SetFixedFrameLevel(Minimap, true)
+mod.frame.SetParent(Minimap, UIParent)
+-- Prevent some addons doing dumb things that breaks SexyMap. #175
+hooksecurefunc(Minimap, "SetParent", function()
+	mod.frame.SetParent(Minimap, UIParent)
+end)
 
 -- Make sure the various minimap buttons follow the minimap
 -- We do this before login to prevent button placement issues
 MinimapBackdrop:ClearAllPoints()
-MinimapBackdrop:SetParent(Minimap)
 MinimapBackdrop:SetPoint("CENTER", Minimap, "CENTER", -8, -23)
 
 function mod:SetupMap()
@@ -657,7 +542,6 @@ function mod:SetupMap()
 	MinimapBorderTop:Hide()
 	Minimap:RegisterForDrag("LeftButton")
 	Minimap:SetClampedToScreen(mod.db.clamp)
-	Minimap:SetFrameStrata("LOW")
 	Minimap:SetScale(mod.db.scale or 1)
 	Minimap:SetMovable(not mod.db.lock)
 
@@ -670,17 +554,10 @@ function mod:SetupMap()
 
 	if mod.db.point then
 		Minimap:ClearAllPoints()
-		Minimap:SetParent(UIParent)
 		Minimap:SetPoint(mod.db.point, UIParent, mod.db.relpoint, mod.db.x, mod.db.y)
-		Minimap:SetFrameStrata("LOW")
 	end
 	self.SetupMap = nil
 end
-
-mod.frame:RegisterEvent("ADDON_LOADED")
-mod.frame:SetScript("OnEvent", function(_, event, ...)
-	mod[event](sm, ...)
-end)
 
 function mod:RegisterModuleOptions(modName, optionTbl, displayName)
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(name..modName, optionTbl, true)

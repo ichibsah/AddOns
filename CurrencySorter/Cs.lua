@@ -1,3 +1,4 @@
+--Game Version 9.0.2, Version 9.0.2
 Cs_order = {}
 
 local IndexList = {}
@@ -287,21 +288,22 @@ end
 local eventFrame = CreateFrame("FRAME")
 
 local function Load()
-	--print("LOAD")
-	TokenFrame_Update = Mod_TokenFrame_Update
+	hooksecurefunc("TokenFrame_Update",Mod_TokenFrame_Update)
 	hooksecurefunc(TokenFrameContainer,"update",Mod_TokenFrame_Update)
 	TokenFrame:HookScript("OnShow",CreateArrowButtons)
 	CreateResetButton()
 	eventFrame:UnregisterEvent("ADDON_LOADED")
 end
 
-eventFrame:SetScript("OnEvent", function(_,_, name)
-	if name =="CurrencySorter" then
-		if IsAddOnLoaded("Blizzard_TokenUI") then
+eventFrame:SetScript("OnEvent", function(_,event, name)
+	if event == "ADDON_LOADED" then
+		if name =="CurrencySorter" then
+			if IsAddOnLoaded("Blizzard_TokenUI") then
+				Load()
+			end
+		elseif name == "Blizzard_TokenUI" then
 			Load()
 		end
-	elseif name == "Blizzard_TokenUI" then
-		Load()
 	end
 end)
 eventFrame:RegisterEvent("ADDON_LOADED")

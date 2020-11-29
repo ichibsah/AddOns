@@ -1,20 +1,18 @@
-## Interface: 80300
+## Interface: 90001
 ## Author: Parnic, originally created by Iceroth
 ## Name: IceHUD
 ## Title: IceHUD |cff7fff7f-Ace3-|r
 ## Notes: Another HUD addon
-## Version: 1.12.14
+## Version: 1.13.0-2
 ## SavedVariables: IceCoreDB
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDogTag-3.0, LibDogTag-Unit-3.0, LibRangeCheck-2.0, LibDualSpec-1.0, LibDBIcon-1.0, AceGUI-3.0-SharedMediaWidgets
 ## X-Category: HUDs
 ## X-Website: https://www.wowace.com/projects/ice-hud
+## X-Curse-Project-ID: 5394
 ## X-WoWI-ID: 8149
-## X-Compatible-With: 11302
 
-#@no-lib-strip@
 # Libraries
 embeds.xml
-#@end-no-lib-strip@
 
 # Localization
 loc\loc.xml

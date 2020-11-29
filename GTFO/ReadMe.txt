@@ -1525,3 +1525,6 @@ Change Log:
 4.56.2
 * Updated for patch 9.0
 
+4.56.3
+* Added Shadowlands spells (world)
+

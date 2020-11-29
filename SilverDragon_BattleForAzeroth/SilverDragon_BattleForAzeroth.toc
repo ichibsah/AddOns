@@ -1,7 +1,7 @@
-## Interface: 90001
+## Interface: 90002
 ## Title: SilverDragon (BattleForAzeroth)
 ## Notes: Mobs for BattleForAzeroth
-## Version: v90001.1
+## Version: v90002.1
 ## Author: Kemayo
 ## eMail: kemayo at gmail dot com
 ## X-Category: Interface Enhancements

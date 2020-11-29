@@ -40,7 +40,7 @@ local MAX_REQUESTED_ITEM_INFO = 50
 local MAX_REQUESTS_PER_ITEM = 5
 local UNKNOWN_ITEM_NAME = L["Unknown Item"]
 local PLACEHOLDER_ITEM_NAME = L["Example Item"]
-local DB_VERSION = 6
+local DB_VERSION = 7
 local ENCODING_NUM_BITS = 6
 local ENCODING_NUM_VALUES = 2 ^ ENCODING_NUM_BITS
 local ENCODING_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
@@ -550,7 +550,9 @@ end
 -- @treturn ?number The quality
 function ItemInfo.GetQuality(item)
 	local itemString = ItemString.Get(item)
-	if not itemString then return end
+	if not itemString then
+		return
+	end
 	local itemType, _, randOrLevel, bonusOrQuality = strsplit(":", itemString)
 	randOrLevel = tonumber(randOrLevel)
 	bonusOrQuality = tonumber(bonusOrQuality)
@@ -572,6 +574,8 @@ function ItemInfo.GetQuality(item)
 	end
 	if quality then
 		private.SetSingleField(itemString, "quality", quality)
+	else
+		ItemInfo.FetchInfo(itemString)
 	end
 	return quality
 end
@@ -792,7 +796,7 @@ end
 -- @treturn ?boolean Whether or not the item is disenchantable (nil means we don't know)
 function ItemInfo.IsDisenchantable(item)
 	local itemString = ItemString.Get(item)
-	if not itemString or NON_DISENCHANTABLE_ITEMS[itemString] then
+	if not itemString or ItemInfo.GetInvSlotId(item) == (TSM.IsWowClassic() and LE_INVENTORY_TYPE_BODY_TYPE or Enum.InventoryType.IndexTabardType) or NON_DISENCHANTABLE_ITEMS[itemString] then
 		return nil
 	end
 	local quality = ItemInfo.GetQuality(itemString)
@@ -800,7 +804,7 @@ function ItemInfo.IsDisenchantable(item)
 	if not quality or not classId then
 		return nil
 	end
-	return quality >= (TSM.IsShadowlands() and Enum.ItemQuality.Uncommon or LE_ITEM_QUALITY_UNCOMMON) and (classId == LE_ITEM_CLASS_ARMOR or classId == LE_ITEM_CLASS_WEAPON)
+	return quality >= (TSM.IsWowClassic() and LE_ITEM_QUALITY_UNCOMMON or Enum.ItemQuality.Uncommon) and (classId == LE_ITEM_CLASS_ARMOR or classId == LE_ITEM_CLASS_WEAPON)
 end
 
 --- Get whether or not the item is a commodity in WoW 8.3 (and above).

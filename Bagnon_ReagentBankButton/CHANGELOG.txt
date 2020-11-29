@@ -1,0 +1,32 @@
+### 1.9.1 (2020-11-23 16:12:09 +0100) ###
+(https://github.com/LudiusMaximus/Bagnon_ReagentBankButton/compare/1.9...1.9.1)
+TOC file bump to 9.0.2.
+
+### 1.9 (2020-10-16 22:06:15 +0200) ###
+Updated toc file to match 9.0.1.
+
+### 1.8 (2020-01-26 16:06) ###
+Updated toc file to match 8.3.
+
+### 1.7 (2019-12-26 03:32) ###
+Fix for Bagnon 8.2.25+.
+
+### 1.6 (2019-12-07 12:18) ###
+Fix for tooltip of unpurchased Reagent Bank.
+
+### 1.5 (2019-12-01 13:34) ###
+Updated toc file to match 8.2.5.
+
+### 1.4 (2019-09-29 12:58) ###
+Fixed for newest version of Bagnon.
+
+### 1.3 (2019-07-27 22:55) ###
+In case of non-purchased reagent bank, the button is automatically unchecked.
+
+### 1.2 (2019-06-28 10:03) ###
+Updated toc file to match 8.2.
+
+### 1.1 (2018-12-15 16:57) ###
+Updated toc file to match 8.1.
+
+### 1.0 (2018-11-01 00:10) ###

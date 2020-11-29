@@ -1,5 +1,7 @@
-## v4.10.9 Changes
+## v4.10.19 Changes
 
-* [Retail] Added workaround for AH bugs in 9.0.1
+* [Retail] Updated prospecting ratios
+* [Retail] Fixed issue with TSM not showing proper stats on SL items
+* [Retail] Fixed SL enchanting not working properly
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

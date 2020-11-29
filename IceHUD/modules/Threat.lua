@@ -23,6 +23,13 @@ if IceHUD.WowVer >= 50000 or IceHUD.WowClassic then
 	MAX_NUM_RAID_MEMBERS = MAX_RAID_MEMBERS
 end
 
+local UnitGroupRolesAssigned = UnitGroupRolesAssigned
+if not UnitGroupRolesAssigned then
+	UnitGroupRolesAssigned = function()
+		return "NONE"
+	end
+end
+
 local MAX_NUM_RAID_MEMBERS = 40
 local MAX_NUM_PARTY_MEMBERS = 5
 
@@ -224,7 +231,7 @@ end
 
 -- create the aggro range indicator bar
 function IceThreat.prototype:CreateAggroBar()
-	self.aggroBar = self:BarFactory(self.aggroBar, "BACKGROUND","ARTWORK")
+	self.aggroBar = self:BarFactory(self.aggroBar, "BACKGROUND","ARTWORK", "Aggro")
 
 	local r, g, b = self:GetColor("ThreatPullAggro")
 	if (self.settings.backgroundToggle) then
@@ -236,7 +243,7 @@ function IceThreat.prototype:CreateAggroBar()
 end
 
 function IceThreat.prototype:CreateSecondThreatBar()
-	self.secondThreatBar = self:BarFactory(self.secondThreatBar, "MEDIUM", "OVERLAY")
+	self.secondThreatBar = self:BarFactory(self.secondThreatBar, "MEDIUM", "OVERLAY", "SecondThreat")
 
 	self.secondThreatBar.bar:SetVertexColor(self:GetColor("ThreatSecondPlace", self.alpha * self.moduleSettings.secondPlaceThreatAlpha))
 

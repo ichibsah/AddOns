@@ -3549,16 +3549,34 @@ AAP.QuestStepListListingZone = {
 	["Z-15-Oribos-Story"] = 1670,
 	
 	["Test1"] = 1533,
-	["(1/8) 10-50 Orgrimmar"] = 85,
-	["(2/8) 10-50 Tanaan Jungle"] = 577,
-	["(3/8) 10-50 Frostfire Ridge"] = 525,
+	["(1/6) 10-50 Orgrimmar"] = 85,
+	["(2/6) 10-50 Tanaan Jungle"] = 577,
+	["(3/6) 10-50 Frostfire Ridge"] = 525,
+	["(4/6) 10-50 Gorgrond"] = 543,
+	["(5/6) 10-50 Talador"] = 535,
+	["(6/6) 10-50 Spires of Arak"] = 542,
+	["(7-extra) 10-50 Nagrand"] = 550,
+	
+	["Legion - Azsuna"] = 630,
+	["Legion - Val'Sharah"] = 641,
+	["Legion - Stormheim"] = 634,
+	
+	-- ["DEV - Silverpine Forest"] = 21,
+	-- ["DEV - Hillsbrad Foothills"] = 25,
+	["DEV - StoryMode Only (Not Enough XP)"] = 1670,
 }
 AAP.QuestStepListListing = {}
 AAP.QuestStepListListing["Shadowlands"] = {
 
-	["85-DesMephisto-Orgrimmar-p1"] = "(1/8) 10-50 Orgrimmar",
-	["577-DesMephisto-TanaanJungle"] = "(2/8) 10-50 Tanaan Jungle",
-	["525-DesMephisto-FrostfireRidge-p1"] = "(3/8) 10-50 Frostfire Ridge",
+	["85-DesMephisto-Orgrimmar-p1"] = "(1/6) 10-50 Orgrimmar",
+	["577-DesMephisto-TanaanJungle"] = "(2/6) 10-50 Tanaan Jungle",
+	["525-DesMephisto-FrostfireRidge-p1"] = "(3/6) 10-50 Frostfire Ridge",
+	["543-DesMephisto-Gorgrond-p1"] = "(4/6) 10-50 Gorgrond",
+	["535-DesMephisto-Talador-p1"] = "(5/6) 10-50 Talador",
+	["542-DesMephisto-SpiresOfArak"] = "(6/6) 10-50 Spires of Arak",
+	["550-DesMephisto-Nagrand"] = "(7-extra) 10-50 Nagrand",
+	
+	["Shadowlands-StoryOnly-H"] = "DEV - StoryMode Only (Not Enough XP)",
 }
 if (AAP.Level < 33) then
 	AAP.QuestStepListListing["Shadowlands"]["1409-Exile's Reach"] = "01-10 Exile's Reach"
@@ -3568,7 +3586,8 @@ AAP.QuestStepListListing["Kalimdor"] = {
 	["1-Durotar"] = "01-30 Durotar (Full)",
 	["10-NorthernBarrens"] = "10-30 Northern Barrens",
 	["199-SouthernBarrens"] = "10-30 Southern Barrens",
-	
+	-- ["DEV-Silverpine"] = "DEV - Silverpine Forest",
+	-- ["DEV-Hillsbrad"] = "DEV - Hillsbrad Foothills",
 	
 	
 }
@@ -3590,10 +3609,13 @@ AAP.QuestStepListListing["SpeedRun"] = {
 	["1525-Z14-Revendreth-Story"] = "Z-14-Revendreth-Story",
 	["1671-Z15-Oribos-Story"] = "Z-15-Oribos-Story",
 	
+	
 	["1533-Bastion-NonStoryMode-1"] = "Test1",
 }
 AAP.QuestStepListListing["EasternKingdom"] = {
-
+	["630-Azsuna"] = "Legion - Azsuna",
+	["641-ValSharah"] = "Legion - Val'Sharah",
+	["634-Stormheim"] = "Legion - Stormheim",
 }
 AAP["Kalimdor"] = {}
 AAP["Kalimdor"][1] = 1

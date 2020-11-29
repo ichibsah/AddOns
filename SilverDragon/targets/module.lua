@@ -11,6 +11,9 @@ function module:OnInitialize()
 			locked = true,
 			style = "SilverDragon",
 			closeAfter = 30,
+			closeDead = true,
+			announce = "IMMEDIATELY", -- or "OPENLAST"
+			announceChannel = "CHANNEL",
 			sources = {
 				target = false,
 				grouptarget = true,
@@ -47,42 +50,81 @@ function module:OnInitialize()
 				end,
 				order = 25,
 				args = {
-					about = config.desc("Once you've found a rare, it can be nice to actually target it. So this pops up a frame that targets the rare when you click on it. It can show a 3d model of that rare, but only if we already know the ID of the rare (though a data import), or if it was found by being targetted. Nameplates are right out.", 0),
+					about = config.desc("Once you've found a rare, it can be nice to actually target it. So this pops up a frame that targets the rare when you click on it.", 0),
 					show = config.toggle("Show", "Show the click-target frame.", 10),
 					locked = config.toggle("Locked", "Lock the click-target frame in place unless ALT is held down", 15),
-					closeAfter = {
-						type = "range",
-						name = "Close after",
-						desc = "How long to leave the target frame up without you interacting with it before it'll go away, in seconds",
-						width = "full",
-						min = 5,
-						max = 600,
-						step = 1,
-					},
-					sources = {
-						type="multiselect",
-						name = "Rare Sources",
-						desc = "Which ways of finding a rare should cause this frame to appear?",
-						get = function(info, key) return self.db.profile.sources[key] end,
-						set = function(info, key, v) self.db.profile.sources[key] = v end,
-						values = {
-							target = "Targets",
-							grouptarget = "Group targets",
-							mouseover = "Mouseover",
-							nameplate = "Nameplates",
-							vignette = "Vignettes",
-							['point-of-interest'] = "Map Points of Interest",
-							chat = "Chat yells",
-							groupsync = "Group Sync",
-							guildsync = "Guild Sync",
-						},
-					},
 					style = {
 						type = "select",
 						name = "Style",
 						desc = "Appearance of the frame",
 						values = {},
+						order = 20,
 					},
+					closeAfter = {
+						type = "range",
+						name = "Close after",
+						desc = "How long to leave the target frame up without you interacting with it before it'll go away, in seconds. Every time you mouse over the frame this timer resets.",
+						width = "full",
+						min = 5,
+						max = 600,
+						step = 1,
+						order = 25,
+					},
+					closeDead = config.toggle("Close when dead", "Try to close the click-target frame when the mob dies. We'll only be able to *tell* if it dies if we're nearby and in combat. Might have to wait until you're out of combat to do the hiding.", 30),
+					announceHeader = {
+						type = "header",
+						name = "Chat announcements",
+						order = 40,
+					},
+					announceDesc = config.desc("Shift-clicking the target popup will try to send a message about the rare. If you've got it targeted or are near enough to see its nameplate, health will be included.\nIf you have an editbox open, it'll paste the message into that for you to send. If you don't, it'll do whatever these settings say:", 41),
+					announce = {
+						type = "select",
+						name = "Announce to chat",
+						values = {
+							OPENLAST = "Open last editbox",
+							IMMEDIATELY = "Send immediately",
+						},
+						order = 45,
+					},
+					announceChannel = {
+						type = "select",
+						name = "Immediate announce to...",
+						values = {
+							["CHANNEL"] = COMMUNITIES_DEFAULT_CHANNEL_NAME, -- strictly this isn't correct, but...
+							["SAY"] = CHAT_MSG_SAY,
+							["YELL"] = CHAT_MSG_YELL,
+							["PARTY"] = CHAT_MSG_PARTY,
+							["RAID"] = CHAT_MSG_RAID,
+							["GUILD"] = CHAT_MSG_GUILD,
+							["OFFICER"] = CHAT_MSG_OFFICER,
+						},
+						order = 46,
+					},
+					sources = {
+						type = "group",
+						name = "Rare Sources",
+						args = {
+							desc = config.desc("Which ways of finding a rare should cause this frame to appear?", 0),
+							sources = {
+								type="multiselect",
+								name = "Sources",
+								get = function(info, key) return self.db.profile.sources[key] end,
+								set = function(info, key, v) self.db.profile.sources[key] = v end,
+								values = {
+									target = "Targets",
+									grouptarget = "Group targets",
+									mouseover = "Mouseover",
+									nameplate = "Nameplates",
+									vignette = "Vignettes",
+									['point-of-interest'] = "Map Points of Interest",
+									chat = "Chat yells",
+									groupsync = "Group Sync",
+									guildsync = "Guild Sync",
+								},
+								order = 10,
+							},
+						},
+					}
 				},
 			},
 		}
@@ -146,5 +188,52 @@ function module:PLAYER_REGEN_ENABLED()
 		Debug("Showing queued popup")
 		self:ShowFrame(pending)
 		pending = nil
+	end
+end
+
+function module:GetGeneralID()
+	local channelFormat = GetLocale() == "ruRU" and "%s: %s" or "%s - %s"
+	local zoneText = GetZoneText()
+	local general = EnumerateServerChannels()
+	if zoneText == nil or general == nil then return false end
+	return GetChannelName(channelFormat:format(general, zoneText))
+end
+
+function module:SendLinkToMob(id, uiMapID, x, y)
+	local unit = core:FindUnitWithID(id)
+	local text = ("%s %s|cffffff00|Hworldmap:%d:%d:%d|h[%s]|h|r"):format(
+		core:NameForMob(id, unit),
+		(unit and ('(' .. math.ceil(UnitHealth(unit) / UnitHealthMax(unit) * 100) .. '%) ') or ''),
+		uiMapID,
+		x * 10000,
+		y * 10000,
+		-- Can't do this:
+		-- core:GetMobLabel(self.data.id) or UNKNOWN
+		-- WoW seems to filter out anything which isn't the standard MAP_PIN_HYPERLINK
+		MAP_PIN_HYPERLINK
+	)
+	PlaySound(SOUNDKIT.UI_MAP_WAYPOINT_CHAT_SHARE)
+	-- if you have an open editbox, just paste to it
+	if not ChatEdit_InsertLink(text) then
+		-- then do whatever's configured
+		if module.db.profile.announce == "OPENLAST" then
+			ChatFrame_OpenChat(text)
+		elseif module.db.profile.announce == "IMMEDIATELY" then
+			local generalID
+			if module.db.profile.announceChannel == "CHANNEL" then
+				generalID = module:GetGeneralID()
+				if not generalID then
+					ChatFrame_OpenChat(text)
+					return
+				end
+			end
+			Debug("SendChatMessage", text, module.db.profile.announceChannel, generalID)
+			SendChatMessage(
+				text,
+				module.db.profile.announceChannel,
+				nil, -- use default language
+				module.db.profile.announceChannel == "CHANNEL" and generalID or nil
+			)
+		end
 	end
 end

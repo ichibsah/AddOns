@@ -355,13 +355,11 @@ local optionsTable = {
 		order = 1,
 		type = "description",
 		name = L["intro"] .. "\n",
-		fontSize = "medium",			
 	},
 	descreset = {
 		order = 9,
 		type = "description",
 		name = L["reset_desc"],
-		fontSize = "medium",			
 	},
 	reset = {
 		order = 10,
@@ -375,13 +373,11 @@ local optionsTable = {
 		type = "description",
 		name = function(info) return L["current"] .. " " .. NORMAL_FONT_COLOR_CODE .. info.handler:GetCurrentProfile() .. FONT_COLOR_CODE_CLOSE end,
 		width = "default",
-		fontSize = "medium",			
 	},
 	choosedesc = {
 		order = 20,
 		type = "description",
 		name = "\n" .. L["choose_desc"],
-		fontSize = "medium",			
 	},
 	new = {
 		name = L["new"],
@@ -405,7 +401,6 @@ local optionsTable = {
 		order = 50,
 		type = "description",
 		name = "\n" .. L["copy_desc"],
-		fontSize = "medium",			
 	},
 	copyfrom = {
 		order = 60,
@@ -422,7 +417,6 @@ local optionsTable = {
 		order = 70,
 		type = "description",
 		name = "\n" .. L["delete_desc"],
-		fontSize = "medium",			
 	},
 	delete = {
 		order = 80,

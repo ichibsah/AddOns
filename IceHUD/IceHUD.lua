@@ -259,6 +259,10 @@ function IceHUD:NotifyOptionsChange()
 end
 
 function IceHUD:OnEnable(isFirst)
+--	if isFirst then
+		self:SetDebugging(self.IceCore:GetDebug())
+		self.debugFrame = ChatFrame1
+--	end
 	self:Debug("IceHUD:OnEnable()")
 
 	if self.db.profile.enable then
@@ -274,11 +278,6 @@ function IceHUD:OnEnable(isFirst)
 	--[===[@debug@
 	IceHUD_Options:OnLoad()
 	--@end-debug@]===]
-
---	if isFirst then
-		self:SetDebugging(self.IceCore:GetDebug())
-		self.debugFrame = ChatFrame1
---	end
 end
 
 -- add settings changes/updates here so that existing users don't lose their settings
@@ -315,7 +314,7 @@ function IceHUD:InitLDB()
 
 		if ldbButton then
 			function ldbButton:OnTooltipShow()
-				self:AddLine(L["IceHUD"] .. " 1.12.14")
+				self:AddLine(L["IceHUD"] .. " 1.13.0-2")
 				self:AddLine(L["Click to open IceHUD options."], 1, 1, 1)
 			end
 		end
@@ -367,7 +366,11 @@ function IceHUD:Debug(...)
 		for n=1,select('#', ...) do
 			msg = msg .. tostring(select(n, ...)) .. " "
 		end
-		self.debugFrame:AddMessage(msg)
+		if self.debugFrame then
+			self.debugFrame:AddMessage(msg)
+		else
+			print(msg)
+		end
 	end
 end
 

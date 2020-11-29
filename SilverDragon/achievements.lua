@@ -153,6 +153,8 @@ local achievements = {
 	},
 	[11786] = {}, -- Terrors of the Shore
 	[11841] = {}, -- Naxt Victim
+	[12026] = {}, -- Invasion Obliteration
+	[12028] = {}, -- Envision Invasion Eradication
 	[12078] = { -- Commander of Argus
 		[127323] = 37629, -- Ataxon
 	},
@@ -402,7 +404,42 @@ local achievements = {
 	[13690] = {}, -- Nazjatarget Eliminated (Nazjatar)
 	[13691] = {}, -- I Thought You Said They'd Be Rare (Nazjatar)
 	[14159] = {}, -- Combating the Corruption (Assaults)
-	[14307] = {}, -- Adventurer of Bastion
+	[14307] = { -- Adventurer of Bastion
+		[158659] = 50582, -- Herculon
+		[160721] = 50596, -- Fallen Acolyte Erisne
+		[161527] = 50597, -- Sigilback
+		[161530] = 50598, -- Cloudtail
+		[161529] = 50599, -- Nemaeus
+		[160629] = 50592, -- Baedos
+		[167078] = 50600, -- Wingflayer the Cruel
+		-- [] = 50594, -- Vesper Repair: Sophia's Aria
+		[163460] = 50595, -- Dionae
+		[170548] = 50601, -- Sundancer
+		[170659] = 50602, -- Basilofos, King of the Hill
+		[170623] = 50603, -- Dark Watcher
+		[170932] = 50604, -- Cloudfeather Guardian
+		[171009] = 50605, -- Enforcer Aegeon
+		[171008] = 50606, -- Unstable Memory
+		[171013] = 50607, -- Embodied Hunger
+		[171040] = 50608, -- Xixin the Ravening
+		[171041] = 50609, -- Worldfeaster Chronn
+		[171014] = 50610, -- Collector Astorestes
+		[171011] = 50611, -- Demi the Relic Hoarder
+		[171189] = 50612, -- Bookkeeper Mnemis
+		[171211] = 50613, -- Aspirant Eolis
+		[171255] = 50614, -- Echo of Aella
+		[171010] = 50615, -- Corrupted Clawguard
+		[171327] = 50616, -- Reekmonger
+		[161528] = 50617, -- Aethon
+		-- [] = 50593, -- Vesper Repair: Sophia's Overture
+		[156339] = 50618, -- Orstus and Sotiros
+		[156340] = 50618, -- Orstus and Sotiros
+		[170832] = 50619, -- The Ascended Council (Champion of Loyalty)
+		[170833] = 50619, -- The Ascended Council (Champion of Wisdom)
+		[170834] = 50619, -- The Ascended Council (Champion of Purity)
+		[170835] = 50619, -- The Ascended Council (Champion of Courage)
+		[170836] = 50619, -- The Ascended Council (Champion of Humility)
+	},
 	[14308] = {}, -- Adventurer of Maldraxxus
 	[14309] = {}, -- Adventurer of Ardenweald
 	[14310] = {}, -- Adventurer of Revendreth
@@ -509,6 +546,13 @@ function ns:UpdateTooltipWithCompletion(tooltip, id)
 	end
 end
 
+function ns:HasLoot(id)
+	if not (id and ns.mobdb[id]) then
+		return false
+	end
+	return ns.mobdb[id].mount or ns.mobdb[id].toy or ns.mobdb[id].pet
+end
+
 function ns:LootStatus(id)
 	if not id or not ns.mobdb[id] then
 		return
@@ -574,6 +618,8 @@ function ns:UpdateTooltipWithLootSummary(tooltip, id)
 				1, 1, 0,
 				isCollected and 0 or 1, isCollected and 1 or 0, 0
 			)
+		else
+			tooltip:AddDoubleLine(MOUNT, SEARCH_LOADING_TEXT, 1, 1, 0, 0, 1, 1)
 		end
 	end
 	if ns.mobdb[id].pet then
@@ -592,6 +638,8 @@ function ns:UpdateTooltipWithLootSummary(tooltip, id)
 				1, 1, 0,
 				r, g, b
 			)
+		else
+			tooltip:AddDoubleLine(TOOLTIP_BATTLE_PET, SEARCH_LOADING_TEXT, 1, 1, 0, 0, 1, 1)
 		end
 	end
 	if ns.mobdb[id].toy then
@@ -604,6 +652,8 @@ function ns:UpdateTooltipWithLootSummary(tooltip, id)
 				1, 1, 0,
 				owned and 0 or 1, owned and 1 or 0, 0
 			)
+		else
+			tooltip:AddDoubleLine(TOY, SEARCH_LOADING_TEXT, 1, 1, 0, 0, 1, 1)
 		end
 	end
 end

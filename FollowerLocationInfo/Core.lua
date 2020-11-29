@@ -633,7 +633,7 @@ function FollowerLocationInfo_OnEvent(self,event,arg1)
 			tinsert(D.otherFiltersOrder,{i,L[i]});
 		end
 
-		D.Version = {Core="1.6.0-release",Data=""};
+		D.Version = {Core="1.6.2-release",Data=""};
 
 		local _,title = GetAddOnInfo(addon.."_Data");
 		if title then

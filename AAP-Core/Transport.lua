@@ -1,5 +1,6 @@
 ﻿AAP.FP = {}
 AAP.FP.Zonening = 0
+local AAPLumberCheck = 0
 
 function AAP.FP.TestDest()
 	AAP.FP.TestDestFrame = CreateFrame("frame", "AAP.FP.TestDestFramez", UIParent)
@@ -429,109 +430,136 @@ function AAP.FP.GetCustomZone()
 			zenr = zenr + 1
 		end
 	end
-	if (UnitFactionGroup("player") == "Alliance" and C_QuestLog.IsQuestFlaggedCompleted(59751) == false and (C_QuestLog.IsQuestFlaggedCompleted(60545) == true or C_QuestLog.IsOnQuest(60545) == true)) then
+	if (zenr == 0 and UnitFactionGroup("player") == "Alliance" and C_QuestLog.IsQuestFlaggedCompleted(59751) == false and (C_QuestLog.IsQuestFlaggedCompleted(60545) == true or C_QuestLog.IsOnQuest(60545) == true)) then
 		return 84, "84-IntroQline"
 	end
-	if (UnitFactionGroup("player") == "Horde" and C_QuestLog.IsQuestFlaggedCompleted(59751) == false and (C_QuestLog.IsQuestFlaggedCompleted(61874) == true or C_QuestLog.IsOnQuest(61874) == true)) then
+	if (zenr == 0 and UnitFactionGroup("player") == "Horde" and C_QuestLog.IsQuestFlaggedCompleted(59751) == false and (C_QuestLog.IsQuestFlaggedCompleted(61874) == true or C_QuestLog.IsOnQuest(61874) == true)) then
 		return 85, "85-IntroQline"
 	end
-	if (not ZeMap and C_QuestLog.IsOnQuest(57159)) then
+	if (zenr == 0 and not ZeMap and C_QuestLog.IsOnQuest(57159)) then
 		return AAP.QuestStepListListingZone["Z-12-Revendreth-Story"], "1525-Z12-Revendreth-Story"
 	end
-	if (C_QuestLog.IsOnQuest(57876) and C_QuestLog.IsQuestFlaggedCompleted(57876) == false) then
+	if (zenr == 0 and C_QuestLog.IsOnQuest(57876) and C_QuestLog.IsQuestFlaggedCompleted(57876) == false) then
 		return AAP.QuestStepListListingZone["Z-14-Revendreth-Story"], "1525-Z14-Revendreth-Story"
 	end
 	if (zenr == 0 and AAP.Level > 49) then
 		AAP.ProgressText = "Auto Path"
-		if (C_QuestLog.IsQuestFlaggedCompleted(58086) == false and (C_QuestLog.IsOnQuest(61874) == true or C_QuestLog.IsQuestFlaggedCompleted(61874) == true)) then
+		AAP.ProgressShown = 0
+		if (C_QuestLog.IsQuestFlaggedCompleted(58086) == false and (C_QuestLog.IsOnQuest(61874) == true or C_QuestLog.IsQuestFlaggedCompleted(61874) == true or C_QuestLog.IsOnQuest(59751) or C_QuestLog.IsQuestFlaggedCompleted(59751) == true)) then
 			if (C_QuestLog.IsQuestFlaggedCompleted(59770) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-00-TheMaw-Story"], "1648-Z0-TheMaw-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(59773) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-01-Oribos-Story"], "1670-Z1-Oribos-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(60056) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-02-Bastion-Story"], "1533-Z2-Bastion-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(57386) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-03-Oribos-Story"], "1613-Z3-Oribos-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(59874) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-04-Maldraxxus-Story"], "1536-Z4-Maldraxxus-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(59897) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-05-Oribos-Story"], "1670-Z5-Oribos-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(62654) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-06-The Maw-Story"], "1543-Z6-TheMaw-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(59011) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-07-Oribos-Story"], "1670-Z7-Oribos-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(59206) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-08-Maldraxxus-Story"], "1536-Z8-Maldraxxus-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(60338) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-09-Oribos-Story"], "1670-Z9-Oribos-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(58724) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-10-Ardenweald-Story"], "1565-Z10-Ardenweald-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(57025) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-11-Oribos-Story"], "1671-Z11-Oribos-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(57689) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-12-Revendreth-Story"], "1525-Z12-Revendreth-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(57693) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-13-The Maw-Story"], "1543-Z13-TheMaw-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(57876) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-14-Revendreth-Story"], "1525-Z14-Revendreth-Story"
 			end
 			if (C_QuestLog.IsQuestFlaggedCompleted(57878) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-15-Oribos-Story"], "1671-Z15-Oribos-Story"
 			end
 		elseif (C_QuestLog.IsOnQuest(61874) == true or C_QuestLog.IsQuestFlaggedCompleted(61874) == true) then
 			--- Oribos Zone Pick non-Story
 			if (C_QuestLog.IsQuestFlaggedCompleted(57693) == true and C_QuestLog.IsQuestFlaggedCompleted(62159) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-01-Oribos-Story"], "1670-Z1-Oribos-StoryX2"
 			end
 			--- Oribos Bastion Pick non-Story
 			if (C_QuestLog.IsQuestFlaggedCompleted(57693) == true and (C_QuestLog.IsOnQuest(62275) == true or C_QuestLog.IsQuestFlaggedCompleted(62275) == true) and C_QuestLog.IsQuestFlaggedCompleted(62707) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-01-Oribos-Story"], "1670-Z1-Oribos-StoryXBastion"
 			end
 			--- Bastion non-Story
 			if (C_QuestLog.IsQuestFlaggedCompleted(62159) == true and C_QuestLog.IsQuestFlaggedCompleted(62729) == false) then
+				AAP.ProgressShown = 1
 				return 1533, "1533-Bastion-NonStoryMode-1"
 			end
 			--- Oribos Maldraxxus Pick non-Story
 			if ((C_QuestLog.IsOnQuest(62278) == true or C_QuestLog.IsQuestFlaggedCompleted(62278) == true)) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-01-Oribos-Story"], "1670-Z1-Oribos-StoryXMaldraxxus"
 			end
 
 
 			if (C_QuestLog.IsQuestFlaggedCompleted(62654) == true and C_QuestLog.IsQuestFlaggedCompleted(59011) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-07-Oribos-Story"], "1670-Z7-Oribos-Story"
 			end
 
 			if (C_QuestLog.IsQuestFlaggedCompleted(59206) == true and C_QuestLog.IsQuestFlaggedCompleted(61716) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-09-Oribos-Story"], "1670-Z9-Oribos-Storyx2"
 			end
 			if ((C_QuestLog.IsOnQuest(62277) == true or C_QuestLog.IsQuestFlaggedCompleted(62277) == true) and C_QuestLog.IsQuestFlaggedCompleted(60338) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-01-Oribos-Story"], "1670-Z1-Oribos-StoryXArdenweald"
 			end
 
 			if ((C_QuestLog.IsOnQuest(62279) == true or C_QuestLog.IsQuestFlaggedCompleted(62279) == true) and C_QuestLog.IsQuestFlaggedCompleted(57025) == false) then
+				AAP.ProgressShown = 1
 				return AAP.QuestStepListListingZone["Z-01-Oribos-Story"], "1670-Z1-Oribos-StoryXRevendreth"
 			end
 
 			return 1670, "1670-Z1-Oribos-ZonePick"
 		else
+			AAP.ProgressShown = 0
 			return
 		end
 	elseif (zenr == 0) then
 		AAP.ProgressText = "Auto Path"
+		AAP.ProgressShown = 0
 		if (ZeMap == 1409 or ZeMap == 1726 or ZeMap == 1727 or ZeMap == 1728) then
 			if (IsAddOnLoaded("AAP-Shadowlands") == false) then
 				local loaded, reason = LoadAddOn("AAP-Shadowlands")
@@ -544,38 +572,49 @@ function AAP.FP.GetCustomZone()
 		--	return AAP.QuestStepListListingZone["01-10 Exile's Reach"], "1409-Exile's Reach"
 		end
 		if (C_QuestLog.IsQuestFlaggedCompleted(34398) == false and AAP.Faction == "Alliance") then
+			AAP.ProgressShown = 1
 			return AAP.QuestStepListListingZone["(1/7) 1-50 Stormwind"], "A84-DesMephisto-Stormwind-War"
 		end
 		if (C_QuestLog.IsQuestFlaggedCompleted(35884) == false and AAP.Faction == "Alliance") then
+			AAP.ProgressShown = 1
 			return AAP.QuestStepListListingZone["(2/7) 1-50 Tanaan Jungle"], "A577-DesMephisto-TanaanJungle"
 		end
 		if (C_QuestLog.IsQuestFlaggedCompleted(35556) == false and AAP.Faction == "Alliance") then
+			AAP.ProgressShown = 1
 			return AAP.QuestStepListListingZone["(3/7) 1-50 Shadowmoon"], "A539-DesMephisto-Shadowmoon1"
 		end
 		if (C_QuestLog.IsQuestFlaggedCompleted(36937) == false and AAP.Faction == "Alliance") then
+			AAP.ProgressShown = 1
 			return AAP.QuestStepListListingZone["(4/7) 1-50 Gorgrond"], "A543-DesMephisto-Gorgrond"
 		end
 		if (C_QuestLog.IsQuestFlaggedCompleted(34587) == false and AAP.Faction == "Alliance") then
+			AAP.ProgressShown = 1
 			return AAP.QuestStepListListingZone["(5/7) 1-50 Talador"], "A535-DesMephisto-Talador"
 		end
 		if (C_QuestLog.IsQuestFlaggedCompleted(34624) == false and AAP.Faction == "Alliance") then
+			AAP.ProgressShown = 1
 			return AAP.QuestStepListListingZone["(6/7) 1-50 Shadowmoon"], "A539-DesMephisto-Shadowmoon2"
 		end
 		if (C_QuestLog.IsQuestFlaggedCompleted(34707) == false and AAP.Faction == "Alliance") then
+			AAP.ProgressShown = 1
 			return AAP.QuestStepListListingZone["(7/7) 1-50 Talador"], "A535-DesMephisto-Talador2"
 		end
 
 	end
-	if (C_QuestLog.IsQuestFlaggedCompleted(62023) == true and C_QuestLog.IsQuestFlaggedCompleted(57904) == false) then
+	if (zenr == 0 and C_QuestLog.IsQuestFlaggedCompleted(62023) == true and C_QuestLog.IsQuestFlaggedCompleted(57904) == false) then
+		AAP.ProgressShown = 1
 		return 1533, "1670-Kyrian"
 	end
-	if (C_QuestLog.IsQuestFlaggedCompleted(62019) == true and C_QuestLog.IsQuestFlaggedCompleted(58159) == false) then
+	if (zenr == 0 and C_QuestLog.IsQuestFlaggedCompleted(62019) == true and C_QuestLog.IsQuestFlaggedCompleted(58159) == false) then
+		AAP.ProgressShown = 1
 		return 1565, "1670-NightFae"
 	end
-	if (C_QuestLog.IsQuestFlaggedCompleted(62020) == true and C_QuestLog.IsQuestFlaggedCompleted(59320) == false) then
+	if (zenr == 0 and C_QuestLog.IsQuestFlaggedCompleted(62020) == true and C_QuestLog.IsQuestFlaggedCompleted(59320) == false) then
+		AAP.ProgressShown = 1
 		return 1525, "1670-Venthyr"
 	end
-	if (C_QuestLog.IsQuestFlaggedCompleted(62017) == true and C_QuestLog.IsQuestFlaggedCompleted(60049) == false) then
+	if (zenr == 0 and C_QuestLog.IsQuestFlaggedCompleted(62017) == true and C_QuestLog.IsQuestFlaggedCompleted(60049) == false) then
+		AAP.ProgressShown = 1
 		return 1536, "1670-Necrolords"
 	end
 	AAP.ProgressText = "Custom Path"
@@ -590,6 +629,7 @@ function AAP.FP.GetCustomZone()
 			if (AAP.QuestStepListListingStartAreas["EasternKingdom"]) then
 				for AAP_index2,AAP_value2 in AAP.pairsByKeys(AAP.QuestStepListListingStartAreas["EasternKingdom"]) do
 					if (AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi] == AAP_value2) then
+						AAP.ProgressShown = 1
 						return AAP.QuestStepListListingZone[AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi]], AAP_index2
 					end
 				end
@@ -597,6 +637,7 @@ function AAP.FP.GetCustomZone()
 			if (AAP.QuestStepListListingStartAreas["BrokenIsles"]) then
 				for AAP_index2,AAP_value2 in AAP.pairsByKeys(AAP.QuestStepListListingStartAreas["BrokenIsles"]) do
 					if (AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi] == AAP_value2) then
+						AAP.ProgressShown = 1
 						return AAP.QuestStepListListingZone[AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi]], AAP_index2
 					end
 				end
@@ -604,27 +645,32 @@ function AAP.FP.GetCustomZone()
 			if (AAP.QuestStepListListingStartAreas["Kalimdor"]) then
 				for AAP_index2,AAP_value2 in AAP.pairsByKeys(AAP.QuestStepListListingStartAreas["Kalimdor"]) do
 					if (AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi] == AAP_value2) then
+						AAP.ProgressShown = 1
 						return AAP.QuestStepListListingZone[AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi]], AAP_index2
 					end
 				end
 			end
 			for AAP_index2,AAP_value2 in AAP.pairsByKeys(AAP.QuestStepListListing["EasternKingdom"]) do
 				if (AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi] == AAP_value2) then
+					AAP.ProgressShown = 1
 					return AAP.QuestStepListListingZone[AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi]], AAP_index2
 				end
 			end
 			for AAP_index2,AAP_value2 in AAP.pairsByKeys(AAP.QuestStepListListing["Kalimdor"]) do
 				if (AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi] == AAP_value2) then
+					AAP.ProgressShown = 1
 					return AAP.QuestStepListListingZone[AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi]], AAP_index2
 				end
 			end
 			for AAP_index2,AAP_value2 in AAP.pairsByKeys(AAP.QuestStepListListing["SpeedRun"]) do
 				if (AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi] == AAP_value2) then
+					AAP.ProgressShown = 1
 					return AAP.QuestStepListListingZone[AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi]], AAP_index2
 				end
 			end
 			for AAP_index2,AAP_value2 in AAP.pairsByKeys(AAP.QuestStepListListing["Shadowlands"]) do
 				if (AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi] == AAP_value2) then
+					AAP.ProgressShown = 1
 					return AAP.QuestStepListListingZone[AAP_Custom[AAP.Name.."-"..AAP.Realm][CLi]], AAP_index2
 				end
 			end
@@ -633,6 +679,32 @@ function AAP.FP.GetCustomZone()
 	AAP.ProgressText = nil
 end
 function AAP.FP.GetMeToNextZoneSpecialRe(AAPt_Zone)
+	if (AAPLumberCheck == 0 and C_QuestLog.IsQuestFlaggedCompleted(35049)) then
+		AAP.QuestStepList["A543-DesMephisto-Gorgrond"] = nil
+		AAP.QuestStepList["A543-DesMephisto-Gorgrond"] = AAP.QuestStepList["A543-DesMephisto-Gorgrond-Lumbermill"]
+		AAPLumberCheck = 1
+	end
+	if (AAPLumberCheck == 0 and C_QuestLog.IsQuestFlaggedCompleted(34992)) then
+		AAP.QuestStepList["543-DesMephisto-Gorgrond-p1"] = nil
+		AAP.QuestStepList["543-DesMephisto-Gorgrond-p1"] = AAP.QuestStepList["543-DesMephisto-Gorgrond-Lumbermill"]
+		AAPLumberCheck = 1
+	end
+
+	if (((ZeMap == 1409 or ZeMap == 1726) or C_QuestLog.IsQuestFlaggedCompleted(55992) or C_QuestLog.IsQuestFlaggedCompleted(55991) or C_QuestLog.IsQuestFlaggedCompleted(59984) or C_QuestLog.IsQuestFlaggedCompleted(59985)) and AAP.Level < 15) then
+		if (C_QuestLog.IsOnQuest(59583) == true) then
+			C_QuestLog.SetSelectedQuest(59583)
+			C_QuestLog.SetAbandonQuest()
+			C_QuestLog.AbandonQuest()
+		end
+		if (C_QuestLog.IsOnQuest(60343) == true) then
+			C_QuestLog.SetSelectedQuest(60343)
+			C_QuestLog.SetAbandonQuest()
+			C_QuestLog.AbandonQuest()
+		end
+		AAP.QuestStepList["A84-DesMephisto-Stormwind-War"] = AAP.QuestStepList["A84-DesMephisto-Stormwind-War2"]
+	elseif (AAP.Level < 15) then
+		AAP.QuestStepList["A84-DesMephisto-Stormwind-War"] = AAP.QuestStepList["A84-DesMephisto-Stormwind-War3"]
+	end
 	if (AAPt_Zone == 1671) then
 		AAPt_Zone = 1670
 	elseif (AAPt_Zone == 578) then
@@ -653,12 +725,32 @@ function AAP.FP.GetMeToNextZoneSpecialRe(AAPt_Zone)
 		AAPt_Zone = 1409
 	end
 	
+	
+	if (AAP.ActiveMap == "Shadowlands-StoryOnly-A" and ((AAPt_Zone == 84) or (AAPt_Zone == 1648) or (AAPt_Zone == 1670) or (AAPt_Zone == 1671) or (AAPt_Zone == 1533) or (AAPt_Zone == 1613) or (AAPt_Zone == 1536) or (AAPt_Zone == 1543) or (AAPt_Zone == 1565) or (AAPt_Zone == 1525))) then
+		AAPt_Zone = 1670
+	end
+	if (AAP.ActiveMap == "Shadowlands-StoryOnly-H" and ((AAPt_Zone == 85) or (AAPt_Zone == 1648) or (AAPt_Zone == 1670) or (AAPt_Zone == 1671) or (AAPt_Zone == 1533) or (AAPt_Zone == 1613) or (AAPt_Zone == 1536) or (AAPt_Zone == 1543) or (AAPt_Zone == 1565) or (AAPt_Zone == 1525))) then
+		AAPt_Zone = 1670
+	end
 	if (AAP.ActiveMap == "85-DesMephisto-Orgrimmar-p1" and AAPt_Zone == 17) then
 		AAPt_Zone = 85
 	end
 	if (AAP.ActiveMap == "525-DesMephisto-FrostfireRidge-p1" and AAPt_Zone == 85) then
 		AAPt_Zone = 525
 	end
+	if (AAP.ActiveMap == "525-DesMephisto-FrostfireRidge-p1" and AAPt_Zone == 543) then
+		AAPt_Zone = 525
+	end
+	if (AAP.ActiveMap == "543-DesMephisto-Gorgrond-p1" and AAPt_Zone == 535) then
+		AAPt_Zone = 543
+	end
+	if (AAP.ActiveMap == "535-DesMephisto-Talador-p1" and AAPt_Zone == 542) then
+		AAPt_Zone = 535
+	end
+	if (AAP.ActiveMap == "550-DesMephisto-Nagrand" and AAPt_Zone == 535) then
+		AAPt_Zone = 550
+	end
+	
 
 	
 	if (AAP.ActiveMap == "1409-Exile's Reach" and AAPt_Zone == 85) then
@@ -792,6 +884,8 @@ function AAP.FP.GetMeToNextZoneSpecialRe(AAPt_Zone)
 	end
 	
 	
+	
+	
 	return AAPt_Zone
 end
 function AAP.FP.GetMeToNextZone()
@@ -893,6 +987,22 @@ function AAP.FP.GetMeToNextZone2()
 				end
 				if (AAP.QuestList2["BF"..CLi]:IsShown() and AAP.SettingsOpen ~= 1) then
 					AAP.QuestList2["BF"..CLi]:Hide()
+				end
+			end
+		end
+		if (AAP.Level > 35 and AAP.Level < 50) then
+			if (AAP.ActiveMap and AAP.QuestStepListListing["Shadowlands"][AAP.ActiveMap]) then
+				local OnTime = 0
+				local ChrimeTimez = C_ChromieTime.GetChromieTimeExpansionOptions()
+				for AAP_index,AAP_value in pairs(ChrimeTimez) do
+					if (ChrimeTimez[AAP_index] and ChrimeTimez[AAP_index]["id"] and ChrimeTimez[AAP_index]["id"] == 9 and ChrimeTimez[AAP_index]["alreadyOn"] and ChrimeTimez[AAP_index]["alreadyOn"] == true) then
+						OnTime = 1
+					end
+				end
+				if (OnTime == 0) then
+					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You are not in Chromie Time!")
+					AAP.QuestList.QuestFrames[LineNr]:Show()
+					LineNr = LineNr + 1
 				end
 			end
 		end
@@ -1016,7 +1126,7 @@ function AAP.FP.GetMeToNextZone2()
 						AAP.FP.QuedFP = togozo
 						AAP.QuestList.QuestFrames[LineNr]:Show()
 						local Zefp, ZeX, ZeY = AAP.FP.ClosestFP()
-						if (Zefp) then
+						if (Zefp and ZeX and ZeY) then
 							LineNr = LineNr + 1
 							AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("Closest FP: "..Zefp)
 							AAP.QuestList.QuestFrames[LineNr]:Show()
@@ -1108,13 +1218,15 @@ function AAP.FP.GetStarterZoneFP(GoToZone, DestCont)
 end
 function AAP.FP.IsSameContinent(GoToZone)
 	local CurContinent = AAP.getContinent()
-	for AAP_index,AAP_value in pairs(AAP.TDB["FPs"][AAP.Faction]) do
-		for AAP_index2,AAP_value2 in pairs(AAP.TDB["FPs"][AAP.Faction][AAP_index]) do
-			if (AAP_index2 == GoToZone) then
-				if (CurContinent == AAP_index) then
-					return 1, AAP_index
-				else
-					return 0, AAP_index
+	if (AAP.TDB["FPs"][AAP.Faction]) then
+		for AAP_index,AAP_value in pairs(AAP.TDB["FPs"][AAP.Faction]) do
+			for AAP_index2,AAP_value2 in pairs(AAP.TDB["FPs"][AAP.Faction][AAP_index]) do
+				if (AAP_index2 == GoToZone) then
+					if (CurContinent == AAP_index) then
+						return 1, AAP_index
+					else
+						return 0, AAP_index
+					end
 				end
 			end
 		end
@@ -2147,7 +2259,7 @@ AAP_Transport_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		if (CurStep and AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.QuestStepList[AAP.ActiveMap][CurStep]) then
 			steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 		end
-		if (steps and not IsControlKeyDown()) then
+		if (steps and not IsControlKeyDown() and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoFlight"] == 1) then
 			local TName = steps["Name"]
 			local TContonent = AAP.getContinent()
 			if (steps["UseFlightPath"]) then
@@ -2174,11 +2286,17 @@ AAP_Transport_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 		
-		if (AAP.FP.QuedFP) then
+		if (AAP.FP.QuedFP and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoFlight"] == 1) then
 			local Nodetotake
 			for CLi = 1, NumTaxiNodes() do
 				if (TaxiNodeName(CLi) == AAP.FP.QuedFP) then
-					Nodetotake = CLi
+					if (steps and steps["UseFlightPath"] and TaxiNodeGetType(CLi) == "CURRENT") then
+						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+						AAP.BookingList["UpdateQuest"] = 1
+						AAP.BookingList["PrintQStep"] = 1
+					else
+						Nodetotake = CLi
+					end
 					break
 				end
 			end

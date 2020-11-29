@@ -3,8 +3,8 @@ local AAP_ArrowUpdateNr = 0
 local ETAStep = 0
 local AAP_AntiTaxiLoop = 0
 local Updateblock = 0
---local HBDP = LibStub("HereBeDragons-Pins-2.0")
---local HBD = LibStub("HereBeDragons-2.0")
+local HBDP = LibStub("HereBeDragons-Pins-2.0")
+local HBD = LibStub("HereBeDragons-2.0")
 local AAPWhereToGo
 local CurMapShown
 local Delaytime = 0
@@ -13,8 +13,8 @@ local QuestSpecial57710 = 0
 local Quest2Special57710 = 0
 AAP.GossipOpen = 0
 AAP.BookingList = {}
---AAP.HBDP = HBDP
---AAP.HBD = HBD
+AAP.HBDP = HBDP
+AAP.HBD = HBD
 AAP.ProgressbarIgnore = {
 	["60520-2"] = 1,
 	["57724-2"] = 1,
@@ -57,6 +57,14 @@ local AAP_BonusObj = {
 	[37422] = 1,
 	[34667] = 1,
 	[36480] = 1,
+	[36563] = 1,
+	[36520] = 1,
+	[35237] = 1,
+	[34639] = 1,
+	[34660] = 1,
+	[36792] = 1,
+	[35649] = 1,
+	[36660] = 1,
 ---- Legion Bonus Obj ----
 	[36811] = 1,
 	[37466] = 1,
@@ -130,11 +138,12 @@ local AAP_BonusObj = {
 	[59211] = 1,
 	[62732] = 1,
 	[62735] = 1,
+	[59015] = 1,
 }
 local MapRects = {};
 local TempVec2D = CreateVector2D(0,0);
 local function GetPlayerMapPos(MapID, dx, dy)
-	if (MapID and MapID == 1726 or AAPt_Zone == 1727) then
+	if (MapID and MapID == 1726 or MapID == 1727 or AAPt_Zone == 1727) then
 		return
 	end
 	--if (UnitPosition('Player')) then
@@ -161,9 +170,6 @@ local function GetPlayerMapPos(MapID, dx, dy)
 	end
 end
 function AAP.RemoveIcons()
-	if (1 == 1) then
-		return
-	end
 	for CLi = 1, 20 do
 		if (AAP["Icons"][CLi].A == 1) then
 			AAP["Icons"][CLi].A = 0
@@ -174,9 +180,6 @@ function AAP.RemoveIcons()
 	end
 end
 function AAP.RemoveMapIcons()
-	if (1 == 1) then
-		return
-	end
 	for CLi = 1, 20 do
 		if (AAP["MapIcons"][CLi].A == 1) then
 			AAP["MapIcons"][CLi].A = 0
@@ -187,9 +190,6 @@ function AAP.RemoveMapIcons()
 	end
 end
 function AAP:MoveIcons()
-	if (1 == 1) then
-		return
-	end
 	local d_y, d_x = UnitPosition("player")
 	if (IsInInstance() or AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowBlobs"] == 0 or not d_y) then
 		AAP.RemoveIcons()
@@ -380,9 +380,6 @@ local function AAP_MapDelay()
 	Delaytime = 0
 end
 function AAP:MoveMapIcons()
-	if (1 == 1) then
-		return
-	end
 	local d_y, d_x = UnitPosition("player")
 	if (IsInInstance() or AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowMapBlobs"] == 0 or not d_y) then
 		return
@@ -671,7 +668,18 @@ local function AAP_PrintQStep()
 	if (AAP1["Debug"]) then
 		print("Function: AAP_PrintQStep()")
 	end
+	if (IsInGroup() and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowGroup"] == 1) then
+	elseif (AAP.PartyList.PartyFrames[1]:IsShown()) then
+		for CLi = 1, 5 do
+			AAP.PartyList.PartyFrames[CLi]:Hide()
+			AAP.PartyList.PartyFrames2[CLi]:Hide()
+		end
+	end
 	if (IsInInstance()) then
+		for CLi = 1, 5 do
+			AAP.PartyList.PartyFrames[CLi]:Hide()
+			AAP.PartyList.PartyFrames2[CLi]:Hide()
+		end
 		AAP.ZoneQuestOrder:Hide()
 		return
 	elseif (AAP1[AAP.Realm][AAP.Name]["Settings"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQuestListOrder"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQuestListOrder"] == 1) then
@@ -746,7 +754,8 @@ local function AAP_PrintQStep()
 		end
 		return
 	end
-	if (AAP.ProgressText) then
+	
+	if (AAP.ActiveMap and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap] and AAP.ProgressText and AAP.ProgressShown == 1) then
 		AAP.QuestList.QuestFrames["MyProgress"]:Show()
 		AAP.QuestList.QuestFrames["MyProgressFS"]:SetText(AAP.ProgressText)
 	else
@@ -823,6 +832,8 @@ local function AAP_PrintQStep()
 			StepP = "UseGarrisonHS"
 		elseif (steps["ZoneDone"]) then
 			StepP = "ZoneDone"
+		elseif (steps["PahonixMadeMe"]) then
+			StepP = "TrainRiding"
 		end
 		if (steps["BreadCrum"]) then
 			AAP.ChkBreadcrums(steps["BreadCrum"])
@@ -972,6 +983,31 @@ local function AAP_PrintQStep()
 				end
 			end
 		end
+		
+		if (AAP.Level > 35 and AAP.Level < 50) then
+			if (AAP.ActiveMap and AAP.QuestStepListListing["Shadowlands"][AAP.ActiveMap]) then
+				local OnTime = 0
+				local ChrimeTimez = C_ChromieTime.GetChromieTimeExpansionOptions()
+				for AAP_index,AAP_value in pairs(ChrimeTimez) do
+					if (ChrimeTimez[AAP_index] and ChrimeTimez[AAP_index]["id"] and ChrimeTimez[AAP_index]["id"] == 9 and ChrimeTimez[AAP_index]["alreadyOn"] and ChrimeTimez[AAP_index]["alreadyOn"] == true) then
+						OnTime = 1
+					end
+				end
+				if (OnTime == 0) then
+					LineNr = LineNr + 1
+					AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You are not in Chromie Time!")
+					AAP.QuestList.QuestFrames[LineNr]:Show()
+				end
+			end
+		end
+		if (steps["DoIHaveFlight"]) then
+			if (GetSpellBookItemInfo(GetSpellInfo(33391)) or GetSpellBookItemInfo(GetSpellInfo(90265)) or GetSpellBookItemInfo(GetSpellInfo(34090))) then
+				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+				AAP.BookingList["UpdateQuest"] = 1
+				AAP.BookingList["PrintQStep"] = 1
+			end
+		end
+		
 		if (GetSpellBookItemInfo(GetSpellInfo(90265))) then
 		elseif (AAP.Level > 39) then
 			LineNr = LineNr + 1
@@ -982,6 +1018,9 @@ local function AAP_PrintQStep()
 			LineNr = LineNr + 1
 			if (AAP.Faction == "Alliance" and AAP.ActiveMap and AAP.ActiveMap == "A543-DesMephisto-Gorgrond") then
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("* HS to Stormwind and learn Expert Riding!")
+				AAP.QuestList.QuestFrames[LineNr]:Show()
+			elseif (AAP.Faction == "Horde" and AAP.ActiveMap and AAP.ActiveMap == "543-DesMephisto-Gorgrond-p1") then
+				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("* HS to Orgrimmar and learn Expert Riding! And get back")
 				AAP.QuestList.QuestFrames[LineNr]:Show()
 			else
 				AAP.QuestList.QuestFrames["FS"..LineNr]:SetText("** You can now learn Expert Riding!")
@@ -1845,6 +1884,13 @@ local function AAP_PrintQStep()
 					end
 				end
 			end
+		elseif (StepP == "TrainRiding") then
+			IdList = steps["PahonixMadeMe"]
+			if (C_QuestLog.IsQuestFlaggedCompleted(IdList) or (GetSpellBookItemInfo(GetSpellInfo(steps["SpellInTab"])))) then
+				AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+				AAP.BookingList["UpdateQuest"] = 1
+				AAP.BookingList["PrintQStep"] = 1
+			end
 		elseif (StepP == "Treasure") then
 			IdList = steps["Treasure"]
 			if (C_QuestLog.IsQuestFlaggedCompleted(IdList)) then
@@ -2307,7 +2353,7 @@ local function AAP_PrintQStep()
 		AAP.QuestListShown = LineNr
 		AAP.BookingList["SetQPTT"] = 1
 		if (AAP.ZoneQuestOrder:IsShown() == true) then
-			AAP.UpdateZoneQuestOrderList("LoadIn")
+			AAP.BookingList["UpdateZoneQuestOrderListL"] = 1
 		end
 	elseif (AAPWhereToGo and AAP1[AAP.Realm][AAP.Name]["Settings"]["ShowQList"] == 1 and AAP.ZoneTransfer == 0) then
 		LineNr = LineNr + 1
@@ -2497,7 +2543,6 @@ function AAP.SetButton()
 					end
 				end
 			end
-			AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", AAP1[AAP.Realm][AAP.Name]["Settings"]["left"], AAP1[AAP.Realm][AAP.Name]["Settings"]["top"])
 			AAP.SetButtonVar = nil
 		end
 	elseif (AAP.ButtonVisual and not InCombatLockdown() and AAP.SettingsOpen ~= 1) then
@@ -2505,6 +2550,9 @@ function AAP.SetButton()
 			AAP.QuestList2["BF"..AAP_index]:Hide()
 		end
 		AAP.ButtonVisual = nil
+	end
+	if (not InCombatLockdown()) then
+		AAP.QuestList20:SetPoint("TOPLEFT", UIParent, "TOPLEFT", AAP1[AAP.Realm][AAP.Name]["Settings"]["left"], AAP1[AAP.Realm][AAP.Name]["Settings"]["top"])
 	end
 end
 function AAP.CheckCRangeText()
@@ -2888,7 +2936,7 @@ local function AAP_UpdateMapId()
 		AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = 1
 	end
 	if (AAP.ZoneQuestOrder:IsShown() == true) then
-		AAP.UpdateZoneQuestOrderList("LoadIn")
+		AAP.BookingList["UpdateZoneQuestOrderListL"] = 1
 	end
 	AAP.BookingList["PrintQStep"] = 1
 	C_Timer.After(0.1, AAP_BookQStep)
@@ -3218,6 +3266,9 @@ local function AAP_LoopBookingFunc()
 			AAP_AntiTaxiLoop = 0
 		end
 		TestaAAP = "TestTaxiFunc"
+	elseif (AAP.BookingList["UpdateZoneQuestOrderListL"]) then
+		AAP.UpdateZoneQuestOrderList("LoadIn")
+		AAP.BookingList["UpdateZoneQuestOrderListL"] = nil
 	elseif (AAP.BookingList["SkipCutscene"]) then
 		AAP.BookingList["SkipCutscene"] = nil
 		--CinematicFrame_CancelCinematic()
@@ -3647,7 +3698,6 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 					local opzios = C_PlayerChoice.GetPlayerChoiceOptionInfo(CLi)
 					local optionID = opzios["id"]
 					if (steps["SparringRing"] == optionID) then
-						--C_PlayerChoice.SendQuestChoiceResponse(GetQuestChoiceOptionInfo(CLi))
 						PlayerChoiceFrame["Option"..CLi]["OptionButtonsContainer"]["button1"]:Click()
 						AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
 						AAP.BookingList["UpdateQuest"] = 1
@@ -3745,7 +3795,7 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 		if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
 			local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
-			if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 25809))) then
+			if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 25809) or (tonumber(npc_id) == 87391))) then
 				return
 			end
 		end
@@ -4098,7 +4148,7 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 			if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
 				local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
-				if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400) or (tonumber(npc_id) == 25809))) then
+				if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400) or (tonumber(npc_id) == 25809) or (tonumber(npc_id) == 87391))) then
 					local steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
 					if (steps and steps["Gossip"] and steps["Gossip"] == 27373) then
 						C_GossipInfo.SelectOption(1)
@@ -4182,6 +4232,25 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 				end
 			elseif (steps and steps["Gossip"] and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoGossip"] == 1 and not IsControlKeyDown()) then
 				C_GossipInfo.SelectOption(steps["Gossip"])
+				local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+				local steps
+				if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+					steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+				end
+				if (steps and steps["BlockQuests"]) then
+					StaticPopup1Button1:SetScript("OnMouseDown", function(self, button)
+						local CurStep = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap]
+						local steps
+						if (CurStep and AAP.QuestStepList and AAP.QuestStepList[AAP.ActiveMap]) then
+							steps = AAP.QuestStepList[AAP.ActiveMap][CurStep]
+						end
+						if (steps and steps["BlockQuests"]) then
+							AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] = AAP1[AAP.Realm][AAP.Name][AAP.ActiveMap] + 1
+							AAP.BookingList["UpdateQuest"] = 1
+							AAP.BookingList["PrintQStep"] = 1
+						end
+					end)
+				end
 			end
 		end
 		local arg1, arg2, arg3, arg4 = ...;
@@ -4198,7 +4267,8 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 		if (NumAvailableQuests > 0 and AAP1[AAP.Realm][AAP.Name]["Settings"]["AutoAccept"] == 1 and not IsControlKeyDown()) then
-			if (steps and steps["SpecialPickupOrder"]) then
+			if (steps and steps["BlockQuests"]) then
+			elseif (steps and steps["SpecialPickupOrder"]) then
 				C_GossipInfo.SelectAvailableQuest(2)
 			else
 				C_GossipInfo.SelectAvailableQuest(1)
@@ -4395,7 +4465,7 @@ AAP_QH_EventFrame:SetScript("OnEvent", function(self, event, ...)
 				end
 				if (UnitGUID("target") and string.find(UnitGUID("target"), "(.*)-(.*)")) then
 					local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",UnitGUID("target"))
-					if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400) or (tonumber(npc_id) == 25809))) then
+					if (npc_id and ((tonumber(npc_id) == 141584) or (tonumber(npc_id) == 142063) or (tonumber(npc_id) == 45400) or (tonumber(npc_id) == 25809) or (tonumber(npc_id) == 87391))) then
 						return
 					end
 				end

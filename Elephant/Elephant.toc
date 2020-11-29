@@ -1,4 +1,4 @@
-﻿## Interface: 80300
+﻿## Interface: 90002
 ## Title: Elephant
 ## Title-zhCN: Elephant �?�天记录器
 ## Notes: A friendly companion that remembers the chat.
@@ -7,8 +7,8 @@
 ## Notes-deDE: A friendly companion that remembers the chat.
 ## Notes-zhTW: �?�天記錄�?助手。
 ## Notes-ruRU: Друже�?твенный компаньон который запоминает чат.
-## Author: All-in-one Mighty
-## Version: 8.3.0d
+## Author: AllInOneMighty
+## Version: 9.0.2
 ## SavedVariables: ElephantDB
 ## SavedVariablesPerCharacter: ElephantDBPerChar
 ## OptionalDeps: CallbackHandler-1.0, Ace3, LibDataBroker-1.1, LibDBIcon-1.0, Prat

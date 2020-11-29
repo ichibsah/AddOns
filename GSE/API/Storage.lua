@@ -193,6 +193,11 @@ function GSE.PerformMergeAction(action, classid, sequenceName, newSequence)
 end
 
 function GSE.OOCPerformMergeAction(action, classid, sequenceName, newSequence)
+    if sequenceName:len() > 28 then
+        local tempseqName = sequenceName:sub(1,28)
+        GSE.Print(string.format(L["Your sequence name was longer than 27 characters.  It has been shortened from %s to %s so that your macro will work."], sequenceName, tempseqName), "GSE Storage")
+        sequenceName = tempseqName
+    end
     if action == "MERGE" then
         for k, v in ipairs(newSequence.MacroVersions) do
             GSE.PrintDebugMessage("adding " .. k, "Storage")
@@ -213,10 +218,10 @@ function GSE.OOCPerformMergeAction(action, classid, sequenceName, newSequence)
 
         GSE.Library[classid][sequenceName] = {}
         GSE.Library[classid][sequenceName] = newSequence
+        GSE.PrintDebugMessage("About to encode: Sequence " .. sequenceName )
+        GSE.PrintDebugMessage(" New Entry: " .. GSE.Dump(GSE.Library[classid][sequenceName]), "Storage")
         GSEStorage[classid][sequenceName] = GSE.EncodeMessage({sequenceName, GSE.Library[classid][sequenceName]})
         GSE.Print(sequenceName .. L[" was updated to new version."], "GSE Storage")
-        GSE.PrintDebugMessage("Sequence " .. sequenceName .. " New Entry: " ..
-                                  GSE.Dump(GSE.Library[classid][sequenceName]), "Storage")
     elseif action == "RENAME" then
         if GSE.isEmpty(newSequence.Author) then
             -- Set to Unknown Author
@@ -672,7 +677,6 @@ function GSE.FixSequence(sequence)
 end
 
 function GSE.ProcessSequenceVariables(sequence, variables)
-
     if not GSE.isEmpty(sequence.PreMacro) then
         sequence.PreMacro = GSE.ProcessVariables(sequence.PreMacro, variables)
         GSE.PrintDebugMessage("Processed for Variables PreMacro", GNOME)
@@ -768,16 +772,20 @@ function GSE.OOCUpdateSequence(name, sequence)
     if GSE.isEmpty(name) then
         return
     end
+    if GSE.isEmpty(GSE.Library[GSE.GetCurrentClassID()][name]) then
+        return
+    end
     if pcall(GSE.CheckSequence, sequence) then
-        local variables = GSE.Library[GSE.GetCurrentClassID()][name].Variables
-        if GSE.isEmpty(variables) then
+        local variables
+        if GSE.isEmpty(GSE.Library[GSE.GetCurrentClassID()][name].Variables) then
             GSE.PrintDebugMessage("Sequence " .. name .. " has no variables", Statics.DebugModules["Storage"] )
         else
+            variables = GSE.Library[GSE.GetCurrentClassID()][name].Variables
             GSE.PrintDebugMessage("Sequence " .. name .. " has variables", Statics.DebugModules["Storage"] )
         end
         sequence = GSE.CleanMacroVersion(sequence)
         GSE.FixSequence(sequence)
-        tempseq = GSE.CloneMacroVersion(sequence)
+        local tempseq = GSE.CloneMacroVersion(sequence)
         GSE.ProcessSequenceVariables(tempseq,variables)
 
         local existingbutton = true
@@ -787,7 +795,7 @@ function GSE.OOCUpdateSequence(name, sequence)
         end
         local gsebutton = _G[name]
         -- Only translate a sequence if the option to use the translator is on, there is a translator available and the sequence matches the current class
-        tempseq = GSE.TranslateSequence(tempseq, name, "STRING")
+        tempseq = GSE.TranslateSequence(tempseq, name, "STRING", true)
         tempseq = GSE.UnEscapeSequence(tempseq)
         local executionseq = {}
         local pmcount = 0
@@ -1277,6 +1285,17 @@ function GSE.UpdateIcon(self, reset)
                     break
                 elseif notSpell == '' then
                     notSpell = spell
+                end
+            end
+            if strlower(cmd) == "castsequence" then
+                local index, csitem, csspell = QueryCastSequence(etc)
+                if not GSE.isEmpty(csitem) then
+                    SetMacroSpell(gsebutton, csitem, target)
+                    foundSpell = true
+                end
+                if not GSE.isEmpty(csspell) then
+                    SetMacroSpell(gsebutton, csspell, target)
+                    foundSpell = true
                 end
             end
         end

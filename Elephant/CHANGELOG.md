@@ -1,7 +1,6 @@
 # Elephant
 
-## [8.3.0d](https://github.com/AllInOneMighty/Elephant/tree/8.3.0d) (2020-02-02)
-[Full Changelog](https://github.com/AllInOneMighty/Elephant/commits/8.3.0d)
+## [9.0.2](https://github.com/AllInOneMighty/Elephant/tree/9.0.2) (2020-11-18)
+[Full Changelog](https://github.com/AllInOneMighty/Elephant/compare/9.0.1b...9.0.2) 
 
-- Adding metadata to TOC file for packager, adding .travis.yml for Travis CI to do its job  
-- First copy from WoWAce  
+- Updating TOC  

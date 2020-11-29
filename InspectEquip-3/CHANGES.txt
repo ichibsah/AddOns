@@ -1,0 +1,10 @@
+lightweight tag 04d150b685663132c12c5b4916a9c597a97949ea v3.1.4
+Author:	Vsevolod Klementjev <329636+KleMiX@users.noreply.github.com>
+Date:	Mon Nov 23 16:12:55 2020 +0200
+
+commit 04d150b685663132c12c5b4916a9c597a97949ea
+Author: Vsevolod Klementjev <329636+KleMiX@users.noreply.github.com>
+Date:   Mon Nov 23 16:12:55 2020 +0200
+
+    :arrow_up: version bump
+

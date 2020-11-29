@@ -16,7 +16,7 @@ function GarrisonOrderHallReportFrameOnEvent(self, event, arg1)
 		end
 		self:UnregisterEvent("ADDON_LOADED")
 	end
-	if UnitLevel("player") >= 90 then
+	if UnitLevel("player") >= 10 then
 		GarrisonLandingPageMinimapButton:Show()
 	end
 end
@@ -30,8 +30,13 @@ function GarrisonReportDropDownOnLoad()
 	order.text = "Order Hall"
 	order.value = 3
 	order.func = GarrisonReportDropDownOnClick
+	local missions = {}
+	missions.text = "Missions"
+	missions.value = 9
+	missions.func = GarrisonReportDropDownOnClick
 	UIDropDownMenu_AddButton(garrison)
 	UIDropDownMenu_AddButton(order)
+	UIDropDownMenu_AddButton(missions)
 end
 
 function GarrisonReportDropDownOnClick(value)

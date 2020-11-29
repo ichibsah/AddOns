@@ -415,7 +415,7 @@ do
 			type='range',
 			name = L["Bar vertical offset"],
 			desc = L["Adjust the vertical placement of this bar"],
-			min = -400,
+			min = -600,
 			max = 600,
 			step = 1,
 			get = function()
@@ -436,7 +436,7 @@ do
 			type='range',
 			name = L["Bar horizontal adjust"],
 			desc = L["This is a per-pixel horizontal adjustment. You should probably use the 'offset' setting above as it is designed to snap bars together. This may be used in the case of a horizontal bar needing to be positioned outside the normal bar locations."],
-			min = -400,
+			min = -600,
 			max = 600,
 			step = 1,
 			get = function()
@@ -1040,7 +1040,7 @@ end
 
 -- Creates the actual bar
 function IceBarElement.prototype:CreateBar()
-	self.barFrame = self:BarFactory(self.barFrame, "LOW", "ARTWORK")
+	self.barFrame = self:BarFactory(self.barFrame, "LOW", "ARTWORK", "Bar")
 	self:SetBarCoord(self.barFrame)
 
 	self.barFrame.bar:SetBlendMode(self.settings.barBlendMode)
@@ -1050,9 +1050,9 @@ end
 
 -- Returns a barFrame & barFrame.bar
 -- Rokiyo: Currently keeping old behaviour of running through bar creation on every Redraw, but I'm not convinced we need to.
-function IceBarElement.prototype:BarFactory(barFrame, frameStrata, textureLayer)
+function IceBarElement.prototype:BarFactory(barFrame, frameStrata, textureLayer, nameSuffix)
 	if not (barFrame) then
-		barFrame = CreateFrame("Frame", nil, self.frame)
+		barFrame = CreateFrame("Frame", "IceHUD_"..self.elementName.."_"..(nameSuffix or "Bar"), self.frame)
 	end
 
 	barFrame:SetFrameStrata(frameStrata and frameStrata or "LOW")
@@ -1584,7 +1584,7 @@ function IceBarElement.prototype:CreateMarker(idx)
 		self.Markers[idx] = nil
 	end
 
-	self.Markers[idx] = self:BarFactory(self.Markers[idx], "MEDIUM", "OVERLAY")
+	self.Markers[idx] = self:BarFactory(self.Markers[idx], "MEDIUM", "OVERLAY", "Marker"..idx)
 
 	local color = self.moduleSettings.markers[idx].color
 	self.Markers[idx].bar:SetVertexColor(color.r, color.g, color.b, self.alpha)

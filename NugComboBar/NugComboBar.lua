@@ -84,7 +84,7 @@ local defaults = {
             DEATHKNIGHT = { "Runes", "Runes", "Runes" },
             MAGE = { "ArcaneCharges", "Fireblast", "Icicles" },
             WARRIOR = { "Disabled", "Meatcleaver", "ShieldBlock" },
-            SHAMAN = { "Icefury", "Disabled", "Disabled" },
+            SHAMAN = { "Icefury", "MaelstromWeapon", "Disabled" },
             HUNTER = { "Disabled", "Disabled", "Disabled" },
             PRIEST = { "Disabled", "Disabled", "Disabled" },
         },
@@ -174,7 +174,7 @@ function NugComboBar:SPELLS_CHANGED()
     local newConfigName = self.db.global.classConfig[class][spec] or "Disabled"
 
     -- If using missing config reset to default
-    if not configs[newConfigName] then
+    if newConfigName ~= "Disabled" and not configs[newConfigName] then
         self.db.global.classConfig[class][spec] = defaults.global.classConfig[class][spec]
         newConfigName = self.db.global.classConfig[class][spec] or "Disabled"
     end
@@ -1100,13 +1100,20 @@ function NugComboBar.SlashCmd(msg)
     end
 end
 
-local HideBlizzFrame = function(frame)
+local HideBlizzFrame = function(frame, nosetup)
 	frame:UnregisterAllEvents()
 	frame:Hide()
-	frame._Show = frame.Show
-	frame.Show = frame.Hide
-	frame:ClearAllPoints()
-	frame:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", 100, -100)
+	hooksecurefunc(frame, "Show", function(self)
+        self:Hide()
+    end)
+    if not nosetup then
+        hooksecurefunc(frame, "Setup", function(self)
+            self:Hide()
+            self:UnregisterAllEvents()
+        end)
+    end
+	-- frame:ClearAllPoints()
+	-- frame:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", 100, -100)
 end
 
 function NugComboBar.disableBlizzFrames()
@@ -1115,7 +1122,7 @@ function NugComboBar.disableBlizzFrames()
             HideBlizzFrame(ComboPointPlayerFrame)
         end
         if class == "WARLOCK" then
-			HideBlizzFrame(WarlockPowerFrame)
+            HideBlizzFrame(WarlockPowerFrame)
         end
         if class == "PALADIN" then
 			HideBlizzFrame(PaladinPowerBarFrame)
@@ -1128,7 +1135,7 @@ function NugComboBar.disableBlizzFrames()
 			HideBlizzFrame(MonkHarmonyBarFrame)
         end
 		if class == "DEATHKNIGHT" then
-			HideBlizzFrame(RuneFrame)
+			HideBlizzFrame(RuneFrame, true)
         end
 end
 

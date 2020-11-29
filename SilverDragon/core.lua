@@ -4,12 +4,13 @@ local HBD = LibStub("HereBeDragons-2.0")
 
 local addon = LibStub("AceAddon-3.0"):NewAddon("SilverDragon", "AceEvent-3.0", "AceTimer-3.0", "AceConsole-3.0")
 SilverDragon = addon
+SilverDragon.NAMESPACE = ns -- for separate addons
 addon.events = LibStub("CallbackHandler-1.0"):New(addon)
 
 local Debug
 do
 	local TextDump = LibStub("LibTextDump-1.0")
-	local debuggable = GetAddOnMetadata(myname, "Version") == 'v90001.1'
+	local debuggable = GetAddOnMetadata(myname, "Version") == 'v90002.1'
 	local _window
 	local function GetDebugWindow()
 		if not _window then
@@ -51,6 +52,19 @@ BINDING_HEADER_SILVERDRAGON = "SilverDragon"
 _G["BINDING_NAME_CLICK SilverDragonPopupButton:LeftButton"] = "Target last found mob"
 _G["BINDING_NAME_CLICK SilverDragonMacroButton:LeftButton"] = "Scan for nearby mobs"
 
+addon.escapes = {
+	-- |TTexturePath:size1:size2:xoffset:yoffset:dimx:dimy:coordx1:coordx2:coordy1:coordy2|t
+	-- |A:atlas:height:width[:offsetX:offsetY]|a
+	-- leftClick = [[|TInterface\TUTORIALFRAME\UI-TUTORIAL-FRAME:19:11:-1:0:512:512:9:67:227:306|t]],
+	-- rightClick = [[|TInterface\TUTORIALFRAME\UI-TUTORIAL-FRAME:20:12:0:-1:512:512:9:66:332:411|t]],
+	leftClick = CreateAtlasMarkup("newplayertutorial-icon-mouse-leftbutton", 15, 18),
+	rightClick = CreateAtlasMarkup("newplayertutorial-icon-mouse-rightbutton", 15, 18),
+	keyDown = [[|TInterface\TUTORIALFRAME\UI-TUTORIAL-FRAME:0:0:0:-1:512:512:9:66:437:490|t]],
+	green = _G.GREEN_FONT_COLOR_CODE,
+	red = _G.RED_FONT_COLOR_CODE,
+}
+
+
 addon.datasources = {
 	--[[
 	["source name"] = {
@@ -88,6 +102,10 @@ local mobsByZone = {
 	-- [zoneid] = { [mobid] = {coord, ...}
 }
 ns.mobsByZone = mobsByZone
+local mobNamesByZone = {
+	-- [zoneid] = { [mobname] = mobid, ... }
+}
+ns.mobNamesByZone = mobNamesByZone
 local questMobLookup = {
 	-- [questid] = { [mobid] = true, ... }
 }
@@ -293,7 +311,10 @@ do
 		end
 		return self.db.locale.mob_name[id] or (mobdb[id] and mobdb[id].name)
 	end
-	function addon:IdForMob(name)
+	function addon:IdForMob(name, zone)
+		if zone and mobNamesByZone[zone] and mobNamesByZone[zone][name] then
+			return mobNamesByZone[zone][name]
+		end
 		return mobNameToId[name]
 	end
 	function addon:NameForQuest(id)
@@ -384,7 +405,14 @@ function addon:GetMobByCoord(zone, coord, include_ignored)
 end
 
 function addon:GetMobLabel(id)
-	return self:NameForMob(id) or UNKNOWN
+	local name = self:NameForMob(id)
+	if not name then
+		return UNKNOWN
+	end
+	if not (mobdb[id] and mobdb[id].variant) then
+		return name
+	end
+	return name .. (" (" .. mobdb[id].variant .. ")")
 end
 
 do
@@ -424,6 +452,11 @@ do
 	function addon:ShouldIgnoreMob(id, zone)
 		if globaldb.ignore[id] then
 			return true
+		end
+		if globaldb.always[id] then
+			-- If you've manually added a mob we should take that a signal that you always want it announced
+			-- (Unless you've also, weirdly, manually told it to be ignored as well.)
+			return false
 		end
 		if zone and zone_ignores[zone] and zone_ignores[zone][id] then
 			return true
@@ -482,6 +515,28 @@ do
 	function addon:UnitID(unit)
 		return npcIdFromGuid(UnitGUID(unit))
 	end
+	function addon:FindUnitWithID(id)
+		if self:UnitID('target') == id then
+			return 'target'
+		end
+		if self:UnitID('mouseover') == id then
+			return 'mouseover'
+		end
+		for _, nameplate in ipairs(C_NamePlate.GetNamePlates()) do
+			if self:UnitID(nameplate.namePlateUnitToken) == id then
+				return nameplate.namePlateUnitToken
+			end
+		end
+		if IsInGroup() then
+			local prefix = IsInRaid() and 'raid' or 'party'
+			for i=1, GetNumGroupMembers() do
+				local unit = prefix .. i .. 'target'
+				if self:UnitID(unit) == id then
+					return unit
+				end
+			end
+		end
+	end
 end
 
 addon.round = function(num, precision)
@@ -524,4 +579,24 @@ end
 
 function addon:GetXY(coord)
 	return floor(coord / 10000) / 10000, (coord % 10000) / 10000
+end
+
+function addon:GetClosestLocationForMob(id)
+	if not (ns.mobdb[id] and ns.mobdb[id].locations) then return end
+	local x, y, zone = HBD:GetPlayerZonePosition()
+	if not (x and y and zone) then return end
+	local closest = {distance = 999999999}
+	for zone2, coords in pairs(ns.mobdb[id].locations) do
+		for i, coord in ipairs(coords) do
+			local x2, y2 = self:GetXY(coord)
+			local distance = HBD:GetZoneDistance(zone, x, y, zone2, x2, y2)
+			if distance < closest.distance then
+				closest.distance = distance
+				closest.zone = zone2
+				closest.x = x2
+				closest.y = y2
+			end
+		end
+	end
+	return closest.zone, closest.x, closest.y, closest.distance
 end

@@ -1,7 +1,7 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: IceHUD |cff7fff7f-Options-|r
 ## Author: Parnic
-## Version: 1.12.14
+## Version: 1.13.0-2
 ## Notes: Configuration options for IceHUD
 ## OptionalDeps: AceGUI-3.0-SharedMediaWidgets
 ## Dependencies: IceHUD

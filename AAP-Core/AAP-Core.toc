@@ -1,11 +1,14 @@
-## Interface: 90001
-
+## Interface: 90002
+## X-WoWI-ID: 25775
 ## Title: AAP - Core
 ## Notes: Leveling Addon
 ## Author: Zyrrael
-## Version: 9.040
+## Version: 9.060
 ## SavedVariables: AAP1, AAP2, AAP3, AAPQuestNames, AAP_HoldZoneVar, AAP_Transport, AAP_Custom, AAP_ZoneComplete, AAP_TaxiTimers
-
+lib\HereBeDragons\LibStub\LibStub.lua
+lib\HereBeDragons\CallbackHandler-1.0\CallbackHandler-1.0.xml
+lib\HereBeDragons\HereBeDragons-2.0.lua
+lib\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Localization.lua
 Bindings.xml
 Core.lua
@@ -21,6 +24,7 @@ zones\Alliance-TBC.lua
 zones\Alliance-WotLK.lua
 zones\Alliance-Cataclysm.lua
 zones\Alliance-MoP.lua
+zones\Alliance-Legion.lua
 zones\Alliance-WoD.lua
 zones\Alliance-BfA.lua
 zones\Alliance-Speedruns.lua
@@ -31,6 +35,7 @@ zones\Horde-Cataclysm.lua
 zones\Horde-MoP.lua
 zones\Horde-WoD.lua
 zones\Horde-BfA.lua
+zones\Horde-Legion.lua
 Minimap.lua
 QuestTest.lua
 Transport.lua

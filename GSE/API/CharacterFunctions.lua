@@ -1,5 +1,6 @@
 local GSE = GSE
 local L = GSE.L
+local GNOME, _ = ...
 
 local Statics = GSE.Static
 
@@ -24,6 +25,9 @@ function GSE.GetGCD()
         local haste = UnitSpellHaste("player")
 
         gcd = math.floor(gcd - (750 * haste / 100) + 0.5) / 1000
+    else
+        -- Hard coded for classic
+        gcd = 1.5
     end
 
     return gcd
@@ -123,12 +127,16 @@ function GSE.GetCurrentTalents()
 end
 
 --- Experimental attempt to load a WeakAuras string.
-function GSE.LoadWeakauras(str)
-    local WeakAuras = WeakAuras
+function GSE.LoadWeakAura(str)
 
-    if WeakAuras then
-        WeakAuras.ImportString(str)
+    if IsAddOnLoaded("WeakAuras") then
+        WeakAuras.OpenOptions()
+        WeakAuras.OpenOptions()
+        WeakAuras.Import(str)
+    else
+        GSE.Print(L["WeakAuras was not found."])
     end
+
 end
 
 if not SaveBindings then

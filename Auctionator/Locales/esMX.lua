@@ -110,6 +110,7 @@ L["CONFIG_UNDERCUT_SCAN_NOT_LIFO"] = "Incluye equipo y mascotas en escaneos de d
 L["CONFIG_UNDERCUT_SCAN_NOT_LIFO_TOOLTIP_HEADER"] = "Escaneos de descuento de equipo/mascotas"
 L["CONFIG_UNDERCUT_SCAN_NOT_LIFO_TOOLTIP_TEXT"] = "Deje esto para incluir cualquier subasta de mascotas y equipo cuando use el escaneo de descuento. Desactívelo para excluir mascotas y equipo."
 L["CONFIG_VENDOR_TOOLTIP"] = "Mostrar información sobre herramientas del vendedor."
+L["CONFIRM"] = "Confirmar"
 L["CONTRIBUTORS_HEADER"] = "Colaboradores"
 L["COPY_TEXT_HEADER"] = "Copiar texto"
 L["CRAFTED_LEVEL"] = "Nivel de crafteo"
@@ -197,6 +198,7 @@ L["NEXT_SCAN_MESSAGE"] = [=[Se podrá iniciar un escaneo completo en %s minutos 
 ]=]
 L["NO_RESULTS"] = "No se han encontrado resultados."
 L["NONE"] = "Ninguno"
+L["NUMBER_SEPARATOR"] = ","
 L["OPEN_ADDON_OPTIONS"] = "Abrir las opciones del addon"
 L["OWNED_COLUMN"] = "¿Propiedad?"
 L["PERCENTAGE"] = "Porcentaje"

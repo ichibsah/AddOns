@@ -12,7 +12,16 @@ local GCD, GCD_Update_Timer
 function GSE.TraceSequence(button, step, task)
     if GSE.UnsavedOptions.DebugSequenceExecution then
         -- Note to self: Do I care if it's a loop sequence?
-        local isUsable, notEnoughMana = IsUsableSpell(task)
+        local spell = task
+        local csindex, csitem, csspell = QueryCastSequence(task)
+        if not GSE.isEmpty(csitem) then
+            spell = csitem
+        end
+        if not GSE.isEmpty(csitem) then
+            spell = csspell
+        end
+
+        local isUsable, notEnoughMana = IsUsableSpell(spell)
         local usableOutput, manaOutput, GCDOutput, CastingOutput
         if isUsable then
             usableOutput = GSEOptions.CommandColour .. "Able To Cast" .. Statics.StringReset
@@ -27,7 +36,6 @@ function GSE.TraceSequence(button, step, task)
         local castingspell, castspellid
 
         if GSE.GameMode == 1 then
-            print(CastingInfo())
             castingspell, _, _, _, _, _, castspellid, _ = CastingInfo()
         else
             castingspell, _, _, _, _, _, castspellid, _ = UnitCastingInfo("player")
@@ -41,7 +49,7 @@ function GSE.TraceSequence(button, step, task)
         if GCD then
             GCDOutput = GSEOptions.UNKNOWN .. "GCD In Cooldown" .. Statics.StringReset
         end
-        GSE.PrintDebugMessage(button .. "," .. step .. "," .. (task and task or "nil") .. "," .. usableOutput .. "," ..
+        GSE.PrintDebugMessage(button .. "," .. step .. "," .. (spell and spell or "nil") .. (csindex and " from castsequence " .. (csspell and csspell or csitem) .." (item " .. csindex .. " in castsequence.) " or "") .. "," .. usableOutput .. "," ..
                                   manaOutput .. "," .. GCDOutput .. "," .. CastingOutput, Statics.SequenceDebug)
     end
 end
@@ -387,6 +395,8 @@ function GSE:GSSlash(input)
         GSE_C[params[2]].name = params[2]
         GSE_C[params[2]].sequence = GSE.FindMacro(params[2])
         GSE_C[params[2]].button = _G[params[2]]
+    elseif command == "recompilesequences" then
+        GSE.ReloadSequences()
     elseif command == "reloadLegacyStorage" then
         GSE.ImportLegacyStorage(GSELegacyLibraryBackup)
     else
@@ -447,6 +457,10 @@ function GSE:ProcessOOCQueue()
             end
             GSE.OOCQueue[k] = nil
         end
+    end
+    if not GSE.isEmpty(GSE.GCDLDB) then
+        GSE.GCDLDB.value = GSE.GetGCD()
+        GSE.GCDLDB.text = string.format("GCD: %ss", GSE.GetGCD())
     end
 end
 

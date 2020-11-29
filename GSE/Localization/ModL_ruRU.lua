@@ -64,10 +64,10 @@ L["About GSE"] = "About GSE"
 L["Actions"] = "Действия"
 --[[Translation missing --]]
 L["Active Version: "] = "Active Version: "
+L["Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."] = "Добавьте подстановочную переменную для этого макроса. Это может быть либо прямая замена строк, либо функция. Если функция lua, функция должна возвращать значение."
+L["Add Variable"] = "Добавить переменную"
 --[[Translation missing --]]
-L["Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."] = "Add a substitution variable for this macro.  This can either be a straight string swap or can be a function.  If a lua function the function needs to return a value."
---[[Translation missing --]]
-L["Add Variable"] = "Add Variable"
+L["Add WeakAura"] = "Add WeakAura"
 --[[Translation missing --]]
 L["Addin Version %s contained versions for the following macros:"] = "Addin Version %s contained versions for the following macros:"
 --[[Translation missing --]]
@@ -77,11 +77,12 @@ L["Any Alt Key"] = "Любая Клавиша Alt"
 L["Any Control Key"] = "Любая Клавиша Ctrl "
 L["Any Shift Key"] = "Любая Клавиша Shift"
 L["Are you sure you want to delete %s?  This will delete the macro and all versions.  This action cannot be undone."] = "Вы действительно хотите удалить %s? Это приведет к удалению макроса и всех его версий. Это действие нельзя отменить."
---[[Translation missing --]]
-L["Arena"] = "Arena"
+L["Arena"] = "Арена"
 --[[Translation missing --]]
 L["Arena setting changed to Default."] = "Arena setting changed to Default."
 L["As GS-E is updated, there may be left over macros that no longer relate to sequences.  This will check for these automatically on logout.  Alternatively this check can be run via /gs cleanorphans"] = "После обновления GS-E, могут остаться макросы, которые больше не относятся к последовательностям. Проверка будет происходить автоматически при выходе. Также такая проверка может быть проведена через /gs cleanorphans "
+--[[Translation missing --]]
+L["Auras included in GSE Macros"] = "Auras included in GSE Macros"
 L["Author"] = "Автор"
 L["Author Colour"] = "Цвет Автора"
 --[[Translation missing --]]
@@ -99,8 +100,7 @@ L["By setting this value the Sequence Editor will show every macro for your clas
 L["Cancel"] = "Отменить"
 --[[Translation missing --]]
 L["CheckMacroCreated"] = "Check Macro Created"
---[[Translation missing --]]
-L["Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."] = "Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."
+L["Checks to see if you have a Heart of Azeroth equipped and if so will insert '/cast Heart Essence' into the macro.  If not your macro will skip this line."] = "Проверяет, есть ли у вас Сердце Азерот, и если да, вставляет '/cast Сущность Сердца' в макрос. В противном случае ваш макрос пропустит эту строку."
 --[[Translation missing --]]
 L["Choose import action:"] = "Choose import action:"
 L["Choose Language"] = "Выберите Язык"
@@ -138,18 +138,20 @@ L["Contributed by: "] = "Contributed by: "
 L["Control Keys."] = "Клавиши Control."
 --[[Translation missing --]]
 L["Copy this link and open it in a Browser."] = "Copy this link and open it in a Browser."
---[[Translation missing --]]
-L["Create a new macro."] = "Create a new macro."
+L["Create a new macro."] = "Создайте новый макрос."
 --[[Translation missing --]]
 L["Create buttons for Global Macros"] = "Create buttons for Global Macros"
 L["Create Icon"] = "Создать иконку"
 L["Create Macro"] = "Создать Макрос"
---[[Translation missing --]]
 L[ [=[Create or remove a Macro stub in /macro that can be dragged to your action bar so that you can use this macro.
-GSE can store an unlimited number of macros however WOW's /macro interface can only store a limited number of macros.]=] ] = [=[Create or remove a Macro stub in /macro that can be dragged to your action bar so that you can use this macro.
-GSE can store an unlimited number of macros however WOW's /macro interface can only store a limited number of macros.]=]
+GSE can store an unlimited number of macros however WOW's /macro interface can only store a limited number of macros.]=] ] = [=[Создайте или удалите иконку макроса в /macro, которую можно перетащить на панель действий, чтобы использовать этот макрос. 
+GSE может хранить неограниченное количество макросов, однако интерфейс WOW /macro может хранить только ограниченное количество макросов.]=]
 --[[Translation missing --]]
 L["Creating New Sequence."] = "Creating New Sequence."
+--[[Translation missing --]]
+L["Current GCD"] = "Current GCD"
+--[[Translation missing --]]
+L["Current GCD: %s"] = "Current GCD: %s"
 L["Debug"] = "Отладка"
 L["Debug Mode Options"] = "Параметры Режима Отладки"
 --[[Translation missing --]]
@@ -165,23 +167,24 @@ L["Default Editor Width"] = "Default Editor Width"
 --[[Translation missing --]]
 L["Default Import Action"] = "Default Import Action"
 L["Default Version"] = "По Умолчанию"
---[[Translation missing --]]
-L["Del"] = "Del"
+L["Del"] = "Удалить"
 L["Delete"] = "Удалить"
 L["Delete Icon"] = "Удалить иконку"
 --[[Translation missing --]]
 L["Delete Orphaned Macros on Logout"] = "Delete Orphaned Macros on Logout"
---[[Translation missing --]]
-L["Delete this macro.  This is not able to be undone."] = "Delete this macro.  This is not able to be undone."
---[[Translation missing --]]
-L["Delete this variable from the sequence."] = "Delete this variable from the sequence."
+L["Delete this macro.  This is not able to be undone."] = "Удалить этот макрос. Это не может быть отменено."
+L["Delete this variable from the sequence."] = "Удалите эту переменную из последовательности."
 --[[Translation missing --]]
 L[ [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=] ] = [=[Delete this verion of the macro.  This can be undone by closing this window and not saving the change.  
 This is different to the Delete button below which will delete this entire macro.]=]
 --[[Translation missing --]]
+L["Delete this WeakAura from the sequence."] = "Delete this WeakAura from the sequence."
+--[[Translation missing --]]
 L["Delete Variable"] = "Delete Variable"
 L["Delete Version"] = "Удалить версию"
+--[[Translation missing --]]
+L["Delete WeakAura"] = "Delete WeakAura"
 --[[Translation missing --]]
 L["Different helpTxt"] = "Different helpTxt"
 L["Disable"] = "Отключить"
@@ -192,14 +195,13 @@ L["Disable Sequence"] = "Disable Sequence"
 L["Display debug messages in Chat Window"] = "Отображение отладочных сообщений в окне чата"
 --[[Translation missing --]]
 L["Don't Translate Sequences"] = "Don't Translate Sequences"
---[[Translation missing --]]
-L["Drag this icon to your action bar to use this macro. You can change this icon in the /macro window."] = "Drag this icon to your action bar to use this macro. You can change this icon in the /macro window."
+L["Drag this icon to your action bar to use this macro. You can change this icon in the /macro window."] = "Перетащите эту иконку на панель действий, чтобы использовать этот макрос. Вы можете изменить эту иконку в окне /macro."
 L["Dungeon"] = "Обычный режим"
 --[[Translation missing --]]
 L["Dungeon setting changed to Default."] = "Dungeon setting changed to Default."
 L["Edit"] = "Редактировать"
---[[Translation missing --]]
-L["Edit this macro.  To delete a macro, choose this edit option and then from inside hit the delete button."] = "Edit this macro.  To delete a macro, choose this edit option and then from inside hit the delete button."
+L["Edit this macro.  To delete a macro, choose this edit option and then from inside hit the delete button."] = [=[Отредактируйте этот макрос. 
+Чтобы удалить макрос, выберите этот параметр редактирования, а затем нажмите кнопку Удалить.]=]
 L["Editor Colours"] = "Цвета Редактора"
 --[[Translation missing --]]
 L["Emphasis Colour"] = "Emphasis Colour"
@@ -220,8 +222,7 @@ L["Export"] = "Экспорт"
 L["Export a Sequence"] = "Экспорт последовательности"
 --[[Translation missing --]]
 L["Export Macro Read Only"] = "Export Macro Read Only"
---[[Translation missing --]]
-L["Export this Macro."] = "Export this Macro."
+L["Export this Macro."] = "Экспортировать этот макрос."
 --[[Translation missing --]]
 L["Extra Macro Versions of %s has been added."] = "Extra Macro Versions of %s has been added."
 --[[Translation missing --]]
@@ -259,7 +260,7 @@ L["GnomeSequencer-Enhanced"] = "GnomeSequencer-Enhanced"
 --[[Translation missing --]]
 L["GnomeSequencer-Enhanced loaded.|r  Type "] = "GnomeSequencer-Enhanced loaded.|r  Type "
 L["GSE"] = "GSE"
-L["GSE allows plugins to load Macro Collections as plugins.  You can reload a collection by pressing the button below."] = "GSE allows plugins to load Macro Collections as plugins.  Вы можете перезагрузить коллекцию, нажав на кнопку ниже."
+L["GSE allows plugins to load Macro Collections as plugins.  You can reload a collection by pressing the button below."] = "GSE позволяет загружать коллекции макросов как дополнения. Вы можете перезагрузить коллекцию, нажав кнопку ниже."
 L["GS-E can save all macros or only those versions that you have created locally.  Turning this off will cache all macros in your WTF\\GS-Core.lua variables file but will increase load times and potentially cause colissions."] = "GS-E может сохранить все макросы или только те версии, которые были созданы локально. При отключении будут записываться все макросы в WTF\\GS-Core.lua, но увеличит время загрузки и потенциально вызывать противоречия."
 --[[Translation missing --]]
 L["GSE has a LibDataBroker (LDB) data feed.  List Other GSE Users and their version when in a group on the tooltip to this feed."] = "GSE has a LibDataBroker (LDB) data feed.  List Other GSE Users and their version when in a group on the tooltip to this feed."
@@ -301,8 +302,7 @@ L["Heroic"] = "Героический режим"
 --[[Translation missing --]]
 L["Heroic setting changed to Default."] = "Heroic setting changed to Default."
 L["Hide Login Message"] = "Скрыть Сообщение Входа"
---[[Translation missing --]]
-L["Hide Minimap Icon"] = "Hide Minimap Icon"
+L["Hide Minimap Icon"] = "Скрыть иконку у миникарты"
 --[[Translation missing --]]
 L["Hide Minimap Icon for LibDataBroker (LDB) data text."] = "Hide Minimap Icon for LibDataBroker (LDB) data text."
 L["Hides the message that GSE is loaded."] = "Скрывает сообщение, что GSE загрузился."
@@ -360,10 +360,13 @@ L["Left Shift Key"] = "Левая клавиша Shift "
 L["Legacy GS/GSE1 Macro"] = "Legacy GS/GSE1 Macro"
 --[[Translation missing --]]
 L["Like a /castsequence macro, it cycles through a series of commands when the button is pushed. However, unlike castsequence, it uses macro text for the commands instead of spells, and it advances every time the button is pushed instead of stopping when it can't cast something."] = "Like a /castsequence macro, it cycles through a series of commands when the button is pushed. However, unlike castsequence, it uses macro text for the commands instead of spells, and it advances every time the button is pushed instead of stopping when it can't cast something."
+L["Load"] = "Загрузить"
 --[[Translation missing --]]
-L["Load"] = "Load"
+L["Load or update this WeakAura into WeakAuras."] = "Load or update this WeakAura into WeakAuras."
 --[[Translation missing --]]
 L["Load Sequence"] = "Load Sequence"
+--[[Translation missing --]]
+L["Load WeakAura"] = "Load WeakAura"
 --[[Translation missing --]]
 L["Local Macro"] = "Local Macro"
 --[[Translation missing --]]
@@ -378,8 +381,7 @@ L["Macro Import Successful."] = "Успешное импортирование �
 L["Macro Reset"] = "Сброс Макро"
 --[[Translation missing --]]
 L["Macro unable to be imported."] = "Macro unable to be imported."
---[[Translation missing --]]
-L["Macro Variables"] = "Macro Variables"
+L["Macro Variables"] = "Макро-переменные"
 --[[Translation missing --]]
 L["Macro Version %d deleted."] = "Macro Version %d deleted."
 --[[Translation missing --]]
@@ -405,12 +407,10 @@ L["MS Click Rate"] = "MS Click Rate"
 L["Mythic"] = "Эпохальный режим"
 --[[Translation missing --]]
 L["Mythic setting changed to Default."] = "Mythic setting changed to Default."
---[[Translation missing --]]
-L["Mythic+"] = "Mythic+"
+L["Mythic+"] = "Эпохальный ключ"
 --[[Translation missing --]]
 L["Mythic+ setting changed to Default."] = "Mythic+ setting changed to Default."
---[[Translation missing --]]
-L["Name"] = "Name"
+L["Name"] = "Имя"
 L["Neck"] = "Шея"
 L["New"] = "Новый"
 --[[Translation missing --]]
@@ -430,12 +430,11 @@ L["No Sample Macros are available yet for this class."] = "No Sample Macros are 
 L["No Sequences present so none displayed in the list."] = "No Sequences present so none displayed in the list."
 --[[Translation missing --]]
 L["Normal Colour"] = "Normal Colour"
---[[Translation missing --]]
-L["Notes and help on how this macro works.  What things to remember.  This information is shown in the sequence browser."] = "Notes and help on how this macro works.  What things to remember.  This information is shown in the sequence browser."
+L["Notes and help on how this macro works.  What things to remember.  This information is shown in the sequence browser."] = [=[Примечания и справка о том, как работает этот макрос. Какие вещи нужно помнить. 
+Эта информация отображается в обозревателе последовательностей.]=]
 --[[Translation missing --]]
 L["Only Save Local Macros"] = "Only Save Local Macros"
---[[Translation missing --]]
-L["Opens the GSE Options window"] = "Opens the GSE Options window"
+L["Opens the GSE Options window"] = "Открывает окно параметров GSE"
 --[[Translation missing --]]
 L["openviewer"] = "Open Viewer"
 L["Options"] = "Параметры"
@@ -445,8 +444,7 @@ L["Options have been reset to defaults."] = "Options have been reset to defaults
 L["Output"] = "Output"
 --[[Translation missing --]]
 L["Output the action for each button press to verify StepFunction and spell availability."] = "Output the action for each button press to verify StepFunction and spell availability."
---[[Translation missing --]]
-L["Party"] = "Party"
+L["Party"] = "Группа"
 --[[Translation missing --]]
 L["Party setting changed to Default."] = "Party setting changed to Default."
 L["Pause"] = "Пауза"
@@ -519,10 +517,8 @@ L["Ready to Send"] = "Ready to Send"
 L["Received Sequence "] = "Received Sequence "
 L["Record"] = "Запись"
 L["Record Macro"] = "Запись Макроса"
---[[Translation missing --]]
-L["Record the spells and items you use into a new macro."] = "Record the spells and items you use into a new macro."
---[[Translation missing --]]
-L["Registered Addons"] = "Registered Addons"
+L["Record the spells and items you use into a new macro."] = "Запишите умения и предметы, которые вы используете, в новый макрос."
+L["Registered Addons"] = "Зарегистрированные дополнения"
 --[[Translation missing --]]
 L["Rename New Macro"] = "Rename New Macro"
 --[[Translation missing --]]
@@ -535,8 +531,7 @@ L["Reset this macro when you exit combat."] = "Reset this macro when you exit co
 L["Resets"] = "Сбросы"
 L["Resets macros back to the initial state when out of combat."] = "Сбрасывает макросы обратно в исходное состояние, когда они находятся вне боя."
 L["Resume"] = "Продолжить"
---[[Translation missing --]]
-L["Returns your current Global Cooldown value accounting for your haste if that stat is present."] = "Returns your current Global Cooldown value accounting for your haste if that stat is present."
+L["Returns your current Global Cooldown value accounting for your haste if that stat is present."] = "Возвращает ваше текущее глобальное значение перезарядки, учитывающее вашу скорость, если этот показатель присутствует."
 L["Right Alt Key"] = "Правая клавиша Alt"
 L["Right Control Key"] = "Правая клавиша Control"
 L["Right Mouse Button"] = "Правая кнопка мыши"
@@ -546,10 +541,8 @@ L["Ring 2"] = "Кольцо2"
 --[[Translation missing --]]
 L["Running"] = "Running"
 L["Save"] = "Сохранить"
---[[Translation missing --]]
-L["Save the changes made to this macro"] = "Save the changes made to this macro"
---[[Translation missing --]]
-L["Scenario"] = "Scenario"
+L["Save the changes made to this macro"] = "Сохраните изменения, внесенные в этот макрос"
+L["Scenario"] = "Сценарий"
 --[[Translation missing --]]
 L["Scenario setting changed to Default."] = "Scenario setting changed to Default."
 --[[Translation missing --]]
@@ -557,8 +550,7 @@ L["Seed Initial Macro"] = "Seed Initial Macro"
 --[[Translation missing --]]
 L["Select Other Version"] = "Select Other Version"
 L["Send"] = "Отправить"
---[[Translation missing --]]
-L["Send this macro to another GSE player who is on the same server as you are."] = "Send this macro to another GSE player who is on the same server as you are."
+L["Send this macro to another GSE player who is on the same server as you are."] = "Отправьте этот макрос другому игроку GSE, который находится на том же сервере, что и вы."
 --[[Translation missing --]]
 L["Send To"] = "Send To"
 L["Sequence"] = "Последовательность"
@@ -597,9 +589,10 @@ L["Show GSE Users in LDB"] = "Show GSE Users in LDB"
 --[[Translation missing --]]
 L["Show OOC Queue in LDB"] = "Show OOC Queue in LDB"
 --[[Translation missing --]]
-L["Source Language "] = "Source Language "
+L["Show the current value of this variable."] = "Show the current value of this variable."
 --[[Translation missing --]]
-L["Specialisation / Class ID"] = "Specialisation / Class ID"
+L["Source Language "] = "Source Language "
+L["Specialisation / Class ID"] = "Специализация / ID класса"
 --[[Translation missing --]]
 L["Specialization Specific Macro"] = "Specialization Specific Macro"
 --[[Translation missing --]]
@@ -619,8 +612,7 @@ L["Store output of debug messages in a Global Variable that can be referrenced b
 L["String Colour"] = "String Colour"
 --[[Translation missing --]]
 L["Supporters"] = "Supporters"
---[[Translation missing --]]
-L["System Variables"] = "System Variables"
+L["System Variables"] = "Системные переменные"
 L["Talents"] = "Таланты"
 L["Target"] = "Цель"
 --[[Translation missing --]]
@@ -628,9 +620,13 @@ L["Target language "] = "Target language "
 --[[Translation missing --]]
 L["Target protection is currently %s"] = "Target protection is currently %s"
 --[[Translation missing --]]
+L["Test Variable"] = "Test Variable"
+--[[Translation missing --]]
 L["The author of this macro."] = "The author of this macro."
 --[[Translation missing --]]
 L["The command "] = "The command "
+--[[Translation missing --]]
+L["The current result of variable |cff0000ff~~%s~~|r is |cFF00D1FF%s|r"] = "The current result of variable |cff0000ff~~%s~~|r is |cFF00D1FF%s|r"
 --[[Translation missing --]]
 L["The Custom StepFunction Specified is not recognised and has been ignored."] = "The Custom StepFunction Specified is not recognised and has been ignored."
 --[[Translation missing --]]
@@ -645,10 +641,8 @@ L["The Macro Translator will translate an English sequence to your local languag
 L["The main lines of the macro."] = "The main lines of the macro."
 --[[Translation missing --]]
 L["The milliseconds being used in key click delay."] = "The milliseconds being used in key click delay."
---[[Translation missing --]]
 L[ [=[The name of your macro.  This name has to be unique and can only be used for one object.
-You can copy this entire macro by changing the name and choosing Save.]=] ] = [=[The name of your macro.  This name has to be unique and can only be used for one object.
-You can copy this entire macro by changing the name and choosing Save.]=]
+You can copy this entire macro by changing the name and choosing Save.]=] ] = "Имя вашего макроса. Это имя должно быть уникальным и может использоваться только для одного объекта. Вы можете скопировать весь этот макрос, изменив его имя и выбрав сохранить."
 --[[Translation missing --]]
 L["The Sample Macros have been reloaded."] = "The Sample Macros have been reloaded."
 --[[Translation missing --]]
@@ -661,34 +655,24 @@ The next line it chooses varies.  If Random then it will choose any line.  If Se
 If Priority it will try some spells more often than others.]=] ] = [=[The step function determines how your macro executes.  Each time you click your macro GSE will go to the next line.  
 The next line it chooses varies.  If Random then it will choose any line.  If Sequential it will go to the next line.  
 If Priority it will try some spells more often than others.]=]
---[[Translation missing --]]
-L["The version of this macro that will be used when you enter raids."] = "The version of this macro that will be used when you enter raids."
---[[Translation missing --]]
-L["The version of this macro that will be used where no other version has been configured."] = "The version of this macro that will be used where no other version has been configured."
---[[Translation missing --]]
-L["The version of this macro to use in Arenas.  If this is not specified, GSE will look for a PVP version before the default."] = "The version of this macro to use in Arenas.  If this is not specified, GSE will look for a PVP version before the default."
---[[Translation missing --]]
-L["The version of this macro to use in heroic dungeons."] = "The version of this macro to use in heroic dungeons."
---[[Translation missing --]]
-L["The version of this macro to use in Mythic Dungeons."] = "The version of this macro to use in Mythic Dungeons."
---[[Translation missing --]]
-L["The version of this macro to use in Mythic+ Dungeons."] = "The version of this macro to use in Mythic+ Dungeons."
---[[Translation missing --]]
-L["The version of this macro to use in normal dungeons."] = "The version of this macro to use in normal dungeons."
---[[Translation missing --]]
-L["The version of this macro to use in PVP."] = "The version of this macro to use in PVP."
---[[Translation missing --]]
-L["The version of this macro to use in Scenarios."] = "The version of this macro to use in Scenarios."
---[[Translation missing --]]
-L["The version of this macro to use when in a party in the world."] = "The version of this macro to use when in a party in the world."
---[[Translation missing --]]
-L["The version of this macro to use when in time walking dungeons."] = "The version of this macro to use when in time walking dungeons."
+L["The version of this macro that will be used when you enter raids."] = "Версия этого макроса, которая будет использоваться при входе в рейды."
+L["The version of this macro that will be used where no other version has been configured."] = "Версия этого макроса, которая будет использоваться там, где не была настроена никакая другая версия."
+L["The version of this macro to use in Arenas.  If this is not specified, GSE will look for a PVP version before the default."] = [=[Версия этого макроса для использования на Аренах. 
+Если это не указано, GSE будет искать PVP-версию до установки по умолчанию.]=]
+L["The version of this macro to use in heroic dungeons."] = "Версия этого макроса для использования в героических подземельях."
+L["The version of this macro to use in Mythic Dungeons."] = "Версия этого макроса для использования в подземельях (эпохальный режим)"
+L["The version of this macro to use in Mythic+ Dungeons."] = "Версия этого макроса для использования в подземельях (эпохальный ключ)"
+L["The version of this macro to use in normal dungeons."] = "Версия этого макроса для использования в обычных подземельях."
+L["The version of this macro to use in PVP."] = "Версия этого макроса для использования в PVP."
+L["The version of this macro to use in Scenarios."] = "Версия этого макроса для использования в Сценариях."
+L["The version of this macro to use when in a party in the world."] = "Версия этого макроса для использования в группе в мире."
+L["The version of this macro to use when in time walking dungeons."] = "Версия этого макроса для использования в подземельях путешествие во времени."
 --[[Translation missing --]]
 L["There are %i events in out of combat queue"] = "There are %i events in out of combat queue"
 --[[Translation missing --]]
 L["There are no events in out of combat queue"] = "There are no events in out of combat queue"
---[[Translation missing --]]
-L["There are No Macros Loaded for this class.  Would you like to load the Sample Macro?"] = "There are No Macros Loaded for this class.  Would you like to load the Sample Macro?"
+L["There are No Macros Loaded for this class.  Would you like to load the Sample Macro?"] = [=[Для этого класса макросы не загружены. 
+Хотите загрузить образец макросов (Sample Macro)?]=]
 --[[Translation missing --]]
 L["There is an issue with sequence %s.  It has not been loaded to prevent the mod from failing."] = "There is an issue with sequence %s.  It has not been loaded to prevent the mod from failing."
 --[[Translation missing --]]
@@ -740,8 +724,7 @@ L["This will display debug messages for the "] = "This will display debug messag
 L["This will display debug messages for the GS-E Ingame Transmission and transfer"] = "This will display debug messages for the GS-E Ingame Transmission and transfer"
 --[[Translation missing --]]
 L["This will display debug messages in the Chat window."] = "This will display debug messages in the Chat window."
---[[Translation missing --]]
-L["Timewalking"] = "Timewalking"
+L["Timewalking"] = "Путешествие во времени"
 --[[Translation missing --]]
 L["Timewalking setting changed to Default."] = "Timewalking setting changed to Default."
 --[[Translation missing --]]
@@ -803,10 +786,8 @@ L["Use Second Trinket in KeyRelease"] = "Use Second Trinket in KeyRelease"
 L["Use Verbose Export Sequence Format"] = "Use Verbose Export Sequence Format"
 --[[Translation missing --]]
 L["Use WLM Export Sequence Format"] = "Use WLM Export Sequence Format"
---[[Translation missing --]]
-L["Value"] = "Value"
---[[Translation missing --]]
-L["Variables"] = "Variables"
+L["Value"] = "Значение"
+L["Variables"] = "Переменные"
 --[[Translation missing --]]
 L["Version"] = "Version"
 --[[Translation missing --]]
@@ -814,13 +795,19 @@ L["Version="] = "Version="
 --[[Translation missing --]]
 L["WARNING ONLY"] = "WARNING ONLY"
 --[[Translation missing --]]
-L["Website or forum URL where a player can get more information or ask questions about this macro."] = "Website or forum URL where a player can get more information or ask questions about this macro."
+L["WeakAuras"] = "WeakAuras"
 --[[Translation missing --]]
+L["WeakAuras is a mod that watches for certain conditions and actions and they alerts the player to them occuring.  These are included for convenience and still need to be copied from here and imported to the WeakAuras mod via the command /wa."] = "WeakAuras is a mod that watches for certain conditions and actions and they alerts the player to them occuring.  These are included for convenience and still need to be copied from here and imported to the WeakAuras mod via the command /wa."
+--[[Translation missing --]]
+L["WeakAuras was not found."] = "WeakAuras was not found."
+--[[Translation missing --]]
+L["WeakAuras was not found.  Reported error was %s"] = "WeakAuras was not found.  Reported error was %s"
+L["Website or forum URL where a player can get more information or ask questions about this macro."] = "URL-адрес веб-сайта или форума, где игрок может получить дополнительную информацию или задать вопросы об этом макросе."
 L[ [=[What are the preferred talents for this macro?
-'1,2,3,1,2,3,1' means First row choose the first talent, Second row choose the second talent etc]=] ] = [=[What are the preferred talents for this macro?
-'1,2,3,1,2,3,1' means First row choose the first talent, Second row choose the second talent etc]=]
---[[Translation missing --]]
-L["What class or spec is this macro for?  If it is for all classes choose Global."] = "What class or spec is this macro for?  If it is for all classes choose Global."
+'1,2,3,1,2,3,1' means First row choose the first talent, Second row choose the second talent etc]=] ] = [=[Какие таланты предпочтительны для этого макроса? 
+«1,2,3,1,2,3,1» означает, что первая строка выбирает первый талант, вторая строка выбирает второй талант и т. д.]=]
+L["What class or spec is this macro for?  If it is for all classes choose Global."] = [=[Для какого класса или специализации предназначен этот макрос? 
+Если это для всех классов, выберите Global.]=]
 --[[Translation missing --]]
 L["When creating a macro, if there is not a personal character macro space, create an account wide macro."] = "When creating a macro, if there is not a personal character macro space, create an account wide macro."
 --[[Translation missing --]]
@@ -848,6 +835,8 @@ L["You need to reload the User Interface to complete this task.  Would you like 
 L["Your ClassID is "] = "Your ClassID is "
 --[[Translation missing --]]
 L["Your current Specialisation is "] = "Your current Specialisation is "
+--[[Translation missing --]]
+L["Your sequence name was longer than 27 characters.  It has been shortened from %s to %s so that your macro will work."] = "Your sequence name was longer than 27 characters.  It has been shortened from %s to %s so that your macro will work."
 
 
 

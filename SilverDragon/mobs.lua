@@ -10,13 +10,14 @@ local function toggle_mob(id)
 		name = core:GetMobLabel(id),
 		desc = "ID: " .. id,
 		type = "toggle",
-		width = "full",
+		-- width = "double",
 		descStyle = "inline",
 		order = id,
 	}
 end
 
 local function input_to_mobid(value)
+	if not value then return end
 	value = value:trim()
 	if value == "target" or value == "mouseover" then
 		return core:UnitID(value)
@@ -113,13 +114,13 @@ end
 function module:IgnoreChanged(callback, id, ignored)
 	local config = core:GetModule("Config", true)
 	if config then
-		self:BuildIgnoreList(config.options)
+		config.options.plugins.mobs.mobs.args.ignore.args.mobs.args["mob"..id] = ignored and toggle_mob(id) or nil
 	end
 end
 function module:CustomChanged(callback, id, watched)
 	local config = core:GetModule("Config", true)
 	if config then
-		self:BuildCustomList(config.options)
+		config.options.plugins.mobs.mobs.args.custom.args.mobs.args["mob"..id] = watched and toggle_mob(id) or nil
 	end
 end
 
